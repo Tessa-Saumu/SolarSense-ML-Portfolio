@@ -1,0 +1,299 @@
+DSE Team Alignment Document V2.0
+CRISIS PIVOT: AI-Enhanced Execution Mode
+Project: AI Solar Viability Assessment - Technical Implementation Plan
+Duration: 2-3 Weeks (14 days remaining)
+DSE Team Size: 3 Active Members + 2 Conditional
+Status: REVISED - Crisis Pivot Mode
+Timeline: Models 1-2 by Wed Feb 12 EOD | Model 3 by Thu Feb 13 | Model 4 by Fri Feb 14
+🚨 CRITICAL SITUATION UPDATE
+Date: Monday, February 10, 2026
+Team Status:
+Strategy Pivot: We are pivoting to AI-enhanced execution mode. This means leveraging
+ChatGPT, Claude, and Cursor to generate 70-90% of working code within hours, not days.
+Focus shifts from deep ML understanding to rapid prototyping, validation, and iteration using AI
+assistance.
+Key Changes from V1.0:
+🎯 Revised Model Assignments
+Model 1: Energy Consumption Estimation
+Owner: Abishag (Solo)
+Deadline: Wednesday Feb 12, 6 PM WAT
+AI Strategy: Use ChatGPT/Claude to generate XGBoost pipeline code from Kaggle datasets
+✅ Active (3): Tessa, Bella, Abishag
+🟡 Conditional (2): Evelyn, Zainabu (awaiting EOD Monday check-in)
+❌ Unavailable (1): Brandy (ill)
+1. Solo ownership model (no more pairing)
+2. Compressed timeline: Models 1-2 by Wed, not Fri
+3. Heavy AI tool usage documented for AI Integration Report
+4. Conditional reassignment if team members don't surfaceDeliverable: Working API endpoint that estimates kWh consumption from equipment profiles
+Execution Plan:
+Success Criteria:
+AI Tools: ChatGPT for code generation, Claude for debugging, Kaggle notebooks for
+exploration
+Model 2: Solar Generation Prediction
+Owner: Tessa (Solo)
+Deadline: Wednesday Feb 12, 6 PM WAT
+Status: IN PROGRESS (XGBoost baseline already working)
+Deliverable: Working API endpoint that predicts solar generation from location coordinates
+Execution Plan:
+1. Monday 10 AM - 2 PM: Download Kaggle "commercial building energy" dataset, explore
+with AI-generated scripts
+2. Monday 2 PM - 6 PM: Use ChatGPT to generate feature engineering code (business type
+encoding, appliance mapping)
+3. Tuesday 10 AM - 2 PM: Train XGBoost model using AI-generated training script, validate
+outputs
+4. Tuesday 2 PM - 6 PM: Build Flask API endpoint with AI assistance, test with sample inputs
+5. Wednesday 10 AM - 6 PM: Debug, refine, document API contract, hand off to Sarah
+✅ API endpoint returns kWh estimate (±20% acceptable error margin)
+✅ Handles 5 business types and common equipment lists
+✅ API documentation with request/response examples
+✅ Confidence score provided with each estimate
+1. Monday 10 AM - 6 PM: Refine XGBoost baseline, integrate NASA POWER API data
+pipeline
+2. Tuesday 10 AM - 2 PM: Test TSFM models (Chronos) if time permits, otherwise stick with
+XGBoost
+3. Tuesday 2 PM - 6 PM: Build Flask API endpoint, validate predictions against known PV
+data
+4. Wednesday 10 AM - 6 PM: Final testing, API documentation, hand off to SarahSuccess Criteria:
+AI Tools: Already leveraged for XGBoost baseline; Claude for API development
+Model 3: Financial Viability & ROI Calculation
+Owner: TBD - Zainabu OR Evelyn (first to surface by EOD Monday)
+Deadline: Thursday Feb 13, 6 PM WAT
+Backup Plan: If neither surfaces, work redistributed to Tessa/Bella on Thursday
+Deliverable: Working calculation endpoint (formula-based with optional ML enhancement)
+Execution Plan (Whoever Takes It):
+Success Criteria:
+AI Tools: ChatGPT for formula generation, Claude for API scaffolding
+CRITICAL: If neither Zainabu nor Evelyn surfaces by Monday EOD, Tessa will handle this
+Thursday using pure formulas (no ML required).
+Model 4: AI Recommendation Engine & Orchestration
+✅ API endpoint returns kWh/kW generation potential (±15% acceptable)
+✅ Handles coordinates across Sub-Saharan Africa
+✅ Urban/rural shading factors applied
+✅ API documentation with examples
+1. Tuesday 10 AM - 2 PM: Download World Bank tariff data, solar cost benchmarks
+2. Tuesday 2 PM - 6 PM: Use AI to generate ROI calculation formulas (Python functions)
+3. Wednesday 10 AM - 2 PM: Train simple regression model if time permits (not required)
+4. Wednesday 2 PM - 6 PM: Build Flask API endpoint with AI assistance
+5. Thursday 10 AM - 6 PM: Test with Models 1-2 mock outputs, document, hand off
+✅ API endpoint returns ROI %, monthly savings, system cost
+✅ Accepts consumption (kWh), generation (kWh), tariff ($/kWh) as inputs
+✅ Mathematically accurate calculations
+✅ API documentationOwner: Bella (Solo)
+Deadline: Friday Feb 14, 6 PM WAT
+Deliverable: Master endpoint that orchestrates Models 1-3 and returns final recommendation
+Execution Plan:
+Success Criteria:
+AI Tools: Claude for orchestration logic, ChatGPT for database schema design
+📊 Revised Timeline
+Week 1 (Compressed: Mon-Fri)
+Monday Feb 10:
+Tuesday Feb 11:
+Wednesday Feb 12:
+1. Monday-Tuesday: Design database schema, build orchestration logic with AI assistance
+2. Wednesday: Integrate Models 1-2 as they become available, test workflows
+3. Thursday: Integrate Model 3, build recommendation rules (ROI thresholds)
+4. Friday: Final testing, explainability logic, API documentation, hand off to Sarah
+✅ Master endpoint calls Models 1-3 in sequence
+✅ Returns viability score (High/Medium/Low) with clear rationale
+✅ Handles errors gracefully (fallback to mock data if model unavailable)
+✅ Explainability text generated ("Solar is viable because...")
+✅ Full API documentation
+Abishag: Start Model 1 (dataset download, exploration)
+Tessa: Refine Model 2 XGBoost baseline
+Bella: Design database schema for Model 4
+EOD Check: Zainabu/Evelyn surface? If yes → assign Model 3. If no → contingency plan
+Abishag: Model 1 feature engineering + training
+Tessa: Model 2 API development
+Bella: Orchestration logic for Model 4
+Model 3 owner (if assigned): Data collectionThursday Feb 13:
+Friday Feb 14:
+Week 2 (Mon Feb 16 - Fri Feb 21)
+Week 3 (Mon Feb 23 - Thu Feb 27)
+🤖 AI-Enhanced Workflow Strategy
+Why This Works: Tessa already built XGBoost Model 2 in ~2 hours using AI assistance. We
+replicate this across all models.
+How to Use AI Tools:
+1. Code Generation (ChatGPT/Claude)
+Prompt Template:
+Abishag: Model 1 API complete, hand off to Sarah ✅
+Tessa: Model 2 API complete, hand off to Sarah ✅
+Bella: Integration testing with Models 1-2
+Model 3 owner: Formula development + API scaffolding
+Model 3 complete, hand off to Sarah ✅
+Bella: Integrate all 3 models into orchestration
+Abishag/Tessa: Support debugging if needed
+Bella: Model 4 complete, full system hand off ✅
+All: Final testing, API documentation review
+Week 1 retrospective
+Mon-Wed: Support Sarah with backend integration, fix bugs
+Thu-Fri: Model performance tuning, accuracy validation
+Mon-Tue: Write AI Integration Report sections (each model owner)
+Wed-Thu: Final system testing, presentation prep
+I'm building [Model Name] for solar viability assessment in Africa.
+Input: [list input features]
+Output: [desired output]2. Debugging (Claude/Cursor)
+3. API Development (ChatGPT)
+Prompt Template:
+4. Documentation (ChatGPT)
+⚠️ Risks & Mitigation
+Dataset: [Kaggle dataset name]
+Generate Python code to:
+1. Load and explore the dataset
+2. Engineer features from [specific features]
+3. Train XGBoost/Linear Regression
+4. Create Flask API endpoint
+5. Include error handling
+Provide complete working code with comments.
+Paste error messages directly into Claude
+Ask "What's wrong with this code?" with full traceback
+Use Cursor for inline AI pair programming
+Create a Flask API endpoint for [Model Name]:
+POST /[endpoint-name]
+Request: { [JSON schema] }
+Response: { [JSON schema] }
+Include:
+- Input validation
+- Error handling (400, 500)
+- JSON response formatting
+- CORS headers
+Provide complete Flask app code.
+Generate API docs automatically: "Create OpenAPI spec for this Flask endpoint"
+Auto-generate README: "Write setup instructions for this API"Risk 1: Zainabu/Evelyn don't surface by EOD Monday
+Risk 2: AI-generated code doesn't work
+Risk 3: Model accuracy too low
+Risk 4: Integration fails in Week 2
+📞 Communication Protocol
+Daily Updates (Mandatory): Post in DSE channel by 11 PM WAT daily:
+Escalation:
+Check-ins:
+Mitigation: Tessa takes Model 3 on Thursday using pure formulas (2-hour task)
+Contingency: Bella helps if Tessa overloaded
+Mitigation: Test immediately, iterate with AI on errors (not spend days debugging alone)
+2-hour rule: If stuck >2 hours, escalate to Tessa or pivot approach
+Mitigation: Accept lower accuracy for MVP (±20% for Model 1, ±15% for Model 2)
+Document limitations in AI Integration Report
+Mitigation: Mock data testing on Thursday/Friday Week 1
+Daily sync with Sarah starting Wed to catch issues early
+Day X Update - [Your Name]:
+✅ Completed: [specific tasks]
+🚧 In Progress: [current work]
+🚨 Blockers: [issues - mention if stuck >2 hours]
+📅 Tomorrow: [planned work]
+🤖 AI Tools Used: [ChatGPT/Claude/Cursor + how]
+Stuck >2 hours → Post in channel immediately
+Critical blocker → DM Tessa + post in channel
+Model not working by deadline → Escalate 24 hours before
+Monday EOD: Team status check (who's active for Model 3?)
+Wednesday EOD: Models 1-2 handoff to Sarah
+Friday EOD: Model 4 handoff, Week 1 retrospective✅ Definition of Done (Per Model)
+Each model is DONE when:
+Quality Bar:
+📚 Resources
+AI Tools:
+Datasets:
+Libraries:
+1. ✅ Functional API endpoint (local Flask/FastAPI running)
+2. ✅ Tested with sample inputs and returns reasonable outputs
+3. ✅ API documentation (request schema, response format, example calls, error codes)
+4. ✅ Code pushed to GitHub with clear README
+5. ✅ Handoff doc for Sarah (integration steps, dependencies, known limitations)
+6. ✅ AI usage documented (which tools used, prompts that worked, time saved)
+Model 1: ±20% error acceptable
+Model 2: ±15% error acceptable
+Model 3: Mathematically accurate (formula-based)
+Model 4: Handles integration errors gracefully
+ChatGPT: https://chat.openai.com (code generation)
+Claude: https://claude.ai (debugging, architecture)
+Cursor: https://cursor.sh (AI pair programming)
+GitHub Copilot: If you have access
+Kaggle: "commercial building energy consumption"
+NASA POWER API: https://power.larc.nasa.gov/api/
+World Bank Electricity Tariffs: https://data.worldbank.org/
+pip install pandas numpy scikit-learn xgboost flask flask-cors requests --
+break-system-packages🎓 AI Prompt Examples That Work
+For Abishag (Model 1):
+For Model 3 Owner:
+I need to estimate electricity consumption for butcheries and small grocers in
+Africa.
+Input features:
+- business_type: "butchery" | "grocery" | "mini-supermarket"
+- operating_hours: 6-24
+- equipment: ["refrigerator", "freezer", "lights", "AC"]
+- location: "Lagos, Nigeria"
+Output: estimated_kwh_monthly (float)
+Dataset: Kaggle "Commercial Building Energy Consumption"
+Task: Generate complete Python code to:
+1. Load dataset and explore
+2. Engineer features (encode business_type, normalize hours, map equipment to
+power ratings)
+3. Train XGBoost regression model
+4. Create Flask API endpoint POST /estimate-consumption
+5. Include input validation and error handling
+Provide working code I can run immediately.
+I need ROI calculations for solar investments in Africa.
+Inputs:
+- system_cost_usd: float
+- monthly_consumption_kwh: float
+- monthly_generation_kwh: float
+- electricity_tariff_per_kwh: float
+Outputs:
+- roi_percentage: float
+- monthly_savings_usd: float
+- system_recommendation: "Highly Viable" | "Moderately Viable" | "Not Viable"
+Task: Generate Python code with:
+1. ROI calculation formulas
+2. Decision logic (ROI >20% = Highly Viable, 10-20% = Moderate, <10% = NotFor Bella (Model 4):
+📝 AI Integration Report Documentation
+Each model owner will document AI usage for the AI Integration Report:
+Section Template (1-2 pages per model):
+Viable)
+3. Flask API endpoint POST /calculate-roi
+4. Full error handling
+Provide complete working code.
+I need an orchestration endpoint that calls 3 separate model APIs:
+Workflow:
+1. User posts: { business_type, location, equipment, monthly_bill }
+2. Call Model 1 API → get consumption_kwh
+3. Call Model 2 API → get generation_kwh
+4. Call Model 3 API → get roi_percentage, viability_score
+5. Return combined response
+APIs:
+- POST http://localhost:5001/estimate-consumption
+- POST http://localhost:5002/predict-generation
+- POST http://localhost:5003/calculate-roi
+Task: Generate Flask code for:
+1. Master endpoint POST /assess-viability
+2. Async calls to 3 model APIs
+3. Error handling (fallback to mock data if API down)
+4. Combine responses into structured JSON
+5. Add explainability text
+Provide complete working code.
+Model [X]: [Name]
+Overview: [What the model does]
+AI Tools Used:🚀 Final Notes
+This is survival mode. We have 14 days and 3 guaranteed team members. Success depends
+on:
+We can do this. Tessa built Model 2 in 2 hours using AI. Abishag and Bella can replicate this
+success. By Wednesday EOD, we'll have 2 working models. By Friday, we'll have 4.
+Let's build.
+Document Version: 2.0 (Crisis Pivot)
+Last Updated: February 9, 2026, 09:00 AM WAT
+Owner: Tessa (DSE Team Lead)
+Next Review: Monday Feb 10, 6 PM WAT (Model 3 assignment decision)
+Emergency Contact: Tessa - Teams DM
+- ChatGPT: [Specific prompts, code generation tasks, time saved]
+- Claude: [Debugging sessions, architecture decisions]
+- Cursor: [Inline coding assistance]
+Code Generation Examples:
+[1-2 specific prompts that generated working code]
+Time Saved:
+- Traditional approach: [X hours/days]
+- AI-enhanced approach: [Y hours]
+- Efficiency gain: [Z%]
+Limitations & Learnings:
+[What worked, what didn't, accuracy trade-offs]
+1. ✅ Heavy AI usage - Don't write code from scratch, generate and iterate
+2. ✅ Working > Perfect - Ship functional models, improve later
+3. ✅ Daily communication - No silent struggles, escalate blockers fast
+4. ✅ Mutual support - Help each other debug, share prompts that work
+5. ✅ Document AI usage - We're showcasing AI-enhanced development, capture everything
