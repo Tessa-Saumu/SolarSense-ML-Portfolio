@@ -1,0 +1,71 @@
+
+╔══════════════════════════════════════════════════════════════════════════╗
+║           MODEL 2: SOLAR GENERATION PREDICTION - BASELINE REPORT         ║
+╚══════════════════════════════════════════════════════════════════════════╝
+
+Date: February 10, 2026
+Model: XGBoost Regressor (Tuned)
+Developer: Tessa
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+DATASET SUMMARY
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Total Records:        5,075
+Training Set:         4,060 samples (80.0%)
+Validation Set:       1,015 samples (20.0%)
+Locations:            7 SSA cities
+Date Range:           2024-02-09 to 2026-02-02
+Features Used:        16
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+MODEL PERFORMANCE
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Validation Metrics:
+  • RMSE:  0.0489 kWh/day
+  • MAE:   0.0190 kWh/day
+  • MAPE:  0.42%
+  • R²:    0.9995
+
+Target Performance:
+  • Target MAPE:       ≤ 15%
+  • Achieved MAPE:     0.42%
+  • Status:            ✓ PASSED
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+BEST HYPERPARAMETERS
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  • colsample_bytree: 0.9
+  • learning_rate: 0.1
+  • max_depth: 5
+  • n_estimators: 300
+  • subsample: 0.9
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+TOP 5 FEATURES (by importance)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  ghi_kwh_m2: 0.9331
+  cloud_cover_index: 0.0403
+  clear_sky_ghi_kwh_m2: 0.0131
+  clearness_index: 0.0093
+  relative_humidity_pct: 0.0012
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+READY FOR TUESDAY
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+✓ Model trained and saved: xgboost_solar_generation_model.pkl
+✓ Feature list exported: model_features.txt
+✓ Label encoders saved: label_encoder_*.pkl
+✓ prepare_features_from_coordinates() function ready (see cell below)
+
+Next steps for Tuesday:
+  1. Build Flask API endpoint /predict-generation
+  2. Wire in prepare_features_from_coordinates() function
+  3. Test API with sample coordinates
+  4. Optional: Experiment with TSFM models (Chronos) if time permits
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
