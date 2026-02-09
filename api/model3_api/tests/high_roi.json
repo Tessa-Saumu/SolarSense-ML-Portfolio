@@ -1,0 +1,6 @@
+{
+  "generation_kwh": 800,
+  "consumption_kwh": 200,
+  "installation_cost": 3000,
+  "electricity_price": 0.20
+}

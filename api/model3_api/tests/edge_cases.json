@@ -1,0 +1,20 @@
+[
+  {
+    "generation_kwh": 0,
+    "consumption_kwh": 400,
+    "installation_cost": 5000,
+    "electricity_price": 0.18
+  },
+  {
+    "generation_kwh": 500,
+    "consumption_kwh": 0,
+    "installation_cost": 5000,
+    "electricity_price": 0.18
+  },
+  {
+    "generation_kwh": -100,
+    "consumption_kwh": 300,
+    "installation_cost": 4000,
+    "electricity_price": 0.20
+  }
+]
