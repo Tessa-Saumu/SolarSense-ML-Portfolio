@@ -1,0 +1,182 @@
+
+╔══════════════════════════════════════════════════════════════════════════╗
+║              SOLAR DATA DICTIONARY FOR PREPROCESSING                     ║
+╚══════════════════════════════════════════════════════════════════════════╝
+
+Generated: 2026-02-08 23:48:49
+Total Records: 5,117
+Locations: 7
+Date Range: 2024-02-09 to 2026-02-08
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+COLUMN DESCRIPTIONS
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+LOCATION INFORMATION:
+--------------------
+location_name               : City/location identifier (e.g., 'Nairobi_Kenya')
+country                     : Country name
+latitude                    : Latitude in decimal degrees (-90 to 90)
+longitude                   : Longitude in decimal degrees (-180 to 180)
+
+DATE/TIME INFORMATION:
+---------------------
+date                        : Measurement date (YYYY-MM-DD)
+year                        : Year (YYYY)
+month                       : Month (1-12)
+day                         : Day of month (1-31)
+day_of_week                 : Day name (Monday, Tuesday, etc.)
+
+SOLAR IRRADIANCE DATA:
+---------------------
+ghi_kwh_m2                  : Global Horizontal Irradiance (kWh/m²/day)
+                             Primary solar measurement - all sky conditions
+
+clear_sky_ghi_kwh_m2        : Clear sky GHI (kWh/m²/day)
+                             Theoretical maximum under clear sky
+                             Used for cloud cover estimation
+
+ENVIRONMENTAL DATA:
+------------------
+temperature_c               : Air temperature at 2 meters (°C)
+wind_speed_ms              : Wind speed at 10 meters (m/s)
+relative_humidity_pct      : Relative humidity (0-100%)
+
+CALCULATED FIELDS:
+-----------------
+estimated_daily_generation_kwh : Estimated solar generation (kWh/day)
+                                 Based on: 10m² panels, 20% efficiency, 85% system efficiency
+                                 Formula: GHI × Area × Efficiency × System_Loss
+
+DATA QUALITY:
+------------
+data_quality               : Quality flag for each record
+                            - 'good': Valid data
+                            - 'missing': NULL values
+                            - 'invalid': Negative values
+                            - 'suspect': Unusually high values (>10 kWh/m²/day)
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+DATA SOURCE & METHODOLOGY
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Source API         : NASA POWER (Prediction Of Worldwide Energy Resources)
+URL                : https://power.larc.nasa.gov/
+Community          : Renewable Energy (RE)
+Data Type          : Daily averages
+Spatial Resolution : 0.5° × 0.5° (approximately 50km × 50km)
+Temporal Coverage  : 2024-02-09 to 2026-02-08
+Update Frequency   : Daily
+Data Reliability   : Satellite-derived, validated against ground stations
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+LOCATION DETAILS
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+
+Accra_Ghana:
+    Country: Ghana
+    Coordinates: (5.6040, -0.1870)
+    Records: 731
+    Avg GHI: 4.77 kWh/m²/day
+    Avg Temperature: 26.8°C
+    Data Quality: 99.2% good
+
+Dar_es_Salaam_Tanzania:
+    Country: Tanzania
+    Coordinates: (-6.7920, 39.2080)
+    Records: 731
+    Avg GHI: 5.66 kWh/m²/day
+    Avg Temperature: 27.0°C
+    Data Quality: 99.2% good
+
+Johannesburg_SA:
+    Country: South Africa
+    Coordinates: (-26.2040, 28.0470)
+    Records: 731
+    Avg GHI: 5.32 kWh/m²/day
+    Avg Temperature: 17.6°C
+    Data Quality: 99.2% good
+
+Kampala_Uganda:
+    Country: Uganda
+    Coordinates: (0.3480, 32.5830)
+    Records: 731
+    Avg GHI: 5.11 kWh/m²/day
+    Avg Temperature: 22.8°C
+    Data Quality: 99.2% good
+
+Kigali_Rwanda:
+    Country: Rwanda
+    Coordinates: (-1.9710, 30.1040)
+    Records: 731
+    Avg GHI: 4.88 kWh/m²/day
+    Avg Temperature: 20.6°C
+    Data Quality: 99.2% good
+
+Lagos_Nigeria:
+    Country: Nigeria
+    Coordinates: (6.5240, 3.3790)
+    Records: 731
+    Avg GHI: 4.59 kWh/m²/day
+    Avg Temperature: 27.0°C
+    Data Quality: 99.2% good
+
+Nairobi_Kenya:
+    Country: Kenya
+    Coordinates: (-1.2920, 36.8220)
+    Records: 731
+    Avg GHI: 5.78 kWh/m²/day
+    Avg Temperature: 20.7°C
+    Data Quality: 99.2% good
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+DATA PREPROCESSING NOTES
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+1. MISSING VALUES:
+   - NASA POWER uses -999 for missing data (already converted to NULL)
+   - Consider interpolation for small gaps (<3 days)
+   - Flag or remove records with >20% missing environmental data
+
+2. OUTLIER DETECTION:
+   - GHI values >10 kWh/m²/day flagged as 'suspect'
+   - Check for negative values (physical impossibility)
+   - Verify temperature extremes (<-10°C or >50°C)
+
+3. TEMPORAL PATTERNS:
+   - Consider seasonality (dry/wet seasons in SSA)
+   - Account for day length variations with latitude
+   - Model weekly patterns if present
+
+4. FEATURE ENGINEERING SUGGESTIONS:
+   - Cloud cover estimate: (clear_sky_ghi - ghi) / clear_sky_ghi
+   - Solar clearness index: ghi / clear_sky_ghi
+   - Temperature-adjusted efficiency
+   - Moving averages (7-day, 30-day)
+   - Season indicators
+
+5. REGIONAL CONSIDERATIONS:
+   - East Africa (Kenya, Uganda, Tanzania, Rwanda): Bimodal rainfall
+   - West Africa (Nigeria, Ghana): Monsoon patterns
+   - Southern Africa (South Africa): More variable seasons
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+CONTACT & ATTRIBUTION
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Project: Solar Viability Assessment for SSA Refrigeration SMEs
+Model: Model 2 - Solar Generation Prediction
+Data Pipeline: NASA POWER API → PostgreSQL → CSV Export
+Created By: [Your Name]
+Date: 2026-02-08
+
+For questions or issues with this dataset, contact the data pipeline owner.
+
+NASA POWER Citation:
+NASA/POWER CERES/MERRA2 Native Resolution Daily Data
+Dates: 2024-02-09 - 2026-02-08
+Location: Sub-Saharan Africa (Multiple Sites)
+Retrieved: 2026-02-08
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
