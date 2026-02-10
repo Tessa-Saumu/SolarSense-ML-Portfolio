@@ -43,8 +43,6 @@ PROJECT STRUCTURE
     ├── app.py          # Flask application and ROI logic
     ├── README.md       # Project documentation
 
-<<<<<<< HEAD
-=======
 HOW TO RUN THE PROJECT
     1. Clone or download the Repository 
     2. Install dependencies
@@ -138,4 +136,3 @@ INTEGRATION GUIDE FOR OTHER MODELS
 AUTHOR
 Zainabu Mohamed
 Model 3 — Financial Viability & ROI
->>>>>>> 44e0520 (README finalized and Polished)
