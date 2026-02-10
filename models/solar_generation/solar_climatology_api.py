@@ -1,140 +1,252 @@
 """
-Flask API for Climatological Solar Generation Prediction
---------------------------------------------------------
+Production-ready Flask API for climatological solar generation prediction.
 
-This service exposes a single endpoint:
+Endpoints
+---------
+- POST /api/v1/predict-generation
+- GET  /api/v1/health
+- GET  /api/v1/model-info
 
-    POST /predict-generation
-
-Request JSON:
-{
-  "latitude": -1.2921,
-  "longitude": 36.8219,
-  "month": 6
-}
-
-Response JSON:
-{
-  "predicted_avg_generation_kwh": 5.87,
-  "model_type": "XGBoost climatological regression",
-  "note": "Prediction represents typical expected generation, not daily weather forecast"
-}
-
-WHY THIS IS ML:
-- The API loads a trained XGBoost regression model that has learned spatial–seasonal
-  patterns from historical NASA POWER data across diverse SSA locations.
-- For any new (latitude, longitude, month) input, the model infers a prediction by
-  interpolating in feature space; there is no hard-coded lookup table of cities.
+The API wraps the core prediction and lifetime functions defined in
+`solar_climatology_service.py` and serves JSON responses suitable for a frontend.
 """
 
 from __future__ import annotations
 
-from pathlib import Path
-from typing import Any, Dict
-
-import joblib
-import numpy as np
-from flask import Flask, jsonify, request
-import sys
+import json
+import logging
 import os
+from datetime import datetime
+from pathlib import Path
+from typing import Any, Dict, List, Optional
 
-# Ensure this directory is on the Python path so we can import the training module
-CURRENT_DIR = Path(__file__).resolve().parent
-if str(CURRENT_DIR) not in sys.path:
-    sys.path.append(str(CURRENT_DIR))
+from flask import Flask, jsonify, request
+from flask_cors import CORS
 
-from climatological_model import DRY_MONTHS, FEATURE_COLUMNS, TrainConfig
+from solar_climatology_service import (
+    FEATURE_COLUMNS,
+    DRY_MONTHS,
+    get_model_paths,
+    load_model_artifacts,
+    predict_lifetime_generation,
+    predict_solar_generation,
+    validate_coordinates,
+)
 
 
 app = Flask(__name__)
+CORS(app)  # Enable CORS for all domains by default
+
+logging.basicConfig(
+    level=logging.INFO,
+    format="%(asctime)s [%(levelname)s] %(name)s - %(message)s",
+)
+logger = logging.getLogger("solar_climatology_api")
 
 
-def load_model() -> Any:
-    """
-    Load the trained XGBoost climatology model from disk.
+def _month_name(month: int) -> str:
+    """Return English month name for 1–12."""
+    return [
+        "January",
+        "February",
+        "March",
+        "April",
+        "May",
+        "June",
+        "July",
+        "August",
+        "September",
+        "October",
+        "November",
+        "December",
+    ][month - 1]
 
-    The training script (climatological_model.py) is responsible for creating
-    this artifact after achieving MAPE ≤ 15% on a location-based validation set.
-    """
-    config = TrainConfig()
-    model_path: Path = config.model_output_path
-    if not model_path.exists():
+
+def _load_metadata() -> Dict[str, Any]:
+    """Load model metadata JSON written by the notebook."""
+    paths = get_model_paths()
+    if not paths.metadata_path.exists():
         raise FileNotFoundError(
-            f"Model file '{model_path}' not found. "
-            "Run climatological_model.py to train and save the model first."
+            f"Metadata file '{paths.metadata_path}' not found. "
+            "Run the climatological notebook to save model artifacts."
         )
-    return joblib.load(model_path)
+    return json.loads(paths.metadata_path.read_text())
 
 
-model = load_model()
+@app.before_request
+def log_request() -> None:
+    """Simple request logging for observability."""
+    logger.info(
+        "Request: %s %s from %s", request.method, request.path, request.remote_addr
+    )
 
 
-def build_feature_vector(latitude: float, longitude: float, month: int) -> np.ndarray:
+@app.route("/api/v1/health", methods=["GET"])
+def health() -> Any:
     """
-    Construct the feature vector expected by the XGBoost model.
+    Health check endpoint.
 
-    Features:
-    - latitude
-    - longitude
-    - abs_latitude
-    - month
-    - is_dry_season
+    Returns basic status plus last trained timestamp from model metadata.
     """
-    if not 1 <= month <= 12:
-        raise ValueError("`month` must be an integer between 1 and 12.")
+    try:
+        _, _, metadata = load_model_artifacts()
+        status = {
+            "status": "ok",
+            "model_type": metadata.get("model_type"),
+            "last_trained_at": metadata.get("created_at_utc"),
+            "validation_mape": metadata.get("validation_mape"),
+        }
+        return jsonify(status)
+    except FileNotFoundError as e:
+        return jsonify({"status": "error", "message": str(e)}), 500
 
-    abs_latitude = abs(latitude)
-    is_dry_season = 1 if month in DRY_MONTHS else 0
 
-    # Preserve explicit ordering expected by the model
-    feature_values = {
-        "latitude": float(latitude),
-        "longitude": float(longitude),
-        "abs_latitude": float(abs_latitude),
-        "month": int(month),
-        "is_dry_season": int(is_dry_season),
+@app.route("/api/v1/model-info", methods=["GET"])
+def model_info() -> Any:
+    """
+    Return model metadata and training configuration.
+
+    Includes:
+    - model_type
+    - validation_mape
+    - training_locations
+    - feature_columns
+    """
+    try:
+        _, feature_cols, metadata = load_model_artifacts()
+        info = {
+            "model_type": metadata.get("model_type"),
+            "validation_mape": metadata.get("validation_mape"),
+            "training_locations": metadata.get("training_locations"),
+            "feature_columns": feature_cols,
+        }
+        return jsonify(info)
+    except FileNotFoundError as e:
+        return jsonify({"status": "error", "message": str(e)}), 500
+
+
+@app.route("/api/v1/predict-generation", methods=["POST"])
+def api_predict_generation() -> Any:
+    """
+    Predict typical solar generation and (optionally) lifetime projection.
+
+    Request JSON:
+    {
+      \"latitude\": float (-26 to 6),
+      \"longitude\": float (-18 to 44),
+      \"month\": int (1-12, optional),
+      \"include_lifetime\": bool (default true)
     }
-
-    return np.array([[feature_values[col] for col in FEATURE_COLUMNS]], dtype=float)
-
-
-@app.route("/predict-generation", methods=["POST"])
-def predict_generation():
-    """
-    Predict typical (climatological) solar generation for arbitrary coordinates.
-
-    This is NOT a weather forecast; it estimates expected average daily generation
-    for a 10m² system at 20% efficiency, based on learned spatial–seasonal patterns.
     """
     try:
         payload: Dict[str, Any] = request.get_json(force=True) or {}
 
-        latitude = float(payload.get("latitude"))
-        longitude = float(payload.get("longitude"))
-        month = int(payload.get("month"))
+        if "latitude" not in payload or "longitude" not in payload:
+            return (
+                jsonify(
+                    {
+                        "status": "error",
+                        "message": "Request must include 'latitude' and 'longitude'.",
+                    }
+                ),
+                400,
+            )
 
-        features = build_feature_vector(latitude, longitude, month)
-        prediction = float(model.predict(features)[0])
+        latitude = float(payload["latitude"])
+        longitude = float(payload["longitude"])
+        month_raw: Optional[Any] = payload.get("month")
+        include_lifetime = bool(payload.get("include_lifetime", True))
 
-        return jsonify(
-            {
-                "predicted_avg_generation_kwh": round(prediction, 3),
-                "model_type": "XGBoost climatological regression",
-                "note": "Prediction represents typical expected generation, not daily weather forecast",
-            }
+        coord_status = validate_coordinates(latitude, longitude)
+        if coord_status.get("status") == "error":
+            return jsonify({"status": "error", "message": coord_status["message"]}), 400
+
+        # Month: if provided, use it; otherwise, compute full climatology
+        month: Optional[int] = None
+        if month_raw is not None:
+            month = int(month_raw)
+            if not 1 <= month <= 12:
+                return (
+                    jsonify(
+                        {
+                            "status": "error",
+                            "message": "month must be an integer between 1 and 12.",
+                        }
+                    ),
+                    400,
+                )
+
+        # Point prediction(s)
+        monthly_generation: List[Dict[str, Any]] = []
+        if month is not None:
+            daily_kwh = predict_solar_generation(latitude, longitude, month)
+            monthly_generation.append(
+                {
+                    "month": _month_name(month),
+                    "month_index": month,
+                    "daily_kwh": daily_kwh,
+                    "is_dry_season": month in DRY_MONTHS,
+                }
+            )
+            avg_daily_for_annual = daily_kwh
+        else:
+            # Full climatology across 12 months
+            daily_values: List[float] = []
+            for m in range(1, 13):
+                g = predict_solar_generation(latitude, longitude, m)
+                daily_values.append(g)
+                monthly_generation.append(
+                    {
+                        "month": _month_name(m),
+                        "month_index": m,
+                        "daily_kwh": g,
+                        "is_dry_season": m in DRY_MONTHS,
+                    }
+                )
+            avg_daily_for_annual = float(sum(daily_values) / len(daily_values))
+
+        annual_summary = {
+            "year_1_generation_kwh": avg_daily_for_annual * 365.0,
+            "average_daily_kwh": avg_daily_for_annual,
+        }
+
+        lifetime_prediction: Optional[Dict[str, Any]] = None
+        if include_lifetime:
+            lifetime_prediction = predict_lifetime_generation(latitude, longitude)
+
+        assumptions = lifetime_prediction["assumptions"] if lifetime_prediction else {
+            "panel_area_m2": 10.0,
+            "panel_efficiency_pct": 20.0,
+            "note": "Lifetime metrics disabled for this request.",
+        }
+
+        confidence = (
+            lifetime_prediction["confidence"] if lifetime_prediction else {}
         )
 
-    except (TypeError, ValueError) as e:
-        return jsonify({"error": str(e)}), 400
-    except FileNotFoundError as e:
-        # Surface model-loading issues clearly
-        return jsonify({"error": str(e)}), 500
-    except Exception as e:  # pragma: no cover - defensive catch-all
-        return jsonify({"error": f"Unexpected server error: {e}"}), 500
+        response = {
+            "status": "success",
+            "location": {"latitude": latitude, "longitude": longitude},
+            "coordinate_validation": coord_status,
+            "monthly_generation": monthly_generation,
+            "annual_summary": annual_summary,
+            "lifetime_prediction": lifetime_prediction,
+            "assumptions": assumptions,
+            "confidence": confidence,
+            "note": "Predictions represent typical expected generation, not a daily weather forecast.",
+        }
+
+        return jsonify(response)
+
+    except Exception as e:  # pragma: no cover
+        logger.exception("Error in /api/v1/predict-generation")
+        return jsonify({"status": "error", "message": str(e)}), 500
 
 
 if __name__ == "__main__":
-    # For local development only – in production, use gunicorn/uwsgi.
-    app.run(host="0.0.0.0", port=8000, debug=False)
+    # For local development only – in production, use a WSGI server.
+    port = int(os.getenv("PORT", "8000"))
+    app.run(host="0.0.0.0", port=port, debug=False)
+
 
 
