@@ -43,4 +43,3 @@ PROJECT STRUCTURE
     ├── app.py          # Flask application and ROI logic
     ├── README.md       # Project documentation
 
-
