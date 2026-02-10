@@ -100,20 +100,18 @@ class PostgreSQLDatabase:
     Manages PostgreSQL database for storing solar irradiance data.
     """
 
-    def __init__(self, dbname: str = "solar_irradiance",
-                 user: str = "postgres",
-                 password: str = "123456789",
-                 host: str = "localhost",
-                 port: str = "5432"):
+
+    def __init__(self, dbname, user, password, host, port):
         self.conn_params = {
-            "dbname": 'solar_irradiance',
-            "user": 'postgres',
-            "password": '123456789',
-            "host": 'localhost',
-            "port": '5432'
+            "dbname": dbname,
+            "user": user,
+            "password": password,
+            "host": host,
+            "port": port
         }
         self.conn = None
         self.connect()
+
 
     def connect(self):
         try:
@@ -260,12 +258,17 @@ class PostgreSQLDatabase:
 
 
 SSA_LOCATIONS = [
-    {"name": "Nairobi_Kenya", "lat": -1.2921, "lon": 36.8219, "country": "Kenya"},
+    # Coastal West Africa
     {"name": "Lagos_Nigeria", "lat": 6.5244, "lon": 3.3792, "country": "Nigeria"},
     {"name": "Accra_Ghana", "lat": 5.6037, "lon": -0.1870, "country": "Ghana"},
+    {"name": "Dakar_Senegal", "lat": 14.6928, "lon": -17.0467, "country": "Senegal"},
+
+    # Equatorial / Great Lakes
     {"name": "Kampala_Uganda", "lat": 0.3476, "lon": 32.5825, "country": "Uganda"},
-    {"name": "Dar_es_Salaam_Tanzania", "lat": -6.7924, "lon": 39.2083, "country": "Tanzania"},
-    {"name": "Kigali_Rwanda", "lat": -1.9706, "lon": 30.1044, "country": "Rwanda"},
+    {"name": "Nairobi_Kenya", "lat": -1.2921, "lon": 36.8219, "country": "Kenya"},
+    {"name": "Addis_Ababa_Ethiopia", "lat": 9.0320, "lon": 38.7469, "country": "Ethiopia"},
+
+    # Southern subtropical
     {"name": "Johannesburg_SA", "lat": -26.2041, "lon": 28.0473, "country": "South Africa"},
 ]
 
@@ -275,7 +278,7 @@ def main():
     DB_CONFIG = {
         "dbname": "solar_irradiance",
         "user": "postgres",
-        "password": "your_password_here",  # <-- CHANGE THIS
+        "password": "postgresPassword",  # <-- CHANGE THIS
         "host": "localhost",
         "port": "5432"
     }
@@ -351,7 +354,7 @@ def main():
     print("Next steps:")
     print("1. Open pgAdmin and run: SELECT COUNT(*) FROM solar_irradiance_daily;")
     print("2. Verify you have ~5,117 records (731 days x 7 locations)")
-    print("3. Export data for Tessa: python export_for_tessa.py")
+    print("3. Export data for Model Development: python export_data.py")
 
 
 if __name__ == "__main__":

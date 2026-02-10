@@ -15,7 +15,7 @@ import os
 DB_CONFIG = {
     "dbname": "solar_irradiance",
     "user": "postgres",
-    "password": "123456789",
+    "password": "postgresPassword",
     "host": "localhost",
     "port": "5432"
 }
@@ -24,7 +24,7 @@ def export_merged_data():
     """Export complete merged solar data to CSV."""
 
     print("\n" + "="*70)
-    print("EXPORTING MERGED SOLAR DATA FOR TESSA")
+    print("EXPORTING MERGED SOLAR DATA")
     print("="*70 + "\n")
 
     try:
@@ -89,7 +89,7 @@ def export_merged_data():
         # EXPORT TO CSV
         # =============================================
         timestamp = datetime.now().strftime('%Y%m%d_%H%M%S')
-        output_file = f"solar_data_merged_for_tessa_{timestamp}.csv"
+        output_file = f"solar_data_merged{timestamp}.csv"
 
         print("\n--- Exporting to CSV ---")
         df.to_csv(output_file, index=False)
@@ -279,7 +279,7 @@ Retrieved: {datetime.now().strftime('%Y-%m-%d')}
         print("EXPORT COMPLETE!")
         print(f"{'='*70}\n")
 
-        print("Files created for Tessa:")
+        print("Files created:")
         print(f"  1. {output_file}")
         print(f"     → Main dataset ({len(df):,} records)")
         print(f"  2. {dict_file}")
@@ -291,7 +291,7 @@ Retrieved: {datetime.now().strftime('%Y-%m-%d')}
         print("NEXT STEPS:")
         print(f"{'='*70}")
         print("1. Review the data dictionary")
-        print("2. Share all 3 files with Tessa")
+        print("2. Share all 3 files")
         print("3. Discuss preprocessing strategy")
         print("4. Begin feature engineering for solar prediction model")
         print(f"{'='*70}\n")

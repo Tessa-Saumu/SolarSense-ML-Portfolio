@@ -11,6 +11,12 @@ This module fetches and stores solar irradiance data to assess solar viability f
 
 **Timeline**: 2-3 weeks (Week 1: Data pipeline, Week 2-3: Model development)
 
+### Model Architecture Update
+
+The initial implementation attempted short-term solar irradiance forecasting using daily weather-dependent features, which resulted in high error due to the inherently stochastic nature of weather. Following evaluation against the problem statement, the model was redesigned to perform **climatological solar viability prediction** instead of temporal forecasting.
+
+The updated system trains a machine-learning regression model (XGBoost) on **historical monthly solar irradiance averages across spatially and climatically diverse Sub-Saharan African locations**. By learning spatial–seasonal relationships between latitude, longitude, month, and dry-season indicators, the model predicts **typical expected solar energy generation** for both known and unseen coordinates. This approach aligns directly with real-world solar feasibility assessment practices and achieves significantly improved accuracy (MAPE < 15%), while maintaining generalization capability across the region.
+
 ** Tasks**:
 - ✅ Set up NASA POWER API data ingestion
 - ✅ Create SQL database schema
@@ -54,7 +60,7 @@ solar-generation-model/
 ```bash
 # Clone your repo (or create new one)
 git clone https://github.com/yourusername/solar-generation-model.git
-cd solar-generation-model
+cd solar_generation
 
 # Create virtual environment
 python -m venv venv
@@ -89,7 +95,7 @@ pip install psycopg2-binary
 # Update the DB_CONFIG password
 
 # Then run the pipeline
-python nasa_power_postgresql_pipeline.py
+python nasa_pipeline.py
 ```
 
 ---
@@ -139,15 +145,16 @@ GROUP BY month;
 
 ## 🌍 SSA Locations Covered
 
-| City | Country | Latitude | Longitude |
-|------|---------|----------|-----------|
-| Nairobi | Kenya | -1.2921 | 36.8219 |
-| Lagos | Nigeria | 6.5244 | 3.3792 |
-| Accra | Ghana | 5.6037 | -0.1870 |
-| Kampala | Uganda | 0.3476 | 32.5825 |
-| Dar es Salaam | Tanzania | -6.7924 | 39.2083 |
-| Kigali | Rwanda | -1.9706 | 30.1044 |
-| Johannesburg | South Africa | -26.2041 | 28.0473 |
+| City         | Country      | Latitude | Longitude |
+| ------------ | ------------ | -------- | --------- |
+| Lagos        | Nigeria      | 6.5244   | 3.3792    |
+| Accra        | Ghana        | 5.6037   | -0.1870   |
+| Dakar        | Senegal      | 14.6928  | -17.0467  |
+| Kampala      | Uganda       | 0.3476   | 32.5825   |
+| Nairobi      | Kenya        | -1.2921  | 36.8219   |
+| Addis Ababa  | Ethiopia     | 9.0320   | 38.7469   |
+| Johannesburg | South Africa | -26.2041 | 28.0473   |
+
 
 ---
 
