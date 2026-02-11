@@ -75,13 +75,6 @@ logs/
 ehthumbs.db
 Thumbs.db
 
-# Model files (if they get large)
-*.pkl
-*.pickle
-*.joblib
-models/*.h5
-models/*.pt
-
 # Temporary files
 *.tmp
 *.bak
