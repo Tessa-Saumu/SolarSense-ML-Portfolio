@@ -1,0 +1,85 @@
+{
+  "butchery_lagos": {
+    "business_type": "butchery",
+    "operating_hours": 12,
+    "equipment": [
+      {
+        "type": "refrigerator",
+        "quantity": 3,
+        "size_capacity": "500L",
+        "daily_operating_hours": 24
+      },
+      {
+        "type": "freezer",
+        "quantity": 2,
+        "size_capacity": "1000L",
+        "daily_operating_hours": 20
+      },
+      {
+        "type": "lights",
+        "quantity": 10,
+        "size_capacity": "medium",
+        "daily_operating_hours": 12
+      }
+    ],
+    "location": "Lagos, Nigeria"
+  },
+  "grocery_nairobi": {
+    "business_type": "grocery",
+    "operating_hours": 14,
+    "equipment": [
+      {
+        "type": "refrigerator",
+        "quantity": 4,
+        "size_capacity": "1000L",
+        "daily_operating_hours": 20
+      },
+      {
+        "type": "freezer",
+        "quantity": 1,
+        "size_capacity": "1000L",
+        "daily_operating_hours": 18
+      },
+      {
+        "type": "lights",
+        "quantity": 15,
+        "size_capacity": "medium",
+        "daily_operating_hours": 14
+      },
+      {
+        "type": "pos",
+        "quantity": 3,
+        "size_capacity": "small",
+        "daily_operating_hours": 14
+      }
+    ],
+    "location": "Nairobi, Kenya"
+  },
+  "cold_storage_johannesburg": {
+    "business_type": "cold_storage",
+    "operating_hours": 24,
+    "equipment": [
+      {
+        "type": "cold_room",
+        "quantity": 2,
+        "size_capacity": "50m2",
+        "daily_operating_hours": 24
+      },
+      {
+        "type": "lights",
+        "quantity": 12,
+        "size_capacity": "large",
+        "daily_operating_hours": 16
+      },
+      {
+        "type": "hvac",
+        "quantity": 2,
+        "size_capacity": "medium",
+        "daily_operating_hours": 18
+      }
+    ],
+    "location": "Johannesburg, South Africa"
+  }
+}
+
+
