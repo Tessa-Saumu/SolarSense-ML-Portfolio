@@ -64,28 +64,29 @@ The API returns:
 
 ## How to Run the Project
 
-1. **Clone or download the repository**
+1. Clone or download the repository
 
 2. Install dependencies
-   pip install flask flask-cors
-# OR
-    python -m pip install flask flask-cors
+   
+   **pip install flask flask-cors**
+#### OR
+   **python -m pip install flask flask-cors**
   
 3. Start the server
-    python app.py
-You should see:
-    Running on http://127.0.0.1:5000
+ - **python app.py**
+ - You should see:- *Running on http://127.0.0.1:5000*
 
 4. Test the API
-    Open your browser and go to:-
-         http://127.0.0.1:5000/
-    You should see:- 
-        {"message":"Model 3 ROI API running"}
+    - Open your browser and go to:-
+          http://127.0.0.1:5000/
+   - You should see:- 
+        *{"message":"Model 3 ROI API running"}*
 ---
 
 ## API ENDPOINT
 This endpoint calculates the financial metrics:-
 POST /calculate-roi
+
     1. Request Format(JSON)
                 {
         "system_cost": 12000,
@@ -94,7 +95,7 @@ POST /calculate-roi
         "tariff": 0.2
                 }
     2. Field Description
-    | Field               | Description                              |
+  | Field             | Description                              |
 | ------------------- | ---------------------------------------- |
 | system_cost         | Total installation cost (USD)            |
 | monthly_consumption | Energy used per month (kWh)              |
@@ -118,7 +119,7 @@ POST /calculate-roi
         # OR
         {"error": "monthly_consumption and monthly_generation cannot be negative"}
 
-CALCULATION LOGIC
+## CALCULATION LOGIC
 - Energy offset = min(consumption, generation)
 - Monthly savings = energy offset × tariff
 - Annual savings = monthly savings × 12
@@ -126,7 +127,7 @@ CALCULATION LOGIC
 - Payback years = system cost ÷ annual savings
 
 
-VIABILITY RULES:-
+## VIABILITY RULES:-
 - ROI > 20% → Highly Viable
 - ROI ≥ 10% → Moderately Viable
 - ROI < 10% → Not Viable
@@ -137,12 +138,12 @@ VIABILITY RULES:-
     **POST /calculate-roi**
 
     2. Expected Input
-        {
-"system_cost": 12000,
-"monthly_consumption": 1200,
-"monthly_generation": 1800,
-"tariff": 0.2
-        }
+         {
+    "system_cost": 12000,
+    "monthly_consumption": 1200,
+    "monthly_generation": 1800,
+    "tariff": 0.2
+           }
 
     3. Expected Output
         {
@@ -173,4 +174,5 @@ VIABILITY RULES:-
 
 ## AUTHOR
 Zainabu Mohamed
+---
 Model 3 — Financial Viability & ROI
