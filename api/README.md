@@ -1,3 +1,7 @@
+# Legacy FastAPI Energy Consumption API (Not Model 1)
+
+> ⚠️ Note: This is a legacy prototype; the official Model 1 implementation is the Flask service under `models/energy_consumption` exposing `POST /api/v1/estimate-consumption`. The content below describes this older FastAPI/XGBoost endpoint.
+
 # Energy Consumption Estimation API
 
 ## Overview
