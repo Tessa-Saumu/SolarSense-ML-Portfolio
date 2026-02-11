@@ -155,3 +155,5 @@ Example response (truncated):
 - These are implemented as multiplicative bands around each year's expected generation (`confidence_low_kwh`, `confidence_high_kwh`) in the `yearly_breakdown`.
 
 
+
+
