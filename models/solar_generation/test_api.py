@@ -21,18 +21,21 @@ from dotenv import load_dotenv  # ensure we load the same API_KEY as the Flask a
 import os
 
 
-BASE_URL = "http://localhost:8000"
-OUTPUTS_DIR = Path("outputs")
+BASE_URL = "https://davida-preadherent-patrice.ngrok-free.dev"
+OUTPUTS_DIR = Path("models/solar_generation/outputs")
 OUTPUTS_DIR.mkdir(exist_ok=True)
 RESULTS_PATH = OUTPUTS_DIR / "api_test_results.json"
 
 load_dotenv()
 API_KEY = os.getenv("API_KEY")
 
-
 def call_predict(payload: Dict[str, Any]) -> Dict[str, Any]:
     """Helper to call the /api/v1/predict-generation endpoint."""
-    headers = {}
+    headers = {
+        "ngrok-skip-browser-warning": "true",
+        "Content-Type": "application/json"
+    }
+
     if API_KEY:
         headers["X-API-KEY"] = API_KEY
 
@@ -42,8 +45,12 @@ def call_predict(payload: Dict[str, Any]) -> Dict[str, Any]:
         headers=headers,
         timeout=30,
     )
-    return {"status_code": resp.status_code, "payload": payload, "response": resp.json()}
 
+    return {
+        "status_code": resp.status_code, 
+        "payload": payload, 
+        "response": resp.json()
+    }
 
 def main() -> None:
     results: List[Dict[str, Any]] = []
