@@ -17,6 +17,8 @@ from pathlib import Path
 from typing import Any, Dict, List
 
 import requests
+from dotenv import load_dotenv  # ensure we load the same API_KEY as the Flask app
+import os
 
 
 BASE_URL = "http://localhost:8000"
@@ -24,10 +26,22 @@ OUTPUTS_DIR = Path("outputs")
 OUTPUTS_DIR.mkdir(exist_ok=True)
 RESULTS_PATH = OUTPUTS_DIR / "api_test_results.json"
 
+load_dotenv()
+API_KEY = os.getenv("API_KEY")
+
 
 def call_predict(payload: Dict[str, Any]) -> Dict[str, Any]:
     """Helper to call the /api/v1/predict-generation endpoint."""
-    resp = requests.post(f"{BASE_URL}/api/v1/predict-generation", json=payload, timeout=30)
+    headers = {}
+    if API_KEY:
+        headers["X-API-KEY"] = API_KEY
+
+    resp = requests.post(
+        f"{BASE_URL}/api/v1/predict-generation",
+        json=payload,
+        headers=headers,
+        timeout=30,
+    )
     return {"status_code": resp.status_code, "payload": payload, "response": resp.json()}
 
 

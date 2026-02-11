@@ -2,7 +2,7 @@
 
 **Base URL (local dev)**: `http://localhost:8000`
 
-No authentication is required for local development. For production, place the service behind an API gateway or add auth middleware.
+Authentication is required for all `/api/v1/*` endpoints via an API key header. The key is loaded from the `API_KEY` environment variable (typically via `.env`).
 
 ---
 
@@ -14,6 +14,7 @@ Predict typical solar generation for a point location, with optional lifetime pr
 
 **Headers**
 - `Content-Type: application/json`
+- `X-API-KEY: <your_api_key>`
 
 **Body**
 ```json
@@ -101,11 +102,21 @@ Predict typical solar generation for a point location, with optional lifetime pr
       "message": "Coordinates are outside the model's calibrated Sub-Saharan Africa coverage (lat: -26 to 6, lon: -18 to 44)."
     }
     ```
+  - Other validation failures (e.g. invalid `month`, bad optional business fields) return:
+    ```json
+    {"status": "error", "message": "Invalid input.", "details": ["..."]}
+    ```
+
+- **401 Unauthorized**
+  - Missing or incorrect API key:
+    ```json
+    {"status": "error", "message": "Unauthorized"}
+    ```
 
 - **500 Internal Server Error**
-  - Model artifacts missing, or unexpected error:
+  - Any unexpected server-side exception (including missing artifacts/metadata) returns a generic error:
     ```json
-    {"status": "error", "message": "Missing model artifacts: ..."}
+    {"status": "error", "message": "Internal Server Error"}
     ```
 
 ---
@@ -158,7 +169,7 @@ Returns model configuration and training details.
 }
 ```
 
-If metadata is missing, returns 500 with an explanatory error.
+If metadata is missing or unreadable, returns 500 with a generic `"Internal Server Error"` message.
 
 ---
 
@@ -167,24 +178,40 @@ If metadata is missing, returns 500 with an explanatory error.
 - **400 Bad Request**
   - Invalid or missing fields (`latitude`, `longitude`, `month`).
   - Coordinates outside supported region.
+  - Invalid numeric ranges for optional fields (`hours_per_day`, `equipment_units`, `monthly_cost`, `monthly_consumption_kwh`).
+
+- **401 Unauthorized**
+  - Missing or incorrect `X-API-KEY` header.
 
 - **500 Internal Server Error**
-  - Missing or unreadable model artifacts.
+  - Missing or unreadable model artifacts/metadata.
   - Unexpected server-side exceptions.
 
 Errors always return JSON with:
 
 ```json
-{"status": "error", "message": "<human-readable description>"}
+{"status": "error", "message": "<short description>"}
 ```
 
 ---
 
 ### 5. Rate Limiting
 
-- No explicit rate limiting is enforced in this implementation.
-- In production, it is recommended to enforce rate limits at the API gateway or load balancer level.
+- Rate limiting is enforced in-process using **Flask-Limiter**.
+- Global default: **100 requests per minute per client IP**.
+- All documented endpoints (`/api/v1/health`, `/api/v1/model-info`, `/api/v1/predict-generation`) are decorated with `@limiter.limit("100 per minute")`.
 
+---
 
+### 6. Environment Variables
 
+- `API_KEY` (required): API key expected in `X-API-KEY` header.
+- `MODEL_DIR` (optional, default `models`): Directory containing model artifacts (`xgboost_climatological_model.pkl`, `feature_columns.pkl`, metadata JSON).
+- `PORT` (optional, default `8000`): Port on which the Flask app listens in local development.
 
+---
+
+### 7. CORS Policy
+
+- CORS is enabled globally via `flask_cors.CORS(app)`.
+- All origins are allowed; for production, you may wish to restrict allowed origins at the gateway or application level.

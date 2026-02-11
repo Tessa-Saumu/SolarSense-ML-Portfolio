@@ -104,7 +104,20 @@ Per-location MAPE is visualised in `outputs/per_location_validation.png`.
 
 ---
 
-### 7. API Usage Examples
+### 7. Artifacts and Loading
+
+- **Artifact paths (relative to `models/solar_generation`)**:
+  - Model directory (`MODEL_DIR` env var, default: `models/`)
+    - `xgboost_climatological_model.pkl` – trained XGBoost regressor
+    - `feature_columns.pkl` – ordered feature list used at training/inference
+    - `xgboost_climatological_metadata.json` – metadata (type, MAPE, locations, features)
+- **Runtime loader**: `solar_climatology_service.load_model_artifacts()`
+  - Validates that all three artifacts exist.
+  - Used by both the Flask API and the climatological notebook.
+
+---
+
+### 8. API Usage Examples
 
 - **Core endpoint**: `POST /api/v1/predict-generation`
 
@@ -145,7 +158,7 @@ Example response (truncated):
 
 ---
 
-### 8. Confidence Intervals
+### 9. Confidence Intervals
 
 - Confidence intervals are **heuristic**, based on the difficulty of long-horizon solar yield prediction rather than strict statistical bounds.
 - For year-level projections:
