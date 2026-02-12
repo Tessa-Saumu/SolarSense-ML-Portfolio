@@ -1,9 +1,19 @@
+import os  # [SECURITY] Used to read API key from environment
+
 from flask import Flask, request, jsonify
 from flask_cors import CORS
 from flask_limiter import Limiter
 from flask_limiter.util import get_remote_address
+from dotenv import load_dotenv  # [SECURITY] Load .env for API key and config
+
+# [SECURITY] Load environment variables from .env file
+load_dotenv()
+
+# [SECURITY] Read API key from environment (not hardcoded)
+API_KEY = os.getenv("ROI_API_KEY")
 
 # Global limiter instance; app is attached in create_app / module init.
+# [SECURITY] Rate limiting: 100 requests per minute per IP
 limiter = Limiter(
     key_func=get_remote_address,
     default_limits=["100 per minute"],
@@ -11,7 +21,7 @@ limiter = Limiter(
 
 app = Flask(__name__)
 
-# Security: limit maximum request size to 100 KB
+# [SECURITY] Limit maximum request size to 100 KB
 app.config["MAX_CONTENT_LENGTH"] = 100 * 1024  # 100 KB
 
 # Enable CORS for integration with frontends (can be restricted further if needed)
@@ -44,7 +54,14 @@ def calculate_roi(system_cost_usd: float,
     if annual_savings_usd <= 0:
         roi_percentage = 0.0
     else:
-        roi_percentage = (annual_savings_usd / system_cost_usd) * 100
+        raw_roi = (annual_savings_usd / system_cost_usd) * 100
+
+        # [SECURITY] Output realism: clamp ROI between 0 and 100%
+        roi_percentage = max(0.0, min(raw_roi, 100.0))
+
+    # [SECURITY] Ensure outputs are realistic / non-negative
+    monthly_savings_usd = max(0.0, monthly_savings_usd)
+    system_cost_usd = max(0.0, system_cost_usd)
 
     return {
         "monthly_savings_usd": round(monthly_savings_usd, 2),
@@ -88,6 +105,106 @@ def _validate_float_field(data: dict,
         }, 400)
 
     return value, None
+
+
+ALLOWED_BUSINESS_TYPE_CHARS = set(
+    "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789 _-&/"
+)
+
+
+def _validate_optional_hours(data: dict, field_name: str):
+    """
+    [SECURITY] Validate optional hour-like fields (0–24).
+    """
+    if field_name not in data:
+        return None, None
+    try:
+        value = float(data[field_name])
+    except (TypeError, ValueError):
+        return None, ({"error": f"{field_name} must be a number"}, 400)
+
+    if value < 0 or value > 24:
+        return None, ({
+            "error":
+            f"{field_name} must be between 0 and 24 hours"
+        }, 400)
+    return value, None
+
+
+def _validate_optional_units(data: dict, field_name: str, max_units: int = 500):
+    """
+    [SECURITY] Validate optional 'units of equipment' style fields.
+    Reject obviously wrong data (e.g., >500 units).
+    """
+    if field_name not in data:
+        return None, None
+    try:
+        value = int(data[field_name])
+    except (TypeError, ValueError):
+        return None, ({"error": f"{field_name} must be an integer"}, 400)
+
+    if value < 0 or value > max_units:
+        return None, ({
+            "error":
+            f"{field_name} must be between 0 and {max_units}"
+        }, 400)
+    return value, None
+
+
+def _validate_optional_string(data: dict, field_name: str, max_len: int = 64):
+    """
+    [SECURITY] Validate optional string fields such as business_type or location.
+    Checks basic format and allowed characters.
+    """
+    if field_name not in data:
+        return None, None
+
+    value = data[field_name]
+
+    if not isinstance(value, str):
+        return None, ({"error": f"{field_name} must be a string"}, 400)
+
+    value_stripped = value.strip()
+    if not value_stripped:
+        return None, ({"error": f"{field_name} cannot be empty"}, 400)
+
+    if len(value_stripped) > max_len:
+        return None, ({
+            "error":
+            f"{field_name} must be at most {max_len} characters"
+        }, 400)
+
+    if field_name == "business_type":
+        # Restrict to a safe character set
+        if not all(ch in ALLOWED_BUSINESS_TYPE_CHARS for ch in value_stripped):
+            return None, ({
+                "error":
+                f"{field_name} contains invalid characters"
+            }, 400)
+
+    # For location we keep it simple: non-empty string with a reasonable max length.
+    return value_stripped, None
+
+
+@app.before_request
+def require_api_key():
+    """
+    [SECURITY] Enforce API key authentication on the ROI API endpoints.
+
+    - Requires header: X-API-KEY
+    - Compares against ROI_API_KEY loaded from environment.
+    """
+    # Only protect the versioned API endpoints; allow "/" health check without key
+    path = request.path or ""
+    if path.startswith("/api/"):
+        if not API_KEY:
+            # Misconfiguration on the server – treat as 500 for callers
+            return jsonify({"error": "Internal server error"}), 500
+
+        header_key = request.headers.get("X-API-KEY")
+        if not header_key or header_key != API_KEY:
+            # [SECURITY] 401 Unauthorized for missing/invalid API key
+            return jsonify({"error": "Unauthorized"}), 401
 
 
 @app.route("/api/v1/calculate-roi", methods=["POST"])
@@ -144,6 +261,23 @@ def roi_endpoint():
     if err:
         return jsonify(err[0]), err[1]
 
+    # [SECURITY] Additional optional input validation (if these fields are provided)
+    operating_hours, err = _validate_optional_hours(data, "operating_hours")
+    if err:
+        return jsonify(err[0]), err[1]
+
+    equipment_units, err = _validate_optional_units(data, "equipment_units")
+    if err:
+        return jsonify(err[0]), err[1]
+
+    business_type, err = _validate_optional_string(data, "business_type")
+    if err:
+        return jsonify(err[0]), err[1]
+
+    location, err = _validate_optional_string(data, "location", max_len=128)
+    if err:
+        return jsonify(err[0]), err[1]
+
     try:
         result = calculate_roi(
             system_cost_usd=system_cost_usd,
@@ -152,7 +286,7 @@ def roi_endpoint():
             tariff_per_kwh=tariff_per_kwh,
         )
     except Exception:
-        # Generic 500 for unexpected server errors (no stack trace leakage)
+        # [SECURITY] Generic 500 for unexpected server errors (no stack trace leakage)
         return jsonify({"error": "Internal server error"}), 500
 
     return jsonify(result), 200

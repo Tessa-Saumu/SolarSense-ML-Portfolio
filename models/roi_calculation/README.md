@@ -21,9 +21,11 @@ pip install -r requirements.txt
 
 - **Run the API locally**
 
+From the `models/roi_calculation/src` directory:
+
 ```bash
 cd src
-python app.py
+python roi_calculation_api.py
 ```
 
 The API will start on `http://0.0.0.0:5000/`.
@@ -208,7 +210,24 @@ Expected (sample) response:
 
 ---
 
-### 5. Known Limitations
+### 5. Running Tests
+
+Automated tests for this API live alongside the service code:
+
+- Test file: `models/roi_calculation/src/test_roi_api.py`
+
+From the root of the project (`Model-1-branch`), run:
+
+```bash
+pytest models/roi_calculation/src/test_roi_api.py
+```
+
+This uses pytest and Flask’s test client to cover success paths, validation errors,
+rate limiting, request size limits, and generic 500 error handling.
+
+---
+
+### 6. Known Limitations
 
 - Operational costs (e.g., maintenance) are not explicitly modeled; the ROI formula
   follows the simplified approach described in the alignment document.
@@ -217,7 +236,7 @@ Expected (sample) response:
 
 ---
 
-### 6. Alignment Notes (Model 3 – Alignment Doc v2.1)
+### 7. Alignment Notes (Model 3 – Alignment Doc v2.1)
 
 - Uses the required versioned endpoint: `POST /api/v1/calculate-roi`.
 - Accepts the specified inputs:
@@ -227,5 +246,3 @@ Expected (sample) response:
 - Implements robust input validation, error handling, request size limits,
   and rate limiting as recommended in the alignment document.
 - **No payback period** is calculated or returned in the response.
-
-

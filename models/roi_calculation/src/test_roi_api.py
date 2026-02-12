@@ -1,21 +1,36 @@
 import math
+import os
 
 import pytest
 
 from roi_calculation_api import create_app, calculate_roi
 
 
+TEST_API_KEY = "test-api-key"
+
+
 @pytest.fixture
 def app():
     """Create a Flask app instance configured for testing."""
+    # Ensure the environment variable is set for the duration of the tests
+    os.environ["ROI_API_KEY"] = TEST_API_KEY
     app = create_app({"TESTING": True})
+
+    # Also update the module-level API_KEY used by the before_request hook
+    import roi_calculation_api as app_module
+
+    app_module.API_KEY = TEST_API_KEY
+
     return app
 
 
 @pytest.fixture
 def client(app):
-    """Flask test client fixture."""
-    return app.test_client()
+    """Flask test client fixture with default API key header."""
+    client = app.test_client()
+    # Set default X-API-KEY header for all requests from this client
+    client.environ_base["HTTP_X_API_KEY"] = TEST_API_KEY
+    return client
 
 
 @pytest.fixture
@@ -216,11 +231,31 @@ def test_rate_limit_exceeded_results_in_429(client, valid_payload):
     assert resp.get_json() == {"error": "Rate limit exceeded"}
 
 
+def test_unauthorized_missing_api_key(app, valid_payload):
+    """Requests without X-API-KEY should return 401."""
+    client = app.test_client()  # no default API key header
+    resp = client.post("/api/v1/calculate-roi", json=valid_payload)
+    assert resp.status_code == 401
+    assert resp.get_json() == {"error": "Unauthorized"}
+
+
+def test_unauthorized_invalid_api_key(app, valid_payload):
+    """Requests with wrong X-API-KEY should return 401."""
+    client = app.test_client()
+    resp = client.post(
+        "/api/v1/calculate-roi",
+        json=valid_payload,
+        headers={"X-API-KEY": "wrong-key"},
+    )
+    assert resp.status_code == 401
+    assert resp.get_json() == {"error": "Unauthorized"}
+
+
 def test_internal_error_returns_generic_500(monkeypatch, client, valid_payload):
     # Force calculate_roi to raise an exception inside the endpoint
     import roi_calculation_api as app_module
 
-     # Disable rate limiting only for this test
+    # Disable rate limiting only for this test (if supported by version)
     monkeypatch.setattr(app_module.limiter, "enabled", False)
 
     def boom(*args, **kwargs):

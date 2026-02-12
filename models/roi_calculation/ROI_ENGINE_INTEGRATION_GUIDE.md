@@ -2,7 +2,7 @@
 
 This guide explains how to integrate with the **Model 3 ROI engine** used in the
 SolarSense project. The engine is implemented as a deterministic Flask API in
-`models/roi_calculation/src/app.py`.
+`models/roi_calculation/src/roi_calculation_api.py`.
 
 ---
 
@@ -127,6 +127,7 @@ Response:
 ```text
 POST /api/v1/calculate-roi
 Content-Type: application/json
+X-API-KEY: <your-ROI_API_KEY>
 ```
 
 Body: see inputs above.
@@ -255,6 +256,14 @@ The engine performs:
 - **Error messages**:  
   - Generic 500 responses; no stack traces or internal details are exposed.
 
+- **API key authentication**:
+  - All `/api/...` endpoints require an `X-API-KEY` header whose value matches the `ROI_API_KEY`
+    environment variable configured on the server.
+  - Missing or incorrect keys return a 401 response:
+    ```json
+    { "error": "Unauthorized" }
+    ```
+
 For production:
 
 - Run behind HTTPS.
@@ -266,7 +275,7 @@ For production:
 
 The repository includes automated tests for the ROI engine:
 
-- Location: `tests/roi_calculation/test_app.py`
+- Location: `models/roi_calculation/src/test_roi_api.py`
 - Test framework: **pytest**
 
 Tests cover:
@@ -279,10 +288,10 @@ Tests cover:
 - Generic 500 error handling via mocked internal exceptions.
 - Response schema and logical consistency of outputs.
 
-To run tests from the project root:
+To run tests from the Model‑1‑branch project root:
 
 ```bash
-pytest
+pytest models/roi_calculation/src/test_roi_api.py
 ```
 
 ---
