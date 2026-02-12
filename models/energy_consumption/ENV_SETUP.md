@@ -40,3 +40,4 @@ models/energy_consumption/.env
 
 The `app_ml.py` will automatically load it using `python-dotenv`.
 
+

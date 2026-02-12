@@ -80,3 +80,4 @@ def test_estimate_consumption_requires_refrigeration():
     assert body["error"]["code"] == "INVALID_EQUIPMENT"
 
 
+

@@ -218,3 +218,4 @@ Tests use mocked models, so actual model files are not required. If you see mode
 ### Path Issues
 Tests use relative paths from the test file location. Ensure you're running from the project root or `models/energy_consumption` directory.
 
+

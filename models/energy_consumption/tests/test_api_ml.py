@@ -13,11 +13,10 @@ Tests cover:
 import json
 import sys
 from pathlib import Path
-from unittest.mock import MagicMock, patch, Mock
+from unittest.mock import MagicMock
 import pytest
 import numpy as np
 from flask.testing import FlaskClient
-from sklearn.preprocessing import LabelEncoder, StandardScaler
 
 
 # Add src directory to path for imports
@@ -52,13 +51,14 @@ def mock_model_components():
     mock_scaler.transform.return_value = np.array([[0.5] * 17])  # 17 features
     
     # Mock label encoders
-    mock_le_pba = MagicMock(spec=LabelEncoder)
+    # Avoid importing sklearn in tests; keep mocks lightweight and deterministic
+    mock_le_pba = MagicMock()
     mock_le_pba.transform.return_value = np.array([0])
     
-    mock_le_cendiv = MagicMock(spec=LabelEncoder)
+    mock_le_cendiv = MagicMock()
     mock_le_cendiv.transform.return_value = np.array([0])
     
-    mock_le_size = MagicMock(spec=LabelEncoder)
+    mock_le_size = MagicMock()
     mock_le_size.transform.return_value = np.array([0])
     
     return {
@@ -556,7 +556,8 @@ def test_estimate_consumption_malformed_json(client, app_with_mocked_model):
         content_type="application/json"
     )
     assert resp.status_code == 400
-    # Flask may return 400 for malformed JSON
+    body = resp.get_json()
+    assert body["error"]["code"] == "INVALID_JSON"
 
 
 def test_estimate_consumption_not_json(client, app_with_mocked_model):
@@ -566,8 +567,9 @@ def test_estimate_consumption_not_json(client, app_with_mocked_model):
         data="not json",
         content_type="text/plain"
     )
-    # Flask may handle this differently, but should return error
-    assert resp.status_code in [400, 415]
+    assert resp.status_code == 415
+    body = resp.get_json()
+    assert body["error"]["code"] == "UNSUPPORTED_MEDIA_TYPE"
 
 
 def test_estimate_consumption_null_body(client, app_with_mocked_model):
@@ -890,8 +892,8 @@ def test_estimate_consumption_log_transformed_target(client, app_with_mocked_mod
     assert resp.status_code == 200
     body = resp.get_json()
     assert body["estimated_consumption_kwh_monthly"] > 0
-    # Verify expm1 was applied (8.0 -> ~2980.96)
-    assert body["estimated_consumption_kwh_monthly"] > 2000
+    # Verify expm1 was applied (8.0 -> ~2980.96 annual, then /12 and climate factor)
+    assert body["estimated_consumption_kwh_monthly"] > 200
 
 
 # ============================================================================

@@ -10,6 +10,7 @@ from pathlib import Path
 from typing import Optional
 from dotenv import load_dotenv
 import logging
+from werkzeug.exceptions import BadRequest, UnsupportedMediaType
 
 # SECURITY: Load environment variables from .env file
 load_dotenv()
@@ -92,9 +93,12 @@ def create_app(
         FEATURE_COLS_PATH = feature_cols_path
         MAPPINGS_PATH = mappings_path
     
-    # Load model and dependencies (only if not in test mode or paths exist)
-    if test_mode and not MODEL_PATH.exists():
-        # In test mode, we'll mock these later
+    # Load model and dependencies
+    #
+    # SECURITY/TESTABILITY: When `test_mode=True`, we ALWAYS skip loading model files
+    # and expect tests to inject mocks into `app.config`. This avoids filesystem and
+    # dependency issues during CI/test collection.
+    if test_mode:
         app.config['TEST_MODE'] = True
         best_model = None
         scaler = None
@@ -110,7 +114,7 @@ def create_app(
         scaler = joblib.load(SCALER_PATH)
         feature_columns = joblib.load(FEATURE_COLS_PATH)
         sme_mappings = joblib.load(MAPPINGS_PATH)
-        
+
         best_model = model_data['best_model']
         use_log_target = model_data.get('use_log_target', False)
         le_pba = sme_mappings['le_pba']
@@ -169,7 +173,25 @@ def create_app(
     def estimate_consumption():
         """Estimate energy consumption for African SME."""
         try:
-            data = request.get_json()
+            # SECURITY: Parse JSON safely and return 400/415 instead of leaking exceptions as 500
+            try:
+                data = request.get_json()
+            except BadRequest:
+                return jsonify({
+                    'error': {
+                        'code': 'INVALID_JSON',
+                        'message': 'Request body must be valid JSON',
+                        'status': 400
+                    }
+                }), 400
+            except UnsupportedMediaType:
+                return jsonify({
+                    'error': {
+                        'code': 'UNSUPPORTED_MEDIA_TYPE',
+                        'message': "Content-Type must be 'application/json'",
+                        'status': 415
+                    }
+                }), 415
             
             # Check for empty or None request body
             if data is None:
