@@ -5,8 +5,10 @@ MODEL CARD: Energy Consumption Prediction for African Food Retail SMEs
 
 1. MODEL PURPOSE AND USE CASE
 --------------------------------------------------------------------------------
-This model predicts monthly electricity consumption (kWh) for refrigeration-heavy
-food retail businesses (butcheries, grocers, mini-supermarkets) in Sub-Saharan Africa.
+This model predicts **annual** electricity consumption (kWh) for commercial food retail
+buildings (food sales / food service) and is then adapted to provide **monthly**
+estimates for refrigeration-heavy food retail SMEs (butcheries, grocers,
+mini-supermarkets) in Sub-Saharan Africa.
 
 Primary Use Case:
 - Estimate energy consumption when smart meter data is unavailable
@@ -28,11 +30,11 @@ Dataset: CBECS 2018 (US Commercial Buildings Energy Consumption Survey)
 Training Set:
 - Samples: 232
 - Features: 17
-- Target: Annual electricity consumption (kWh)
+- Target: **Annual** electricity consumption (kWh)
 
 Test Set:
 - Samples: 59
-- Test R� Score: 0.9830
+- Test R² Score: 0.9830
 - MAPE: 14.52%
 
 3. FEATURE DESCRIPTIONS
@@ -61,20 +63,28 @@ Encoded Features:
 - cendiv_encoded: Label-encoded census division
 - size_category_encoded: Label-encoded size category
 
-4. MODEL PERFORMANCE METRICS
+4. MODEL PERFORMANCE & TARGET TRANSFORMATION
 --------------------------------------------------------------------------------
-Best Model: Gradient Boosting (Log)
-Target Transformation: Log-transformed
+Best Model: Gradient Boosting Regressor (with optional log-transformed target)
 
-Performance Metrics:
-- Test R� Score: 0.9830
+Target Transformation:
+- Training target: `y = annual_kwh`
+- For the selected best model, training is performed on:
+  - `log_y = log1p(annual_kwh)` when `use_log_target=True`
+- At prediction time (when `use_log_target=True`):
+  - `annual_kwh_pred = expm1(model.predict(features))`
+- The deployed API (`app_ml.py`) always returns **monthly** kWh:
+  - `monthly_kwh = (annual_kwh_pred * climate_factor) / 12`
+
+Performance Metrics (on annual target):
+- Test R² Score: 0.9830
 - Test MAPE: 14.52%
-- Cross-Validation R�: 0.8683 � 0.1255
+- Cross-Validation R²: 0.8683 ± 0.1255
 
 Interpretation:
-- R� of 0.9830 indicates the model explains 98.3% of variance in energy consumption
-- MAPE of 14.52% means predictions are within �14.5% on average
-- Acceptable for MVP with �20% target error margin
+- R² of 0.9830 indicates the model explains 98.3% of variance in annual energy consumption
+- MAPE of 14.52% means predictions are within ~14.5% on average
+- Acceptable for MVP with ±20% target error margin
 
 5. LIMITATIONS AND KNOWN BIASES
 --------------------------------------------------------------------------------
@@ -94,7 +104,7 @@ Business Type Limitations:
 - Assumes standard equipment efficiency
 
 Model Limitations:
-- �20% error margin acceptable for MVP
+- ±20% error margin acceptable for MVP
 - Predictions are estimates, not guarantees
 - Should be validated with real-world African SME data when available
 
@@ -110,30 +120,37 @@ When NOT to Use:
 - Businesses with highly specialized equipment not represented in training data
 - Non-food retail businesses (model trained on food retail only)
 
-Input Requirements:
-- Business type (butchery/grocery/mini_supermarket)
-- Floor area (m� or sqft)
-- Weekly operating hours
-- Number of refrigeration units
-- Location (for climate adjustment)
-- Optional: Number of workers, months per year
+Input Requirements (deployed API, `app_ml.py`):
+- `business_type` (one of: `butchery`, `grocery`, `mini_supermarket`)
+- `sqft_m2` (approximate floor area in m²; 0 < `sqft_m2` ≤ 10,000)
+- `operating_hours_weekly` (0 < hours ≤ 168)
+- `num_refrigeration_units` (0 ≤ units ≤ 500)
+- `location` (city, country – used for climate adjustment)
+- Optional: `num_workers` (defaults to 5, capped at 1000), `months_per_year` (defaults to 12)
 
-7. AFRICAN ADAPTATION NOTES
+7. AFRICAN ADAPTATION & POST-PROCESSING
 --------------------------------------------------------------------------------
 Climate Adjustments:
-- Applied 86.8% increase for Sub-Saharan African climates
-- Factors range from 1.18 (moderate) to 1.35 (hot/humid)
-- Based on increased refrigeration load in hot climates
+- Climate adjustment factor derived from city substring in `location`
+- Factors range approximately from 1.18 (moderate) to 1.35 (hot/humid)
+- If no city match is found, a default factor of 1.20 is applied
 
 Business Context Adaptations:
-- Assumes single-floor operations (typical for African SMEs)
+- Assumes single-floor operations (NFLOOR=1) typical for African SMEs
 - Defaults to moderate construction age (YRCONC=5)
-- Uses conservative worker-to-space ratios
+- Uses conservative worker-to-space ratios via `sqft_per_worker`
 
-Refrigeration Focus:
-- Model emphasizes refrigeration equipment (50-70% of consumption)
-- Critical for food retail businesses in hot climates
-- Accounts for higher cooling loads in African context
+Refrigeration Focus & Breakdown:
+- Refrigeration share enforced between 50% and 70% of total monthly kWh
+- `refrigeration_kwh = monthly_kwh * refrigeration_share`
+- `other_kwh = monthly_kwh * (1 - refrigeration_share)`
+- Refrigeration share heuristic increases with `num_refrigeration_units` relative to `num_workers`
+
+API Output Post-Processing:
+- Annual kWh prediction is multiplied by climate factor and divided by 12 to obtain monthly kWh
+- Monthly kWh is capped at a maximum of 1,000,000 kWh to avoid unrealistic values
+- Negative energy values (if any) are reset to zero
+- Confidence score is kept within [0, 1] (typically 0.75 or 0.85 depending on data completeness)
 
 8. MODEL VERSION AND METADATA
 --------------------------------------------------------------------------------
@@ -149,7 +166,30 @@ Model Files:
 - feature_columns_v1.joblib (feature names)
 - sme_mappings_v1.joblib (encoders + mappings)
 
-9. FUTURE IMPROVEMENTS
+9. VALIDATION CONSTRAINTS (DEPLOYED API)
+--------------------------------------------------------------------------------
+Key validation rules enforced in the Flask API (`app_ml.py`):
+
+- **business_type**:
+  - Must be one of: `butchery`, `grocery`, `mini_supermarket` (case-insensitive input)
+- **sqft_m2**:
+  - Must be > 0 and ≤ 10,000
+- **operating_hours_weekly**:
+  - Must be > 0 and ≤ 168 (hours per week)
+- **num_refrigeration_units**:
+  - Must be ≥ 0 and ≤ 500
+- **num_workers** (optional):
+  - Defaults to 5 if missing/invalid
+  - Must not exceed 1000 (otherwise rejected)
+- **months_per_year** (optional):
+  - Defaults to 12 if missing/invalid
+  - Reset to 12 if ≤ 0 or > 12
+- **location**:
+  - Must be a string with length ≤ 200 characters
+
+These constraints ensure numerical stability and protect against obviously incorrect inputs.
+
+10. FUTURE IMPROVEMENTS
 --------------------------------------------------------------------------------
 - Collect and train on African SME energy consumption data
 - Add more granular climate zones and seasonal adjustments
@@ -158,3 +198,5 @@ Model Files:
 - Expand to other business types beyond food retail
 
 ================================================================================
+
+
