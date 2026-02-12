@@ -140,25 +140,246 @@ All validation errors return **HTTP 400**.
 
 ---
 
-### How to Run Locally
+### Setup & Installation
 
-From the project root:
+#### Prerequisites
+
+- Python 3.8 or higher
+- pip (Python package manager)
+- (Optional) ngrok for public URL tunneling
+
+#### Step 1: Create Virtual Environment
 
 ```bash
+# Navigate to the project directory
 cd models/energy_consumption
+
+# Create virtual environment
+python -m venv venv
+
+# Activate virtual environment
+# On Windows:
+venv\Scripts\activate
+# On macOS/Linux:
+source venv/bin/activate
+```
+
+#### Step 2: Install Dependencies
+
+```bash
+# Install required packages
 pip install -r requirements.txt
 
-# Run the Flask app
-cd src
+# Or install manually:
+pip install flask flask-cors numpy scikit-learn xgboost joblib pandas
+```
+
+#### Step 3: Verify Installation
+
+```bash
+# Check Flask is installed
+python -c "import flask; print(flask.__version__)"
+
+# Check other dependencies
+python -c "import numpy, sklearn, xgboost, joblib; print('All dependencies installed!')"
+```
+
+---
+
+### How to Run Locally
+
+#### Option A: Formula-Based API (Recommended for MVP)
+
+This uses the deterministic formula-based approach (no ML model required):
+
+```bash
+# Make sure virtual environment is activated
+cd models/energy_consumption/src
 python app.py
 ```
 
 The service will start on:
-
-- `http://0.0.0.0:8001`
+- `http://0.0.0.0:8001` or `http://localhost:8001`
 - Health checks:
   - `GET /api/v1/health`
   - `GET /health` (legacy/unversioned)
+
+#### Option B: ML-Based API (Requires Trained Model)
+
+This uses the trained XGBoost/Gradient Boosting model from the notebook:
+
+```bash
+# Make sure virtual environment is activated
+# Ensure model files exist in models/ directory:
+#   - energy_consumption_model_v1.joblib
+#   - energy_scaler_v1.joblib
+#   - feature_columns_v1.joblib
+#   - sme_mappings_v1.joblib
+
+cd models/energy_consumption/src
+python app_ml.py
+```
+
+**Note:** The ML-based API requires model files to be generated from `model1_energy_consumption.ipynb` first.
+
+#### Change Port (Optional)
+
+Set the `MODEL1_PORT` environment variable to use a different port:
+
+```bash
+# Windows PowerShell:
+$env:MODEL1_PORT = "9001"
+python app.py
+
+# Windows CMD:
+set MODEL1_PORT=9001
+python app.py
+
+# macOS/Linux:
+export MODEL1_PORT=9001
+python app.py
+```
+
+---
+
+### Running with ngrok (Public URL)
+
+ngrok creates a public HTTPS URL that tunnels to your local server, useful for:
+- Testing with external services
+- Frontend development
+- API integration testing
+- Sharing with team members
+
+#### Step 1: Install ngrok
+
+**Option A: Download from website**
+1. Visit https://ngrok.com/download
+2. Download for your OS
+3. Extract and add to PATH, or use full path
+
+**Option B: Using package manager**
+```bash
+# macOS (Homebrew):
+brew install ngrok
+
+# Windows (Chocolatey):
+choco install ngrok
+
+# Linux (snap):
+snap install ngrok
+```
+
+#### Step 2: Start Your Local API
+
+```bash
+# In one terminal, start the API
+cd models/energy_consumption/src
+python app.py
+```
+
+#### Step 3: Start ngrok Tunnel
+
+**In a new terminal window:**
+
+```bash
+# Create tunnel to port 8001 (default)
+ngrok http 8001
+
+# Or if using custom port:
+ngrok http 9001
+```
+
+You'll see output like:
+```
+Forwarding  https://abc123.ngrok.io -> http://localhost:8001
+```
+
+#### Step 4: Use the Public URL
+
+Copy the `https://` URL from ngrok and use it in your requests:
+
+```bash
+# Example: Using the ngrok URL
+curl -X POST "https://abc123.ngrok.io/api/v1/estimate-consumption" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "business_type": "butchery",
+    "operating_hours": 12,
+    "equipment": [
+      {
+        "type": "refrigerator",
+        "quantity": 3,
+        "size_capacity": "500L",
+        "daily_operating_hours": 24
+      }
+    ],
+    "location": "Lagos, Nigeria"
+  }'
+```
+
+#### ngrok Tips
+
+- **Free tier:** URLs change each time you restart ngrok
+- **Paid tier:** Can reserve static domains
+- **Web interface:** Visit `http://127.0.0.1:4040` to see request logs
+- **Keep both running:** Keep both the Flask app and ngrok running simultaneously
+
+#### Stopping ngrok
+
+Press `Ctrl+C` in the ngrok terminal to stop the tunnel.
+
+---
+
+### Troubleshooting
+
+#### Port Already in Use
+
+If you see `Address already in use` error:
+
+```bash
+# Find process using port 8001
+# Windows:
+netstat -ano | findstr :8001
+
+# macOS/Linux:
+lsof -i :8001
+
+# Kill the process or use a different port:
+$env:MODEL1_PORT = "9001"  # Windows PowerShell
+python app.py
+```
+
+#### Module Not Found Errors
+
+If you see `ModuleNotFoundError`:
+
+```bash
+# Make sure virtual environment is activated
+# Windows:
+venv\Scripts\activate
+# macOS/Linux:
+source venv/bin/activate
+
+# Reinstall requirements
+pip install -r requirements.txt
+```
+
+#### Model Files Not Found (ML API)
+
+If using `app_ml.py` and getting model file errors:
+
+1. Ensure you've run `model1_energy_consumption.ipynb` to generate model files
+2. Check that these files exist in `models/` directory:
+   - `energy_consumption_model_v1.joblib`
+   - `energy_scaler_v1.joblib`
+   - `feature_columns_v1.joblib`
+   - `sme_mappings_v1.joblib`
+
+#### ngrok Connection Issues
+
+- **"tunnel session failed"**: Check that your local API is running first
+- **"bind: address already in use"**: Another ngrok instance may be running
+- **Slow responses**: Free ngrok tier has rate limits; consider paid tier for production
 
 ---
 
