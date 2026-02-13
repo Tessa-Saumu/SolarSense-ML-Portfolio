@@ -58,7 +58,7 @@ It is strongly recommended to use a virtual environment at the project root.
 
 ### Create and Activate Virtual Environment
 
-From the project root (`Model-1-branch`):
+From the project root:
 
 ```bash
 # macOS / Linux

@@ -10,7 +10,7 @@ from dotenv import load_dotenv  # [SECURITY] Load .env for API key and config
 load_dotenv()
 
 # [SECURITY] Read API key from environment (not hardcoded)
-API_KEY = os.getenv("ROI_API_KEY")
+API_KEY = os.getenv("API_KEY")
 
 # Global limiter instance; app is attached in create_app / module init.
 # [SECURITY] Rate limiting: 100 requests per minute per IP
@@ -192,7 +192,7 @@ def require_api_key():
     [SECURITY] Enforce API key authentication on the ROI API endpoints.
 
     - Requires header: X-API-KEY
-    - Compares against ROI_API_KEY loaded from environment.
+    - Compares against API_KEY loaded from environment.
     """
     # Only protect the versioned API endpoints; allow "/" health check without key
     path = request.path or ""
@@ -294,7 +294,7 @@ def roi_endpoint():
 
 @app.route("/")
 def home():
-    return jsonify({"message": "Model 3 ROI API running"}), 200
+    return jsonify({"message": "ROI ENGINE API running"}), 200
 
 
 @app.errorhandler(413)

@@ -13,7 +13,7 @@ TEST_API_KEY = "test-api-key"
 def app():
     """Create a Flask app instance configured for testing."""
     # Ensure the environment variable is set for the duration of the tests
-    os.environ["ROI_API_KEY"] = TEST_API_KEY
+    os.environ["API_KEY"] = TEST_API_KEY
     app = create_app({"TESTING": True})
 
     # Also update the module-level API_KEY used by the before_request hook
