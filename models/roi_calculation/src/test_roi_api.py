@@ -44,12 +44,13 @@ def valid_payload():
     }
 
 
-def test_home_endpoint_ok(client):
-    resp = client.get("/")
+def test_health_endpoint_ok(client):
+    resp = client.get("/api/v1/health")
     assert resp.status_code == 200
     data = resp.get_json()
     assert isinstance(data, dict)
-    assert data.get("message") == "Model 3 ROI API running"
+    assert data.get("status") == "ok"
+    assert data.get("service") == "roi-calculation"
 
 
 def test_calculate_roi_success(client, valid_payload):

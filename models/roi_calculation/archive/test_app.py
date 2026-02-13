@@ -1,8 +1,18 @@
 import math
+import sys
+from pathlib import Path
 
 import pytest
 
-from models.roi_calculation.src.app import create_app, calculate_roi
+# Ensure repo root (containing the `models` package) is on sys.path for imports
+ROOT_DIR = Path(__file__).resolve().parents[2]
+if str(ROOT_DIR) not in sys.path:
+    sys.path.insert(0, str(ROOT_DIR))
+
+from models.roi_calculation.src.roi_calculation_api import (  # type: ignore  # noqa: E402
+    create_app,
+    calculate_roi,
+)
 
 
 @pytest.fixture
@@ -29,12 +39,13 @@ def valid_payload():
     }
 
 
-def test_home_endpoint_ok(client):
-    resp = client.get("/")
+def test_health_endpoint_ok(client):
+    resp = client.get("/api/v1/health")
     assert resp.status_code == 200
     data = resp.get_json()
     assert isinstance(data, dict)
-    assert data.get("message") == "Model 3 ROI API running"
+    assert data.get("status") == "ok"
+    assert data.get("service") == "roi-calculation"
 
 
 def test_calculate_roi_success(client, valid_payload):
@@ -218,7 +229,7 @@ def test_rate_limit_exceeded_results_in_429(client, valid_payload):
 
 def test_internal_error_returns_generic_500(monkeypatch, client, valid_payload):
     # Force calculate_roi to raise an exception inside the endpoint
-    import models.roi_calculation.src.app as app_module
+    import models.roi_calculation.src.roi_calculation_api as app_module
 
     def boom(*args, **kwargs):
         raise RuntimeError("boom")

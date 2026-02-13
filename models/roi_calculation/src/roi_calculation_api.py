@@ -292,9 +292,9 @@ def roi_endpoint():
     return jsonify(result), 200
 
 
-@app.route("/")
-def home():
-    return jsonify({"message": "ROI ENGINE API running"}), 200
+@app.route("/api/v1/health")
+def health():
+    return jsonify({"status": "ok", "service": "roi-calculation"}), 200
 
 
 @app.errorhandler(413)
