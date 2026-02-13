@@ -1,7 +1,7 @@
 ## API Contract – SolarSense Model 3 ROI Service
 
 This document reflects the **current, actual implementation** of the ROI API in
-`models/roi_calculation/src/roi_calculation_api.py`.
+`models/roi_calculation/src/app.py`.
 
 ---
 
@@ -31,26 +31,15 @@ All versioned endpoints are prefixed with `/api/v1`.
 For `POST /api/v1/calculate-roi`:
 
 - **Content-Type**: `application/json`
-- **X-API-KEY**: API key for authentication (see Authentication & Security).
+
+No other headers are strictly required by the current implementation.
 
 ---
 
 ### 4. Authentication & Security
 
 - **Authentication**:  
-  - All `/api/...` endpoints require an API key header:  
-    - `X-API-KEY: <value-of-ROI_API_KEY-env-var>`
-  - The server reads the key from the `ROI_API_KEY` environment variable (usually set via `.env` and `python-dotenv`).
-  - If the header is missing or incorrect, the API returns:
-    ```json
-    { "error": "Unauthorized" }
-    ```
-    with HTTP status **401**.
-  - If the server is misconfigured and `ROI_API_KEY` is not set at all, the API returns:
-    ```json
-    { "error": "Internal server error" }
-    ```
-    with HTTP status **500** for protected endpoints.
+  - None. The current implementation does **not** require authentication or authorization.
 
 - **Transport security**:  
   - Local development uses HTTP (`http://localhost:5000`).  
@@ -265,7 +254,6 @@ Example response:
 |-------------|-----------------------------------------------------------|---------------------------------------------------|
 | 200         | Successful ROI calculation                                | `{ "monthly_savings_usd": ..., "roi_percentage": ..., "system_cost_usd": ... }` |
 | 400         | Invalid/missing JSON, missing fields, type/validation errors | `{ "error": "Request body must be a JSON object" }` |
-| 401         | Missing or invalid API key                                | `{ "error": "Unauthorized" }`                     |
 | 413         | Request payload exceeds 100 KB                            | `{ "error": "Request payload too large" }`        |
 | 429         | Rate limit exceeded                                       | `{ "error": "Rate limit exceeded" }`              |
 | 500         | Unexpected server error                                   | `{ "error": "Internal server error" }`            |
