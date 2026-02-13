@@ -38,10 +38,12 @@ class MultiModelDispatcher:
     def __call__(self, environ, start_response):
         path = environ.get("PATH_INFO", "") or ""
 
+        # Gateway routes (handled by main_app) - check these first
+        if path == "/" or path == "/api/v1/health":
+            return self.main_app(environ, start_response)
+
         # Model 1 – Energy Consumption
-        if path.startswith("/api/v1/estimate-consumption") or path.startswith(
-            "/api/v1/health"
-        ):
+        if path.startswith("/api/v1/estimate-consumption"):
             return self.energy_app(environ, start_response)
 
         # Model 2 – Solar Generation
@@ -54,7 +56,7 @@ class MultiModelDispatcher:
         if path.startswith("/api/v1/calculate-roi"):
             return self.roi_app(environ, start_response)
 
-        # Fall back to the gateway app (/, etc.)
+        # Fall back to the gateway app (for any other routes)
         return self.main_app(environ, start_response)
 
 
@@ -64,14 +66,19 @@ def create_app() -> Flask:
 
     - Does NOT modify or duplicate per-model logic.
     - Preserves all existing endpoint paths.
+    - All three models share the same API_KEY from environment variable.
     """
     # Gateway-level app (used for root health and as a WSGI entry point)
     app = Flask(__name__)
     CORS(app)
 
+    # Get shared API key from environment (all three models use the same key)
+    shared_api_key = os.getenv("API_KEY")
+
     # Instantiate the three model apps with their existing configuration
-    energy_app = create_energy_app()
-    solar_app = create_solar_app()
+    # All models will use the same API_KEY from environment
+    energy_app = create_energy_app(api_key=shared_api_key) if shared_api_key else create_energy_app()
+    solar_app = create_solar_app(config={"api_key": shared_api_key}) if shared_api_key else create_solar_app()
     roi_app = create_roi_app()
 
     @app.route("/", methods=["GET"])
@@ -97,5 +104,6 @@ app = create_app()
 if __name__ == "__main__":
     port = int(os.getenv("PORT", "8000"))
     app.run(host="0.0.0.0", port=port, debug=False)
+
 
 
