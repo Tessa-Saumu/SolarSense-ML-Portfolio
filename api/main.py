@@ -5,7 +5,6 @@ from pathlib import Path
 from flask import Flask, jsonify
 from flask_cors import CORS
 
-
 # Ensure repo root is on sys.path so model packages can be imported reliably
 ROOT_DIR = Path(__file__).resolve().parents[1]
 if str(ROOT_DIR) not in sys.path:

@@ -110,7 +110,76 @@ def create_app(
         le_size = None
     else:
         app.config['TEST_MODE'] = False
-        model_data = joblib.load(MODEL_PATH)
+
+        # region agent log
+        # Debug instrumentation for model loading path (hypothesis H1: env/version mismatch)
+        try:
+            import json as _json, time as _time
+            _log_path = "c:\\Users\\ingex\\OneDrive\\Documents\\Git Projects\\SolarSense AI ML Microservice\\Model-1-branch\\.cursor\\debug.log"
+            with open(_log_path, "a", encoding="utf-8") as _f:
+                _f.write(
+                    _json.dumps(
+                        {
+                            "id": f"log_{int(_time.time() * 1000)}",
+                            "timestamp": int(_time.time() * 1000),
+                            "location": "models/energy_consumption/src/app_ml.py:create_app",
+                            "message": "about_to_load_energy_model",
+                            "runId": "run1",
+                            "hypothesisId": "H1",
+                            "data": {
+                                "MODEL_PATH": str(MODEL_PATH),
+                                "SCALER_PATH": str(SCALER_PATH),
+                                "FEATURE_COLS_PATH": str(FEATURE_COLS_PATH),
+                                "MAPPINGS_PATH": str(MAPPINGS_PATH),
+                            },
+                        }
+                    )
+                    + "\n"
+                )
+        except Exception:
+            # Logging must never break app startup
+            pass
+        # endregion
+
+        try:
+            model_data = joblib.load(MODEL_PATH)
+        except Exception as e:
+            # region agent log
+            # Capture details about the environment and error during model load
+            try:
+                import json as _json, time as _time, joblib as _joblib, sys as _sys
+                try:
+                    import sklearn as _sklearn  # type: ignore
+                    _sk_version = getattr(_sklearn, "__version__", None)
+                except Exception:
+                    _sk_version = None
+                _log_path = "c:\\Users\\ingex\\OneDrive\\Documents\\Git Projects\\SolarSense AI ML Microservice\\Model-1-branch\\.cursor\\debug.log"
+                with open(_log_path, "a", encoding="utf-8") as _f:
+                    _f.write(
+                        _json.dumps(
+                            {
+                                "id": f"log_{int(_time.time() * 1000)}",
+                                "timestamp": int(_time.time() * 1000),
+                                "location": "models/energy_consumption/src/app_ml.py:create_app",
+                                "message": "energy_model_load_failed",
+                                "runId": "run1",
+                                "hypothesisId": "H1",
+                                "data": {
+                                    "error": repr(e),
+                                    "sklearn_version": _sk_version,
+                                    "joblib_version": getattr(_joblib, "__version__", None),
+                                    "python_version": _sys.version,
+                                },
+                            }
+                        )
+                        + "\n"
+                    )
+            except Exception:
+                pass
+            # endregion
+            # Re-raise so the calling code still sees the failure
+            raise
+
         scaler = joblib.load(SCALER_PATH)
         feature_columns = joblib.load(FEATURE_COLS_PATH)
         sme_mappings = joblib.load(MAPPINGS_PATH)
