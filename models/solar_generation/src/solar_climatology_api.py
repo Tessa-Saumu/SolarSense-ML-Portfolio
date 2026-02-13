@@ -20,6 +20,7 @@ from __future__ import annotations
 import json
 import logging
 import os
+import sys
 from typing import Any, Dict, List, Optional
 
 from flask import Flask, jsonify, request
@@ -28,6 +29,9 @@ from flask_limiter import Limiter              # [SECURITY] rate limiting
 from flask_limiter.util import get_remote_address
 from werkzeug.exceptions import BadRequest      # [SECURITY] handle malformed JSON
 from dotenv import load_dotenv                # [SECURITY] load API key from .env
+
+
+sys.path.insert(0, os.path.dirname(__file__))
 
 from solar_climatology_service import (
     DRY_MONTHS,
