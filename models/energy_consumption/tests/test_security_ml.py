@@ -268,3 +268,4 @@ def test_error_hides_internal_details(app_with_mocked_model_auth, valid_payload)
     assert "stack trace" not in str(body).lower()
 
 
+

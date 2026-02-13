@@ -417,3 +417,4 @@ curl -X POST "http://localhost:8001/api/v1/estimate-consumption" \
 - Existing `/api/v1/` behavior should be considered stable for current integrations.
 
 
+
