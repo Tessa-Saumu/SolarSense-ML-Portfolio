@@ -490,8 +490,11 @@ def create_app(
         # SECURITY: Health endpoint doesn't require auth but still returns JSON
         return jsonify({'status': 'healthy'}), 200
 
-    return app
+    @app.route("/")
+    def home():
+        return jsonify({"message": "ENERGY CONSUMPTION API running"}), 200
 
+    return app
 
 # Create app instance for direct execution (only when not imported as module)
 # SECURITY: Prevent loading models during test imports
