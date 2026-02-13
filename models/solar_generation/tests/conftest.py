@@ -17,7 +17,7 @@ from flask.testing import FlaskClient
 # Ensure the models/solar_generation directory is in the Python path
 # This allows imports to work when running from project root
 _test_dir = Path(__file__).parent
-_module_dir = _test_dir.parent
+_module_dir = _test_dir.parent / "src"  # resolves to models/solar_generation/src/
 if str(_module_dir) not in sys.path:
     sys.path.insert(0, str(_module_dir))
 

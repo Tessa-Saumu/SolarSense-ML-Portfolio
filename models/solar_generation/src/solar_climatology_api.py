@@ -29,7 +29,7 @@ from flask_limiter.util import get_remote_address
 from werkzeug.exceptions import BadRequest      # [SECURITY] handle malformed JSON
 from dotenv import load_dotenv                # [SECURITY] load API key from .env
 
-from models.solar_generation.src.solar_climatology_service import (
+from solar_climatology_service import (
     DRY_MONTHS,
     get_model_paths,
     load_model_artifacts,

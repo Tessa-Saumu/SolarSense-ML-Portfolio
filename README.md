@@ -358,15 +358,14 @@ pytest
 pytest models/energy_consumption/tests/
 ```
 
-**Model 3 Tests:**
+**Model 2 Tests:**
 ```bash
-pytest models/roi_calculation/src/test_roi_api.py
-pytest tests/roi_calculation/
+pytest models/solar_generation/tests/
 ```
 
-**Integration Tests:**
+**Model 3 Tests:**
 ```bash
-pytest tests/
+pytest models/roi_calculation/tests/
 ```
 
 ### Test Coverage

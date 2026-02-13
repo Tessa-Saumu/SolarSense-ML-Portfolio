@@ -49,7 +49,9 @@ def get_model_paths() -> ModelPaths:
     """
     Resolve model artifact paths using MODEL_DIR env var (default: 'models/').
     """
-    base_dir = Path(os.getenv("MODEL_DIR", "models")).resolve()
+    # Default: resolve relative to this file's location, not the working directory
+    default_dir = Path(__file__).resolve().parent.parent / "models"
+    base_dir = Path(os.getenv("MODEL_DIR", str(default_dir))).resolve()
     return ModelPaths(
         model_dir=base_dir,
         model_path=base_dir / "xgboost_climatological_model.pkl",
