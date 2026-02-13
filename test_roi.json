@@ -1,0 +1,6 @@
+{
+    "consumption_kwh": 450.0,
+    "generation_kwh": 500.0,
+    "tariff_per_kwh": 0.20,
+    "system_cost_usd": 6000.0
+  }

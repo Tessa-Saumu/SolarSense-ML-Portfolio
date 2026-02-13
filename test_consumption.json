@@ -1,0 +1,9 @@
+{
+    "business_type": "butchery",
+    "sqft_m2": 60.0,
+    "operating_hours_weekly": 98.0,
+    "num_refrigeration_units": 3,
+    "location": "Lagos, Nigeria",
+    "num_workers": 3,
+    "months_per_year": 12
+  }
