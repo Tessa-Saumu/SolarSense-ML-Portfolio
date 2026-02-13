@@ -26,6 +26,7 @@ from flask import Flask, jsonify, request
 from flask_cors import CORS
 from flask_limiter import Limiter              # [SECURITY] rate limiting
 from flask_limiter.util import get_remote_address
+from werkzeug.exceptions import BadRequest      # [SECURITY] handle malformed JSON
 from dotenv import load_dotenv                # [SECURITY] load API key from .env
 
 from solar_climatology_service import (
@@ -46,21 +47,320 @@ load_dotenv()  # [SECURITY] load environment variables from .env
 
 API_KEY = os.getenv("API_KEY")  # [SECURITY] expected API key (never hardcode)
 
-app = Flask(__name__)
-CORS(app)  # Enable CORS for all domains by default
+# [SECURITY] Global rate limiter instance (will be initialized in create_app)
+limiter = Limiter(key_func=get_remote_address, default_limits=["100 per minute"])
 
-logging.basicConfig(
-    level=logging.INFO,
-    format="%(asctime)s [%(levelname)s] %(name)s - %(message)s",
-)
 logger = logging.getLogger("solar_climatology_api")
 
-# [SECURITY] Global rate limiter: 100 requests per minute per client
-limiter = Limiter(
-    key_func=get_remote_address,
-    app=app,
-    default_limits=["100 per minute"],
-)
+
+def create_app(config: Optional[Dict[str, Any]] = None) -> Flask:
+    """
+    Application factory for creating Flask app instances.
+    
+    This pattern enables better testability by allowing test-specific
+    configuration without modifying global state.
+    
+    Args:
+        config: Optional configuration dict. Keys:
+            - api_key: Override API_KEY from env (for testing)
+            - testing: If True, disable rate limiting and adjust logging
+    
+    Returns:
+        Configured Flask application instance
+    """
+    app = Flask(__name__)
+    CORS(app)  # Enable CORS for all domains by default
+
+    # Configure logging
+    if config and config.get("testing"):
+        logging.basicConfig(
+            level=logging.WARNING,  # Reduce noise in tests
+            format="%(asctime)s [%(levelname)s] %(name)s - %(message)s",
+        )
+    else:
+        logging.basicConfig(
+            level=logging.INFO,
+            format="%(asctime)s [%(levelname)s] %(name)s - %(message)s",
+        )
+
+    # Initialize rate limiter with app
+    limiter.init_app(app)
+
+    # Get API key (from config override or env)
+    api_key = (config.get("api_key") if config else None) or API_KEY
+
+    @app.before_request
+    def security_and_logging() -> Optional[Any]:
+        """
+        Global request hook for:
+        - Logging
+        - API key authentication
+        """
+        logger.info(
+            "Request: %s %s from %s", request.method, request.path, request.remote_addr
+        )
+
+        # [SECURITY] API key authentication for all API endpoints
+        if request.path.startswith("/api/"):
+            if not api_key:
+                # Misconfiguration: API key not set; treat as server error (do not expose details).
+                return jsonify({"status": "error", "message": "Internal Server Error"}), 500
+
+            header_key = request.headers.get("X-API-KEY")
+            if not header_key or header_key != api_key:
+                return (
+                    jsonify(
+                        {
+                            "status": "error",
+                            "message": "Unauthorized",  # [SECURITY] 401 message without details
+                        }
+                    ),
+                    401,
+                )
+        return None
+
+    # Register routes
+    register_routes(app)
+
+    return app
+
+
+def register_routes(app: Flask) -> None:
+    """Register all API routes with the Flask app."""
+    
+    @app.route("/api/v1/health", methods=["GET"])
+    @limiter.limit("100 per minute")  # [SECURITY] explicit rate limit
+    def health() -> Any:
+        """
+        Health check endpoint.
+
+        Returns basic status plus last trained timestamp from model metadata.
+        """
+        try:
+            _, _, metadata = load_model_artifacts()
+            status = {
+                "status": "ok",
+                "model_type": metadata.get("model_type"),
+                "last_trained_at": metadata.get("created_at_utc"),
+                "validation_mape": metadata.get("validation_mape"),
+            }
+            return jsonify(status)
+        except FileNotFoundError:
+            # [SECURITY] Do not leak file paths or stack traces
+            logger.exception("Metadata not found for /health")
+            return jsonify({"status": "error", "message": "Internal Server Error"}), 500
+        except Exception:
+            logger.exception("Unexpected error in /health")
+            return jsonify({"status": "error", "message": "Internal Server Error"}), 500
+
+    @app.route("/api/v1/model-info", methods=["GET"])
+    @limiter.limit("100 per minute")  # [SECURITY] explicit rate limit
+    def model_info() -> Any:
+        """
+        Return model metadata and training configuration.
+
+        Includes:
+        - model_type
+        - validation_mape
+        - training_locations
+        - feature_columns
+        """
+        try:
+            _, feature_cols, metadata = load_model_artifacts()
+            info = {
+                "model_type": metadata.get("model_type"),
+                "validation_mape": metadata.get("validation_mape"),
+                "training_locations": metadata.get("training_locations"),
+                "feature_columns": feature_cols,
+            }
+            return jsonify(info)
+        except FileNotFoundError:
+            logger.exception("Metadata not found for /model-info")
+            return jsonify({"status": "error", "message": "Internal Server Error"}), 500
+        except Exception:
+            logger.exception("Unexpected error in /model-info")
+            return jsonify({"status": "error", "message": "Internal Server Error"}), 500
+
+    @app.route("/api/v1/predict-generation", methods=["POST"])
+    @limiter.limit("100 per minute")  # [SECURITY] explicit rate limit
+    def api_predict_generation() -> Any:
+        """
+        Predict typical solar generation and (optionally) lifetime projection.
+
+        Request JSON:
+        {
+          \"latitude\": float (-26 to 6),
+          \"longitude\": float (-18 to 44),
+          \"month\": int (1-12, optional),
+          \"include_lifetime\": bool (default true)
+        }
+        """
+        try:
+            payload: Dict[str, Any] = request.get_json(force=True) or {}
+
+            # Basic presence check for core fields
+            if "latitude" not in payload or "longitude" not in payload:
+                return (
+                    jsonify(
+                        {
+                            "status": "error",
+                            "message": "Request must include 'latitude' and 'longitude'.",
+                        }
+                    ),
+                    400,
+                )
+
+            latitude = float(payload["latitude"])
+            longitude = float(payload["longitude"])
+            month_raw: Optional[Any] = payload.get("month")
+            include_lifetime = bool(payload.get("include_lifetime", True))
+
+            # Coordinate validation (range + edge warnings)
+            coord_status = validate_coordinates(latitude, longitude)
+            if coord_status.get("status") == "error":
+                return jsonify({"status": "error", "message": coord_status["message"]}), 400
+
+            # [SECURITY] Additional business/input validation if fields are present
+            extra_errors = _validate_optional_business_fields(payload)
+            if extra_errors:
+                return (
+                    jsonify(
+                        {
+                            "status": "error",
+                            "message": "Invalid input.",
+                            "details": extra_errors,
+                        }
+                    ),
+                    400,
+                )
+
+            # Month: if provided, use it; otherwise, compute full climatology
+            month: Optional[int] = None
+            if month_raw is not None:
+                try:
+                    month = int(month_raw)
+                except (TypeError, ValueError):
+                    return (
+                        jsonify(
+                            {
+                                "status": "error",
+                                "message": "month must be an integer between 1 and 12.",
+                            }
+                        ),
+                        400,
+                    )
+                if not 1 <= month <= 12:
+                    return (
+                        jsonify(
+                            {
+                                "status": "error",
+                                "message": "month must be an integer between 1 and 12.",
+                            }
+                        ),
+                        400,
+                    )
+
+            # Point prediction(s)
+            monthly_generation: List[Dict[str, Any]] = []
+            if month is not None:
+                daily_kwh = _clamp_positive(
+                    predict_solar_generation(latitude, longitude, month)
+                )
+                monthly_generation.append(
+                    {
+                        "month": _month_name(month),
+                        "month_index": month,
+                        "daily_kwh": daily_kwh,
+                        "is_dry_season": month in DRY_MONTHS,
+                    }
+                )
+                avg_daily_for_annual = daily_kwh
+            else:
+                # Full climatology across 12 months
+                daily_values: List[float] = []
+                for m in range(1, 13):
+                    g = _clamp_positive(
+                        predict_solar_generation(latitude, longitude, m)
+                    )
+                    daily_values.append(g)
+                    monthly_generation.append(
+                        {
+                            "month": _month_name(m),
+                            "month_index": m,
+                            "daily_kwh": g,
+                            "is_dry_season": m in DRY_MONTHS,
+                        }
+                    )
+                avg_daily_for_annual = float(sum(daily_values) / len(daily_values))
+
+            # [SECURITY] Output sanity: energy must be non-negative
+            avg_daily_for_annual = _clamp_positive(avg_daily_for_annual)
+
+            annual_summary = {
+                "year_1_generation_kwh": avg_daily_for_annual * 365.0,
+                "average_daily_kwh": avg_daily_for_annual,
+            }
+
+            # Lifetime projection (optional)
+            lifetime_prediction: Optional[Dict[str, Any]] = None
+            if include_lifetime:
+                lifetime_prediction = predict_lifetime_generation(latitude, longitude)
+                # [SECURITY] Clamp key energy outputs to non-negative
+                lifetime_prediction["year_1_generation_kwh"] = _clamp_positive(
+                    lifetime_prediction.get("year_1_generation_kwh", 0.0)
+                )
+                lifetime_prediction["lifetime_total_kwh"] = _clamp_positive(
+                    lifetime_prediction.get("lifetime_total_kwh", 0.0)
+                )
+                lifetime_prediction["lifetime_average_annual_kwh"] = _clamp_positive(
+                    lifetime_prediction.get("lifetime_average_annual_kwh", 0.0)
+                )
+
+            assumptions = (
+                lifetime_prediction["assumptions"]
+                if lifetime_prediction
+                else {
+                    "panel_area_m2": 10.0,
+                    "panel_efficiency_pct": 20.0,
+                    "note": "Lifetime metrics disabled for this request.",
+                }
+            )
+
+            confidence = (
+                lifetime_prediction["confidence"] if lifetime_prediction else {}
+            )
+
+            response = {
+                "status": "success",
+                "location": {"latitude": latitude, "longitude": longitude},
+                "coordinate_validation": coord_status,
+                "monthly_generation": monthly_generation,
+                "annual_summary": annual_summary,
+                "lifetime_prediction": lifetime_prediction,
+                "assumptions": assumptions,
+                "confidence": confidence,
+                # NOTE: Payback Period is not included or validated (removed from project).
+                "note": "Predictions represent typical expected generation, not a daily weather forecast.",
+            }
+
+            return jsonify(response)
+
+        except BadRequest:
+            # Flask raises BadRequest for malformed JSON
+            logger.exception("Malformed JSON in /api/v1/predict-generation")
+            return jsonify({"status": "error", "message": "Bad input."}), 400
+        except ValueError:
+            # e.g., numeric cast issues not caught above
+            logger.exception("Bad input value in /api/v1/predict-generation")
+            return jsonify({"status": "error", "message": "Bad input."}), 400
+        except Exception:
+            # [SECURITY] Hide internal error details; log them instead
+            logger.exception("Error in /api/v1/predict-generation")
+            return jsonify({"status": "error", "message": "Internal Server Error"}), 500
+
+
+# Create app instance for backward compatibility
+app = create_app()
 
 
 def _month_name(month: int) -> str:
@@ -94,36 +394,6 @@ def _load_metadata() -> Dict[str, Any]:
 # ---------------------------------------------------------------------------
 # Request-level security & validation helpers
 # ---------------------------------------------------------------------------
-
-@app.before_request
-def security_and_logging() -> Optional[Any]:
-    """
-    Global request hook for:
-    - Logging
-    - API key authentication
-    """
-    logger.info(
-        "Request: %s %s from %s", request.method, request.path, request.remote_addr
-    )
-
-    # [SECURITY] API key authentication for all API endpoints
-    if request.path.startswith("/api/"):
-        if not API_KEY:
-            # Misconfiguration: API key not set; treat as server error (do not expose details).
-            return jsonify({"status": "error", "message": "Internal Server Error"}), 500
-
-        header_key = request.headers.get("X-API-KEY")
-        if not header_key or header_key != API_KEY:
-            return (
-                jsonify(
-                    {
-                        "status": "error",
-                        "message": "Unauthorized",  # [SECURITY] 401 message without details
-                    }
-                ),
-                401,
-            )
-    return None
 
 
 def _validate_optional_business_fields(payload: Dict[str, Any]) -> List[str]:
@@ -182,233 +452,6 @@ def _clamp_positive(value: float) -> float:
     return float(value) if value > 0 else 0.0
 
 
-@app.route("/api/v1/health", methods=["GET"])
-@limiter.limit("100 per minute")  # [SECURITY] explicit rate limit
-def health() -> Any:
-    """
-    Health check endpoint.
-
-    Returns basic status plus last trained timestamp from model metadata.
-    """
-    try:
-        _, _, metadata = load_model_artifacts()
-        status = {
-            "status": "ok",
-            "model_type": metadata.get("model_type"),
-            "last_trained_at": metadata.get("created_at_utc"),
-            "validation_mape": metadata.get("validation_mape"),
-        }
-        return jsonify(status)
-    except FileNotFoundError:
-        # [SECURITY] Do not leak file paths or stack traces
-        logger.exception("Metadata not found for /health")
-        return jsonify({"status": "error", "message": "Internal Server Error"}), 500
-    except Exception:
-        logger.exception("Unexpected error in /health")
-        return jsonify({"status": "error", "message": "Internal Server Error"}), 500
-
-
-@app.route("/api/v1/model-info", methods=["GET"])
-@limiter.limit("100 per minute")  # [SECURITY] explicit rate limit
-def model_info() -> Any:
-    """
-    Return model metadata and training configuration.
-
-    Includes:
-    - model_type
-    - validation_mape
-    - training_locations
-    - feature_columns
-    """
-    try:
-        _, feature_cols, metadata = load_model_artifacts()
-        info = {
-            "model_type": metadata.get("model_type"),
-            "validation_mape": metadata.get("validation_mape"),
-            "training_locations": metadata.get("training_locations"),
-            "feature_columns": feature_cols,
-        }
-        return jsonify(info)
-    except FileNotFoundError:
-        logger.exception("Metadata not found for /model-info")
-        return jsonify({"status": "error", "message": "Internal Server Error"}), 500
-    except Exception:
-        logger.exception("Unexpected error in /model-info")
-        return jsonify({"status": "error", "message": "Internal Server Error"}), 500
-
-
-@app.route("/api/v1/predict-generation", methods=["POST"])
-@limiter.limit("100 per minute")  # [SECURITY] explicit rate limit
-def api_predict_generation() -> Any:
-    """
-    Predict typical solar generation and (optionally) lifetime projection.
-
-    Request JSON:
-    {
-      \"latitude\": float (-26 to 6),
-      \"longitude\": float (-18 to 44),
-      \"month\": int (1-12, optional),
-      \"include_lifetime\": bool (default true)
-    }
-    """
-    try:
-        payload: Dict[str, Any] = request.get_json(force=True) or {}
-
-        # Basic presence check for core fields
-        if "latitude" not in payload or "longitude" not in payload:
-            return (
-                jsonify(
-                    {
-                        "status": "error",
-                        "message": "Request must include 'latitude' and 'longitude'.",
-                    }
-                ),
-                400,
-            )
-
-        latitude = float(payload["latitude"])
-        longitude = float(payload["longitude"])
-        month_raw: Optional[Any] = payload.get("month")
-        include_lifetime = bool(payload.get("include_lifetime", True))
-
-        # Coordinate validation (range + edge warnings)
-        coord_status = validate_coordinates(latitude, longitude)
-        if coord_status.get("status") == "error":
-            return jsonify({"status": "error", "message": coord_status["message"]}), 400
-
-        # [SECURITY] Additional business/input validation if fields are present
-        extra_errors = _validate_optional_business_fields(payload)
-        if extra_errors:
-            return (
-                jsonify(
-                    {
-                        "status": "error",
-                        "message": "Invalid input.",
-                        "details": extra_errors,
-                    }
-                ),
-                400,
-            )
-
-        # Month: if provided, use it; otherwise, compute full climatology
-        month: Optional[int] = None
-        if month_raw is not None:
-            try:
-                month = int(month_raw)
-            except (TypeError, ValueError):
-                return (
-                    jsonify(
-                        {
-                            "status": "error",
-                            "message": "month must be an integer between 1 and 12.",
-                        }
-                    ),
-                    400,
-                )
-            if not 1 <= month <= 12:
-                return (
-                    jsonify(
-                        {
-                            "status": "error",
-                            "message": "month must be an integer between 1 and 12.",
-                        }
-                    ),
-                    400,
-                )
-
-        # Point prediction(s)
-        monthly_generation: List[Dict[str, Any]] = []
-        if month is not None:
-            daily_kwh = _clamp_positive(
-                predict_solar_generation(latitude, longitude, month)
-            )
-            monthly_generation.append(
-                {
-                    "month": _month_name(month),
-                    "month_index": month,
-                    "daily_kwh": daily_kwh,
-                    "is_dry_season": month in DRY_MONTHS,
-                }
-            )
-            avg_daily_for_annual = daily_kwh
-        else:
-            # Full climatology across 12 months
-            daily_values: List[float] = []
-            for m in range(1, 13):
-                g = _clamp_positive(
-                    predict_solar_generation(latitude, longitude, m)
-                )
-                daily_values.append(g)
-                monthly_generation.append(
-                    {
-                        "month": _month_name(m),
-                        "month_index": m,
-                        "daily_kwh": g,
-                        "is_dry_season": m in DRY_MONTHS,
-                    }
-                )
-            avg_daily_for_annual = float(sum(daily_values) / len(daily_values))
-
-        # [SECURITY] Output sanity: energy must be non-negative
-        avg_daily_for_annual = _clamp_positive(avg_daily_for_annual)
-
-        annual_summary = {
-            "year_1_generation_kwh": avg_daily_for_annual * 365.0,
-            "average_daily_kwh": avg_daily_for_annual,
-        }
-
-        # Lifetime projection (optional)
-        lifetime_prediction: Optional[Dict[str, Any]] = None
-        if include_lifetime:
-            lifetime_prediction = predict_lifetime_generation(latitude, longitude)
-            # [SECURITY] Clamp key energy outputs to non-negative
-            lifetime_prediction["year_1_generation_kwh"] = _clamp_positive(
-                lifetime_prediction.get("year_1_generation_kwh", 0.0)
-            )
-            lifetime_prediction["lifetime_total_kwh"] = _clamp_positive(
-                lifetime_prediction.get("lifetime_total_kwh", 0.0)
-            )
-            lifetime_prediction["lifetime_average_annual_kwh"] = _clamp_positive(
-                lifetime_prediction.get("lifetime_average_annual_kwh", 0.0)
-            )
-
-        assumptions = (
-            lifetime_prediction["assumptions"]
-            if lifetime_prediction
-            else {
-                "panel_area_m2": 10.0,
-                "panel_efficiency_pct": 20.0,
-                "note": "Lifetime metrics disabled for this request.",
-            }
-        )
-
-        confidence = (
-            lifetime_prediction["confidence"] if lifetime_prediction else {}
-        )
-
-        response = {
-            "status": "success",
-            "location": {"latitude": latitude, "longitude": longitude},
-            "coordinate_validation": coord_status,
-            "monthly_generation": monthly_generation,
-            "annual_summary": annual_summary,
-            "lifetime_prediction": lifetime_prediction,
-            "assumptions": assumptions,
-            "confidence": confidence,
-            # NOTE: Payback Period is not included or validated (removed from project).
-            "note": "Predictions represent typical expected generation, not a daily weather forecast.",
-        }
-
-        return jsonify(response)
-
-    except ValueError:
-        # e.g., numeric cast issues not caught above
-        logger.exception("Bad input value in /api/v1/predict-generation")
-        return jsonify({"status": "error", "message": "Bad input."}), 400
-    except Exception:
-        # [SECURITY] Hide internal error details; log them instead
-        logger.exception("Error in /api/v1/predict-generation")
-        return jsonify({"status": "error", "message": "Internal Server Error"}), 500
 
 
 if __name__ == "__main__":
