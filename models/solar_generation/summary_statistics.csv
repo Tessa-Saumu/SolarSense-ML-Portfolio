@@ -1,0 +1,8 @@
+location_name,ghi_kwh_m2_count,ghi_kwh_m2_mean,ghi_kwh_m2_std,ghi_kwh_m2_min,ghi_kwh_m2_max,temperature_c_mean,temperature_c_std,wind_speed_ms_mean,relative_humidity_pct_mean,estimated_daily_generation_kwh_mean
+Accra_Ghana,725,4.77,0.94,1.23,6.87,26.81,1.47,3.46,85.86,8.11
+Dar_es_Salaam_Tanzania,725,5.66,1.31,0.78,7.45,27.0,1.35,4.93,77.22,9.63
+Johannesburg_SA,725,5.32,1.55,0.9,9.38,17.62,5.11,3.48,54.52,9.04
+Kampala_Uganda,725,5.11,1.01,1.73,7.45,22.84,1.22,2.34,74.21,8.69
+Kigali_Rwanda,725,4.88,1.08,0.66,7.52,20.56,1.07,2.21,72.53,8.29
+Lagos_Nigeria,725,4.59,1.14,0.26,6.66,26.96,1.21,3.08,85.31,7.8
+Nairobi_Kenya,725,5.78,1.18,1.47,8.1,20.67,1.39,3.97,66.06,9.82
