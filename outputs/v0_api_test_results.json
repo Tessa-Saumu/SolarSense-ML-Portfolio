@@ -1,0 +1,1310 @@
+[
+  {
+    "status_code": 200,
+    "payload": {
+      "latitude": -4.0435,
+      "longitude": 39.6682,
+      "include_lifetime": true
+    },
+    "response": {
+      "annual_summary": {
+        "average_daily_kwh": 11.683815161387125,
+        "year_1_generation_kwh": 4264.592533906301
+      },
+      "assumptions": {
+        "annual_degradation_pct": 0.7000000000000001,
+        "dry_months": [
+          1,
+          2,
+          6,
+          7,
+          8,
+          12
+        ],
+        "lifetime_years": 25,
+        "panel_area_m2": 10.0,
+        "panel_efficiency_pct": 20.0
+      },
+      "confidence": {
+        "year_1_band_pct": 10.0,
+        "years_16_25_band_pct": 20.0,
+        "years_1_5_band_pct": 10.0,
+        "years_6_15_band_pct": 15.0
+      },
+      "coordinate_validation": {
+        "status": "valid",
+        "warnings": []
+      },
+      "lifetime_prediction": {
+        "assumptions": {
+          "annual_degradation_pct": 0.7000000000000001,
+          "dry_months": [
+            1,
+            2,
+            6,
+            7,
+            8,
+            12
+          ],
+          "lifetime_years": 25,
+          "panel_area_m2": 10.0,
+          "panel_efficiency_pct": 20.0
+        },
+        "confidence": {
+          "year_1_band_pct": 10.0,
+          "years_16_25_band_pct": 20.0,
+          "years_1_5_band_pct": 10.0,
+          "years_6_15_band_pct": 15.0
+        },
+        "lifetime_average_annual_kwh": 3924.8726523335267,
+        "lifetime_total_kwh": 98121.81630833817,
+        "monthly_generation_climatology": [
+          {
+            "daily_kwh": 13.173978805541992,
+            "is_dry_season": true,
+            "month": 1
+          },
+          {
+            "daily_kwh": 14.1048002243042,
+            "is_dry_season": true,
+            "month": 2
+          },
+          {
+            "daily_kwh": 12.961408615112305,
+            "is_dry_season": false,
+            "month": 3
+          },
+          {
+            "daily_kwh": 11.69215202331543,
+            "is_dry_season": false,
+            "month": 4
+          },
+          {
+            "daily_kwh": 11.02542495727539,
+            "is_dry_season": false,
+            "month": 5
+          },
+          {
+            "daily_kwh": 10.253372192382812,
+            "is_dry_season": true,
+            "month": 6
+          },
+          {
+            "daily_kwh": 9.28674030303955,
+            "is_dry_season": true,
+            "month": 7
+          },
+          {
+            "daily_kwh": 9.777429580688477,
+            "is_dry_season": true,
+            "month": 8
+          },
+          {
+            "daily_kwh": 12.249123573303223,
+            "is_dry_season": false,
+            "month": 9
+          },
+          {
+            "daily_kwh": 12.030118942260742,
+            "is_dry_season": false,
+            "month": 10
+          },
+          {
+            "daily_kwh": 11.766230583190918,
+            "is_dry_season": false,
+            "month": 11
+          },
+          {
+            "daily_kwh": 11.885002136230469,
+            "is_dry_season": true,
+            "month": 12
+          }
+        ],
+        "year_1_generation_kwh": 4264.592533906301,
+        "yearly_breakdown": [
+          {
+            "confidence_band_pct": 10.0,
+            "confidence_high_kwh": 4691.051787296931,
+            "confidence_low_kwh": 3838.133280515671,
+            "efficiency_pct": 100.0,
+            "generation_kwh": 4264.592533906301,
+            "year": 1
+          },
+          {
+            "confidence_band_pct": 10.0,
+            "confidence_high_kwh": 4658.214424785852,
+            "confidence_low_kwh": 3811.266347552061,
+            "efficiency_pct": 99.3,
+            "generation_kwh": 4234.740386168956,
+            "year": 2
+          },
+          {
+            "confidence_band_pct": 10.0,
+            "confidence_high_kwh": 4625.606923812351,
+            "confidence_low_kwh": 3784.5874831191963,
+            "efficiency_pct": 98.6049,
+            "generation_kwh": 4205.097203465773,
+            "year": 3
+          },
+          {
+            "confidence_band_pct": 10.0,
+            "confidence_high_kwh": 4593.227675345665,
+            "confidence_low_kwh": 3758.0953707373624,
+            "efficiency_pct": 97.9146657,
+            "generation_kwh": 4175.661523041514,
+            "year": 4
+          },
+          {
+            "confidence_band_pct": 10.0,
+            "confidence_high_kwh": 4561.075081618245,
+            "confidence_low_kwh": 3731.7887031422006,
+            "efficiency_pct": 97.2292630401,
+            "generation_kwh": 4146.431892380223,
+            "year": 5
+          },
+          {
+            "confidence_band_pct": 15.0,
+            "confidence_high_kwh": 4735.017899503594,
+            "confidence_low_kwh": 3499.7958387635263,
+            "efficiency_pct": 96.5486581988193,
+            "generation_kwh": 4117.406869133561,
+            "year": 6
+          },
+          {
+            "confidence_band_pct": 15.0,
+            "confidence_high_kwh": 4701.87277420707,
+            "confidence_low_kwh": 3475.297267892182,
+            "efficiency_pct": 95.87281759142756,
+            "generation_kwh": 4088.585021049626,
+            "year": 7
+          },
+          {
+            "confidence_band_pct": 15.0,
+            "confidence_high_kwh": 4668.95966478762,
+            "confidence_low_kwh": 3450.9701870169365,
+            "efficiency_pct": 95.20170786828757,
+            "generation_kwh": 4059.9649259022785,
+            "year": 8
+          },
+          {
+            "confidence_band_pct": 15.0,
+            "confidence_high_kwh": 4636.276947134106,
+            "confidence_low_kwh": 3426.813395707818,
+            "efficiency_pct": 94.53529591320955,
+            "generation_kwh": 4031.5451714209626,
+            "year": 9
+          },
+          {
+            "confidence_band_pct": 15.0,
+            "confidence_high_kwh": 4603.823008504168,
+            "confidence_low_kwh": 3402.8257019378634,
+            "efficiency_pct": 93.87354884181708,
+            "generation_kwh": 4003.324355221016,
+            "year": 10
+          },
+          {
+            "confidence_band_pct": 15.0,
+            "confidence_high_kwh": 4571.596247444639,
+            "confidence_low_kwh": 3379.0059220242983,
+            "efficiency_pct": 93.21643399992436,
+            "generation_kwh": 3975.3010847344685,
+            "year": 11
+          },
+          {
+            "confidence_band_pct": 15.0,
+            "confidence_high_kwh": 4539.595073712526,
+            "confidence_low_kwh": 3355.352880570128,
+            "efficiency_pct": 92.5639189619249,
+            "generation_kwh": 3947.4739771413274,
+            "year": 12
+          },
+          {
+            "confidence_band_pct": 15.0,
+            "confidence_high_kwh": 4507.817908196538,
+            "confidence_low_kwh": 3331.8654104061375,
+            "efficiency_pct": 91.91597152919142,
+            "generation_kwh": 3919.841659301338,
+            "year": 13
+          },
+          {
+            "confidence_band_pct": 15.0,
+            "confidence_high_kwh": 4476.263182839163,
+            "confidence_low_kwh": 3308.5423525332944,
+            "efficiency_pct": 91.27255972848708,
+            "generation_kwh": 3892.402767686229,
+            "year": 14
+          },
+          {
+            "confidence_band_pct": 15.0,
+            "confidence_high_kwh": 4444.929340559289,
+            "confidence_low_kwh": 3285.3825560655614,
+            "efficiency_pct": 90.63365181038768,
+            "generation_kwh": 3865.155948312425,
+            "year": 15
+          },
+          {
+            "confidence_band_pct": 20.0,
+            "confidence_high_kwh": 4605.719828009086,
+            "confidence_low_kwh": 3070.479885339391,
+            "efficiency_pct": 89.99921624771495,
+            "generation_kwh": 3838.0998566742383,
+            "year": 16
+          },
+          {
+            "confidence_band_pct": 20.0,
+            "confidence_high_kwh": 4573.479789213022,
+            "confidence_low_kwh": 3048.986526142015,
+            "efficiency_pct": 89.36922173398095,
+            "generation_kwh": 3811.2331576775186,
+            "year": 17
+          },
+          {
+            "confidence_band_pct": 20.0,
+            "confidence_high_kwh": 4541.46543068853,
+            "confidence_low_kwh": 3027.643620459021,
+            "efficiency_pct": 88.74363718184308,
+            "generation_kwh": 3784.5545255737757,
+            "year": 18
+          },
+          {
+            "confidence_band_pct": 20.0,
+            "confidence_high_kwh": 4509.675172673711,
+            "confidence_low_kwh": 3006.4501151158074,
+            "efficiency_pct": 88.12243172157018,
+            "generation_kwh": 3758.0626438947593,
+            "year": 19
+          },
+          {
+            "confidence_band_pct": 20.0,
+            "confidence_high_kwh": 4478.107446464995,
+            "confidence_low_kwh": 2985.404964309997,
+            "efficiency_pct": 87.50557469951919,
+            "generation_kwh": 3731.756205387496,
+            "year": 20
+          },
+          {
+            "confidence_band_pct": 20.0,
+            "confidence_high_kwh": 4446.7606943397395,
+            "confidence_low_kwh": 2964.507129559827,
+            "efficiency_pct": 86.89303567662256,
+            "generation_kwh": 3705.6339119497834,
+            "year": 21
+          },
+          {
+            "confidence_band_pct": 20.0,
+            "confidence_high_kwh": 4415.633369479362,
+            "confidence_low_kwh": 2943.755579652908,
+            "efficiency_pct": 86.28478442688619,
+            "generation_kwh": 3679.694474566135,
+            "year": 22
+          },
+          {
+            "confidence_band_pct": 20.0,
+            "confidence_high_kwh": 4384.7239358930065,
+            "confidence_low_kwh": 2923.149290595338,
+            "efficiency_pct": 85.68079093589799,
+            "generation_kwh": 3653.936613244172,
+            "year": 23
+          },
+          {
+            "confidence_band_pct": 20.0,
+            "confidence_high_kwh": 4354.030868341755,
+            "confidence_low_kwh": 2902.6872455611706,
+            "efficiency_pct": 85.08102539934671,
+            "generation_kwh": 3628.359056951463,
+            "year": 24
+          },
+          {
+            "confidence_band_pct": 20.0,
+            "confidence_high_kwh": 4323.552652263364,
+            "confidence_low_kwh": 2882.3684348422426,
+            "efficiency_pct": 84.48545822155128,
+            "generation_kwh": 3602.960543552803,
+            "year": 25
+          }
+        ]
+      },
+      "location": {
+        "latitude": -4.0435,
+        "longitude": 39.6682
+      },
+      "monthly_generation": [
+        {
+          "daily_kwh": 13.173978805541992,
+          "is_dry_season": true,
+          "month": "January",
+          "month_index": 1
+        },
+        {
+          "daily_kwh": 14.1048002243042,
+          "is_dry_season": true,
+          "month": "February",
+          "month_index": 2
+        },
+        {
+          "daily_kwh": 12.961408615112305,
+          "is_dry_season": false,
+          "month": "March",
+          "month_index": 3
+        },
+        {
+          "daily_kwh": 11.69215202331543,
+          "is_dry_season": false,
+          "month": "April",
+          "month_index": 4
+        },
+        {
+          "daily_kwh": 11.02542495727539,
+          "is_dry_season": false,
+          "month": "May",
+          "month_index": 5
+        },
+        {
+          "daily_kwh": 10.253372192382812,
+          "is_dry_season": true,
+          "month": "June",
+          "month_index": 6
+        },
+        {
+          "daily_kwh": 9.28674030303955,
+          "is_dry_season": true,
+          "month": "July",
+          "month_index": 7
+        },
+        {
+          "daily_kwh": 9.777429580688477,
+          "is_dry_season": true,
+          "month": "August",
+          "month_index": 8
+        },
+        {
+          "daily_kwh": 12.249123573303223,
+          "is_dry_season": false,
+          "month": "September",
+          "month_index": 9
+        },
+        {
+          "daily_kwh": 12.030118942260742,
+          "is_dry_season": false,
+          "month": "October",
+          "month_index": 10
+        },
+        {
+          "daily_kwh": 11.766230583190918,
+          "is_dry_season": false,
+          "month": "November",
+          "month_index": 11
+        },
+        {
+          "daily_kwh": 11.885002136230469,
+          "is_dry_season": true,
+          "month": "December",
+          "month_index": 12
+        }
+      ],
+      "note": "Predictions represent typical expected generation, not a daily weather forecast.",
+      "status": "success"
+    }
+  },
+  {
+    "status_code": 200,
+    "payload": {
+      "latitude": -25.0,
+      "longitude": 28.0,
+      "include_lifetime": true
+    },
+    "response": {
+      "annual_summary": {
+        "average_daily_kwh": 10.286052227020264,
+        "year_1_generation_kwh": 3754.4090628623962
+      },
+      "assumptions": {
+        "annual_degradation_pct": 0.7000000000000001,
+        "dry_months": [
+          1,
+          2,
+          6,
+          7,
+          8,
+          12
+        ],
+        "lifetime_years": 25,
+        "panel_area_m2": 10.0,
+        "panel_efficiency_pct": 20.0
+      },
+      "confidence": {
+        "year_1_band_pct": 10.0,
+        "years_16_25_band_pct": 20.0,
+        "years_1_5_band_pct": 10.0,
+        "years_6_15_band_pct": 15.0
+      },
+      "coordinate_validation": {
+        "status": "valid",
+        "warnings": [
+          "Latitude is near the edge of the training coverage; predictions may have higher uncertainty."
+        ]
+      },
+      "lifetime_prediction": {
+        "assumptions": {
+          "annual_degradation_pct": 0.7000000000000001,
+          "dry_months": [
+            1,
+            2,
+            6,
+            7,
+            8,
+            12
+          ],
+          "lifetime_years": 25,
+          "panel_area_m2": 10.0,
+          "panel_efficiency_pct": 20.0
+        },
+        "confidence": {
+          "year_1_band_pct": 10.0,
+          "years_16_25_band_pct": 20.0,
+          "years_1_5_band_pct": 10.0,
+          "years_6_15_band_pct": 15.0
+        },
+        "lifetime_average_annual_kwh": 3455.3306885345514,
+        "lifetime_total_kwh": 86383.26721336378,
+        "monthly_generation_climatology": [
+          {
+            "daily_kwh": 11.50706958770752,
+            "is_dry_season": true,
+            "month": 1
+          },
+          {
+            "daily_kwh": 11.86094856262207,
+            "is_dry_season": true,
+            "month": 2
+          },
+          {
+            "daily_kwh": 11.850207328796387,
+            "is_dry_season": false,
+            "month": 3
+          },
+          {
+            "daily_kwh": 10.321650505065918,
+            "is_dry_season": false,
+            "month": 4
+          },
+          {
+            "daily_kwh": 9.531707763671875,
+            "is_dry_season": false,
+            "month": 5
+          },
+          {
+            "daily_kwh": 8.680560111999512,
+            "is_dry_season": true,
+            "month": 6
+          },
+          {
+            "daily_kwh": 8.302523612976074,
+            "is_dry_season": true,
+            "month": 7
+          },
+          {
+            "daily_kwh": 9.011710166931152,
+            "is_dry_season": true,
+            "month": 8
+          },
+          {
+            "daily_kwh": 10.430124282836914,
+            "is_dry_season": false,
+            "month": 9
+          },
+          {
+            "daily_kwh": 10.406238555908203,
+            "is_dry_season": false,
+            "month": 10
+          },
+          {
+            "daily_kwh": 10.729674339294434,
+            "is_dry_season": false,
+            "month": 11
+          },
+          {
+            "daily_kwh": 10.800211906433105,
+            "is_dry_season": true,
+            "month": 12
+          }
+        ],
+        "year_1_generation_kwh": 3754.4090628623962,
+        "yearly_breakdown": [
+          {
+            "confidence_band_pct": 10.0,
+            "confidence_high_kwh": 4129.849969148636,
+            "confidence_low_kwh": 3378.9681565761566,
+            "efficiency_pct": 100.0,
+            "generation_kwh": 3754.4090628623962,
+            "year": 1
+          },
+          {
+            "confidence_band_pct": 10.0,
+            "confidence_high_kwh": 4100.941019364596,
+            "confidence_low_kwh": 3355.3153794801237,
+            "efficiency_pct": 99.3,
+            "generation_kwh": 3728.1281994223596,
+            "year": 2
+          },
+          {
+            "confidence_band_pct": 10.0,
+            "confidence_high_kwh": 4072.2344322290437,
+            "confidence_low_kwh": 3331.8281718237627,
+            "efficiency_pct": 98.6049,
+            "generation_kwh": 3702.031302026403,
+            "year": 3
+          },
+          {
+            "confidence_band_pct": 10.0,
+            "confidence_high_kwh": 4043.728791203441,
+            "confidence_low_kwh": 3308.5053746209965,
+            "efficiency_pct": 97.9146657,
+            "generation_kwh": 3676.1170829122184,
+            "year": 4
+          },
+          {
+            "confidence_band_pct": 10.0,
+            "confidence_high_kwh": 4015.422689665016,
+            "confidence_low_kwh": 3285.3458369986497,
+            "efficiency_pct": 97.2292630401,
+            "generation_kwh": 3650.3842633318327,
+            "year": 5
+          },
+          {
+            "confidence_band_pct": 15.0,
+            "confidence_high_kwh": 4168.556309511786,
+            "confidence_low_kwh": 3081.106837465233,
+            "efficiency_pct": 96.5486581988193,
+            "generation_kwh": 3624.8315734885095,
+            "year": 6
+          },
+          {
+            "confidence_band_pct": 15.0,
+            "confidence_high_kwh": 4139.376415345204,
+            "confidence_low_kwh": 3059.5390896029767,
+            "efficiency_pct": 95.87281759142756,
+            "generation_kwh": 3599.4577524740903,
+            "year": 7
+          },
+          {
+            "confidence_band_pct": 15.0,
+            "confidence_high_kwh": 4110.400780437787,
+            "confidence_low_kwh": 3038.1223159757556,
+            "efficiency_pct": 95.20170786828757,
+            "generation_kwh": 3574.2615482067713,
+            "year": 8
+          },
+          {
+            "confidence_band_pct": 15.0,
+            "confidence_high_kwh": 4081.6279749747223,
+            "confidence_low_kwh": 3016.8554597639254,
+            "efficiency_pct": 94.53529591320955,
+            "generation_kwh": 3549.241717369324,
+            "year": 9
+          },
+          {
+            "confidence_band_pct": 15.0,
+            "confidence_high_kwh": 4053.0565791498993,
+            "confidence_low_kwh": 2995.7374715455776,
+            "efficiency_pct": 93.87354884181708,
+            "generation_kwh": 3524.3970253477387,
+            "year": 10
+          },
+          {
+            "confidence_band_pct": 15.0,
+            "confidence_high_kwh": 4024.68518309585,
+            "confidence_low_kwh": 2974.7673092447585,
+            "efficiency_pct": 93.21643399992436,
+            "generation_kwh": 3499.7262461703044,
+            "year": 11
+          },
+          {
+            "confidence_band_pct": 15.0,
+            "confidence_high_kwh": 3996.512386814179,
+            "confidence_low_kwh": 2953.9439380800454,
+            "efficiency_pct": 92.5639189619249,
+            "generation_kwh": 3475.2281624471125,
+            "year": 12
+          },
+          {
+            "confidence_band_pct": 15.0,
+            "confidence_high_kwh": 3968.53680010648,
+            "confidence_low_kwh": 2933.266330513485,
+            "efficiency_pct": 91.91597152919142,
+            "generation_kwh": 3450.9015653099827,
+            "year": 13
+          },
+          {
+            "confidence_band_pct": 15.0,
+            "confidence_high_kwh": 3940.7570425057343,
+            "confidence_low_kwh": 2912.7334661998907,
+            "efficiency_pct": 91.27255972848708,
+            "generation_kwh": 3426.7452543528125,
+            "year": 14
+          },
+          {
+            "confidence_band_pct": 15.0,
+            "confidence_high_kwh": 3913.171743208194,
+            "confidence_low_kwh": 2892.3443319364915,
+            "efficiency_pct": 90.63365181038768,
+            "generation_kwh": 3402.758037572343,
+            "year": 15
+          },
+          {
+            "confidence_band_pct": 20.0,
+            "confidence_high_kwh": 4054.7264775712038,
+            "confidence_low_kwh": 2703.1509850474695,
+            "efficiency_pct": 89.99921624771495,
+            "generation_kwh": 3378.9387313093366,
+            "year": 16
+          },
+          {
+            "confidence_band_pct": 20.0,
+            "confidence_high_kwh": 4026.3433922282056,
+            "confidence_low_kwh": 2684.228928152137,
+            "efficiency_pct": 89.36922173398095,
+            "generation_kwh": 3355.2861601901714,
+            "year": 17
+          },
+          {
+            "confidence_band_pct": 20.0,
+            "confidence_high_kwh": 3998.158988482608,
+            "confidence_low_kwh": 2665.439325655072,
+            "efficiency_pct": 88.74363718184308,
+            "generation_kwh": 3331.79915706884,
+            "year": 18
+          },
+          {
+            "confidence_band_pct": 20.0,
+            "confidence_high_kwh": 3970.171875563229,
+            "confidence_low_kwh": 2646.7812503754867,
+            "efficiency_pct": 88.12243172157018,
+            "generation_kwh": 3308.476562969358,
+            "year": 19
+          },
+          {
+            "confidence_band_pct": 20.0,
+            "confidence_high_kwh": 3942.3806724342867,
+            "confidence_low_kwh": 2628.253781622858,
+            "efficiency_pct": 87.50557469951919,
+            "generation_kwh": 3285.3172270285722,
+            "year": 20
+          },
+          {
+            "confidence_band_pct": 20.0,
+            "confidence_high_kwh": 3914.7840077272467,
+            "confidence_low_kwh": 2609.856005151498,
+            "efficiency_pct": 86.89303567662256,
+            "generation_kwh": 3262.3200064393723,
+            "year": 21
+          },
+          {
+            "confidence_band_pct": 20.0,
+            "confidence_high_kwh": 3887.380519673156,
+            "confidence_low_kwh": 2591.5870131154375,
+            "efficiency_pct": 86.28478442688619,
+            "generation_kwh": 3239.4837663942967,
+            "year": 22
+          },
+          {
+            "confidence_band_pct": 20.0,
+            "confidence_high_kwh": 3860.1688560354437,
+            "confidence_low_kwh": 2573.4459040236293,
+            "efficiency_pct": 85.68079093589799,
+            "generation_kwh": 3216.8073800295365,
+            "year": 23
+          },
+          {
+            "confidence_band_pct": 20.0,
+            "confidence_high_kwh": 3833.147674043196,
+            "confidence_low_kwh": 2555.4317826954643,
+            "efficiency_pct": 85.08102539934671,
+            "generation_kwh": 3194.28972836933,
+            "year": 24
+          },
+          {
+            "confidence_band_pct": 20.0,
+            "confidence_high_kwh": 3806.3156403248936,
+            "confidence_low_kwh": 2537.543760216596,
+            "efficiency_pct": 84.48545822155128,
+            "generation_kwh": 3171.929700270745,
+            "year": 25
+          }
+        ]
+      },
+      "location": {
+        "latitude": -25.0,
+        "longitude": 28.0
+      },
+      "monthly_generation": [
+        {
+          "daily_kwh": 11.50706958770752,
+          "is_dry_season": true,
+          "month": "January",
+          "month_index": 1
+        },
+        {
+          "daily_kwh": 11.86094856262207,
+          "is_dry_season": true,
+          "month": "February",
+          "month_index": 2
+        },
+        {
+          "daily_kwh": 11.850207328796387,
+          "is_dry_season": false,
+          "month": "March",
+          "month_index": 3
+        },
+        {
+          "daily_kwh": 10.321650505065918,
+          "is_dry_season": false,
+          "month": "April",
+          "month_index": 4
+        },
+        {
+          "daily_kwh": 9.531707763671875,
+          "is_dry_season": false,
+          "month": "May",
+          "month_index": 5
+        },
+        {
+          "daily_kwh": 8.680560111999512,
+          "is_dry_season": true,
+          "month": "June",
+          "month_index": 6
+        },
+        {
+          "daily_kwh": 8.302523612976074,
+          "is_dry_season": true,
+          "month": "July",
+          "month_index": 7
+        },
+        {
+          "daily_kwh": 9.011710166931152,
+          "is_dry_season": true,
+          "month": "August",
+          "month_index": 8
+        },
+        {
+          "daily_kwh": 10.430124282836914,
+          "is_dry_season": false,
+          "month": "September",
+          "month_index": 9
+        },
+        {
+          "daily_kwh": 10.406238555908203,
+          "is_dry_season": false,
+          "month": "October",
+          "month_index": 10
+        },
+        {
+          "daily_kwh": 10.729674339294434,
+          "is_dry_season": false,
+          "month": "November",
+          "month_index": 11
+        },
+        {
+          "daily_kwh": 10.800211906433105,
+          "is_dry_season": true,
+          "month": "December",
+          "month_index": 12
+        }
+      ],
+      "note": "Predictions represent typical expected generation, not a daily weather forecast.",
+      "status": "success"
+    }
+  },
+  {
+    "status_code": 400,
+    "payload": {
+      "latitude": -40.0,
+      "longitude": 60.0,
+      "include_lifetime": false
+    },
+    "response": {
+      "message": "Coordinates are outside the model's calibrated Sub-Saharan Africa coverage (lat: -26 to 6, lon: -18 to 44).",
+      "status": "error"
+    }
+  },
+  {
+    "status_code": 200,
+    "payload": {
+      "latitude": -1.2921,
+      "longitude": 36.8219,
+      "month": 1,
+      "include_lifetime": false
+    },
+    "response": {
+      "annual_summary": {
+        "average_daily_kwh": 11.955836296081543,
+        "year_1_generation_kwh": 4363.880248069763
+      },
+      "assumptions": {
+        "note": "Lifetime metrics disabled for this request.",
+        "panel_area_m2": 10.0,
+        "panel_efficiency_pct": 20.0
+      },
+      "confidence": {},
+      "coordinate_validation": {
+        "status": "valid",
+        "warnings": []
+      },
+      "lifetime_prediction": null,
+      "location": {
+        "latitude": -1.2921,
+        "longitude": 36.8219
+      },
+      "monthly_generation": [
+        {
+          "daily_kwh": 11.955836296081543,
+          "is_dry_season": true,
+          "month": "January",
+          "month_index": 1
+        }
+      ],
+      "note": "Predictions represent typical expected generation, not a daily weather forecast.",
+      "status": "success"
+    }
+  },
+  {
+    "status_code": 200,
+    "payload": {
+      "latitude": -1.2921,
+      "longitude": 36.8219,
+      "month": 2,
+      "include_lifetime": false
+    },
+    "response": {
+      "annual_summary": {
+        "average_daily_kwh": 12.65809440612793,
+        "year_1_generation_kwh": 4620.204458236694
+      },
+      "assumptions": {
+        "note": "Lifetime metrics disabled for this request.",
+        "panel_area_m2": 10.0,
+        "panel_efficiency_pct": 20.0
+      },
+      "confidence": {},
+      "coordinate_validation": {
+        "status": "valid",
+        "warnings": []
+      },
+      "lifetime_prediction": null,
+      "location": {
+        "latitude": -1.2921,
+        "longitude": 36.8219
+      },
+      "monthly_generation": [
+        {
+          "daily_kwh": 12.65809440612793,
+          "is_dry_season": true,
+          "month": "February",
+          "month_index": 2
+        }
+      ],
+      "note": "Predictions represent typical expected generation, not a daily weather forecast.",
+      "status": "success"
+    }
+  },
+  {
+    "status_code": 200,
+    "payload": {
+      "latitude": -1.2921,
+      "longitude": 36.8219,
+      "month": 3,
+      "include_lifetime": false
+    },
+    "response": {
+      "annual_summary": {
+        "average_daily_kwh": 11.991265296936035,
+        "year_1_generation_kwh": 4376.811833381653
+      },
+      "assumptions": {
+        "note": "Lifetime metrics disabled for this request.",
+        "panel_area_m2": 10.0,
+        "panel_efficiency_pct": 20.0
+      },
+      "confidence": {},
+      "coordinate_validation": {
+        "status": "valid",
+        "warnings": []
+      },
+      "lifetime_prediction": null,
+      "location": {
+        "latitude": -1.2921,
+        "longitude": 36.8219
+      },
+      "monthly_generation": [
+        {
+          "daily_kwh": 11.991265296936035,
+          "is_dry_season": false,
+          "month": "March",
+          "month_index": 3
+        }
+      ],
+      "note": "Predictions represent typical expected generation, not a daily weather forecast.",
+      "status": "success"
+    }
+  },
+  {
+    "status_code": 200,
+    "payload": {
+      "latitude": -1.2921,
+      "longitude": 36.8219,
+      "month": 4,
+      "include_lifetime": false
+    },
+    "response": {
+      "annual_summary": {
+        "average_daily_kwh": 10.265170097351074,
+        "year_1_generation_kwh": 3746.787085533142
+      },
+      "assumptions": {
+        "note": "Lifetime metrics disabled for this request.",
+        "panel_area_m2": 10.0,
+        "panel_efficiency_pct": 20.0
+      },
+      "confidence": {},
+      "coordinate_validation": {
+        "status": "valid",
+        "warnings": []
+      },
+      "lifetime_prediction": null,
+      "location": {
+        "latitude": -1.2921,
+        "longitude": 36.8219
+      },
+      "monthly_generation": [
+        {
+          "daily_kwh": 10.265170097351074,
+          "is_dry_season": false,
+          "month": "April",
+          "month_index": 4
+        }
+      ],
+      "note": "Predictions represent typical expected generation, not a daily weather forecast.",
+      "status": "success"
+    }
+  },
+  {
+    "status_code": 200,
+    "payload": {
+      "latitude": -1.2921,
+      "longitude": 36.8219,
+      "month": 5,
+      "include_lifetime": false
+    },
+    "response": {
+      "annual_summary": {
+        "average_daily_kwh": 9.62023639678955,
+        "year_1_generation_kwh": 3511.386284828186
+      },
+      "assumptions": {
+        "note": "Lifetime metrics disabled for this request.",
+        "panel_area_m2": 10.0,
+        "panel_efficiency_pct": 20.0
+      },
+      "confidence": {},
+      "coordinate_validation": {
+        "status": "valid",
+        "warnings": []
+      },
+      "lifetime_prediction": null,
+      "location": {
+        "latitude": -1.2921,
+        "longitude": 36.8219
+      },
+      "monthly_generation": [
+        {
+          "daily_kwh": 9.62023639678955,
+          "is_dry_season": false,
+          "month": "May",
+          "month_index": 5
+        }
+      ],
+      "note": "Predictions represent typical expected generation, not a daily weather forecast.",
+      "status": "success"
+    }
+  },
+  {
+    "status_code": 200,
+    "payload": {
+      "latitude": -1.2921,
+      "longitude": 36.8219,
+      "month": 6,
+      "include_lifetime": false
+    },
+    "response": {
+      "annual_summary": {
+        "average_daily_kwh": 9.204562187194824,
+        "year_1_generation_kwh": 3359.665198326111
+      },
+      "assumptions": {
+        "note": "Lifetime metrics disabled for this request.",
+        "panel_area_m2": 10.0,
+        "panel_efficiency_pct": 20.0
+      },
+      "confidence": {},
+      "coordinate_validation": {
+        "status": "valid",
+        "warnings": []
+      },
+      "lifetime_prediction": null,
+      "location": {
+        "latitude": -1.2921,
+        "longitude": 36.8219
+      },
+      "monthly_generation": [
+        {
+          "daily_kwh": 9.204562187194824,
+          "is_dry_season": true,
+          "month": "June",
+          "month_index": 6
+        }
+      ],
+      "note": "Predictions represent typical expected generation, not a daily weather forecast.",
+      "status": "success"
+    }
+  },
+  {
+    "status_code": 200,
+    "payload": {
+      "latitude": -1.2921,
+      "longitude": 36.8219,
+      "month": 7,
+      "include_lifetime": false
+    },
+    "response": {
+      "annual_summary": {
+        "average_daily_kwh": 8.800307273864746,
+        "year_1_generation_kwh": 3212.1121549606323
+      },
+      "assumptions": {
+        "note": "Lifetime metrics disabled for this request.",
+        "panel_area_m2": 10.0,
+        "panel_efficiency_pct": 20.0
+      },
+      "confidence": {},
+      "coordinate_validation": {
+        "status": "valid",
+        "warnings": []
+      },
+      "lifetime_prediction": null,
+      "location": {
+        "latitude": -1.2921,
+        "longitude": 36.8219
+      },
+      "monthly_generation": [
+        {
+          "daily_kwh": 8.800307273864746,
+          "is_dry_season": true,
+          "month": "July",
+          "month_index": 7
+        }
+      ],
+      "note": "Predictions represent typical expected generation, not a daily weather forecast.",
+      "status": "success"
+    }
+  },
+  {
+    "status_code": 200,
+    "payload": {
+      "latitude": -1.2921,
+      "longitude": 36.8219,
+      "month": 8,
+      "include_lifetime": false
+    },
+    "response": {
+      "annual_summary": {
+        "average_daily_kwh": 9.47842788696289,
+        "year_1_generation_kwh": 3459.626178741455
+      },
+      "assumptions": {
+        "note": "Lifetime metrics disabled for this request.",
+        "panel_area_m2": 10.0,
+        "panel_efficiency_pct": 20.0
+      },
+      "confidence": {},
+      "coordinate_validation": {
+        "status": "valid",
+        "warnings": []
+      },
+      "lifetime_prediction": null,
+      "location": {
+        "latitude": -1.2921,
+        "longitude": 36.8219
+      },
+      "monthly_generation": [
+        {
+          "daily_kwh": 9.47842788696289,
+          "is_dry_season": true,
+          "month": "August",
+          "month_index": 8
+        }
+      ],
+      "note": "Predictions represent typical expected generation, not a daily weather forecast.",
+      "status": "success"
+    }
+  },
+  {
+    "status_code": 200,
+    "payload": {
+      "latitude": -1.2921,
+      "longitude": 36.8219,
+      "month": 9,
+      "include_lifetime": false
+    },
+    "response": {
+      "annual_summary": {
+        "average_daily_kwh": 11.278361320495605,
+        "year_1_generation_kwh": 4116.601881980896
+      },
+      "assumptions": {
+        "note": "Lifetime metrics disabled for this request.",
+        "panel_area_m2": 10.0,
+        "panel_efficiency_pct": 20.0
+      },
+      "confidence": {},
+      "coordinate_validation": {
+        "status": "valid",
+        "warnings": []
+      },
+      "lifetime_prediction": null,
+      "location": {
+        "latitude": -1.2921,
+        "longitude": 36.8219
+      },
+      "monthly_generation": [
+        {
+          "daily_kwh": 11.278361320495605,
+          "is_dry_season": false,
+          "month": "September",
+          "month_index": 9
+        }
+      ],
+      "note": "Predictions represent typical expected generation, not a daily weather forecast.",
+      "status": "success"
+    }
+  },
+  {
+    "status_code": 200,
+    "payload": {
+      "latitude": -1.2921,
+      "longitude": 36.8219,
+      "month": 10,
+      "include_lifetime": false
+    },
+    "response": {
+      "annual_summary": {
+        "average_daily_kwh": 10.833523750305176,
+        "year_1_generation_kwh": 3954.236168861389
+      },
+      "assumptions": {
+        "note": "Lifetime metrics disabled for this request.",
+        "panel_area_m2": 10.0,
+        "panel_efficiency_pct": 20.0
+      },
+      "confidence": {},
+      "coordinate_validation": {
+        "status": "valid",
+        "warnings": []
+      },
+      "lifetime_prediction": null,
+      "location": {
+        "latitude": -1.2921,
+        "longitude": 36.8219
+      },
+      "monthly_generation": [
+        {
+          "daily_kwh": 10.833523750305176,
+          "is_dry_season": false,
+          "month": "October",
+          "month_index": 10
+        }
+      ],
+      "note": "Predictions represent typical expected generation, not a daily weather forecast.",
+      "status": "success"
+    }
+  },
+  {
+    "status_code": 200,
+    "payload": {
+      "latitude": -1.2921,
+      "longitude": 36.8219,
+      "month": 11,
+      "include_lifetime": false
+    },
+    "response": {
+      "annual_summary": {
+        "average_daily_kwh": 10.640497207641602,
+        "year_1_generation_kwh": 3883.7814807891846
+      },
+      "assumptions": {
+        "note": "Lifetime metrics disabled for this request.",
+        "panel_area_m2": 10.0,
+        "panel_efficiency_pct": 20.0
+      },
+      "confidence": {},
+      "coordinate_validation": {
+        "status": "valid",
+        "warnings": []
+      },
+      "lifetime_prediction": null,
+      "location": {
+        "latitude": -1.2921,
+        "longitude": 36.8219
+      },
+      "monthly_generation": [
+        {
+          "daily_kwh": 10.640497207641602,
+          "is_dry_season": false,
+          "month": "November",
+          "month_index": 11
+        }
+      ],
+      "note": "Predictions represent typical expected generation, not a daily weather forecast.",
+      "status": "success"
+    }
+  },
+  {
+    "status_code": 200,
+    "payload": {
+      "latitude": -1.2921,
+      "longitude": 36.8219,
+      "month": 12,
+      "include_lifetime": false
+    },
+    "response": {
+      "annual_summary": {
+        "average_daily_kwh": 10.877750396728516,
+        "year_1_generation_kwh": 3970.378894805908
+      },
+      "assumptions": {
+        "note": "Lifetime metrics disabled for this request.",
+        "panel_area_m2": 10.0,
+        "panel_efficiency_pct": 20.0
+      },
+      "confidence": {},
+      "coordinate_validation": {
+        "status": "valid",
+        "warnings": []
+      },
+      "lifetime_prediction": null,
+      "location": {
+        "latitude": -1.2921,
+        "longitude": 36.8219
+      },
+      "monthly_generation": [
+        {
+          "daily_kwh": 10.877750396728516,
+          "is_dry_season": true,
+          "month": "December",
+          "month_index": 12
+        }
+      ],
+      "note": "Predictions represent typical expected generation, not a daily weather forecast.",
+      "status": "success"
+    }
+  }
+]

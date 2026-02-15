@@ -1,388 +1,820 @@
-# SolarSense AI - DSE Team Repository
+# SolarSense AI ML Microservice
 
-Welcome to the SolarSense AI Data Science & Engineering team repository! This is where we'll track all our model development work for the next 2-3 weeks.
+A unified Flask API gateway serving three independent machine learning microservices for solar energy analysis: Energy Consumption Prediction, Solar Generation Forecasting, and ROI Calculation.
 
 ---
 
 ## 📋 Table of Contents
 
-1. [Repository Structure](#repository-structure)
-2. [Getting Started](#getting-started)
-3. [Daily Workflow - Beginner Method (Recommended)](#daily-workflow---beginner-method-recommended)
-4. [How to Create a Pull Request](#how-to-create-a-pull-request)
-5. [Rules & Best Practices](#rules--best-practices)
-6. [Alternative: Colab + Git Integration](#alternative-colab--git-integration)
-7. [Need Help?](#need-help)
+1. [Project Overview](#project-overview)
+2. [Project Structure](#project-structure)
+3. [Installation & Setup](#installation--setup)
+4. [Environment Variables Configuration](#environment-variables-configuration)
+5. [Local Testing Instructions](#local-testing-instructions)
+6. [Running Test Suites](#running-test-suites)
+7. [Deployment Guide](#deployment-guide)
+8. [API Usage](#api-usage)
+9. [Troubleshooting](#troubleshooting)
 
 ---
 
-## 📁 Repository Structure
+## Project Overview
+
+This repository contains three ML-powered microservices unified under a single Flask gateway:
+
+1. **Model 1: Energy Consumption Prediction** (`/api/v1/estimate-consumption`)
+   - Predicts monthly energy consumption (kWh) for African SMEs
+   - Uses XGBoost regression trained on commercial building data
+   - Accounts for business type, floor area, operating hours, refrigeration units, and climate zones
+
+2. **Model 2: Solar Generation Forecasting** (`/api/v1/predict-generation`)
+   - Predicts typical solar generation (kWh) based on geographic coordinates
+   - Uses XGBoost climatological regression model
+   - Supports full 12-month climatology and 25-year lifetime projections
+
+3. **Model 3: ROI Calculation** (`/api/v1/calculate-roi`)
+   - Calculates monthly savings and annual ROI percentage
+   - Deterministic formula-based calculation (no ML)
+   - Takes consumption, generation, tariff, and system cost as inputs
+
+**Architecture:**
+- **Unified Gateway**: Single entry point (`api/main.py`) that routes requests to appropriate model services
+- **Independent Services**: Each model maintains its own Flask app, validation logic, and security
+- **Shared Authentication**: All three models use the same `API_KEY` environment variable
+- **Preserved Endpoints**: All original endpoint paths and behaviors remain unchanged
+
+---
+
+## Project Structure
 
 ```
-solarsense-ai/
-├── README.md                    # This file - read it first!
+Model-1-branch/
+├── api/
+│   └── main.py                    # Unified Flask gateway (entry point)
 ├── models/
-│   ├── energy_consumption/      # Model 1: Evelyn & Abishag's work
-│   │   ├── notebooks/           # Your Jupyter/Colab notebooks (.ipynb files)
-│   │   ├── data/                # Datasets (Kaggle downloads, CSV files)
-│   │   └── src/                 # Final Python scripts (.py files) - Week 2
-│   ├── solar_generation/        # Model 2: Tessa & Bella's work
-│   │   ├── notebooks/
-│   │   ├── data/
-│   │   └── src/
-│   ├── roi_calculation/         # Model 3: Zainabu & Brandy's work
-│   │   ├── notebooks/
-│   │   ├── data/
-│   │   └── src/
-│   └── recommendation/          # Model 4: Bella & Abishag's work
-│       ├── notebooks/
-│       └── src/
-├── api/                         # Flask/FastAPI code (Week 2)
-└── docs/                        # API documentation
+│   ├── energy_consumption/        # Model 1: Energy Consumption
+│   │   ├── src/
+│   │   │   └── app_ml.py         # Flask API for energy consumption prediction
+│   │   ├── models/                # Model artifacts (.joblib files)
+│   │   ├── tests/                 # Unit and integration tests
+│   │   ├── notebooks/             # Jupyter notebooks (development)
+│   │   └── archive/               # Archived docs, old requirements, etc.
+│   ├── solar_generation/          # Model 2: Solar Generation
+│   │   ├── src/
+│   │   │   ├── solar_climatology_api.py      # Flask API
+│   │   │   ├── solar_climatology_service.py  # Core prediction logic
+│   │   │   └── models/            # Model artifacts (.pkl, .json files)
+│   │   ├── notebooks/             # Jupyter notebooks (development)
+│   │   └── archive/               # Archived docs, notebooks, data
+│   ├── roi_calculation/           # Model 3: ROI Calculation
+│   │   ├── src/
+│   │   │   └── roi_calculation_api.py  # Flask API (deterministic calculation)
+│   │   ├── tests/                 # Unit tests
+│   │   └── archive/               # Archived docs, old requirements
+│   └── recommendations/           # Model 4: (Not yet implemented)
+├── tests/                         # Integration tests
+├── docs/                          # Additional documentation
+├── requirements.txt               # Unified production dependencies
+├── requirements-dev.txt           # Development dependencies (pytest, etc.)
+├── Procfile                       # Railway deployment configuration
+├── railway.json                   # Railway platform configuration
+├── pytest.ini                     # Pytest configuration
+├── runtime.txt                    # Python version specification
+└── README.md                      # This file
 ```
 
-**What each folder is for:**
+**Key Files:**
+- `api/main.py`: Gateway that dispatches requests to model services
+- `requirements.txt`: All production dependencies (merged from all three models)
+- `Procfile`: Gunicorn command for Railway deployment
+- `railway.json`: Railway deployment settings (healthcheck, restart policy)
 
-- **`notebooks/`** - Save your Jupyter/Colab notebooks here (`.ipynb` files). This is where you'll do most of your work in Week 1.
-- **`data/`** - Store datasets, CSV files, or downloaded data here. Keep datasets under 100MB if possible.
-- **`src/`** - Final production code (`.py` files). You'll convert your notebooks to Python scripts here at the end of Week 1.
-- **`api/`** - Backend API code (Flask/FastAPI). We'll work on this in Week 2.
-- **`docs/`** - API documentation and guides.
-
-**Your work location:** You should upload your work to the folder that matches your assigned model. For example:
-- Evelyn & Abishag → `models/energy_consumption/notebooks/`
-- Tessa & Bella → `models/solar_generation/notebooks/`
-- Zainabu & Brandy → `models/roi_calculation/notebooks/`
-- Bella & Abishag (Model 4) → `models/recommendation/notebooks/`
+**Archive Folders:**
+- Each model has an `archive/` folder containing:
+  - Old documentation, integration guides, API contracts
+  - Legacy notebooks and training scripts
+  - Previous `requirements.txt` files
+  - Sample requests and test data
+- These files are preserved but not used at runtime
 
 ---
 
-## 🚀 Getting Started
+## Installation & Setup
 
-### Step 1: Create a GitHub Account (If You Don't Have One)
+### Prerequisites
 
-1. Go to https://github.com/signup
-2. Create your account with your email
-3. Verify your email address
-4. Done! ✅
+- **Python 3.8+** (tested with Python 3.9, 3.10, 3.12)
+- **pip** (Python package manager)
+- **Git** (for cloning the repository)
 
-### Step 2: Know Your Branch Name
+### Step 1: Clone the Repository
 
-**IMPORTANT:** Everyone works on their own branch. DO NOT work on the `main` branch or someone else's branch.
-
-**Your branch names:**
-- Evelyn: `evelyn-energy-consumption`
-- Abishag: `abishag-data-pipeline`
-- Tessa: `tessa-solar-generation`
-- Bella: `bella-orchestration`
-- Zainabu: `zainabu-roi-model`
-- Brandy: `brandy-data-engineering`
-
-**You will ONLY upload files to your own branch.**
-
----
-
-## 📤 Daily Workflow - Beginner Method (Recommended)
-
-This method requires NO command line or Git knowledge. You'll upload files directly through the GitHub website.
-
-### **Step 1: Work in Colab/Kaggle/Jupyter**
-
-- Do your work as normal in Colab, Kaggle, or local Jupyter notebook
-- Save your notebook with a clear name: `energy_consumption_day1.ipynb` or `solar_generation_exploration.ipynb`
-
-### **Step 2: Download Your Notebook**
-
-**In Colab:**
-- Click `File` → `Download` → `Download .ipynb`
-
-**In Kaggle:**
-- Click the three dots (⋮) at the top → `Download Notebook`
-
-**In Jupyter:**
-- Click `File` → `Download as` → `Notebook (.ipynb)`
-
-Your notebook will download to your computer (usually in `Downloads` folder).
-
-### **Step 3: Go to Your Branch on GitHub**
-
-1. Open the repository link: [INSERT REPO LINK HERE]
-2. At the top left, click the dropdown that says `main`
-3. Select **YOUR branch name** from the list (e.g., `evelyn-energy-consumption`)
-4. You should now see your branch name displayed where it previously said `main`
-
-### **Step 4: Navigate to Your Folder**
-
-Click through the folders to get to where you should upload:
-
-**Example for Evelyn:**
-1. Click `models/`
-2. Click `energy_consumption/`
-3. Click `notebooks/`
-
-You're now in the right place to upload! ✅
-
-### **Step 5: Upload Your Notebook**
-
-1. Click the **"Add file"** button (top right)
-2. Select **"Upload files"**
-3. Drag your `.ipynb` file from your Downloads folder OR click "choose your files" to browse
-4. Scroll down to the **"Commit changes"** section
-5. In the text box, write a clear message about what you did:
-   - Good: `"Day 1: Initial data exploration and XGBoost model testing"`
-   - Bad: `"Update"` or `"changes"`
-6. Make sure the radio button says **"Commit directly to the `[your-branch-name]` branch"**
-7. Click **"Commit changes"**
-
-Done! Your work is now saved to GitHub. ✅
-
-### **Step 6: Verify Your Upload**
-
-- Refresh the page
-- You should see your file in the `notebooks/` folder
-- Click on it to make sure it uploaded correctly
-
-### **Step 7: Repeat Daily**
-
-Upload your work **every day by 8:00 PM WAT**. Even if your code doesn't fully work yet, upload it. We want to track progress daily.
-
----
-
-## 🔄 How to Create a Pull Request
-
-Once your model is working and you're ready to merge your code into the main codebase:
-
-### **Step 1: Go to the Main Repository Page**
-
-1. Navigate to the repository home page: [INSERT REPO LINK]
-2. You should see a yellow banner that says **"[Your branch] had recent pushes"** with a green **"Compare & pull request"** button
-3. Click **"Compare & pull request"**
-
-**If you don't see the banner:**
-1. Click the **"Pull requests"** tab at the top
-2. Click the green **"New pull request"** button
-3. Set **base:** to `dev` and **compare:** to your branch name
-4. Click **"Create pull request"**
-
-### **Step 2: Fill Out the Pull Request Form**
-
-1. **Title:** Write a clear title (e.g., "Energy Consumption Model - Ready for Integration")
-2. **Description:** Explain what you built:
-   ```
-   ## What I Built
-   - Energy consumption estimation model using XGBoost
-   - Trained on Kaggle commercial building dataset
-   - API endpoint returns kWh estimates
-   
-   ## Testing Done
-   - Tested with 5 different SME profiles
-   - Accuracy: 85% on validation set
-   
-   ## Ready for Review
-   @[your-partner-name] please review before merging
-   ```
-3. Click **"Create pull request"**
-
-### **Step 3: Code Review (Pair Reviews Partner's Code)**
-
-**If you're the reviewer:**
-1. Click on the **"Files changed"** tab
-2. Review your partner's code
-3. If everything looks good, click **"Review changes"** → **"Approve"** → **"Submit review"**
-4. If you have questions, leave comments on specific lines
-
-**If you're waiting for review:**
-1. Wait for your partner to approve
-2. Once approved, you can merge (but check with Tessa first)
-
-### **Step 4: Merging (WAIT FOR TESSA'S APPROVAL)**
-
-**Do NOT merge to `main` on your own.** After your partner approves:
-1. Notify Tessa in the team channel: "Model X PR ready for final review"
-2. Tessa will review and approve merge to `dev` branch
-3. At end of Week 1, Tessa will merge all working models from `dev` to `main`
-
----
-
-## ⚠️ Rules & Best Practices
-
-### **DO:**
-
-✅ **Upload your work daily by 8:00 PM WAT** - This is mandatory. Even if your code is broken or incomplete, upload it. We need to track progress.
-
-✅ **Work ONLY on your own branch** - Never upload to someone else's branch or the `main` branch.
-
-✅ **Write clear commit messages** - Explain what you did: "Day 2: Built feature engineering pipeline" not "updates"
-
-✅ **Save notebooks in the `notebooks/` folder** - Keep your work organized in the right location.
-
-✅ **Convert to `.py` files at the end of Week 1** - Once your notebook is working, export the code as a Python script and save it in `src/`
-
-✅ **Ask for help if stuck** - GitHub is widely used, so AI assistants (ChatGPT, Claude) can help you troubleshoot. Just describe what you're trying to do and paste any error messages.
-
-### **DON'T:**
-
-❌ **Don't commit to the `main` branch** - Always work on your own branch
-
-❌ **Don't work on someone else's branch** - You might overwrite their work
-
-❌ **Don't upload files larger than 100MB** - GitHub has file size limits. For large datasets, share via Google Drive and add a link in a text file.
-
-❌ **Don't forget to upload for multiple days** - Daily uploads keep everyone aligned and make it easier to track progress
-
-❌ **Don't merge Pull Requests without review** - Your partner must review your code, and Tessa must approve before merging
-
----
-
-## 💼 Workflow Summary
-
-**Week 1: Notebook Development**
-
-```
-Day-to-day:
-1. Work in Colab/Kaggle/Jupyter
-2. Download your notebook
-3. Upload to GitHub (your branch, correct folder)
-4. Write clear commit message
-5. Upload by 8:00 PM WAT
-6. Post daily update in team channel
+```bash
+git clone <repository-url>
+cd Model-1-branch
 ```
 
-**End of Week 1: Code Conversion**
+### Step 2: Create Virtual Environment
 
-```
-When model is working:
-1. Export notebook code to .py file
-2. Upload .py file to src/ folder
-3. Create Pull Request
-4. Partner reviews your code
-5. Wait for Tessa's approval
-6. Tessa merges to dev branch
+**Windows:**
+```bash
+python -m venv venv
+venv\Scripts\activate
 ```
 
-**Week 2: Integration**
-
+**macOS/Linux:**
+```bash
+python3 -m venv venv
+source venv/bin/activate
 ```
-All models merged:
-1. Work with Sarah (Backend) to integrate API
-2. Test end-to-end
-3. Final deployment
+
+### Step 3: Install Dependencies
+
+```bash
+# Install production dependencies
+pip install -r requirements.txt
+
+# Install development dependencies (for running tests)
+pip install -r requirements-dev.txt
+```
+
+### Step 4: Verify Installation
+
+```bash
+python --version  # Should show Python 3.8+
+pip list          # Should show Flask, numpy, xgboost, etc.
 ```
 
 ---
 
-## 🔧 Alternative: Colab + Git Integration
+## Environment Variables Configuration
 
-**For those comfortable with Git commands:** You can commit directly from Google Colab instead of manually downloading and uploading.
+Create a `.env` file in the repository root:
 
-### **One-Time Setup:**
+```bash
+# .env file
+API_KEY=your_secure_api_key_here_minimum_32_characters
 
+# Optional: Server port (default: 8000)
+PORT=8000
+
+# Optional: Model-specific overrides (only needed if running models standalone)
+MODEL_DIR=models/solar_generation/src/models
+MODEL1_PORT=8001
+```
+
+**Required Variables:**
+- `API_KEY`: **Required**. Secret key for API authentication. Must be set for all three models to work. Use a strong random string (minimum 32 characters recommended).
+
+**Optional Variables:**
+- `PORT`: Server port for the unified gateway (default: `8000`)
+- `MODEL_DIR`: Directory containing solar generation model artifacts (default: `models` relative to `solar_climatology_service.py`)
+- `MODEL1_PORT`: Port for Model 1 if running standalone (default: `8001`)
+
+**Security Notes:**
+- **Never commit `.env` to version control** (it's in `.gitignore`)
+- Use different API keys for development and production
+- Rotate API keys periodically in production
+
+---
+
+## Local Testing Instructions
+
+### Running the Unified Gateway
+
+**Start the gateway server:**
+```bash
+# From repository root
+python api/main.py
+```
+
+Or using Gunicorn (production-like):
+```bash
+gunicorn api.main:app --workers 2 --bind 0.0.0.0:8000 --timeout 120
+```
+
+The server will start on `http://localhost:8000` (or your configured `PORT`).
+
+### Testing Endpoints
+
+**1. Gateway Health Check:**
+```bash
+curl http://localhost:8000/api/v1/health
+```
+
+Expected response:
+```json
+{
+  "status": "ok",
+  "service": "gateway"
+}
+```
+
+**2. Model 1 - Energy Consumption Prediction:**
+```bash
+curl -X POST http://localhost:8000/api/v1/estimate-consumption \
+  -H "Content-Type: application/json" \
+  -H "X-API-KEY: your_secure_api_key_here" \
+  -d '{
+    "business_type": "butchery",
+    "sqft_m2": 60.0,
+    "operating_hours_weekly": 98.0,
+    "num_refrigeration_units": 3,
+    "location": "Lagos, Nigeria",
+    "num_workers": 3,
+    "months_per_year": 12
+  }'
+```
+
+Expected response:
+```json
+{
+  "estimated_consumption_kwh_monthly": 335.25,
+  "confidence_score": 0.85,
+  "breakdown": {
+    "refrigeration": 201.15,
+    "other": 134.10
+  },
+  "climate_adjustment_factor": 1.35,
+  "equipment_summary": {
+    "total_refrigeration_units": 3,
+    "total_other_equipment": 0
+  }
+}
+```
+
+**3. Model 2 - Solar Generation Prediction:**
+```bash
+curl -X POST http://localhost:8000/api/v1/predict-generation \
+  -H "Content-Type: application/json" \
+  -H "X-API-KEY: your_secure_api_key_here" \
+  -d '{
+    "latitude": -1.2921,
+    "longitude": 36.8219,
+    "include_lifetime": true
+  }'
+```
+
+Expected response:
+```json
+{
+  "status": "success",
+  "location": {
+    "latitude": -1.2921,
+    "longitude": 36.8219
+  },
+  "monthly_generation": [...],
+  "annual_summary": {
+    "year_1_generation_kwh": 2142.55,
+    "average_daily_kwh": 5.87
+  },
+  "lifetime_prediction": {...}
+}
+```
+
+**4. Model 3 - ROI Calculation:**
+```bash
+curl -X POST http://localhost:8000/api/v1/calculate-roi \
+  -H "Content-Type: application/json" \
+  -H "X-API-KEY: your_secure_api_key_here" \
+  -d '{
+    "consumption_kwh": 450.0,
+    "generation_kwh": 500.0,
+    "tariff_per_kwh": 0.20,
+    "system_cost_usd": 6000.0
+  }'
+```
+
+Expected response:
+```json
+{
+  "monthly_savings_usd": 90.0,
+  "roi_percentage": 18.0,
+  "system_cost_usd": 6000.0
+}
+```
+
+**5. Model 2 - Model Info:**
+```bash
+curl -H "X-API-KEY: your_secure_api_key_here" \
+  http://localhost:8000/api/v1/model-info
+```
+
+**6. Model 1 - Health Check:**
+```bash
+curl -H "X-API-KEY: your_secure_api_key_here" \
+  http://localhost:8000/api/v1/health
+```
+
+**Note:** Model-specific health endpoints require authentication. The gateway health endpoint (`/api/v1/health`) does not require authentication.
+
+### Running Models Standalone (Optional)
+
+You can also run each model independently for development/testing:
+
+**Model 1:**
+```bash
+cd models/energy_consumption/src
+python app_ml.py
+# Runs on port 8001 (or MODEL1_PORT)
+```
+
+**Model 2:**
+```bash
+cd models/solar_generation/src
+python solar_climatology_api.py
+# Runs on port 8000 (or PORT)
+```
+
+**Model 3:**
+```bash
+cd models/roi_calculation/src
+python roi_calculation_api.py
+# Runs on port 5000 (or PORT)
+```
+
+---
+
+## Running Test Suites
+
+### Prerequisites
+
+Ensure development dependencies are installed:
+```bash
+pip install -r requirements-dev.txt
+```
+
+### Run All Tests
+
+```bash
+# From repository root
+pytest
+```
+
+### Run Specific Test Suites
+
+**Model 1 Tests:**
+```bash
+pytest models/energy_consumption/tests/
+```
+
+**Model 2 Tests:**
+```bash
+pytest models/solar_generation/tests/
+```
+
+**Model 3 Tests:**
+```bash
+pytest models/roi_calculation/tests/
+```
+
+### Test Coverage
+
+```bash
+pytest --cov=models --cov=api --cov-report=html
+```
+
+### Common Test Issues
+
+- **Import Errors**: Ensure you're running tests from the repository root
+- **Missing API_KEY**: Tests use `test-api-key` by default; set `API_KEY` env var if needed
+- **Model Files Not Found**: Some tests mock model loading; ensure model artifacts exist for integration tests
+
+---
+
+## Deployment Guide
+
+### Railway Deployment
+
+**Step 1: Prepare Repository**
+- Ensure all code is committed and pushed to your Git repository
+- Verify `Procfile` and `railway.json` exist in the root directory
+
+**Step 2: Create Railway Project**
+1. Log in to [Railway](https://railway.app)
+2. Click "New Project"
+3. Select "Deploy from GitHub repo" (or connect your Git provider)
+4. Select your repository
+
+**Step 3: Configure Environment Variables**
+In Railway dashboard → Variables tab, add:
+```
+API_KEY=your_production_api_key_here
+PORT=8000  # Railway sets this automatically, but you can override
+```
+
+**Step 4: Deploy**
+- Railway will automatically detect `Procfile` and deploy using Gunicorn
+- The healthcheck endpoint (`/api/v1/health`) will be monitored automatically
+- Check deployment logs in Railway dashboard
+
+**Step 5: Verify Deployment**
+```bash
+curl https://your-app.railway.app/api/v1/health
+```
+
+### Railway Configuration Files
+
+**`Procfile`:**
+```
+web: gunicorn api.main:app --workers 2 --bind 0.0.0.0:$PORT --timeout 120
+```
+
+**`railway.json`:**
+```json
+{
+  "$schema": "https://railway.app/railway.schema.json",
+  "build": {
+    "builder": "NIXPACKS"
+  },
+  "deploy": {
+    "startCommand": "gunicorn api.main:app --workers 2 --bind 0.0.0.0:$PORT --timeout 120",
+    "healthcheckPath": "/api/v1/health",
+    "restartPolicyType": "ON_FAILURE"
+  }
+}
+```
+
+### Post-Deployment Checklist
+
+- [ ] Health check endpoint returns 200 OK
+- [ ] All three model endpoints respond correctly
+- [ ] API key authentication works
+- [ ] Rate limiting is active (100 requests/minute)
+- [ ] CORS headers are present
+- [ ] Logs show no errors
+
+---
+
+## API Usage
+
+### Authentication
+
+All API endpoints (except gateway health check) require authentication via the `X-API-KEY` header:
+
+```bash
+curl -H "X-API-KEY: your_api_key_here" ...
+```
+
+**Authentication Errors:**
+- `401 Unauthorized`: Missing or invalid API key
+- `500 Internal Server Error`: API key not configured on server (misconfiguration)
+
+### Rate Limiting
+
+- **Limit**: 100 requests per minute per IP address
+- **Error Response**: `429 Too Many Requests` with message `"Rate limit exceeded"`
+- **Headers**: Rate limit info may be included in response headers (if supported by Flask-Limiter)
+
+### Endpoints
+
+#### Gateway Endpoints
+
+**GET `/`**
+- **Description**: Root endpoint, returns service status
+- **Authentication**: Not required
+- **Response**:
+```json
+{
+  "message": "SolarSense API running",
+  "status": "ok"
+}
+```
+
+**GET `/api/v1/health`**
+- **Description**: Gateway health check (used by Railway)
+- **Authentication**: Not required
+- **Response**:
+```json
+{
+  "status": "ok",
+  "service": "gateway"
+}
+```
+
+#### Model 1: Energy Consumption
+
+**POST `/api/v1/estimate-consumption`**
+- **Description**: Predict monthly energy consumption for an SME
+- **Authentication**: Required (`X-API-KEY` header)
+- **Request Body**:
+```json
+{
+  "business_type": "butchery" | "grocery" | "mini_supermarket",
+  "sqft_m2": 60.0,                    // Required: > 0, <= 10000
+  "operating_hours_weekly": 98.0,     // Required: > 0, <= 168
+  "num_refrigeration_units": 3,       // Required: >= 0, <= 500
+  "location": "Lagos, Nigeria",       // Required: string, max 200 chars
+  "num_workers": 3,                   // Optional: defaults to 5, max 1000
+  "months_per_year": 12               // Optional: defaults to 12, max 12
+}
+```
+- **Response** (200 OK):
+```json
+{
+  "estimated_consumption_kwh_monthly": 335.25,
+  "confidence_score": 0.85,
+  "breakdown": {
+    "refrigeration": 201.15,
+    "other": 134.10
+  },
+  "climate_adjustment_factor": 1.35,
+  "equipment_summary": {
+    "total_refrigeration_units": 3,
+    "total_other_equipment": 0
+  }
+}
+```
+- **Error Responses**:
+  - `400 Bad Request`: Missing fields, invalid types, out-of-range values
+  - `401 Unauthorized`: Missing or invalid API key
+  - `429 Too Many Requests`: Rate limit exceeded
+  - `500 Internal Server Error`: Model loading or prediction error
+
+**GET `/api/v1/health`** (Model 1 specific)
+- **Description**: Model 1 health check
+- **Authentication**: Required
+- **Response**:
+```json
+{
+  "status": "healthy"
+}
+```
+
+#### Model 2: Solar Generation
+
+**POST `/api/v1/predict-generation`**
+- **Description**: Predict solar generation for a geographic location
+- **Authentication**: Required (`X-API-KEY` header)
+- **Request Body**:
+```json
+{
+  "latitude": -1.2921,              // Required: float between -26 and 6
+  "longitude": 36.8219,             // Required: float between -18 and 44
+  "month": 6,                       // Optional: integer 1-12 (omitted = full climatology)
+  "include_lifetime": true          // Optional: boolean, default true
+}
+```
+- **Response** (200 OK):
+```json
+{
+  "status": "success",
+  "location": {
+    "latitude": -1.2921,
+    "longitude": 36.8219
+  },
+  "coordinate_validation": {
+    "status": "valid",
+    "warnings": []
+  },
+  "monthly_generation": [
+    {
+      "month": "June",
+      "month_index": 6,
+      "daily_kwh": 5.87,
+      "is_dry_season": true
+    }
+  ],
+  "annual_summary": {
+    "year_1_generation_kwh": 2142.55,
+    "average_daily_kwh": 5.87
+  },
+  "lifetime_prediction": {
+    "year_1_generation_kwh": 2142.55,
+    "lifetime_total_kwh": 49000.0,
+    "lifetime_average_annual_kwh": 1960.0,
+    "yearly_breakdown": [...],
+    "assumptions": {...},
+    "confidence": {...}
+  },
+  "assumptions": {...},
+  "confidence": {...},
+  "note": "Predictions represent typical expected generation, not a daily weather forecast."
+}
+```
+- **Error Responses**:
+  - `400 Bad Request`: Missing coordinates, invalid ranges, out-of-bounds coordinates
+  - `401 Unauthorized`: Missing or invalid API key
+  - `429 Too Many Requests`: Rate limit exceeded
+  - `500 Internal Server Error`: Model loading or prediction error
+
+**GET `/api/v1/model-info`**
+- **Description**: Get model metadata and training configuration
+- **Authentication**: Required
+- **Response**:
+```json
+{
+  "model_type": "XGBoost climatological regression",
+  "validation_mape": 0.0746,
+  "training_locations": [...],
+  "feature_columns": [...]
+}
+```
+
+**GET `/api/v1/health`** (Model 2 specific)
+- **Description**: Model 2 health check with metadata
+- **Authentication**: Required
+- **Response**:
+```json
+{
+  "status": "ok",
+  "model_type": "XGBoost climatological regression",
+  "last_trained_at": "2026-02-10T19:18:41Z",
+  "validation_mape": 0.0746
+}
+```
+
+#### Model 3: ROI Calculation
+
+**POST `/api/v1/calculate-roi`**
+- **Description**: Calculate monthly savings and ROI percentage
+- **Authentication**: Required (`X-API-KEY` header)
+- **Request Body**:
+```json
+{
+  "consumption_kwh": 450.0,        // Required: > 0, <= 100000
+  "generation_kwh": 500.0,          // Required: > 0, <= 100000
+  "tariff_per_kwh": 0.20,           // Required: > 0, <= 100
+  "system_cost_usd": 6000.0         // Required: > 0, <= 1,000,000
+}
+```
+- **Response** (200 OK):
+```json
+{
+  "monthly_savings_usd": 90.0,
+  "roi_percentage": 18.0,
+  "system_cost_usd": 6000.0
+}
+```
+- **Error Responses**:
+  - `400 Bad Request`: Missing fields, invalid types, out-of-range values
+  - `401 Unauthorized`: Missing or invalid API key
+  - `413 Payload Too Large`: Request body exceeds 100 KB
+  - `429 Too Many Requests`: Rate limit exceeded
+  - `500 Internal Server Error`: Calculation error
+
+**GET `/api/v1/health`** (Model 3 specific)
+- **Description**: Model 3 health check
+- **Authentication**: Required
+- **Response**:
+```json
+{
+  "status": "ok",
+  "service": "roi-calculation"
+}
+```
+
+### Error Response Format
+
+All error responses follow this structure:
+```json
+{
+  "error": {
+    "code": "ERROR_CODE",
+    "message": "Human-readable error message",
+    "status": 400
+  }
+}
+```
+
+Or (for some endpoints):
+```json
+{
+  "status": "error",
+  "message": "Human-readable error message"
+}
+```
+
+**Common Error Codes:**
+- `MISSING_FIELD`: Required field is missing
+- `INVALID_FIELD_TYPE`: Wrong data type
+- `INVALID_FIELD_VALUE`: Out-of-range value
+- `INVALID_BUSINESS_TYPE`: Invalid business_type value
+- `INVALID_JSON`: Malformed JSON body
+- `UNSUPPORTED_MEDIA_TYPE`: Non-JSON content type
+- `UNAUTHORIZED`: Missing or invalid API key
+- `PREDICTION_ERROR`: Internal model error
+- `Rate limit exceeded`: Too many requests
+
+---
+
+## Troubleshooting
+
+### Common Errors
+
+**1. `ModuleNotFoundError: No module named 'models'`**
+- **Cause**: Running code from wrong directory or Python path not set
+- **Solution**: Always run from repository root, or ensure repo root is on `PYTHONPATH`
+
+**2. `401 Unauthorized`**
+- **Cause**: Missing or incorrect `X-API-KEY` header, or `API_KEY` env var not set
+- **Solution**: 
+  - Check `.env` file exists and contains `API_KEY=...`
+  - Verify header name is exactly `X-API-KEY` (case-sensitive)
+  - Ensure API key matches between client and server
+
+**3. `500 Internal Server Error`**
+- **Cause**: Model files not found, missing dependencies, or internal error
+- **Solution**:
+  - Check model artifacts exist in expected locations:
+    - Model 1: `models/energy_consumption/models/*.joblib`
+    - Model 2: `models/solar_generation/src/models/*.pkl`
+  - Verify all dependencies installed: `pip install -r requirements.txt`
+  - Check server logs for detailed error messages
+
+**4. `FileNotFoundError` for model artifacts**
+- **Cause**: Model files moved or paths incorrect
+- **Solution**:
+  - Verify model files exist in `models/energy_consumption/models/` and `models/solar_generation/src/models/`
+  - Check `MODEL_DIR` environment variable if using Model 2 standalone
+
+**5. `429 Too Many Requests`**
+- **Cause**: Rate limit exceeded (100 requests/minute per IP)
+- **Solution**: Wait 1 minute or implement request caching/throttling in client
+
+**6. Port Already in Use**
+- **Cause**: Another process using the port
+- **Solution**:
+  - Windows: `netstat -ano | findstr :8000` then `taskkill /PID <pid> /F`
+  - macOS/Linux: `lsof -i :8000` then `kill -9 <pid>`
+  - Or change `PORT` in `.env`
+
+**7. Import Errors in Tests**
+- **Cause**: Test files importing from wrong paths or `sys.path` not set
+- **Solution**: Run tests from repository root: `pytest` (not from subdirectories)
+
+**8. CORS Errors (Browser)**
+- **Cause**: CORS not enabled or misconfigured
+- **Solution**: CORS is enabled by default; verify `flask-cors` is installed
+
+### Debugging Tips
+
+**Enable Debug Logging:**
 ```python
-# Run this in your first Colab cell
-
-# Mount Google Drive
-from google.colab import drive
-drive.mount('/content/drive')
-
-# Navigate to your project folder (create this folder in your Drive first)
-%cd /content/drive/MyDrive/SolarSense-DSE
-
-# Clone the repository (first time only)
-!git clone https://github.com/[YOUR-ORG]/solarsense-ai.git
-%cd solarsense-ai
-
-# Set your Git identity (replace with your info)
-!git config user.email "your-email@example.com"
-!git config user.name "Your Name"
-
-# Switch to your branch
-!git checkout [your-branch-name]
-# Example: !git checkout evelyn-energy-consumption
+# In api/main.py or model files, change:
+logging.basicConfig(level=logging.DEBUG)
 ```
 
-### **Daily Workflow in Colab:**
+**Check Environment Variables:**
+```bash
+# Windows PowerShell
+$env:API_KEY
 
-```python
-# At the start of your session:
-
-# Pull latest changes
-!git pull origin [your-branch-name]
-
-# Work on your notebook...
-
-# At the end of your session (before 8 PM WAT):
-
-# Add your changes
-!git add .
-
-# Commit with a message
-!git commit -m "Day 2: Built feature engineering pipeline"
-
-# Push to your branch
-!git push origin [your-branch-name]
+# macOS/Linux
+echo $API_KEY
 ```
 
-**Note:** You'll need to authenticate with GitHub. The first time you push, Colab will ask for your GitHub username and a Personal Access Token (PAT). GitHub has guides on creating a PAT.
+**Test Individual Models:**
+Run each model standalone to isolate issues:
+```bash
+cd models/energy_consumption/src
+python app_ml.py
+```
+
+**Verify Dependencies:**
+```bash
+pip list | grep -E "flask|numpy|xgboost|joblib"
+```
+
+**Check Model Files:**
+```bash
+# Model 1
+ls models/energy_consumption/models/
+
+# Model 2
+ls models/solar_generation/src/models/
+```
+
+### Getting Help
+
+1. **Check Logs**: Server logs show detailed error messages
+2. **Review Documentation**: See `docs/` folder for integration guides
+3. **Run Tests**: `pytest` to verify installation
+4. **Check Environment**: Verify `.env` file exists and contains required variables
 
 ---
 
-## 🆘 Need Help?
+## Additional Resources
 
-### **GitHub Troubleshooting:**
-
-GitHub is one of the most widely used tools in tech, which means AI assistants are very good at helping with it. If you're stuck:
-
-1. **Ask ChatGPT or Claude:**
-   - "How do I upload a file to a specific branch on GitHub?"
-   - "I'm getting an error when trying to commit: [paste error]. How do I fix it?"
-   - "How do I find my branch on GitHub?"
-
-2. **Search GitHub Docs:** https://docs.github.com/
-
-3. **Ask in the Team Channel:** Post your question with a screenshot if possible
-
-4. **DM Tessa:** For urgent issues or if you're completely stuck
-
-### **Common Issues:**
-
-**"I can't find my branch"**
-- Make sure you're clicking the branch dropdown at the top left of the page
-- Your branch should be in the list. If not, ask Tessa to create it.
-
-**"My file didn't upload"**
-- Check that you selected the right branch before uploading
-- Check that you clicked "Commit changes" at the bottom
-- Refresh the page to see if it appears
-
-**"I accidentally uploaded to the wrong branch"**
-- Don't panic! Just delete the file from the wrong branch and re-upload to the correct one
-- Or ask Tessa for help
+- **Integration Guides**: See `models/*/archive/` folders for detailed integration documentation
+- **API Contracts**: See `models/*/archive/API_CONTRACT.md` for detailed endpoint specifications
+- **Model Cards**: See `models/*/archive/MODEL_CARD.md` for model architecture details
 
 ---
 
-## 📌 Note for Experienced Users
+## License
 
-**If you're already familiar with Git or have your own preferred workflows** (e.g., using Git CLI, GitHub Desktop, VS Code integration, etc.), feel free to use those methods instead. The important things are:
-
-1. You work on your own branch
-2. You commit daily by 8:00 PM WAT
-3. You keep files organized in the correct folders
-4. You create Pull Requests before merging
-
-**Just make sure your workflow doesn't clash with the team's** - if you're using advanced Git features (rebasing, force pushing, etc.), check with Tessa first to avoid conflicts.
+[Add your license information here]
 
 ---
 
-## 🎯 Quick Reference
+## Support
 
-**Daily Deadline:** Upload by 8:00 PM WAT  
-**Your Branch:** [Check list above - use ONLY your branch]  
-**Upload Location:** `models/[your-model]/notebooks/`  
-**Commit Message Format:** "Day X: [what you did]"  
-**Pull Request:** Only when model is working + partner has reviewed  
+For issues or questions:
+- Check the Troubleshooting section above
+- Review integration guides in `archive/` folders
+- Contact the development team
 
 ---
 
-**Questions? Ask in the DSE team channel or DM Tessa**
-
-Let's build something great! 
+**Last Updated**: 2026-02-12

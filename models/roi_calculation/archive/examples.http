@@ -1,0 +1,19 @@
+### Example requests for Model 3 ROI Calculation API
+
+### Health check
+GET http://localhost:5000/
+
+###
+### ROI calculation example
+###
+POST http://localhost:5000/api/v1/calculate-roi
+Content-Type: application/json
+
+{
+  "consumption_kwh": 450,
+  "generation_kwh": 500,
+  "tariff_per_kwh": 0.20,
+  "system_cost_usd": 6000
+}
+
+

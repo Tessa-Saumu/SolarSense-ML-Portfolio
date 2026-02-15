@@ -1,0 +1,14 @@
+temperature_c
+wind_speed_ms
+relative_humidity_pct
+latitude
+longitude
+location_encoded
+month
+day
+dow_encoded
+cloud_cover_index
+clearness_index
+temp_efficiency_factor
+is_dry_season
+is_weekend
