@@ -1,13 +1,13 @@
-#  MODEL 4: AI RECOMMENDATION ENGINE & ORCHESTRATION
+# MODEL 4: AI RECOMMENDATION ENGINE & ORCHESTRATION
 
-**Solar Viability Assessment System**  
-**Owner:** Bella  
-**Version:** 1.0.0  
-**Last Updated:** February 14, 2026
+**Solar Viability Assessment System**
+**Owner:** Bella
+**Version:** 1.2.0-mvp-diesel
+**Last Updated:** February 15, 2026
 
 ---
 
-##  TABLE OF CONTENTS
+## TABLE OF CONTENTS
 
 1. [Overview](#overview)
 2. [Architecture](#architecture)
@@ -21,29 +21,33 @@
 
 ---
 
-##  OVERVIEW
+## OVERVIEW
 
-Model 4 is the **master orchestration layer** that coordinates Models 1-3 and generates final solar viability recommendations.
+Model 4 is the **master orchestration layer** that coordinates Models 1–3 and generates final solar viability recommendations. It supports both grid-only and diesel replacement scenarios, and intelligently sizes solar systems based on actual business consumption.
 
-### **What It Does:**
+### What It Does
 
-1.  Calls Model 1 (Energy Consumption Estimation)
-2.  Calls Model 2 (Solar Generation Prediction)
-3.  Calls Model 3 (Financial Viability & ROI)
-4.  Applies intelligent recommendation logic
-5.  Returns viability score (High/Medium/Low) with explanation
+1. Accepts business input (equipment list or direct metrics)
+2. Converts equipment list → business metrics for Model 1
+3. Calls Model 1 → Energy Consumption Estimation
+4. Calls Model 2 → Solar Generation Prediction
+5. Intelligently sizes solar system to 90% consumption coverage (capped at 50m² / ~$20k for SME realism)
+6. Calculates diesel economics and blended tariff (if applicable)
+7. Calls Model 3 → ROI Calculation using blended tariff
+8. Applies viability scoring and returns recommendation
 
-### **Key Features:**
+### Key Features
 
--  **Secure** - API key authentication, rate limiting
--  **Validated** - Input/output validation, realistic ranges
--  **Protected** - Error handling, no leaked information
--  **Resilient** - Graceful degradation if models unavailable
--  **Explainable** - Clear reasoning for recommendations
+- **Dual Input Mode** — accepts equipment lists OR direct business metrics
+- **Diesel Replacement Economics** — models grid-only and diesel hybrid scenarios
+- **Intelligent System Sizing** — auto-scales panel area to 90% coverage (SME-capped)
+- **Secure** — API key authentication, rate limiting, input/output validation
+- **Explainable** — clear reasoning attached to every recommendation
+- **Resilient** — graceful degradation if any upstream model is unavailable
 
 ---
 
-## 🏗️ ARCHITECTURE
+## ARCHITECTURE
 
 ```
 ┌─────────────────────────────────────────────────────────────┐
@@ -57,18 +61,18 @@ Model 4 is the **master orchestration layer** that coordinates Models 1-3 and ge
                          ▼
 ┌─────────────────────────────────────────────────────────────┐
 │                       MODEL 4                               │
-│            AI Recommendation Engine                         │
-│               (This Application)                            │
+│            AI Recommendation Engine v1.2.0                  │
 │                                                             │
-│  1. Validate Input                                          │
+│  1. Validate & convert input                                │
 │  2. Call Model 1 → Consumption                              │
-│  3. Call Model 2 → Generation                               │
-│  4. Call Model 3 → ROI                                      │
-│  5. Generate Recommendation                                 │
-│  6. Return Result                                           │
+│  3. Call Model 2 → Base generation (10m²)                   │
+│  4. Scale system to 90% coverage (max 50m²)                 │
+│  5. Calculate diesel economics + blended tariff             │
+│  6. Call Model 3 → ROI                                      │
+│  7. Score viability & return recommendation                 │
 └─────────┬──────────┬──────────┬────────────────────────────┘
           │          │          │
-          │          │          │ (All via Railway API)
+          │          │          │  (Railway API — shared key)
           ▼          ▼          ▼
     ┌─────────┐ ┌─────────┐ ┌─────────┐
     │ Model 1 │ │ Model 2 │ │ Model 3 │
@@ -79,15 +83,15 @@ Model 4 is the **master orchestration layer** that coordinates Models 1-3 and ge
 
 ---
 
-##  QUICK START
+## QUICK START
 
-### **Prerequisites:**
+### Prerequisites
 
 - Python 3.8+
 - pip
-- Models 1-3 deployed on Railway (already done!)
+- Models 1–3 deployed on Railway (already live)
 
-### **Installation:**
+### Installation
 
 ```bash
 # 1. Clone repository
@@ -103,44 +107,45 @@ cp .env_model4 .env
 # 4. Generate your API key
 python -c "import secrets; print(secrets.token_urlsafe(32))"
 
-# 5. Edit .env file
-# Add your generated API key to API_KEY
-# MODELS_API_KEY should be: API_KEY (as provided by your team)
+# 5. Edit .env — add generated key to API_KEY
+# MODELS_API_KEY = the shared key for Models 1-3
+# MODELS_BASE_URL = https://dse-models-production.up.railway.app/api/v1
 
-# 6. Run the application
+# 6. Run
 python model4_app.py
 ```
 
-### **Verify It's Working:**
+### Verify It's Working
 
 ```bash
 # Health check (no auth needed)
 curl http://127.0.0.1:5000/health
-
 # Expected: {"status": "healthy", ...}
 ```
 
 ---
 
-##  API DOCUMENTATION
+## API DOCUMENTATION
 
-### **Base URL:**
+### Base URL
+
 ```
-Local: http://127.0.0.1:5000
-Production: https://your-deployment-url.com
+Local:      http://127.0.0.1:5000
+Production: https://<your-railway-url>.railway.app
 ```
 
-### **Authentication:**
-All `/api/v1/*` endpoints require API key:
+### Authentication
+
+All `/api/v1/*` endpoints require:
 ```
-Header: X-API-KEY: your_api_key_here
+X-API-KEY: your_api_key_here
 ```
 
 ---
 
-### **ENDPOINT 1: Health Check**
+### ENDPOINT 1: Health Check
 
-**No authentication required**
+No authentication required.
 
 ```http
 GET /health
@@ -150,17 +155,17 @@ GET /health
 ```json
 {
   "status": "healthy",
-  "service": "Model 4 Orchestration",
-  "timestamp": "2024-02-14T10:30:00.000000",
-  "version": "1.0.0"
+  "service": "Model 4 Orchestration (MVP + Diesel)",
+  "timestamp": "2026-02-15T10:30:00.000000",
+  "version": "1.2.0-mvp-diesel"
 }
 ```
 
 ---
 
-### **ENDPOINT 2: API Information**
+### ENDPOINT 2: API Info
 
-**No authentication required**
+No authentication required.
 
 ```http
 GET /
@@ -170,28 +175,25 @@ GET /
 ```json
 {
   "service": "Solar Viability Assessment - Model 4",
-  "description": "AI Recommendation Engine & Orchestration",
-  "version": "1.0.0",
-  "owner": "Bella",
+  "version": "1.2.0-mvp-diesel",
+  "description": "MVP: Diesel replacement economics + intelligent system sizing",
   "endpoints": {
     "health": "GET /health",
-    "analyze": "POST /api/v1/analyze",
-    "models_status": "GET /api/v1/models/status"
+    "analyze": "POST /api/v1/analyze (requires X-API-KEY header)"
   },
-  "security": "API key required (X-API-KEY header)",
-  "integrated_models": {
-    "model_1": "Energy Consumption Estimation",
-    "model_2": "Solar Generation Prediction",
-    "model_3": "Financial Viability & ROI"
+  "new_inputs": {
+    "uses_diesel": "boolean (optional, default false)",
+    "diesel_hours_per_day": "number 0-24 (optional, default 12)",
+    "diesel_price_per_liter": "USD per liter (optional, default 1.20)"
   }
 }
 ```
 
 ---
 
-### **ENDPOINT 3: Solar Viability Analysis** 
+### ENDPOINT 3: Solar Viability Analysis
 
-**Requires authentication**
+**Requires authentication.**
 
 ```http
 POST /api/v1/analyze
@@ -199,7 +201,8 @@ Content-Type: application/json
 X-API-KEY: your_api_key_here
 ```
 
-**Request Body:**
+#### Request — Equipment List Mode (recommended)
+
 ```json
 {
   "business_name": "Joe's Coffee Shop",
@@ -208,393 +211,270 @@ X-API-KEY: your_api_key_here
   "latitude": -1.2921,
   "longitude": 36.8219,
   "equipment_list": [
-    {
-      "equipment_type": "refrigerator",
-      "quantity": 2,
-      "hours_per_day": 24
-    },
-    {
-      "equipment_type": "espresso_machine",
-      "quantity": 1,
-      "hours_per_day": 10
-    },
-    {
-      "equipment_type": "lights",
-      "quantity": 15,
-      "hours_per_day": 12
-    }
+    { "equipment_type": "refrigerator", "quantity": 2, "hours_per_day": 24 },
+    { "equipment_type": "espresso_machine", "quantity": 1, "hours_per_day": 10 },
+    { "equipment_type": "lights", "quantity": 15, "hours_per_day": 12 },
+    { "equipment_type": "air_conditioner", "quantity": 2, "hours_per_day": 8 }
   ],
-  "tariff": 0.15
+  "tariff": 0.15,
+  "uses_diesel": false
 }
 ```
 
-**Required Fields:**
-- `business_name` (string, 1-200 chars)
-- `business_type` (string, one of: Restaurant, Retail, Office, Hotel, Healthcare, Education, Manufacturing, Food & Beverage, Cafe, Gym, Bakery, Entertainment, Workshop)
-- `location` (string)
-- `latitude` (float, -90 to 90)
-- `longitude` (float, -180 to 180)
-- `equipment_list` (array, max 500 items)
-  - Each item must have:
-    - `equipment_type` (string)
-    - `quantity` (integer, 0-100)
-    - `hours_per_day` (float, 0-24) - optional
+#### Request — Diesel Replacement Mode
 
-**Optional Fields:**
-- `tariff` (float, default 0.15) - electricity cost in $/kWh
+```json
+{
+  "business_name": "Lagos Butchery",
+  "business_type": "Bakery",
+  "location": "Lagos, Nigeria",
+  "latitude": 5.5244,
+  "longitude": 3.3792,
+  "equipment_list": [
+    { "equipment_type": "refrigerator", "quantity": 3, "hours_per_day": 24 },
+    { "equipment_type": "freezer", "quantity": 2, "hours_per_day": 24 },
+    { "equipment_type": "lights", "quantity": 10, "hours_per_day": 12 }
+  ],
+  "tariff": 0.12,
+  "uses_diesel": true,
+  "diesel_hours_per_day": 12,
+  "diesel_price_per_liter": 1.20
+}
+```
 
-**Success Response (200 OK):**
+#### Required Fields
+
+| Field | Type | Constraints |
+|-------|------|-------------|
+| `business_name` | string | 1–200 characters |
+| `business_type` | string | See allowed values below |
+| `location` | string | Human-readable |
+| `latitude` | float | -90 to 90; Model 2 valid range: **-26 to 6** (Sub-Saharan Africa) |
+| `longitude` | float | -180 to 180; Model 2 valid range: **-18 to 44** |
+| `equipment_list` OR (`sqft_m2` + `operating_hours_weekly` + `num_refrigeration_units`) | — | One input mode required |
+
+#### Optional Fields
+
+| Field | Type | Default | Notes |
+|-------|------|---------|-------|
+| `tariff` | float | 0.15 | Grid electricity cost ($/kWh) |
+| `uses_diesel` | boolean | false | Enable diesel replacement mode |
+| `diesel_hours_per_day` | float | 12 | Generator runtime per day (0–24) |
+| `diesel_price_per_liter` | float | 1.20 | Diesel fuel price in USD (0–10) |
+| `num_workers` | integer | 5 | Number of employees |
+| `months_per_year` | integer | 12 | Operating months |
+
+#### Allowed Business Types
+
+`Restaurant`, `Retail`, `Office`, `Hotel`, `Healthcare`, `Education`, `Manufacturing`, `Food & Beverage`, `Cafe`, `Gym`, `Bakery`, `Entertainment`, `Workshop`
+
+#### Supported Equipment Types
+
+`refrigerator`, `freezer`, `fridge`, `cold_room`, `display_cooler`, `ice_maker`, `oven`, `stove`, `microwave`, `grill`, `fryer`, `espresso_machine`, `coffee_maker`, `air_conditioner`, `ac`, `fan`, `heater`, `lights`, `led_lights`, `fluorescent`, `computer`, `printer`, `monitor`, `treadmill`, `water_cooler`, `water_heater`, `dishwasher`, `washing_machine`
+
+Unknown types default to 100W power estimate.
+
+---
+
+#### Success Response (200 OK) — Grid Only
+
 ```json
 {
   "business_name": "Joe's Coffee Shop",
   "business_type": "Cafe",
   "location": "Nairobi, Kenya",
-  "estimated_consumption_kwh": 2500.5,
-  "predicted_generation_kwh": 3200.8,
-  "roi_percentage": 18.5,
-  "monthly_savings": 125.75,
-  "system_cost": 15000,
-  "recommendation": "High",
-  "viability_score": 85.3,
-  "status": "HIGHLY VIABLE",
-  "explanation": "Solar is highly viable because: Strong ROI of 18.5%; Excellent solar coverage (128% of consumption); Significant monthly savings ($125.75).",
-  "confidence": 92.5,
-  "analyzed_at": "2024-02-14T10:30:00.000000"
+  "estimated_consumption_kwh": 220.8,
+  "predicted_generation_kwh": 198.7,
+  "recommended_panel_area_m2": 24.5,
+  "system_cost": 14707,
+  "roi_percentage": 2.43,
+  "monthly_savings": 29.80,
+  "recommendation": "Low",
+  "viability_score": 34.3,
+  "status": "NOT VIABLE",
+  "explanation": "Solar is not viable because: Low ROI of 2.4%; Excellent solar coverage (90%); Low savings ($29.80/mo).",
+  "confidence": 85.0,
+  "analyzed_at": "2026-02-15T10:30:00.000000",
+  "energy_scenario": "grid_only",
+  "current_energy_cost": {
+    "total_monthly": 33.11,
+    "diesel_monthly": 0,
+    "grid_monthly": 33.11
+  }
 }
 ```
 
-**Recommendation Levels:**
-- `High` (score ≥ 70) - Highly recommended
-- `Medium` (score 50-69) - Moderately recommended
-- `Low` (score < 50) - Not recommended
-
-**Error Responses:**
+#### Success Response (200 OK) — Diesel Replacement
 
 ```json
-// 400 Bad Request - Invalid input
 {
-  "error": "Bad Request",
-  "message": "latitude must be between -90 and 90"
+  "business_name": "Lagos Butchery",
+  "business_type": "Bakery",
+  "location": "Lagos, Nigeria",
+  "estimated_consumption_kwh": 251.3,
+  "predicted_generation_kwh": 226.2,
+  "recommended_panel_area_m2": 50.0,
+  "system_cost": 30000,
+  "roi_percentage": 5.36,
+  "monthly_savings": 134.02,
+  "recommendation": "Low",
+  "viability_score": 31.3,
+  "status": "NOT VIABLE",
+  "explanation": "Solar is not viable because: Low ROI of 5.4%; ...",
+  "confidence": 85.0,
+  "analyzed_at": "2026-02-15T10:30:00.000000",
+  "energy_scenario": "diesel_replacement",
+  "current_energy_cost": {
+    "total_monthly": 255.40,
+    "diesel_monthly": 240.32,
+    "grid_monthly": 15.08
+  },
+  "diesel_details": {
+    "hours_per_day": 12,
+    "price_per_liter": 1.20,
+    "monthly_liters": 50.3,
+    "effective_tariff": 1.91,
+    "diesel_kwh_monthly": 125.7
+  }
 }
+```
 
-// 401 Unauthorized - Missing/invalid API key
-{
-  "error": "Unauthorized",
-  "message": "API key is required. Include X-API-KEY header."
-}
+#### Viability Score Thresholds
 
-// 503 Service Unavailable - Models 1-3 down
+| Score | Recommendation | Status |
+|-------|---------------|--------|
+| ≥ 65 | High | HIGHLY VIABLE |
+| 40–64 | Medium | MODERATELY VIABLE |
+| < 40 | Low | NOT VIABLE |
+
+> **Note:** African grid-only scenarios with tariffs of $0.12–0.18/kWh realistically produce Low ratings (2–5% ROI). Heavy diesel users (18h/day) can reach High (37–41% ROI). This is by design — the model reflects market reality.
+
+#### Error Responses
+
+```json
+// 400 — Invalid input
+{ "error": "Bad Request", "message": "latitude must be between -90 and 90" }
+
+// 401 — Missing/invalid API key
+{ "error": "Unauthorized", "message": "API key is required" }
+
+// 429 — Rate limit exceeded
+{ "error": "Too Many Requests", "message": "Rate limit exceeded" }
+
+// 503 — Models 1-3 unavailable
 {
   "error": "Service Unavailable",
-  "message": "Unable to complete analysis. One or more required services are unavailable.",
+  "message": "Unable to complete analysis",
   "business_name": "Joe's Coffee Shop",
   "status": "INCOMPLETE"
 }
 
-// 500 Internal Server Error
-{
-  "error": "Internal Server Error",
-  "message": "An error occurred processing your request. Please contact support."
-}
+// 500 — Internal error (no details exposed)
+{ "error": "Internal Server Error", "message": "An error occurred" }
 ```
 
 ---
 
-### **ENDPOINT 4: Models Status** 
+## SECURITY FEATURES
 
-**Requires authentication**
+### API Key Authentication
+All `/api/v1/*` endpoints enforce `X-API-KEY` header validation. Missing or invalid keys return 401 immediately.
 
-```http
-GET /api/v1/models/status
-X-API-KEY: your_api_key_here
-```
+### Rate Limiting
+100 requests per minute per IP. Returns 429 if exceeded. Production deployments should use Redis storage for the limiter.
 
-**Response:**
-```json
-{
-  "model_4": "operational",
-  "integrated_models": {
-    "base_url": "https://dse-models-production.up.railway.app/api/v1",
-    "status": "healthy",
-    "model_1": "Energy Consumption Estimation",
-    "model_2": "Solar Generation Prediction",
-    "model_3": "Financial Viability & ROI"
-  },
-  "timestamp": "2024-02-14T10:30:00.000000"
-}
-```
+### Input Validation
+All inputs are validated for presence, type, and range before any model calls are made. See field constraints above.
+
+### Output Sanitization
+All energy values are clamped to non-negative. Viability score is bounded 0–100. No internal paths, stack traces, or model details are exposed in error responses.
 
 ---
 
-##  SECURITY FEATURES
+## INTEGRATION WITH MODELS 1-3
 
-### **1. API Key Authentication**
+**Base URL:** `https://dse-models-production.up.railway.app/api/v1`
+**Auth header:** `X-API-KEY` (same shared key for all three)
 
-All `/api/v1/*` endpoints require valid API key in header:
+| Model | Endpoint | Sends | Receives |
+|-------|----------|-------|----------|
+| Model 1 | `POST /estimate-consumption` | `business_type`, `sqft_m2`, `operating_hours_weekly`, `num_refrigeration_units`, `location`, `num_workers`, `months_per_year` | `estimated_consumption_kwh_monthly`, `confidence_score` |
+| Model 2 | `POST /predict-generation` | `latitude`, `longitude`, `month`, `include_lifetime` | `monthly_generation[].daily_kwh`, `annual_summary` |
+| Model 3 | `POST /calculate-roi` | `consumption_kwh`, `generation_kwh`, `tariff_per_kwh`, `system_cost_usd` | `roi_percentage`, `monthly_savings_usd` |
+
+**Important geographic constraint:** Model 2 only covers Sub-Saharan Africa (lat: -26 to 6, lon: -18 to 44). Requests outside this range will cause a 503 from Model 4 because Model 2 will reject them with 400.
+
+If any upstream model fails, Model 4 logs the error and returns 503 to the client. No automatic retries (to respect upstream rate limits).
+
+---
+
+## TESTING
 
 ```bash
-X-API-KEY: your_api_key_here
+# Run diesel MVP test suite
+python test_diesel_mvp.py
+
+# Expected: All 3 tests pass with 200 OK
+# Test 1: Grid-only → Low viability (realistic for low tariffs)
+# Test 2: Diesel 12h/day → Low/Medium viability
+# Test 3: Heavy diesel 18h/day → High viability (37-41% ROI)
 ```
 
-**Enforced by:** `@require_api_key` decorator
-
----
-
-### **2. Rate Limiting**
-
-Limits: **100 requests per minute** per IP address
-
-**Enforced by:** Flask-Limiter
-
-**Response if exceeded:**
-```json
-{
-  "error": "Too Many Requests",
-  "message": "Rate limit exceeded"
-}
-```
-Status: `429 Too Many Requests`
-
----
-
-### **3. Input Validation**
-
-All inputs are validated for:
-
-- ✅ **Required fields** - Missing fields rejected
-- ✅ **Data types** - Must match expected types
-- ✅ **Realistic ranges:**
-  - Latitude: -90 to 90
-  - Longitude: -180 to 180
-  - Quantity: 0 to 100 per item
-  - Hours: 0 to 24 per day
-  - Equipment list: Max 500 items
-- ✅ **Allowed values** - business_type must be from approved list
-
-**Enforced by:** `validate_business_input()` function
-
----
-
-### **4. Output Validation**
-
-All outputs are sanitized:
-
-- ✅ Viability score: 0-100
-- ✅ ROI: Non-negative
-- ✅ Energy values: Non-negative
-- ✅ No payback period (removed from project)
-
-**Enforced by:** `validate_output()` function
-
----
-
-### **5. Error Handling**
-
-- ✅ **400** - Bad Request (validation errors)
-- ✅ **401** - Unauthorized (missing/invalid API key)
-- ✅ **404** - Not Found (invalid endpoint)
-- ✅ **429** - Too Many Requests (rate limit exceeded)
-- ✅ **500** - Internal Server Error (no details leaked)
-- ✅ **503** - Service Unavailable (models down)
-
-**No stack traces or internal details exposed in errors!**
-
----
-
-## 🔗 INTEGRATION WITH MODELS 1-3
-
-Model 4 integrates with deployed Models 1-3 on Railway:
-
-**Base URL:** `https://dse-models-production.up.railway.app/api/v1`  
-**API Key:** `API_KEY` (sent as `X-API-KEY` header)
-
-### **Integration Points:**
-
-1. **Model 1 - Energy Consumption**
-   ```
-   POST /api/v1/estimate-consumption
-   ```
-   - Sends: equipment_list, business_type
-   - Receives: estimated_consumption_kwh, confidence
-
-2. **Model 2 - Solar Generation**
-   ```
-   POST /api/v1/predict-generation
-   ```
-   - Sends: latitude, longitude
-   - Receives: predicted_generation_kwh, confidence
-
-3. **Model 3 - ROI Calculation**
-   ```
-   POST /api/v1/calculate-roi
-   ```
-   - Sends: consumption_kwh, generation_kwh, tariff
-   - Receives: roi_percentage, monthly_savings, system_cost
-
-### **Resilience:**
-
-If any model fails:
-- ✅ Error is logged
-- ✅ User receives 503 Service Unavailable
-- ✅ No internal details exposed
-- ✅ Graceful degradation
-
----
-
-## 🧪 TESTING
-
-### **Automated Tests:**
-
+Manual curl test:
 ```bash
-# Run comprehensive test suite
-python test.py
-
-# Expected output:
-# ✅ All tests passed
-# Success rate: 100%
-```
-
-### **Manual Tests:**
-
-```bash
-# 1. Health check
-curl http://127.0.0.1:5000/health
-
-# 2. Valid analysis (replace with your API key)
 curl -X POST http://127.0.0.1:5000/api/v1/analyze \
   -H "Content-Type: application/json" \
   -H "X-API-KEY: your_api_key_here" \
-  -d '{
-    "business_name": "Test Cafe",
-    "business_type": "Cafe",
-    "location": "Nairobi, Kenya",
-    "latitude": -1.2921,
-    "longitude": 36.8219,
-    "equipment_list": [
-      {"equipment_type": "refrigerator", "quantity": 2, "hours_per_day": 24}
-    ]
-  }'
-
-# 3. Test without API key (should fail with 401)
-curl -X POST http://127.0.0.1:5000/api/v1/analyze \
-  -H "Content-Type: application/json" \
-  -d '{...}'
+  -d @test_diesel_mvp.json
 ```
 
 ---
 
-##  DEPLOYMENT
+## DEPLOYMENT
 
-### **Deploy to Railway:**
-
-1. **Prepare for deployment:**
-   ```bash
-   # Create Procfile
-   echo "web: gunicorn model4_app:app" > Procfile
-   
-   # Create runtime.txt
-   echo "python-3.11.0" > runtime.txt
-   ```
-
-2. **Deploy to Railway:**
-   ```bash
-   # Install Railway CLI
-   npm install -g @railway/cli
-   
-   # Login
-   railway login
-   
-   # Initialize project
-   railway init
-   
-   # Deploy
-   railway up
-   ```
-
-3. **Set environment variables in Railway:**
-   ```
-   API_KEY=your_generated_api_key
-   MODELS_API_KEY=API_KEY
-   MODELS_BASE_URL=https://dse-models-production.up.railway.app/api/v1
-   ```
-
-4. **Test deployed API:**
-   ```bash
-   curl https://your-railway-url.railway.app/health
-   ```
-
----
-
-## 🔧 TROUBLESHOOTING
-
-### **Problem: 401 Unauthorized**
-
-**Solution:** Check API key in `.env` file and request header match
+### Deploy to Railway
 
 ```bash
-# Verify .env
-cat .env | grep API_KEY
+# 1. Create Procfile
+echo "web: gunicorn model4_app:app" > Procfile
 
-# Test with correct key
-curl -H "X-API-KEY: $(grep API_KEY .env | cut -d'=' -f2)" http://localhost:5000/api/v1/models/status
+# 2. Create runtime.txt
+echo "python-3.11.0" > runtime.txt
+
+# 3. Install Railway CLI and deploy
+npm install -g @railway/cli
+railway login
+railway init
+railway up
+
+# 4. Set environment variables
+railway variables set API_KEY=your_generated_key
+railway variables set MODELS_API_KEY=QfBmvo3htYQPSJWYYLcChxXvZonTuC2U
+railway variables set MODELS_BASE_URL=https://dse-models-production.up.railway.app/api/v1
+
+# 5. Verify
+curl https://your-railway-url.railway.app/health
 ```
 
 ---
 
-### **Problem: 503 Service Unavailable**
+## TROUBLESHOOTING
 
-**Solution:** Models 1-3 may be down. Check their status:
+**401 Unauthorized** — API key in request header doesn't match `API_KEY` in `.env`. Verify both match exactly.
 
-```bash
-curl -H "X-API-KEY: API_KEY" https://dse-models-production.up.railway.app/api/v1/health
-```
+**503 Service Unavailable** — One of Models 1–3 is down or returned an error. Most common causes:
+- Model 2 rejection due to coordinates outside SSA bounds (check lat/lon)
+- Models 1–3 Railway service sleeping (first request wakes it, retry after 10s)
 
----
+**App won't start** — `API_KEY` or `MODELS_API_KEY` not set in `.env`. Both are required at startup.
 
-### **Problem: Invalid input errors**
-
-**Solution:** Check request format matches API documentation exactly
-
-Common issues:
-- Missing required fields
-- business_type not in allowed list
-- latitude/longitude out of range
-- hours_per_day > 24
+**Low viability on all scenarios** — Expected for African grid-only businesses at $0.12–0.15/kWh. Recommend testing with `uses_diesel: true` if the business uses a generator — these scenarios show significantly higher ROI.
 
 ---
 
-### **Problem: Flask app won't start**
+## SUPPORT
 
-**Solution:**
-
-```bash
-# Check dependencies
-pip install -r requirements_model4.txt
-
-# Check .env file exists
-ls -la .env
-
-# Check API_KEY is set
-python -c "from dotenv import load_dotenv; import os; load_dotenv(); print(os.getenv('API_KEY'))"
-
-# Run with verbose logging
-python model4_app.py
-```
-
----
-
-## 📞 SUPPORT
-
-**Owner:** Bella  
-**Project:** Solar Viability Assessment System  
-**Model:** Model 4 - AI Recommendation Engine & Orchestration
-
-For issues or questions:
-1. Check this README
-2. Run `python test.py` to diagnose
-3. Check logs for error details
-4. Contact team lead
-
----
-
-
+**Owner:** Bella
+**Updates:** Tessa
+**Project:** SolarSense AI — Model 4 Orchestration
+**Version:** 1.2.0-mvp-diesel | February 15, 2026

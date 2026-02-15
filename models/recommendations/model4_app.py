@@ -31,12 +31,6 @@ from typing import Dict, List, Optional
 
 # Load environment
 load_dotenv()
-API_KEY = os.getenv('API_KEY')
-MODELS_API_KEY = os.getenv('MODELS_API_KEY')
-MODELS_BASE_URL = os.getenv('MODELS_BASE_URL')
-
-if not API_KEY or not MODELS_API_KEY:
-    raise ValueError("ERROR: API keys not found in .env file!")
 
 # Logging
 logging.basicConfig(
@@ -45,10 +39,34 @@ logging.basicConfig(
 )
 logger = logging.getLogger(__name__)
 
-# Flask setup
-app = Flask(__name__)
-CORS(app, resources={r"/api/*": {"origins": "*", "methods": ["GET", "POST"], "allow_headers": ["Content-Type", "X-API-KEY"]}})
-limiter = Limiter(app=app, key_func=get_remote_address, default_limits=["100 per minute"], storage_uri="memory://")
+# Module-level limiter (init_app called inside create_app)
+limiter = Limiter(key_func=get_remote_address, default_limits=["100 per minute"], storage_uri="memory://")
+
+
+def create_app() -> Flask:
+    """
+    Application factory for Model 4.
+    Reads API_KEY, MODELS_API_KEY, and MODELS_BASE_URL from environment.
+    Raises ValueError at startup if required keys are missing.
+    """
+    global API_KEY, MODELS_API_KEY, MODELS_BASE_URL
+
+    API_KEY = os.getenv('API_KEY')
+    MODELS_API_KEY = os.getenv('MODELS_API_KEY')
+    MODELS_BASE_URL = os.getenv('MODELS_BASE_URL')
+
+    if not API_KEY or not MODELS_API_KEY:
+        raise ValueError("ERROR: API_KEY and MODELS_API_KEY must be set in environment!")
+
+    app = Flask(__name__)
+    CORS(app, resources={r"/api/*": {"origins": "*", "methods": ["GET", "POST"], "allow_headers": ["Content-Type", "X-API-KEY"]}})
+    limiter.init_app(app)
+
+    # Register all routes on this app instance
+    register_routes(app)
+
+    logger.info("Model 4 app created successfully")
+    return app
 
 # ============================================
 # EQUIPMENT TO BUSINESS METRICS CONVERTER
@@ -573,181 +591,185 @@ def generate_recommendation(consumption_data, generation_data, roi_data):
 # ENDPOINTS
 # ============================================
 
-@app.route('/', methods=['GET'])
-def home():
-    return jsonify({
-        'service': 'Solar Viability Assessment - Model 4',
-        'version': '1.2.0-mvp-diesel',
-        'description': 'MVP: Diesel replacement economics + intelligent system sizing',
-        'features': {
-            'equipment_to_metrics': 'Converts equipment list to business metrics',
-            'intelligent_sizing': 'Auto-scales system to 90% consumption coverage',
-            'diesel_economics': 'Calculates diesel replacement savings (MVP)',
-            'ml_estimation': 'No historical bills required'
-        },
-        'endpoints': {
-            'health': 'GET /health',
-            'analyze': 'POST /api/v1/analyze (requires X-API-KEY header)'
-        },
-        'new_inputs': {
-            'uses_diesel': 'boolean (optional, default false)',
-            'diesel_hours_per_day': 'number 0-24 (optional, default 12)',
-            'diesel_price_per_liter': 'USD per liter (optional, default 1.20)'
-        }
-    }), 200
 
-@app.route('/health', methods=['GET'])
-def health():
-    return jsonify({
-        'status': 'healthy',
-        'service': 'Model 4 Orchestration (MVP + Diesel)',
-        'timestamp': datetime.now().isoformat(),
-        'version': '1.2.0-mvp-diesel'
-    }), 200
+def register_routes(app: Flask) -> None:
+    """Register all routes on the given Flask app instance."""
 
-@app.route('/api/v1/analyze', methods=['POST'])
-@require_api_key
-@limiter.limit("100/minute")
-def analyze():
-    """
-    ENHANCED: Accepts BOTH equipment_list OR business metrics
-    Automatically converts equipment to metrics for Model 1
-    """
-    try:
-        data = request.get_json()
-        if not data:
-            return jsonify({'error': 'Bad Request', 'message': 'No JSON data'}), 400
-        
-        is_valid, error_msg = validate_business_input(data)
-        if not is_valid:
-            return jsonify({'error': 'Bad Request', 'message': error_msg}), 400
-        
-        logger.info(f"🚀 Starting analysis for {data['business_name']}")
-        
-        latitude = float(data['latitude'])
-        longitude = float(data['longitude'])
-        tariff = float(data.get('tariff', 0.15))
-        
-        # Extract diesel parameters
-        diesel_params = {
-            'uses_diesel': data.get('uses_diesel', False),
-            'diesel_hours_per_day': data.get('diesel_hours_per_day', 12),
-            'diesel_price_per_liter': data.get('diesel_price_per_liter', 1.20)
-        }
-        
-        # Call models
-        consumption_data = call_model1_consumption(data)
-        generation_data = call_model2_generation(latitude, longitude)
-        
-        # Intelligent System Sizing based on consumption
-        if consumption_data and generation_data:
-            consumption_kwh = consumption_data.get('estimated_consumption_kwh_monthly', 0)
-            base_generation_kwh = generation_data.get('base_generation_10m2_kwh', 0)
-            base_daily_kwh = generation_data.get('base_daily_kwh', 0)
-            
-            if base_generation_kwh > 0 and consumption_kwh > 0:
-                # Calculate optimal system size to cover 80-100% of consumption
-                # Target 90% coverage for good viability
-                target_coverage = 0.90
-                required_generation = consumption_kwh * target_coverage
-                
-                # Calculate scaling factor (how many times bigger than 10m²)
-                scaling_factor = required_generation / base_generation_kwh
-                
-                # Constrain scaling factor: max 50m² (~$20,000) - realistic SME upper bound
-                scaling_factor = max(1.0, min(5.0, scaling_factor))
-                
-                # Scale up the generation
-                scaled_generation_kwh = base_generation_kwh * scaling_factor
-                scaled_daily_kwh = base_daily_kwh * scaling_factor
-                recommended_panel_area = 10.0 * scaling_factor
-                
-                # Calculate scaled system cost ($600/m² is typical for African markets)
-                base_system_cost = 6000  # for 10m²
-                scaled_system_cost = base_system_cost * scaling_factor
-                
-                # Update generation_data with scaled values
-                generation_data['predicted_generation_kwh'] = scaled_generation_kwh
-                generation_data['scaled_daily_kwh'] = scaled_daily_kwh
-                generation_data['recommended_panel_area_m2'] = recommended_panel_area
-                generation_data['scaling_factor'] = scaling_factor
-                generation_data['system_cost_usd'] = scaled_system_cost
-                
-                logger.info(f"🔧 Intelligent System Sizing:")
-                logger.info(f"   Consumption: {consumption_kwh:.2f} kWh/month")
-                logger.info(f"   Base (10m²): {base_generation_kwh:.2f} kWh/month")
-                logger.info(f"   Recommended: {recommended_panel_area:.1f}m² panels")
-                logger.info(f"   Scaled generation: {scaled_generation_kwh:.2f} kWh/month")
-                logger.info(f"   Coverage: {(scaled_generation_kwh/consumption_kwh*100):.1f}%")
-                logger.info(f"   System cost: ${scaled_system_cost:,.0f}")
-            
-            # Calculate diesel economics and blended tariff
-            diesel_economics = calculate_diesel_economics(consumption_kwh, diesel_params, tariff)
-            blended_tariff = diesel_economics['blended_tariff']
-            
-            generation_kwh = generation_data.get('predicted_generation_kwh', 0)
-            system_cost = generation_data.get('system_cost_usd', 6000)
-            roi_data = call_model3_roi(consumption_kwh, generation_kwh, blended_tariff, system_cost)
-            
-            # Add diesel economics to roi_data for output
-            if roi_data:
-                roi_data['diesel_economics'] = diesel_economics
-        else:
-            roi_data = None
-        
-        if consumption_data and generation_data and roi_data:
-            recommendation = generate_recommendation(consumption_data, generation_data, roi_data)
-            
-            result = {
-                'business_name': data['business_name'],
-                'business_type': data['business_type'],
-                'location': data['location'],
-                'estimated_consumption_kwh': consumption_data.get('estimated_consumption_kwh_monthly'),
-                'predicted_generation_kwh': generation_data.get('predicted_generation_kwh'),
-                'recommended_panel_area_m2': generation_data.get('recommended_panel_area_m2', 10.0),
-                'roi_percentage': roi_data.get('roi_percentage'),
-                'monthly_savings': roi_data.get('monthly_savings_usd'),
-                'system_cost': generation_data.get('system_cost_usd', 6000),
-                'recommendation': recommendation['recommendation'],
-                'viability_score': recommendation['viability_score'],
-                'status': recommendation['status'],
-                'explanation': recommendation['explanation'],
-                'confidence': recommendation['confidence'],
-                'analyzed_at': datetime.now().isoformat(),
-                
-                # Diesel economics breakdown (MVP feature)
-                'energy_scenario': roi_data.get('diesel_economics', {}).get('scenario', 'grid_only'),
-                'current_energy_cost': {
-                    'total_monthly': roi_data.get('diesel_economics', {}).get('total_current_cost', 0),
-                    'diesel_monthly': roi_data.get('diesel_economics', {}).get('diesel_cost_monthly', 0),
-                    'grid_monthly': roi_data.get('diesel_economics', {}).get('grid_cost_monthly', 0)
-                }
+    @app.route('/', methods=['GET'])
+    def home():
+        return jsonify({
+            'service': 'Solar Viability Assessment - Model 4',
+            'version': '1.2.0-mvp-diesel',
+            'description': 'MVP: Diesel replacement economics + intelligent system sizing',
+            'features': {
+                'equipment_to_metrics': 'Converts equipment list to business metrics',
+                'intelligent_sizing': 'Auto-scales system to 90% consumption coverage',
+                'diesel_economics': 'Calculates diesel replacement savings (MVP)',
+                'ml_estimation': 'No historical bills required'
+            },
+            'endpoints': {
+                'health': 'GET /health',
+                'analyze': 'POST /api/v1/analyze (requires X-API-KEY header)'
+            },
+            'new_inputs': {
+                'uses_diesel': 'boolean (optional, default false)',
+                'diesel_hours_per_day': 'number 0-24 (optional, default 12)',
+                'diesel_price_per_liter': 'USD per liter (optional, default 1.20)'
             }
+    }), 200
+
+    @app.route('/health', methods=['GET'])
+    def health():
+        return jsonify({
+            'status': 'healthy',
+            'service': 'Model 4 Orchestration (MVP + Diesel)',
+            'timestamp': datetime.now().isoformat(),
+            'version': '1.2.0-mvp-diesel'
+        }), 200
+
+    @app.route('/api/v1/analyze', methods=['POST'])
+    @require_api_key
+    @limiter.limit("100/minute")
+    def analyze():
+        """
+        ENHANCED: Accepts BOTH equipment_list OR business metrics
+        Automatically converts equipment to metrics for Model 1
+        """
+        try:
+            data = request.get_json()
+            if not data:
+                return jsonify({'error': 'Bad Request', 'message': 'No JSON data'}), 400
+        
+            is_valid, error_msg = validate_business_input(data)
+            if not is_valid:
+                return jsonify({'error': 'Bad Request', 'message': error_msg}), 400
+        
+            logger.info(f"🚀 Starting analysis for {data['business_name']}")
+        
+            latitude = float(data['latitude'])
+            longitude = float(data['longitude'])
+            tariff = float(data.get('tariff', 0.15))
+        
+            # Extract diesel parameters
+            diesel_params = {
+                'uses_diesel': data.get('uses_diesel', False),
+                'diesel_hours_per_day': data.get('diesel_hours_per_day', 12),
+                'diesel_price_per_liter': data.get('diesel_price_per_liter', 1.20)
+            }
+        
+            # Call models
+            consumption_data = call_model1_consumption(data)
+            generation_data = call_model2_generation(latitude, longitude)
+        
+            # Intelligent System Sizing based on consumption
+            if consumption_data and generation_data:
+                consumption_kwh = consumption_data.get('estimated_consumption_kwh_monthly', 0)
+                base_generation_kwh = generation_data.get('base_generation_10m2_kwh', 0)
+                base_daily_kwh = generation_data.get('base_daily_kwh', 0)
             
-            # Add diesel details if applicable
-            if roi_data.get('diesel_economics', {}).get('uses_diesel'):
-                result['diesel_details'] = {
-                    'hours_per_day': roi_data['diesel_economics'].get('diesel_hours_per_day'),
-                    'price_per_liter': roi_data['diesel_economics'].get('diesel_price_per_liter'),
-                    'monthly_liters': roi_data['diesel_economics'].get('diesel_liters_monthly'),
-                    'effective_tariff': roi_data['diesel_economics'].get('diesel_effective_tariff'),
-                    'diesel_kwh_monthly': roi_data['diesel_economics'].get('diesel_kwh_monthly')
+                if base_generation_kwh > 0 and consumption_kwh > 0:
+                    # Calculate optimal system size to cover 80-100% of consumption
+                    # Target 90% coverage for good viability
+                    target_coverage = 0.90
+                    required_generation = consumption_kwh * target_coverage
+                
+                    # Calculate scaling factor (how many times bigger than 10m²)
+                    scaling_factor = required_generation / base_generation_kwh
+                
+                    # Constrain scaling factor: max 50m² (~$20,000) - realistic SME upper bound
+                    scaling_factor = max(1.0, min(5.0, scaling_factor))
+                
+                    # Scale up the generation
+                    scaled_generation_kwh = base_generation_kwh * scaling_factor
+                    scaled_daily_kwh = base_daily_kwh * scaling_factor
+                    recommended_panel_area = 10.0 * scaling_factor
+                
+                    # Calculate scaled system cost ($600/m² is typical for African markets)
+                    base_system_cost = 6000  # for 10m²
+                    scaled_system_cost = base_system_cost * scaling_factor
+                
+                    # Update generation_data with scaled values
+                    generation_data['predicted_generation_kwh'] = scaled_generation_kwh
+                    generation_data['scaled_daily_kwh'] = scaled_daily_kwh
+                    generation_data['recommended_panel_area_m2'] = recommended_panel_area
+                    generation_data['scaling_factor'] = scaling_factor
+                    generation_data['system_cost_usd'] = scaled_system_cost
+                
+                    logger.info(f"🔧 Intelligent System Sizing:")
+                    logger.info(f"   Consumption: {consumption_kwh:.2f} kWh/month")
+                    logger.info(f"   Base (10m²): {base_generation_kwh:.2f} kWh/month")
+                    logger.info(f"   Recommended: {recommended_panel_area:.1f}m² panels")
+                    logger.info(f"   Scaled generation: {scaled_generation_kwh:.2f} kWh/month")
+                    logger.info(f"   Coverage: {(scaled_generation_kwh/consumption_kwh*100):.1f}%")
+                    logger.info(f"   System cost: ${scaled_system_cost:,.0f}")
+            
+                # Calculate diesel economics and blended tariff
+                diesel_economics = calculate_diesel_economics(consumption_kwh, diesel_params, tariff)
+                blended_tariff = diesel_economics['blended_tariff']
+            
+                generation_kwh = generation_data.get('predicted_generation_kwh', 0)
+                system_cost = generation_data.get('system_cost_usd', 6000)
+                roi_data = call_model3_roi(consumption_kwh, generation_kwh, blended_tariff, system_cost)
+            
+                # Add diesel economics to roi_data for output
+                if roi_data:
+                    roi_data['diesel_economics'] = diesel_economics
+            else:
+                roi_data = None
+        
+            if consumption_data and generation_data and roi_data:
+                recommendation = generate_recommendation(consumption_data, generation_data, roi_data)
+            
+                result = {
+                    'business_name': data['business_name'],
+                    'business_type': data['business_type'],
+                    'location': data['location'],
+                    'estimated_consumption_kwh': consumption_data.get('estimated_consumption_kwh_monthly'),
+                    'predicted_generation_kwh': generation_data.get('predicted_generation_kwh'),
+                    'recommended_panel_area_m2': generation_data.get('recommended_panel_area_m2', 10.0),
+                    'roi_percentage': roi_data.get('roi_percentage'),
+                    'monthly_savings': roi_data.get('monthly_savings_usd'),
+                    'system_cost': generation_data.get('system_cost_usd', 6000),
+                    'recommendation': recommendation['recommendation'],
+                    'viability_score': recommendation['viability_score'],
+                    'status': recommendation['status'],
+                    'explanation': recommendation['explanation'],
+                    'confidence': recommendation['confidence'],
+                    'analyzed_at': datetime.now().isoformat(),
+                
+                    # Diesel economics breakdown (MVP feature)
+                    'energy_scenario': roi_data.get('diesel_economics', {}).get('scenario', 'grid_only'),
+                    'current_energy_cost': {
+                        'total_monthly': roi_data.get('diesel_economics', {}).get('total_current_cost', 0),
+                        'diesel_monthly': roi_data.get('diesel_economics', {}).get('diesel_cost_monthly', 0),
+                        'grid_monthly': roi_data.get('diesel_economics', {}).get('grid_cost_monthly', 0)
+                    }
                 }
             
-            logger.info(f"✅ Complete: {result['recommendation']} viability")
-            return jsonify(result), 200
-        else:
-            logger.error("❌ One or more models failed")
-            return jsonify({
-                'error': 'Service Unavailable',
-                'message': 'Unable to complete analysis',
-                'business_name': data['business_name'],
-                'status': 'INCOMPLETE'
-            }), 503
+                # Add diesel details if applicable
+                if roi_data.get('diesel_economics', {}).get('uses_diesel'):
+                    result['diesel_details'] = {
+                        'hours_per_day': roi_data['diesel_economics'].get('diesel_hours_per_day'),
+                        'price_per_liter': roi_data['diesel_economics'].get('diesel_price_per_liter'),
+                        'monthly_liters': roi_data['diesel_economics'].get('diesel_liters_monthly'),
+                        'effective_tariff': roi_data['diesel_economics'].get('diesel_effective_tariff'),
+                        'diesel_kwh_monthly': roi_data['diesel_economics'].get('diesel_kwh_monthly')
+                    }
+            
+                logger.info(f"✅ Complete: {result['recommendation']} viability")
+                return jsonify(result), 200
+            else:
+                logger.error("❌ One or more models failed")
+                return jsonify({
+                    'error': 'Service Unavailable',
+                    'message': 'Unable to complete analysis',
+                    'business_name': data['business_name'],
+                    'status': 'INCOMPLETE'
+                }), 503
         
-    except Exception as e:
-        logger.error(f"❌ Error: {str(e)}", exc_info=True)
-        return jsonify({'error': 'Internal Server Error', 'message': 'An error occurred'}), 500
+        except Exception as e:
+            logger.error(f"❌ Error: {str(e)}", exc_info=True)
+            return jsonify({'error': 'Internal Server Error', 'message': 'An error occurred'}), 500
 
 # Error handlers
 @app.errorhandler(400)
@@ -766,8 +788,14 @@ def rate_limit_exceeded(e):
 def internal_error(e):
     return jsonify({'error': 'Internal Server Error', 'message': 'An error occurred'}), 500
 
-# Startup
+# Module-level app for standalone use and gunicorn
+# When imported by api/main.py, create_app() is called there instead.
+API_KEY = None
+MODELS_API_KEY = None
+MODELS_BASE_URL = None
+
 if __name__ == '__main__':
+    app = create_app()
     logger.info("🚀 Model 4: MVP + Diesel Replacement Economics")
     logger.info(f"✅ Equipment list → Business metrics conversion")
     logger.info(f"✅ Intelligent system sizing (90% coverage target)")

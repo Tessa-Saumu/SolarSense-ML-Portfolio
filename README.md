@@ -1,15 +1,4 @@
-# SolarSense AI ML Service
-
-⚠️ Branch Structure Notice
-
-The `production-do-not-push` branch is the protected production branch and serves as the source of truth.
-
-The `main` branch reflects the current state of the `production-do-not-push` branch for visibility and collaboration purposes.
-
-Do NOT push directly to `production-do-not-push` or `main`.
-
-All production updates should go through controlled merges.
-
+# SolarSense AI ML Microservice
 
 A unified Flask API gateway serving three independent machine learning microservices for solar energy analysis: Energy Consumption Prediction, Solar Generation Forecasting, and ROI Calculation.
 
@@ -369,14 +358,15 @@ pytest
 pytest models/energy_consumption/tests/
 ```
 
-**Model 2 Tests:**
-```bash
-pytest models/solar_generation/tests/
-```
-
 **Model 3 Tests:**
 ```bash
-pytest models/roi_calculation/tests/
+pytest models/roi_calculation/src/test_roi_api.py
+pytest tests/roi_calculation/
+```
+
+**Integration Tests:**
+```bash
+pytest tests/
 ```
 
 ### Test Coverage
