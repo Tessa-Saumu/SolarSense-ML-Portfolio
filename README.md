@@ -1,4 +1,15 @@
-# SolarSense AI ML Microservice
+# SolarSense AI ML Service
+
+⚠️ Branch Structure Notice
+
+The `production-do-not-push` branch is the protected production branch and serves as the source of truth.
+
+The `main` branch reflects the current state of the `production-do-not-push` branch for visibility and collaboration purposes.
+
+Do NOT push directly to `production-do-not-push` or `main`.
+
+All production updates should go through controlled merges.
+
 
 A unified Flask API gateway serving three independent machine learning microservices for solar energy analysis: Energy Consumption Prediction, Solar Generation Forecasting, and ROI Calculation.
 
