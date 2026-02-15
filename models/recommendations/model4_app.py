@@ -771,22 +771,24 @@ def register_routes(app: Flask) -> None:
             logger.error(f"❌ Error: {str(e)}", exc_info=True)
             return jsonify({'error': 'Internal Server Error', 'message': 'An error occurred'}), 500
 
-# Error handlers
-@app.errorhandler(400)
-def bad_request(e):
-    return jsonify({'error': 'Bad Request', 'message': str(e)}), 400
+    # Error handlers — registered here so they bind to the correct app instance
+    @app.errorhandler(400)
+    def bad_request(e):
+        return jsonify({'error': 'Bad Request', 'message': str(e)}), 400
 
-@app.errorhandler(401)
-def unauthorized(e):
-    return jsonify({'error': 'Unauthorized', 'message': 'Invalid or missing API key'}), 401
+    @app.errorhandler(401)
+    def unauthorized(e):
+        return jsonify({'error': 'Unauthorized', 'message': 'Invalid or missing API key'}), 401
 
-@app.errorhandler(429)
-def rate_limit_exceeded(e):
-    return jsonify({'error': 'Too Many Requests', 'message': 'Rate limit exceeded'}), 429
+    @app.errorhandler(429)
+    def rate_limit_exceeded(e):
+        return jsonify({'error': 'Too Many Requests', 'message': 'Rate limit exceeded'}), 429
 
-@app.errorhandler(500)
-def internal_error(e):
-    return jsonify({'error': 'Internal Server Error', 'message': 'An error occurred'}), 500
+    @app.errorhandler(500)
+    def internal_error(e):
+        return jsonify({'error': 'Internal Server Error', 'message': 'An error occurred'}), 500
+
+
 
 # Module-level app for standalone use and gunicorn
 # When imported by api/main.py, create_app() is called there instead.
