@@ -94,8 +94,12 @@ def create_app() -> Flask:
     def gateway_health():
         return jsonify({"status": "ok", "service": "gateway"}), 200
 
+    # Capture the ORIGINAL inner wsgi_app BEFORE replacing it.
+    # Passing `app` itself would cause infinite recursion.
+    original_wsgi = app.wsgi_app
+
     app.wsgi_app = MultiModelDispatcher(
-        app,
+        original_wsgi,        # <-- the original inner layer, not `app`
         energy_app,
         solar_app,
         roi_app,
