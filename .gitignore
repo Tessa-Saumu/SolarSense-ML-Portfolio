@@ -32,7 +32,10 @@ env/
 ENV/
 env.bak/
 venv.bak/
+<<<<<<< HEAD
+=======
 .venv/
+>>>>>>> origin/production-do-not-push
 
 # Jupyter Notebook
 .ipynb_checkpoints
