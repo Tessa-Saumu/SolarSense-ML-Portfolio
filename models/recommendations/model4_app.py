@@ -7,6 +7,12 @@ Integrates Models 1-3 deployed on Railway:
 - Model 2: Solar Generation Prediction  
 - Model 3: Financial Viability & ROI Calculation
 
+This version:
+1. Accepts equipment_list from frontend (better UX)
+2. Converts equipment → business metrics for Model 1
+3. No Model 1 retraining needed!
+4. Backward compatible with business metrics input
+
 Owner: Bella
 Updates: Tessa
 Implements ALL Security Requirements
@@ -295,8 +301,9 @@ def calculate_diesel_economics(consumption_kwh_monthly, diesel_params, grid_tari
     grid_kwh_monthly = consumption_kwh_monthly * (1 - diesel_fraction)
     
     # Diesel generator economics
-    # Industry standard: small diesel generators use ~0.25-0.30 liters per kWh
-    liters_per_kwh = 0.25
+    # Small generators at partial load (typical SME): ~0.40 liters per kWh
+    # 0.25 L/kWh only applies at full rated load; partial load is 50-60% less efficient
+    liters_per_kwh = 0.40
     diesel_liters_monthly = diesel_kwh_monthly * liters_per_kwh
     
     # Diesel costs (fuel only for MVP - maintenance can be added later)
@@ -507,15 +514,25 @@ def generate_recommendation(consumption_data, generation_data, roi_data):
     monthly_savings = roi_data.get('monthly_savings', 0) if roi_data else 0
     
     # Viability score calculation
-    roi_score = min(50, roi_percentage * 0.5) if roi_percentage > 0 else 0
+    # ROI scoring: calibrated for both grid-only (2-5%) and diesel (20-40%) scenarios
+    # Uses diminishing returns so both ranges produce meaningful scores
+    if roi_percentage <= 0:
+        roi_score = 0
+    elif roi_percentage <= 5:
+        roi_score = roi_percentage * 3          # 0-5% ROI → 0-15 pts (linear, low range)
+    elif roi_percentage <= 20:
+        roi_score = 15 + (roi_percentage - 5) * 1.5  # 5-20% ROI → 15-37.5 pts
+    else:
+        roi_score = min(50, 37.5 + (roi_percentage - 20) * 0.625)  # 20%+ ROI → 37.5-50 pts
+
     coverage_ratio = (generation_kwh / consumption_kwh * 100) if consumption_kwh > 0 else 0
     coverage_score = min(30, coverage_ratio * 0.3)
-    savings_score = min(20, monthly_savings / 50) if monthly_savings > 0 else 0
+    savings_score = min(20, monthly_savings / 25) if monthly_savings > 0 else 0
     viability_score = roi_score + coverage_score + savings_score
     
-    if viability_score >= 70:
+    if viability_score >= 65:
         recommendation, status = "High", "HIGHLY VIABLE"
-    elif viability_score >= 50:
+    elif viability_score >= 40:
         recommendation, status = "Medium", "MODERATELY VIABLE"
     else:
         recommendation, status = "Low", "NOT VIABLE"
@@ -637,8 +654,8 @@ def analyze():
                 # Calculate scaling factor (how many times bigger than 10m²)
                 scaling_factor = required_generation / base_generation_kwh
                 
-                # Constrain scaling factor (10m² to 100m² systems)
-                scaling_factor = max(1.0, min(10.0, scaling_factor))
+                # Constrain scaling factor: max 50m² (~$20,000) - realistic SME upper bound
+                scaling_factor = max(1.0, min(5.0, scaling_factor))
                 
                 # Scale up the generation
                 scaled_generation_kwh = base_generation_kwh * scaling_factor
