@@ -74,7 +74,7 @@ def create_app() -> Flask:
     - Does NOT modify or duplicate per-model logic.
     - Preserves all existing endpoint paths.
     - Models 1-3 share the same API_KEY from environment variable.
-    - Model 4 uses API_KEY + MODELS_API_KEY + MODELS_BASE_URL from environment.
+    - Model 4 uses API_KEY + MODELS_BASE_URL from environment.
     """
     app = Flask(__name__)
     CORS(app)
@@ -95,7 +95,7 @@ def create_app() -> Flask:
         return jsonify({"status": "ok", "service": "gateway"}), 200
 
     app.wsgi_app = MultiModelDispatcher(
-        app.wsgi_app,
+        app,
         energy_app,
         solar_app,
         roi_app,
