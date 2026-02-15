@@ -46,17 +46,16 @@ limiter = Limiter(key_func=get_remote_address, default_limits=["100 per minute"]
 def create_app() -> Flask:
     """
     Application factory for Model 4.
-    Reads API_KEY, MODELS_API_KEY, and MODELS_BASE_URL from environment.
+    Reads API_KEY, and MODELS_BASE_URL from environment.
     Raises ValueError at startup if required keys are missing.
     """
-    global API_KEY, MODELS_API_KEY, MODELS_BASE_URL
+    global API_KEY, MODELS_BASE_URL
 
     API_KEY = os.getenv('API_KEY')
-    MODELS_API_KEY = os.getenv('MODELS_API_KEY')
     MODELS_BASE_URL = os.getenv('MODELS_BASE_URL')
 
-    if not API_KEY or not MODELS_API_KEY:
-        raise ValueError("ERROR: API_KEY and MODELS_API_KEY must be set in environment!")
+    if not API_KEY:
+        raise ValueError("ERROR: API_KEY must be set in environment!")
 
     app = Flask(__name__)
     CORS(app, resources={r"/api/*": {"origins": "*", "methods": ["GET", "POST"], "allow_headers": ["Content-Type", "X-API-KEY"]}})
@@ -414,7 +413,7 @@ def call_model1_consumption(data):
         
         response = requests.post(
             f"{MODELS_BASE_URL}/estimate-consumption",
-            headers={"X-API-KEY": MODELS_API_KEY, "Content-Type": "application/json"},
+            headers={"X-API-KEY": API_KEY, "Content-Type": "application/json"},
             json=model1_payload,
             timeout=30
         )
@@ -450,7 +449,7 @@ def call_model2_generation(latitude, longitude):
         
         response = requests.post(
             f"{MODELS_BASE_URL}/predict-generation",
-            headers={"X-API-KEY": MODELS_API_KEY, "Content-Type": "application/json"},
+            headers={"X-API-KEY": API_KEY, "Content-Type": "application/json"},
             json=payload,
             timeout=30
         )
@@ -506,7 +505,7 @@ def call_model3_roi(consumption_kwh, generation_kwh, tariff, system_cost_usd=600
         
         response = requests.post(
             f"{MODELS_BASE_URL}/calculate-roi",
-            headers={"X-API-KEY": MODELS_API_KEY, "Content-Type": "application/json"},
+            headers={"X-API-KEY": API_KEY, "Content-Type": "application/json"},
             json=payload,
             timeout=30
         )
@@ -793,7 +792,6 @@ def register_routes(app: Flask) -> None:
 # Module-level app for standalone use and gunicorn
 # When imported by api/main.py, create_app() is called there instead.
 API_KEY = None
-MODELS_API_KEY = None
 MODELS_BASE_URL = None
 
 if __name__ == '__main__':
