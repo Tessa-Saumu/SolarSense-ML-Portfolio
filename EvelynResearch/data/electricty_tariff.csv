@@ -1,0 +1,16 @@
+Time,Time Code,Series Name,Series Code,001. Benin_SBEE [BEN_SBEE],002. Burkina Faso_Sonabel [BFA_Sonabel],003. Cameroon_AES SONEL [CMR_AESSONEL],004. Cape Verde_Electra [CPV_Electra],005. Chad_STEE [TCD_STEE],007. CongoRep_SNE [CC_COG],008. Cote d'Ivoire_CIE [CIV_CIE],009. Ethiopia_EEPCO [ETH_EEPCO],010. Ghana_ECG [GHA_ECG],011. Ghana_VRA [GHA_VRA],012. Kenya_KENGEN [KEN_KENGEN],013. Kenya_KPLC [KEN_KPLC],014. Lesotho_LEC [LSO_LEC],015. Madagascar_JIRAMA [MDG_JIRAMA],016. Malawi_Escom [MWI_Escom],017. Mali_EDM [CC_MLI],018. Mozambique_EDM [MOZ_EDM],019. Namibia_Nampower [NAM_Nampower],020. Namibia_NORED [NAM_NORED],021. Niger_NIGELEC [NER_NIGELEC],022. Nigeria_PHCN [NGA_PHCN],023. Rwanda_Electrogaz [RWA_Electrogaz],024. Senegal_Senelec [Sen_Senelec],025. South Africa_Capetown [ZAF_Capetown]
+2004,YR2004,"Effective tariff, consumption 100kWh/month (US cents/kWh)",AFELE127,..,..,..,..,..,..,..,..,..,..,..,..,..,..,..,..,..,..,..,..,..,..,..,..
+2005,YR2005,"Effective tariff, consumption 100kWh/month (US cents/kWh)",AFELE127,13.6269713058878,20.0453208185578,14.065718488085,25.8018365259757,30.0301438944395,..,11.8842370237696,4.08657975238114,8.17493934195008,..,..,14.8024655174299,7.23615804802913,25.7509872543097,3.5206384168243,..,6.76353268034592,11.6664588937613,..,14.065718488085,3.38234173840177,14.5655615353147,15.237006502054,7.19776210736612
+2006,YR2006,"Effective tariff, consumption 100kWh/month (US cents/kWh)",AFELE127,..,..,..,..,..,15,..,..,..,..,..,..,..,..,..,..,..,..,..,..,..,..,..,..
+2007,YR2007,"Effective tariff, consumption 100kWh/month (US cents/kWh)",AFELE127,..,..,..,..,..,..,..,..,..,..,..,..,..,..,..,..,..,..,..,..,..,..,..,..
+2008,YR2008,"Effective tariff, consumption 100kWh/month (US cents/kWh)",AFELE127,..,..,..,..,..,..,..,..,..,..,..,..,..,..,..,..,..,..,..,..,..,..,..,..
+2009,YR2009,"Effective tariff, consumption 100kWh/month (US cents/kWh)",AFELE127,..,..,..,..,..,..,..,..,..,..,..,..,..,..,..,..,..,..,..,..,..,..,..,..
+LAV,YR20080,"Effective tariff, consumption 100kWh/month (US cents/kWh)",AFELE127,13.6269713058878,20.0453208185578,14.065718488085,25.8018365259757,30.0301438944395,15,11.8842370237696,4.08657975238114,8.17493934195008,..,..,14.8024655174299,7.23615804802913,25.7509872543097,3.5206384168243,..,6.76353268034592,11.6664588937613,..,14.065718488085,3.38234173840177,14.5655615353147,15.237006502054,7.19776210736612
+MRV,YR19950,"Effective tariff, consumption 100kWh/month (US cents/kWh)",AFELE127,..,..,..,..,..,..,..,..,..,..,..,..,..,..,..,..,..,..,..,..,..,..,..,..
+MRV1,YR20006,"Effective tariff, consumption 100kWh/month (US cents/kWh)",AFELE127,..,..,..,..,..,..,..,..,..,..,..,..,..,..,..,..,..,..,..,..,..,..,..,..
+MRV2,YR20081,"Effective tariff, consumption 100kWh/month (US cents/kWh)",AFELE127,13.6269713058878,20.0453208185578,14.065718488085,25.8018365259757,30.0301438944395,15,11.8842370237696,4.08657975238114,8.17493934195008,..,..,14.8024655174299,7.23615804802913,25.7509872543097,3.5206384168243,..,6.76353268034592,11.6664588937613,..,14.065718488085,3.38234173840177,14.5655615353147,15.237006502054,7.19776210736612
+,,,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,,,
+Data from database: Africa Infrastructure: Electricity,,,,,,,,,,,,,,,,,,,,,,,,,,,
+Last Updated: 12/09/2009,,,,,,,,,,,,,,,,,,,,,,,,,,,
