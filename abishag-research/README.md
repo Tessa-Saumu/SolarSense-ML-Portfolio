@@ -1,8 +1,8 @@
-📁 SSA Solar Potential Analysis – Model 2 Overview
+**📁 SSA Solar Potential Analysis – Model 2 Overview**
 
 This project analyses solar potential across selected Sub-Saharan African (SSA) cities using NASA POWER irradiance data. The analysis identifies top-performing regions and cities for solar adoption and provides insights for stakeholder dashboards.
 
-⚡ Key Deliverables
+**⚡ Key Deliverables**
 
 CSV Data Files
 solar_data_merged.csv – Raw daily data from NASA POWER
@@ -27,7 +27,7 @@ Power BI Dashboard (planned)
 
 KPI cards, regional and city charts, maps, and top opportunity tables
 
-📊 Data Description
+**📊 Data Description**
 
 Date Range: 2024-02-09 to 2026-02-08
 
@@ -35,7 +35,7 @@ Cities: 7 major SSA urban centers (Nairobi, Dar es Salaam, Johannesburg, Kampala
 
 Metrics: Global Horizontal Irradiance (GHI), estimated daily generation, temperature, wind speed, relative humidity
 
-🛠 How to Use
+**🛠 How to Use**
 
 Open the Colab notebook to view preprocessing and analysis steps.
 
@@ -43,7 +43,7 @@ Load the CSV files into Power BI for visualization.
 
 Use the PDF summary for executive insights and reference.
 
-📌 Notes
+**📌 Notes**
 
 Data is cleaned and missing values handled.
 
