@@ -1,0 +1,41 @@
+Country,Year,Tariff_USD_per_kWh
+Nigeria,2022,0.055
+Nigeria,2023,0.060
+Nigeria,2024,0.070
+Nigeria,2025,0.075
+Nigeria,2026,0.080
+Ghana,2022,0.115
+Ghana,2023,0.120
+Ghana,2024,0.130
+Ghana,2025,0.135
+Ghana,2026,0.140
+Kenya,2022,0.220
+Kenya,2023,0.235
+Kenya,2024,0.250
+Kenya,2025,0.255
+Kenya,2026,0.260
+Tanzania,2022,0.090
+Tanzania,2023,0.088
+Tanzania,2024,0.087
+Tanzania,2025,0.090
+Tanzania,2026,0.092
+Cameroon,2022,0.160
+Cameroon,2023,0.165
+Cameroon,2024,0.177
+Cameroon,2025,0.180
+Cameroon,2026,0.185
+DR Congo,2022,0.050
+DR Congo,2023,0.052
+DR Congo,2024,0.058
+DR Congo,2025,0.060
+DR Congo,2026,0.062
+South Africa,2022,0.150
+South Africa,2023,0.165
+South Africa,2024,0.182
+South Africa,2025,0.195
+South Africa,2026,0.205
+Zambia,2022,0.065
+Zambia,2023,0.067
+Zambia,2024,0.070
+Zambia,2025,0.072
+Zambia,2026,0.075

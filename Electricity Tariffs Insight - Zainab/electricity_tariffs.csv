@@ -1,0 +1,9 @@
+Region,Country,Tariff_USD_per_kWh,SME_kWh_per_month,Estimated_Monthly_Bill_USD,Source
+West Africa,Nigeria,0.07,500,35,NERC 2024 average allowed tariff
+West Africa,Ghana,0.13,500,65,World Bank/JICA 2023 electricity price
+East Africa,Kenya,0.25,500,125,Tanzania Investment report East Africa comparison 2024
+East Africa,Tanzania,0.087,500,43.5,Tanzania Investment report 2024
+Central Africa,Cameroon,0.177,500,88.5,Nairametrics 2024 business tariff
+Central Africa,DR Congo,0.058,500,29,Tanzania Investment report Africa comparison
+Southern Africa,South Africa,0.182,500,91,Tanzania Investment report Africa comparison
+Southern Africa,Zambia,0.07,500,35,SADC MERA comparative tariffs 2023
