@@ -1,0 +1,130 @@
+
+---
+
+#  Model Comparison Report
+
+**Project:** Solar Generation Prediction (NASA POWER Dataset)
+**Objective:** Compare machine learning models for predicting solar energy generation.
+
+---
+
+## 1️ Overview
+
+Three regression models were trained and evaluated:
+
+* XGBoost
+* Random Forest
+* Gradient Boosting
+
+They were compared using:
+
+* **R² (Coefficient of Determination)**
+* **MAPE (Mean Absolute Percentage Error)**
+* **Training Time (seconds)**
+
+---
+
+## 2️ Results Summary
+
+| Model             | R²      | MAPE (%) | Time (seconds) |
+| ----------------- | ------- | -------- | -------------- |
+| XGBoost           | 0.4160  | 8.53%    | 0.6969         |
+| Random Forest     | -0.2921 | 14.14%   | 0.7948         |
+| Gradient Boosting | -0.0192 | 12.00%   | 0.2089         |
+
+---
+
+## 3️ Interpretation of Results
+
+###  1. XGBoost
+
+* **Best overall performer**
+* R² = **0.4160**
+* Lowest MAPE = **8.53%**
+* Moderate training time
+
+ Interpretation:
+
+* Explains about **41.6% of the variance** in solar generation.
+* Prediction error is relatively low (8.53% average error).
+* Most reliable model among the three.
+
+This indicates that XGBoost captures nonlinear relationships in climatological data better than the other models.
+
+---
+
+###  2. Random Forest
+
+* R² = **-0.2921**
+* Highest error (14.14%)
+* Slowest training time
+
+ Interpretation:
+
+* Negative R² means the model performs worse than predicting the mean.
+* It fails to generalize well to unseen data.
+* Not suitable for deployment in current configuration.
+
+---
+
+###  3. Gradient Boosting
+
+* R² = **-0.0192**
+* MAPE = 12.00%
+* Fastest training time
+
+Interpretation:
+
+* Slightly better than Random Forest but still weak.
+* Negative R² means poor predictive performance.
+* Not reliable for production use.
+
+---
+
+## 4️⃣ Model Selection
+
+Based on evaluation metrics:
+
+ **Selected Model: XGBoost**
+
+Reasons:
+
+* Highest R² score
+* Lowest prediction error
+* Acceptable training time
+* Best generalization performance
+
+---
+
+## 5️ Conclusion
+
+XGBoost significantly outperformed Random Forest and Gradient Boosting for solar generation prediction.
+
+Although performance is moderate (R² = 0.416), the model demonstrates reasonable predictive capability and can be improved further through:
+
+* Hyperparameter tuning
+* Feature engineering
+* Adding more climatological variables
+* Cross-validation optimization
+
+---
+
+## 6️ Future Improvements
+
+To increase model accuracy:
+
+* Perform GridSearch or Bayesian optimization
+* Engineer seasonal features
+* Include lag features (previous days' solar data)
+* Normalize or standardize features
+* Increase dataset size
+
+---
+
+
+
+ “Among the three machine learning models evaluated, 
+XGBoost demonstrated superior performance with the lowest prediction error and highest explanatory power. 
+Therefore, it was selected as the final deployment model.”
+
+
