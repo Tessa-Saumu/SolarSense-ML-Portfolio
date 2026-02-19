@@ -1,76 +1,53 @@
-Energy Access Constraints for SMEs in Sub-Saharan Africa
-
-Implications for Productivity, Costs, and Cold Chain–Dependent Businesses
-
-
-
+README – Problem Context Research Dashboard
 Project Overview
 
-Small and medium enterprises (SMEs) form the backbone of Sub-Saharan Africa’s private sector, generating most employment and a large share of economic output. Despite their importance, SME growth and competitiveness are heavily constrained by limited access to affordable and reliable electricity.
+This Power BI dashboard presents a comprehensive analysis of energy access challenges for SMEs in Sub-Saharan Africa. It visualizes the economic and operational impact of unreliable electricity, including electricity outages, tariffs, grid reliability, and resulting sales losses. Contextual insights on the cold chain and food retail SMEs are also included.
 
-This repository synthesizes evidence from major international datasets to demonstrate that electricity is not simply an infrastructure issue—it is a binding constraint on SME productivity, profitability, and ability to scale. The problem is especially severe for energy-intensive and cold chain–dependent sectors such as food processing, cold storage, and food retail.
-
-The analysis focuses on four interlinked dimensions:
-
-High and uneven commercial and industrial electricity tariffs
-
-Widespread power outages and poor grid reliability
-
-Significant business losses directly linked to electricity interruptions
-
-Structural impacts on cold chain–dependent activities and food retail
-
-
-Objectives
-
-Quantify the cost burden of electricity on SMEs in Sub-Saharan Africa
-
-Examine the prevalence and economic impact of power outages
-
-Assess firm-level coping mechanisms such as generator use
-
-Highlight implications for cold chain operations and food systems
-
-Provide an evidence base to support energy-focused SME interventions
-
-
+Folder Contents
+File	Description
+data All the datasets are in there
+ENERGY ACCESS CHALLENGES.JPG screenshot of the dashboard
+sme electricity access Challenges Final.pbix  Main Power BI dashboard file
+README.md	This file
 
 Data Sources
+World Bank – World Development Indicators
 
-This project draws primarily on publicly available datasets from:
+Electricity outages (% of firms affected) – IC.FRM.OUTG.ZS
 
-World Bank Open Knowledge Repository – electricity tariffs (commercial & industrial)
+Electricity access (% of population) – EG.ELC.ACCS.ZS
 
-World Bank Enterprise Surveys – outages, generator ownership, power constraints
+Value lost due to outages (% of sales) – IC.FRM.OUTG.ZS
+World Bank Data
 
-World Bank DataBank – Value lost due to electrical outages (% of sales)
+Sub-Saharan Africa Country List
 
-International Energy Agency (IEA) – national and rural electrification rates
+World Bank regional classifications
 
+Cold Chain Insight
 
-Key Findings
+Dashboard Features
 
-Commercial and industrial electricity tariffs in SSA commonly range from US$0.12–0.25+/kWh, with large cross-country variation.
+Year Slicer: Filter all visuals by year
 
-Over 70% of firms report experiencing power outages in a typical year.
+Map Visuals: Geographic comparison of electricity reliability and sales losses
 
-SMEs lose 3–10% or more of annual sales due to electricity interruptions.
+Bar Charts: Compare tariffs, outages, and economic impact across countries
 
-Backup generation is widespread but costs 2–4 times more per kWh than grid electricity.
+KPI Cards: Highlight key figures, e.g., % of firms experiencing outages
 
-Cold chain–dependent businesses face high spoilage, high operating costs, and equipment damage, contributing to higher food prices and food insecurity.
+Cold Chain Insight Text Box: Explains downstream impact on food retail and SMEs
 
+Usage Notes
 
-Why Cold Chain Matters
+Open the .pbix file in Power BI Desktop (version 2.149 or later recommended)
 
-Cold storage, refrigerated transport, and food retail require continuous electricity. Unreliable and expensive power leads to:
+Use the Year slicer to filter data for specific years
 
-Temperature fluctuations and spoilage
+Hover over visuals for detailed tooltips and country-level information
 
-Reduced shelf life and food safety risks
+Screenshots in Screenshots/ provide a reference for dashboard layout
 
-Limited product variety and refrigeration capacity
+Author
 
-Higher consumer prices
-
-Energy constraints therefore translate directly into weaker food systems and poorer nutrition outcomes.
+Evelyn Chileshe – Prepared for the Stakeholder Dashboards Research branch
