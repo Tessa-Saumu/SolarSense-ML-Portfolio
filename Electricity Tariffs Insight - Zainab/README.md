@@ -52,11 +52,11 @@ The analysis provides regional balance across SSA:
 
 | File                                | Description                 |
 | ----------------------------------- | --------------------------- |
-| `Electricity_Tariff_Dashboard.pbix` | Main Power BI dashboard     |
-| `electricity_tariffs.csv`           | Current tariff dataset      |
-| `electricity_tariffs_timeseries_long.csv`  | 5-year tariff trend dataset |
-| `README.md`                         | Project documentation       |
-
+| Electricity_Tariff_Dashboard.pbix | Main Power BI dashboard     |
+| electricity_tariffs.csv           | Current tariff dataset      |
+| electricity_tariffs_timeseries_long.csv| 5-year tariff trend dataset |
+| README.md                         | Project documentation       |
+| Dashboard screenshot.png        | An image of the dashboard    |
 ---
 
 ##  Key Assumptions
