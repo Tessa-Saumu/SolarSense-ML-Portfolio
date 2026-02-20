@@ -39,20 +39,20 @@ MODEL_4_ENDPOINT = f"{MODEL_4_BASE_URL}/api/v1/analyze"
 # Request timeout (seconds)
 REQUEST_TIMEOUT = 3
 
-# Test input data - Lagos butchery scenario
+# Test input data - NAIROBI butchery scenario
 TEST_INPUT = {
     "business_type": "butchery",
     "sqft_m2": 60.0,
     "operating_hours_weekly": 98.0,
     "num_refrigeration_units": 3,
-    "location": "Lagos, Nigeria",
+    "location": "Nairobi, Kenya",
     "num_workers": 3,
     "months_per_year": 12
 }
 
-# Lagos coordinates (for Model 2)
-LAGOS_LATITUDE = 6.5244
-LAGOS_LONGITUDE = 3.3792
+# NAIROBI coordinates (for Model 2)
+NAIROBI_LATITUDE = -1.2921
+NAIROBI_LONGITUDE = 36.8219
 
 # Expected tariff and system cost for Model 3
 TARIFF_PER_KWH = 0.20
@@ -259,10 +259,10 @@ def validate_model_2(api_key: str) -> Tuple[bool, Dict[str, Any], Optional[str]]
         "X-API-KEY": api_key
     }
     
-    # Request payload for Lagos coordinates
+    # Request payload for NAIROBI coordinates
     payload = {
-        "latitude": LAGOS_LATITUDE,
-        "longitude": LAGOS_LONGITUDE,
+        "latitude": NAIROBI_LATITUDE,
+        "longitude": NAIROBI_LONGITUDE,
         "include_lifetime": True
     }
     
