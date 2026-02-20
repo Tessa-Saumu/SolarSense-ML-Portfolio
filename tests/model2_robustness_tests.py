@@ -34,7 +34,7 @@ TIMEOUT_SECONDS = 3
 
 # Auth is required by the Model 2 service per integration guide.
 # Set SOLAR_API_KEY (preferred) or API_KEY in your environment.
-API_KEY = os.getenv("SOLAR_API_KEY") or os.getenv("API_KEY") or ""
+API_KEY = os.getenv("SOLAR_API_KEY") or os.getenv("API_KEY") or "QfBmvo3htYQPSJWYYLcChxXvZonTuC2U"
 
 DRY_SEASON_MONTHS = {12, 1, 2, 6, 7, 8}
 

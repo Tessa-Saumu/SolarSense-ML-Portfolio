@@ -158,7 +158,7 @@ API_KEY=your_secure_api_key_here_minimum_32_characters
 PORT=8000
 
 # Optional: Model-specific overrides (only needed if running models standalone)
-MODEL_DIR=models/solar_generation/src/models
+MODEL_DIR=models/solar_generation/models
 MODEL1_PORT=8001
 ```
 
