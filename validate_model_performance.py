@@ -39,24 +39,54 @@ MODEL_4_ENDPOINT = f"{MODEL_4_BASE_URL}/api/v1/analyze"
 # Request timeout (seconds)
 REQUEST_TIMEOUT = 3
 
-# Test input data - Lagos butchery scenario
-TEST_INPUT = {
-    "business_type": "butchery",
-    "sqft_m2": 60.0,
-    "operating_hours_weekly": 98.0,
-    "num_refrigeration_units": 3,
-    "location": "Lagos, Nigeria",
-    "num_workers": 3,
-    "months_per_year": 12
+# ---------------------------------------------------------------------------
+# SCENARIO DEFINITIONS: On-Grid and Diesel (two cases)
+# ---------------------------------------------------------------------------
+
+# On-grid scenario: grid-only, no diesel (e.g. Lagos butchery)
+SCENARIO_ON_GRID = {
+    "name": "On-Grid",
+    "model_1_input": {
+        "business_type": "butchery",
+        "sqft_m2": 60.0,
+        "operating_hours_weekly": 98.0,
+        "num_refrigeration_units": 3,
+        "location": "Lagos, Nigeria",
+        "num_workers": 3,
+        "months_per_year": 12,
+    },
+    "latitude": 6.5244,
+    "longitude": 3.3792,
+    "tariff_per_kwh": 0.20,
+    "system_cost_usd": 6000.0,
+    "uses_diesel": False,
+    # No diesel fields for on-grid
 }
 
-# Lagos coordinates (for Model 2)
-LAGOS_LATITUDE = 6.5244
-LAGOS_LONGITUDE = 3.3792
+# Diesel scenario: business with diesel backup (e.g. Mombasa cold storage)
+# Extra inputs: diesel_hours_per_day, diesel_price_per_liter
+SCENARIO_DIESEL = {
+    "name": "Diesel",
+    "model_1_input": {
+        "business_type": "mini_supermarket",
+        "sqft_m2": 80.0,
+        "operating_hours_weekly": 112.0,
+        "num_refrigeration_units": 5,
+        "location": "Mombasa, Kenya",
+        "num_workers": 4,
+        "months_per_year": 12,
+    },
+    "latitude": -4.0435,
+    "longitude": 39.6682,
+    "tariff_per_kwh": 0.18,
+    "system_cost_usd": 7500.0,
+    "uses_diesel": True,
+    "diesel_hours_per_day": 18,
+    "diesel_price_per_liter": 1.35,
+}
 
-# Expected tariff and system cost for Model 3
-TARIFF_PER_KWH = 0.20
-SYSTEM_COST_USD = 6000.0
+# List of scenarios to run (on-grid first, then diesel)
+SCENARIOS = [SCENARIO_ON_GRID, SCENARIO_DIESEL]
 
 # ============================================================================
 # LOGGING SETUP
@@ -158,21 +188,33 @@ def print_test_result(model_name: str, passed: bool, details: str):
 # VALIDATION FUNCTIONS
 # ============================================================================
 
-def validate_model_1(api_key: str) -> Tuple[bool, Dict[str, Any], Optional[str]]:
+def validate_model_1(
+    api_key: str,
+    model_1_input: Dict[str, Any],
+    scenario_name: str = "",
+) -> Tuple[bool, Dict[str, Any], Optional[str]]:
     """
     Validate Model 1 (Energy Consumption).
-    
+
+    Args:
+        api_key: API key for auth
+        model_1_input: JSON body for POST /estimate-consumption
+        scenario_name: Optional label for logs (e.g. "On-Grid", "Diesel")
+
     Returns:
         Tuple of (passed, response_data, error_message)
     """
-    print_section_header("Model 1: Energy Consumption Prediction")
-    
+    title = "Model 1: Energy Consumption Prediction"
+    if scenario_name:
+        title += f" [{scenario_name}]"
+    print_section_header(title)
+
     headers = {
         "Content-Type": "application/json",
         "X-API-KEY": api_key
     }
-    
-    response, error = make_request("POST", MODEL_1_ENDPOINT, headers, TEST_INPUT)
+
+    response, error = make_request("POST", MODEL_1_ENDPOINT, headers, model_1_input)
     
     if error:
         print_test_result("Model 1", False, f"Request failed: {error}")
@@ -245,24 +287,37 @@ def validate_model_1(api_key: str) -> Tuple[bool, Dict[str, Any], Optional[str]]
     return all_passed, data, None
 
 
-def validate_model_2(api_key: str) -> Tuple[bool, Dict[str, Any], Optional[str]]:
+def validate_model_2(
+    api_key: str,
+    latitude: float,
+    longitude: float,
+    scenario_name: str = "",
+) -> Tuple[bool, Dict[str, Any], Optional[str]]:
     """
     Validate Model 2 (Solar Generation).
-    
+
+    Args:
+        api_key: API key for auth
+        latitude: Site latitude (SSA range)
+        longitude: Site longitude (SSA range)
+        scenario_name: Optional label for logs
+
     Returns:
         Tuple of (passed, response_data, error_message)
     """
-    print_section_header("Model 2: Solar Generation Prediction")
-    
+    title = "Model 2: Solar Generation Prediction"
+    if scenario_name:
+        title += f" [{scenario_name}]"
+    print_section_header(title)
+
     headers = {
         "Content-Type": "application/json",
         "X-API-KEY": api_key
     }
-    
-    # Request payload for Lagos coordinates
+
     payload = {
-        "latitude": LAGOS_LATITUDE,
-        "longitude": LAGOS_LONGITUDE,
+        "latitude": latitude,
+        "longitude": longitude,
         "include_lifetime": True
     }
     
@@ -355,38 +410,47 @@ def validate_model_2(api_key: str) -> Tuple[bool, Dict[str, Any], Optional[str]]
 def validate_model_3(
     api_key: str,
     consumption_kwh: float,
-    generation_kwh: float
+    generation_kwh: float,
+    tariff_per_kwh: float,
+    system_cost_usd: float,
+    scenario_name: str = "",
 ) -> Tuple[bool, Dict[str, Any], Optional[str]]:
     """
     Validate Model 3 (ROI Calculation).
-    
+
     Args:
         api_key: API key for authentication
         consumption_kwh: Monthly consumption from Model 1
         generation_kwh: Monthly generation from Model 2
-    
+        tariff_per_kwh: Electricity tariff (USD/kWh) for this scenario
+        system_cost_usd: Solar system cost (USD) for this scenario
+        scenario_name: Optional label for logs
+
     Returns:
         Tuple of (passed, response_data, error_message)
     """
-    print_section_header("Model 3: ROI Calculation")
-    
+    title = "Model 3: ROI Calculation"
+    if scenario_name:
+        title += f" [{scenario_name}]"
+    print_section_header(title)
+
     headers = {
         "Content-Type": "application/json",
         "X-API-KEY": api_key
     }
-    
+
     payload = {
         "consumption_kwh": consumption_kwh,
         "generation_kwh": generation_kwh,
-        "tariff_per_kwh": TARIFF_PER_KWH,
-        "system_cost_usd": SYSTEM_COST_USD
+        "tariff_per_kwh": tariff_per_kwh,
+        "system_cost_usd": system_cost_usd
     }
-    
-    logger.info(f"Model 3 Input (chained from Models 1 & 2):")
-    logger.info(f"  consumption_kwh: {consumption_kwh:.2f}")
-    logger.info(f"  generation_kwh: {generation_kwh:.2f}")
-    logger.info(f"  tariff_per_kwh: {TARIFF_PER_KWH}")
-    logger.info(f"  system_cost_usd: {SYSTEM_COST_USD}")
+
+    logger.info("Model 3 Input (chained from Models 1 & 2):")
+    logger.info("  consumption_kwh: %.2f", consumption_kwh)
+    logger.info("  generation_kwh: %.2f", generation_kwh)
+    logger.info("  tariff_per_kwh: %s", tariff_per_kwh)
+    logger.info("  system_cost_usd: %s", system_cost_usd)
     
     response, error = make_request("POST", MODEL_3_ENDPOINT, headers, payload)
     
@@ -435,15 +499,15 @@ def validate_model_3(
     # Check 3: system_cost_usd echoed correctly
     if system_cost_echoed is None:
         checks.append(("system_cost_usd missing", False))
-    elif abs(system_cost_echoed - SYSTEM_COST_USD) < 0.01:
+    elif abs(system_cost_echoed - system_cost_usd) < 0.01:
         checks.append(
             (f"system_cost_usd echoed correctly: ${system_cost_echoed:.2f} "
-             f"(expected ${SYSTEM_COST_USD:.2f})", True)
+             f"(expected ${system_cost_usd:.2f})", True)
         )
     else:
         checks.append(
             (f"system_cost_usd echoed correctly: ${system_cost_echoed:.2f} "
-             f"(expected ${SYSTEM_COST_USD:.2f}) (FAILED)", False)
+             f"(expected ${system_cost_usd:.2f}) (FAILED)", False)
         )
     
     # Determine overall pass/fail
@@ -459,110 +523,113 @@ def validate_model_3(
 # MAIN EXECUTION
 # ============================================================================
 
+def run_scenario(api_key: str, scenario: Dict[str, Any]) -> Tuple[bool, Dict[str, str]]:
+    """
+    Run the full Model 1 → Model 2 → Model 3 validation chain for one scenario.
+    Returns (all_passed, results_dict).
+    """
+    name = scenario["name"]
+    results = {"model_1": "fail", "model_2": "fail", "model_3": "fail"}
+
+    # Step 1: Model 1
+    passed, data, _ = validate_model_1(
+        api_key,
+        scenario["model_1_input"],
+        scenario_name=name,
+    )
+    results["model_1"] = "pass" if passed else "fail"
+    if not passed:
+        return False, results
+    consumption_kwh = data.get("estimated_consumption_kwh_monthly")
+    if consumption_kwh is None:
+        return False, results
+
+    # Step 2: Model 2
+    passed, data, _ = validate_model_2(
+        api_key,
+        scenario["latitude"],
+        scenario["longitude"],
+        scenario_name=name,
+    )
+    results["model_2"] = "pass" if passed else "fail"
+    if not passed:
+        return False, results
+    annual_summary = data.get("annual_summary", {})
+    annual_generation_kwh = annual_summary.get("year_1_generation_kwh")
+    if annual_generation_kwh is None:
+        monthly_generation = data.get("monthly_generation", [])
+        if monthly_generation:
+            annual_generation_kwh = sum(
+                month.get("daily_kwh", 0) * 30 for month in monthly_generation
+            )
+    if annual_generation_kwh is None:
+        return False, results
+    monthly_generation_kwh = annual_generation_kwh / 12
+
+    # Step 3: Model 3 (chained)
+    passed, _, _ = validate_model_3(
+        api_key,
+        consumption_kwh,
+        monthly_generation_kwh,
+        scenario["tariff_per_kwh"],
+        scenario["system_cost_usd"],
+        scenario_name=name,
+    )
+    results["model_3"] = "pass" if passed else "fail"
+    all_passed = all(r == "pass" for r in results.values())
+    return all_passed, results
+
+
 def main():
     """Main execution function."""
     print("\n" + "=" * 70)
     print("  SolarSense DSE Pipeline - Integration Validation")
     print("=" * 70)
-    print(f"\nConfiguration:")
+    print("\nScenarios: On-Grid (grid-only) and Diesel (with diesel extra inputs)")
+    print("\nConfiguration:")
     print(f"  Model 1 URL: {MODEL_1_BASE_URL}")
     print(f"  Model 2 URL: {MODEL_2_BASE_URL}")
     print(f"  Model 3 URL: {MODEL_3_BASE_URL}")
     print(f"  Model 4 URL: {MODEL_4_BASE_URL}")
     print(f"  Request Timeout: {REQUEST_TIMEOUT}s")
-    
-    # Get API key
+
     api_key = get_api_key()
     logger.info("API_KEY found in environment")
-    
-    # Track results
-    results = {
-        "model_1": {"passed": False, "data": {}},
-        "model_2": {"passed": False, "data": {}},
-        "model_3": {"passed": False, "data": {}}
-    }
-    
-    # Step 1: Validate Model 1
-    passed, data, error = validate_model_1(api_key)
-    results["model_1"]["passed"] = passed
-    results["model_1"]["data"] = data
-    
-    if not passed:
-        print("\n⚠️  Model 1 validation failed. Cannot proceed with chained validation.")
-        print("   Fix Model 1 issues before continuing.")
-        sys.exit(1)
-    
-    # Extract consumption from Model 1
-    consumption_kwh = data.get("estimated_consumption_kwh_monthly")
-    if consumption_kwh is None:
-        print("\n⚠️  Model 1 response missing estimated_consumption_kwh_monthly.")
-        print("   Cannot proceed with Model 3 validation.")
-        sys.exit(1)
-    
-    # Step 2: Validate Model 2
-    passed, data, error = validate_model_2(api_key)
-    results["model_2"]["passed"] = passed
-    results["model_2"]["data"] = data
-    
-    if not passed:
-        print("\n⚠️  Model 2 validation failed. Cannot proceed with chained validation.")
-        print("   Fix Model 2 issues before continuing.")
-        sys.exit(1)
-    
-    # Extract generation from Model 2
-    annual_summary = data.get("annual_summary", {})
-    annual_generation_kwh = annual_summary.get("year_1_generation_kwh")
-    
-    # If year_1_generation_kwh not available, try to calculate from monthly
-    if annual_generation_kwh is None:
-        monthly_generation = data.get("monthly_generation", [])
-        if monthly_generation:
-            # Sum up monthly generation (approximate annual total)
-            # Each month has daily_kwh, multiply by ~30 days and sum
-            annual_generation_kwh = sum(
-                month.get("daily_kwh", 0) * 30  # Approximate days per month
-                for month in monthly_generation
-            )
-    
-    if annual_generation_kwh is None:
-        print("\n⚠️  Model 2 response missing generation_kwh data.")
-        print("   Cannot proceed with Model 3 validation.")
-        sys.exit(1)
-    
-    # Convert annual to monthly average
-    # Model 2 returns annual generation, Model 3 expects monthly
-    monthly_generation_kwh = annual_generation_kwh / 12
-    
-    # Step 3: Validate Model 3 (chained)
-    passed, data, error = validate_model_3(
-        api_key,
-        consumption_kwh,
-        monthly_generation_kwh
-    )
-    results["model_3"]["passed"] = passed
-    results["model_3"]["data"] = data
-    
+
+    scenario_results = []
+    any_fail = False
+
+    for scenario in SCENARIOS:
+        name = scenario["name"]
+        print_section_header(f"Scenario: {name}")
+        if scenario.get("uses_diesel"):
+            print("  (Diesel: uses_diesel=true, diesel_hours_per_day=%s, diesel_price_per_liter=%s)"
+                  % (scenario.get("diesel_hours_per_day"), scenario.get("diesel_price_per_liter")))
+        else:
+            print("  (On-Grid: uses_diesel=false)")
+        all_passed, results = run_scenario(api_key, scenario)
+        scenario_results.append({"name": name, "passed": all_passed, "results": results})
+        if not all_passed:
+            any_fail = True
+
     # Final summary
     print_section_header("Validation Summary")
-    
-    total_tests = len(results)
-    passed_tests = sum(1 for r in results.values() if r["passed"])
-    
-    print(f"\nTotal Models Tested: {total_tests}")
-    print(f"Passed: {passed_tests}")
-    print(f"Failed: {total_tests - passed_tests}")
-    
-    print("\nDetailed Results:")
-    for model_name, result in results.items():
-        status = "✓ PASS" if result["passed"] else "✗ FAIL"
-        print(f"  {status} - {model_name.replace('_', ' ').title()}")
-    
-    if passed_tests == total_tests:
-        print("\n🎉 All models passed validation!")
+
+    for sr in scenario_results:
+        status = "✓ PASS" if sr["passed"] else "✗ FAIL"
+        print(f"\n  {status} {sr['name']}:")
+        for model, res in sr["results"].items():
+            print(f"    - {model}: {res}")
+
+    total_scenarios = len(scenario_results)
+    passed_scenarios = sum(1 for sr in scenario_results if sr["passed"])
+    print(f"\nScenarios: {passed_scenarios}/{total_scenarios} passed")
+
+    if not any_fail:
+        print("\n🎉 All scenarios passed validation!")
         sys.exit(0)
-    else:
-        print(f"\n❌ {total_tests - passed_tests} model(s) failed validation.")
-        sys.exit(1)
+    print("\n❌ One or more scenarios failed validation.")
+    sys.exit(1)
 
 
 if __name__ == "__main__":
