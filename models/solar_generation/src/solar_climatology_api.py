@@ -214,10 +214,29 @@ def register_routes(app: Flask) -> None:
                     400,
                 )
 
+            # [VALIDATION] Reject non-numeric types for lat/lon (e.g. strings)
+            if not isinstance(payload["latitude"], (int, float)):
+                return (
+                    jsonify({"status": "error", "message": "latitude must be a number."}),
+                    422,
+                )
+            if not isinstance(payload["longitude"], (int, float)):
+                return (
+                    jsonify({"status": "error", "message": "longitude must be a number."}),
+                    422,
+                )
+
             latitude = float(payload["latitude"])
             longitude = float(payload["longitude"])
             month_raw: Optional[Any] = payload.get("month")
-            include_lifetime = bool(payload.get("include_lifetime", True))
+            include_lifetime = bool(payload.get("include_lifetime", False))
+
+            # [VALIDATION] Explicitly reject null month — None means "omit month", not null
+            if "month" in payload and payload["month"] is None:
+                return (
+                    jsonify({"status": "error", "message": "month must be an integer between 1 and 12."}),
+                    422,
+                )
 
             # Coordinate validation (range + edge warnings)
             coord_status = validate_coordinates(latitude, longitude)
@@ -462,6 +481,3 @@ if __name__ == "__main__":
     # For local development only – in production, use a WSGI server.
     port = int(os.getenv("PORT", "8000"))
     app.run(host="0.0.0.0", port=port, debug=False)
-
-
-
