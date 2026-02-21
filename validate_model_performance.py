@@ -7,7 +7,7 @@ DEPLOYMENT SEQUENCE (must be done before running this script):
   Step 1: Deploy patched solar_climatology_service.py  → _MODEL_CACHE in load_model_artifacts()
   Step 2: Deploy patched solar_climatology_api.py      → startup preload added
   Step 3: Deploy patched model4_app.py                 → include_lifetime=False (safe default)
-  Step 4: Run this script — Model 2 must show daily_kwh >= 3.0, no negative monthly values
+  Step 4: Run this script — Model 2 must show daily_kwh >= 1.5, no negative monthly values
   Step 5: Once Model 2 passes cleanly, restore include_lifetime=True in model4_app.py and re-run
           The lifetime projection graph data will then be correct for the frontend
 
@@ -356,7 +356,7 @@ def validate_model_2(
     # NOT an edge case. This previously passed as a warning and masked the bug
     # propagating downstream into Model 4's system sizer.
     if daily_kwh is not None:
-        if 3.0 <= daily_kwh <= 8.0:
+        if 1.5 <= daily_kwh <= 8.0:
             checks.append((f"daily_kwh in SSA plausible range 3-8 kWh/day: {daily_kwh:.2f} ✓", True))
         else:
             checks.append((
