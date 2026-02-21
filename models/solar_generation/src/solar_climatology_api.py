@@ -126,6 +126,16 @@ def create_app(config: Optional[Dict[str, Any]] = None) -> Flask:
     # Register routes
     register_routes(app)
 
+    # Eagerly warm the model cache at startup so the first real request
+    # pays no disk I/O cost, and missing-artifact errors surface immediately
+    # at deploy time rather than on the first live user request.
+    try:
+        load_model_artifacts()
+        logger.info("Model artifacts loaded and cached at startup.")
+    except FileNotFoundError as exc:
+        # Log clearly but don't crash — /health will surface the error state.
+        logger.error("STARTUP: model artifacts not found — %s", exc)
+
     return app
 
 

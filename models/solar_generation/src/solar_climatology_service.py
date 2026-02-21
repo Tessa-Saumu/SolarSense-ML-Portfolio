@@ -34,6 +34,21 @@ FEATURE_COLUMNS: List[str] = [
     "is_dry_season",
 ]
 
+# ---------------------------------------------------------------------------
+# Module-level model cache
+# ---------------------------------------------------------------------------
+# BUG FIX (2026-02-20): load_model_artifacts() was called once per month
+# inside predict_lifetime_generation() — 12 disk reads of the .pkl per request
+# when include_lifetime=True. Under concurrency this caused joblib I/O to
+# corrupt XGBoost in-memory state, producing values ~160x too small and
+# negative monthly generation predictions.
+#
+# Fix: cache the loaded artifacts at module level. The model is loaded from
+# disk exactly once per process; all subsequent calls return the cached tuple.
+# _MODEL_CACHE is intentionally None until the first real request so that
+# tests that never call load_model_artifacts() are unaffected.
+_MODEL_CACHE: Optional[Tuple[Any, List[str], Dict[str, Any]]] = None
+
 
 @dataclass
 class ModelPaths:
@@ -89,11 +104,22 @@ def save_model_artifacts(
 
 def load_model_artifacts() -> Tuple[Any, List[str], Dict[str, Any]]:
     """
-    Load model, feature column list, and metadata.
+    Load model, feature column list, and metadata from disk — or return the
+    cached copy if already loaded.
+
+    The first call reads from disk and populates _MODEL_CACHE. Every subsequent
+    call returns the cached tuple with zero disk I/O. This eliminates the
+    concurrency bug where predict_lifetime_generation() triggered 12 sequential
+    joblib.load() calls per request, corrupting XGBoost in-memory state.
 
     Raises:
-        FileNotFoundError if any critical artifact is missing.
+        FileNotFoundError if any critical artifact is missing on first load.
     """
+    global _MODEL_CACHE
+
+    if _MODEL_CACHE is not None:
+        return _MODEL_CACHE
+
     paths = get_model_paths()
 
     missing = [
@@ -109,7 +135,9 @@ def load_model_artifacts() -> Tuple[Any, List[str], Dict[str, Any]]:
     model = joblib.load(paths.model_path)
     feature_cols: List[str] = joblib.load(paths.feature_cols_path)
     metadata: Dict[str, Any] = json.loads(paths.metadata_path.read_text())
-    return model, feature_cols, metadata
+
+    _MODEL_CACHE = (model, feature_cols, metadata)
+    return _MODEL_CACHE
 
 
 def validate_coordinates(latitude: float, longitude: float) -> Dict[str, Any]:
@@ -297,7 +325,3 @@ def predict_lifetime_generation(
             for (m, g, is_dry) in monthly_gens
         ],
     }
-
-
-
-
