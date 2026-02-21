@@ -276,9 +276,9 @@ SSA_LOCATIONS = [
 def main():
     # UPDATE YOUR PASSWORD HERE!
     DB_CONFIG = {
-        "dbname": "solar_irradiance",
-        "user": "postgres",
-        "password": "postgresPassword",  # <-- CHANGE THIS
+        "dbname": "solar_irradiance_v2",
+        "user": "solar_user",
+        "password": "postgres",  # <-- CHANGE THIS
         "host": "localhost",
         "port": "5432"
     }
