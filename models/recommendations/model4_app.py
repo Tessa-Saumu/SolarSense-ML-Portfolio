@@ -442,7 +442,14 @@ def call_model2_generation(latitude, longitude):
             "latitude": latitude,
             "longitude": longitude,
             "month": current_month,
-            "include_lifetime": True
+            # FIX (2026-02-20): was True. solar_climatology_service.py had no
+            # model cache so predict_lifetime_generation() triggered 12 sequential
+            # joblib.load() calls, corrupting XGBoost state under concurrency.
+            # Now False as a safe default. RESTORE TO TRUE only after confirming
+            # the patched solar_climatology_service.py (with _MODEL_CACHE) is
+            # deployed and the validation script shows Model 2 daily_kwh >= 3.0
+            # with no negative monthly values.
+            "include_lifetime": False
         }
         
         logger.info(f"📤 Model 2 Payload: {payload}")

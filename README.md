@@ -55,16 +55,15 @@ Model-1-branch/
 │   ├── energy_consumption/        # Model 1: Energy Consumption
 │   │   ├── src/
 │   │   │   └── app_ml.py         # Flask API for energy consumption prediction
-│   │   ├── models/                # Model artifacts (.joblib files)
+│   │   ├── models/                # Model artifacts (.joblib files), Jupyter notebooks, dataset
 │   │   ├── tests/                 # Unit and integration tests
-│   │   ├── notebooks/             # Jupyter notebooks (development)
 │   │   └── archive/               # Archived docs, old requirements, etc.
 │   ├── solar_generation/          # Model 2: Solar Generation
 │   │   ├── src/
 │   │   │   ├── solar_climatology_api.py      # Flask API
 │   │   │   ├── solar_climatology_service.py  # Core prediction logic
-│   │   │   └── models/            # Model artifacts (.pkl, .json files)
-│   │   ├── notebooks/             # Jupyter notebooks (development)
+│   │   ├── models/                # Model artifacts (.pkl files), Jupyter notebooks, dataset
+│   │   ├── tests/                 # Unit and integration tests
 │   │   └── archive/               # Archived docs, notebooks, data
 │   ├── roi_calculation/           # Model 3: ROI Calculation
 │   │   ├── src/
@@ -159,7 +158,7 @@ API_KEY=your_secure_api_key_here_minimum_32_characters
 PORT=8000
 
 # Optional: Model-specific overrides (only needed if running models standalone)
-MODEL_DIR=models/solar_generation/src/models
+MODEL_DIR=models/solar_generation/models
 MODEL1_PORT=8001
 ```
 

@@ -1,0 +1,3149 @@
+{
+  "meta": {
+    "model": "Model 2 - XGBoost Climatological Solar Generation",
+    "endpoint": "/api/v1/predict-generation",
+    "base_url": "http://localhost:8000",
+    "timeout_seconds": 3,
+    "auth_header_used": true,
+    "generated_at": "2026-02-21T03:53:38.448358+00:00",
+    "duration_ms": 88739,
+    "acceptable_definition": {
+      "status_code": 200,
+      "plausible_kwh_range": {
+        "gt": 0.0,
+        "lt": 50.0
+      }
+    },
+    "dry_season_months": [
+      1,
+      2,
+      6,
+      7,
+      8,
+      12
+    ]
+  },
+  "summary": {
+    "total": 43,
+    "passed": 43,
+    "failed": 0,
+    "by_category": {
+      "Boundary coordinates": {
+        "total": 8,
+        "passed": 8,
+        "failed": 0
+      },
+      "Just outside boundaries": {
+        "total": 8,
+        "passed": 8,
+        "failed": 0
+      },
+      "Equator and extreme south": {
+        "total": 2,
+        "passed": 2,
+        "failed": 0
+      },
+      "Dry vs wet season months": {
+        "total": 12,
+        "passed": 12,
+        "failed": 0
+      },
+      "Month boundaries": {
+        "total": 4,
+        "passed": 4,
+        "failed": 0
+      },
+      "Missing optional fields": {
+        "total": 1,
+        "passed": 1,
+        "failed": 0
+      },
+      "Null and wrong types": {
+        "total": 4,
+        "passed": 4,
+        "failed": 0
+      },
+      "Coordinate precision": {
+        "total": 4,
+        "passed": 4,
+        "failed": 0
+      }
+    }
+  },
+  "tests": [
+    {
+      "id": "001",
+      "category": "Boundary coordinates",
+      "name": "edge(lat=-26.0, lon=10.0)",
+      "tags": [
+        "boundary"
+      ],
+      "request": {
+        "url": "http://localhost:8000/api/v1/predict-generation",
+        "headers_sent": {
+          "Content-Type": "application/json",
+          "X-API-KEY": "***set***"
+        },
+        "payload_sent": {
+          "latitude": -26.0,
+          "longitude": 10.0,
+          "month": 6,
+          "include_lifetime": false
+        },
+        "timeout_seconds": 3
+      },
+      "response": {
+        "status_code": 200,
+        "json": {
+          "annual_summary": {
+            "average_daily_kwh": 7.763138771057129,
+            "year_1_generation_kwh": 2833.545651435852
+          },
+          "assumptions": {
+            "note": "Lifetime metrics disabled for this request.",
+            "panel_area_m2": 10.0,
+            "panel_efficiency_pct": 20.0
+          },
+          "confidence": {},
+          "coordinate_validation": {
+            "status": "valid",
+            "warnings": [
+              "Latitude is near the edge of the training coverage; predictions may have higher uncertainty."
+            ]
+          },
+          "lifetime_prediction": null,
+          "location": {
+            "latitude": -26.0,
+            "longitude": 10.0
+          },
+          "monthly_generation": [
+            {
+              "daily_kwh": 7.763138771057129,
+              "is_dry_season": true,
+              "month": "June",
+              "month_index": 6
+            }
+          ],
+          "note": "Predictions represent typical expected generation, not a daily weather forecast.",
+          "status": "success"
+        },
+        "text": "{\"annual_summary\":{\"average_daily_kwh\":7.763138771057129,\"year_1_generation_kwh\":2833.545651435852},\"assumptions\":{\"note\":\"Lifetime metrics disabled for this request.\",\"panel_area_m2\":10.0,\"panel_efficiency_pct\":20.0},\"confidence\":{},\"coordinate_validation\":{\"status\":\"valid\",\"warnings\":[\"Latitude is near the edge of the training coverage; predictions may have higher uncertainty.\"]},\"lifetime_prediction\":null,\"location\":{\"latitude\":-26.0,\"longitude\":10.0},\"monthly_generation\":[{\"daily_kwh\":7.763138771057129,\"is_dry_season\":true,\"month\":\"June\",\"month_index\":6}],\"note\":\"Predictions represent typical expected generation, not a daily weather forecast.\",\"status\":\"success\"}\n"
+      },
+      "evaluation": {
+        "expectation": "accept",
+        "acceptable_definition": {
+          "status_code": 200,
+          "kwh_field_preference": [
+            "monthly_generation[0].daily_kwh",
+            "annual_summary.average_daily_kwh"
+          ],
+          "plausible_kwh_range": {
+            "gt": 0.0,
+            "lt": 50.0
+          }
+        },
+        "extracted_kwh": 7.763138771057129,
+        "extracted_kwh_field": "monthly_generation[0].daily_kwh",
+        "acceptable": true,
+        "passed": true,
+        "failure_mode": null
+      },
+      "timing": {
+        "elapsed_ms": 2114,
+        "started_at": "2026-02-21T03:52:11.822621+00:00"
+      }
+    },
+    {
+      "id": "002",
+      "category": "Boundary coordinates",
+      "name": "edge(lat=6.0, lon=10.0)",
+      "tags": [
+        "boundary"
+      ],
+      "request": {
+        "url": "http://localhost:8000/api/v1/predict-generation",
+        "headers_sent": {
+          "Content-Type": "application/json",
+          "X-API-KEY": "***set***"
+        },
+        "payload_sent": {
+          "latitude": 6.0,
+          "longitude": 10.0,
+          "month": 6,
+          "include_lifetime": false
+        },
+        "timeout_seconds": 3
+      },
+      "response": {
+        "status_code": 200,
+        "json": {
+          "annual_summary": {
+            "average_daily_kwh": 8.353665351867676,
+            "year_1_generation_kwh": 3049.0878534317017
+          },
+          "assumptions": {
+            "note": "Lifetime metrics disabled for this request.",
+            "panel_area_m2": 10.0,
+            "panel_efficiency_pct": 20.0
+          },
+          "confidence": {},
+          "coordinate_validation": {
+            "status": "valid",
+            "warnings": [
+              "Latitude is near the edge of the training coverage; predictions may have higher uncertainty."
+            ]
+          },
+          "lifetime_prediction": null,
+          "location": {
+            "latitude": 6.0,
+            "longitude": 10.0
+          },
+          "monthly_generation": [
+            {
+              "daily_kwh": 8.353665351867676,
+              "is_dry_season": true,
+              "month": "June",
+              "month_index": 6
+            }
+          ],
+          "note": "Predictions represent typical expected generation, not a daily weather forecast.",
+          "status": "success"
+        },
+        "text": "{\"annual_summary\":{\"average_daily_kwh\":8.353665351867676,\"year_1_generation_kwh\":3049.0878534317017},\"assumptions\":{\"note\":\"Lifetime metrics disabled for this request.\",\"panel_area_m2\":10.0,\"panel_efficiency_pct\":20.0},\"confidence\":{},\"coordinate_validation\":{\"status\":\"valid\",\"warnings\":[\"Latitude is near the edge of the training coverage; predictions may have higher uncertainty.\"]},\"lifetime_prediction\":null,\"location\":{\"latitude\":6.0,\"longitude\":10.0},\"monthly_generation\":[{\"daily_kwh\":8.353665351867676,\"is_dry_season\":true,\"month\":\"June\",\"month_index\":6}],\"note\":\"Predictions represent typical expected generation, not a daily weather forecast.\",\"status\":\"success\"}\n"
+      },
+      "evaluation": {
+        "expectation": "accept",
+        "acceptable_definition": {
+          "status_code": 200,
+          "kwh_field_preference": [
+            "monthly_generation[0].daily_kwh",
+            "annual_summary.average_daily_kwh"
+          ],
+          "plausible_kwh_range": {
+            "gt": 0.0,
+            "lt": 50.0
+          }
+        },
+        "extracted_kwh": 8.353665351867676,
+        "extracted_kwh_field": "monthly_generation[0].daily_kwh",
+        "acceptable": true,
+        "passed": true,
+        "failure_mode": null
+      },
+      "timing": {
+        "elapsed_ms": 2041,
+        "started_at": "2026-02-21T03:52:13.864497+00:00"
+      }
+    },
+    {
+      "id": "003",
+      "category": "Boundary coordinates",
+      "name": "edge(lat=-10.0, lon=-18.0)",
+      "tags": [
+        "boundary"
+      ],
+      "request": {
+        "url": "http://localhost:8000/api/v1/predict-generation",
+        "headers_sent": {
+          "Content-Type": "application/json",
+          "X-API-KEY": "***set***"
+        },
+        "payload_sent": {
+          "latitude": -10.0,
+          "longitude": -18.0,
+          "month": 6,
+          "include_lifetime": false
+        },
+        "timeout_seconds": 3
+      },
+      "response": {
+        "status_code": 200,
+        "json": {
+          "annual_summary": {
+            "average_daily_kwh": 8.967584609985352,
+            "year_1_generation_kwh": 3273.1683826446533
+          },
+          "assumptions": {
+            "note": "Lifetime metrics disabled for this request.",
+            "panel_area_m2": 10.0,
+            "panel_efficiency_pct": 20.0
+          },
+          "confidence": {},
+          "coordinate_validation": {
+            "status": "valid",
+            "warnings": []
+          },
+          "lifetime_prediction": null,
+          "location": {
+            "latitude": -10.0,
+            "longitude": -18.0
+          },
+          "monthly_generation": [
+            {
+              "daily_kwh": 8.967584609985352,
+              "is_dry_season": true,
+              "month": "June",
+              "month_index": 6
+            }
+          ],
+          "note": "Predictions represent typical expected generation, not a daily weather forecast.",
+          "status": "success"
+        },
+        "text": "{\"annual_summary\":{\"average_daily_kwh\":8.967584609985352,\"year_1_generation_kwh\":3273.1683826446533},\"assumptions\":{\"note\":\"Lifetime metrics disabled for this request.\",\"panel_area_m2\":10.0,\"panel_efficiency_pct\":20.0},\"confidence\":{},\"coordinate_validation\":{\"status\":\"valid\",\"warnings\":[]},\"lifetime_prediction\":null,\"location\":{\"latitude\":-10.0,\"longitude\":-18.0},\"monthly_generation\":[{\"daily_kwh\":8.967584609985352,\"is_dry_season\":true,\"month\":\"June\",\"month_index\":6}],\"note\":\"Predictions represent typical expected generation, not a daily weather forecast.\",\"status\":\"success\"}\n"
+      },
+      "evaluation": {
+        "expectation": "accept",
+        "acceptable_definition": {
+          "status_code": 200,
+          "kwh_field_preference": [
+            "monthly_generation[0].daily_kwh",
+            "annual_summary.average_daily_kwh"
+          ],
+          "plausible_kwh_range": {
+            "gt": 0.0,
+            "lt": 50.0
+          }
+        },
+        "extracted_kwh": 8.967584609985352,
+        "extracted_kwh_field": "monthly_generation[0].daily_kwh",
+        "acceptable": true,
+        "passed": true,
+        "failure_mode": null
+      },
+      "timing": {
+        "elapsed_ms": 2078,
+        "started_at": "2026-02-21T03:52:15.942564+00:00"
+      }
+    },
+    {
+      "id": "004",
+      "category": "Boundary coordinates",
+      "name": "edge(lat=-10.0, lon=44.0)",
+      "tags": [
+        "boundary"
+      ],
+      "request": {
+        "url": "http://localhost:8000/api/v1/predict-generation",
+        "headers_sent": {
+          "Content-Type": "application/json",
+          "X-API-KEY": "***set***"
+        },
+        "payload_sent": {
+          "latitude": -10.0,
+          "longitude": 44.0,
+          "month": 6,
+          "include_lifetime": false
+        },
+        "timeout_seconds": 3
+      },
+      "response": {
+        "status_code": 200,
+        "json": {
+          "annual_summary": {
+            "average_daily_kwh": 9.289714813232422,
+            "year_1_generation_kwh": 3390.745906829834
+          },
+          "assumptions": {
+            "note": "Lifetime metrics disabled for this request.",
+            "panel_area_m2": 10.0,
+            "panel_efficiency_pct": 20.0
+          },
+          "confidence": {},
+          "coordinate_validation": {
+            "status": "valid",
+            "warnings": []
+          },
+          "lifetime_prediction": null,
+          "location": {
+            "latitude": -10.0,
+            "longitude": 44.0
+          },
+          "monthly_generation": [
+            {
+              "daily_kwh": 9.289714813232422,
+              "is_dry_season": true,
+              "month": "June",
+              "month_index": 6
+            }
+          ],
+          "note": "Predictions represent typical expected generation, not a daily weather forecast.",
+          "status": "success"
+        },
+        "text": "{\"annual_summary\":{\"average_daily_kwh\":9.289714813232422,\"year_1_generation_kwh\":3390.745906829834},\"assumptions\":{\"note\":\"Lifetime metrics disabled for this request.\",\"panel_area_m2\":10.0,\"panel_efficiency_pct\":20.0},\"confidence\":{},\"coordinate_validation\":{\"status\":\"valid\",\"warnings\":[]},\"lifetime_prediction\":null,\"location\":{\"latitude\":-10.0,\"longitude\":44.0},\"monthly_generation\":[{\"daily_kwh\":9.289714813232422,\"is_dry_season\":true,\"month\":\"June\",\"month_index\":6}],\"note\":\"Predictions represent typical expected generation, not a daily weather forecast.\",\"status\":\"success\"}\n"
+      },
+      "evaluation": {
+        "expectation": "accept",
+        "acceptable_definition": {
+          "status_code": 200,
+          "kwh_field_preference": [
+            "monthly_generation[0].daily_kwh",
+            "annual_summary.average_daily_kwh"
+          ],
+          "plausible_kwh_range": {
+            "gt": 0.0,
+            "lt": 50.0
+          }
+        },
+        "extracted_kwh": 9.289714813232422,
+        "extracted_kwh_field": "monthly_generation[0].daily_kwh",
+        "acceptable": true,
+        "passed": true,
+        "failure_mode": null
+      },
+      "timing": {
+        "elapsed_ms": 2065,
+        "started_at": "2026-02-21T03:52:18.010456+00:00"
+      }
+    },
+    {
+      "id": "005",
+      "category": "Boundary coordinates",
+      "name": "corner(lat=-26.0, lon=-18.0)",
+      "tags": [
+        "boundary",
+        "corner"
+      ],
+      "request": {
+        "url": "http://localhost:8000/api/v1/predict-generation",
+        "headers_sent": {
+          "Content-Type": "application/json",
+          "X-API-KEY": "***set***"
+        },
+        "payload_sent": {
+          "latitude": -26.0,
+          "longitude": -18.0,
+          "month": 6,
+          "include_lifetime": false
+        },
+        "timeout_seconds": 3
+      },
+      "response": {
+        "status_code": 200,
+        "json": {
+          "annual_summary": {
+            "average_daily_kwh": 8.29066276550293,
+            "year_1_generation_kwh": 3026.0919094085693
+          },
+          "assumptions": {
+            "note": "Lifetime metrics disabled for this request.",
+            "panel_area_m2": 10.0,
+            "panel_efficiency_pct": 20.0
+          },
+          "confidence": {},
+          "coordinate_validation": {
+            "status": "valid",
+            "warnings": [
+              "Latitude is near the edge of the training coverage; predictions may have higher uncertainty."
+            ]
+          },
+          "lifetime_prediction": null,
+          "location": {
+            "latitude": -26.0,
+            "longitude": -18.0
+          },
+          "monthly_generation": [
+            {
+              "daily_kwh": 8.29066276550293,
+              "is_dry_season": true,
+              "month": "June",
+              "month_index": 6
+            }
+          ],
+          "note": "Predictions represent typical expected generation, not a daily weather forecast.",
+          "status": "success"
+        },
+        "text": "{\"annual_summary\":{\"average_daily_kwh\":8.29066276550293,\"year_1_generation_kwh\":3026.0919094085693},\"assumptions\":{\"note\":\"Lifetime metrics disabled for this request.\",\"panel_area_m2\":10.0,\"panel_efficiency_pct\":20.0},\"confidence\":{},\"coordinate_validation\":{\"status\":\"valid\",\"warnings\":[\"Latitude is near the edge of the training coverage; predictions may have higher uncertainty.\"]},\"lifetime_prediction\":null,\"location\":{\"latitude\":-26.0,\"longitude\":-18.0},\"monthly_generation\":[{\"daily_kwh\":8.29066276550293,\"is_dry_season\":true,\"month\":\"June\",\"month_index\":6}],\"note\":\"Predictions represent typical expected generation, not a daily weather forecast.\",\"status\":\"success\"}\n"
+      },
+      "evaluation": {
+        "expectation": "accept",
+        "acceptable_definition": {
+          "status_code": 200,
+          "kwh_field_preference": [
+            "monthly_generation[0].daily_kwh",
+            "annual_summary.average_daily_kwh"
+          ],
+          "plausible_kwh_range": {
+            "gt": 0.0,
+            "lt": 50.0
+          }
+        },
+        "extracted_kwh": 8.29066276550293,
+        "extracted_kwh_field": "monthly_generation[0].daily_kwh",
+        "acceptable": true,
+        "passed": true,
+        "failure_mode": null
+      },
+      "timing": {
+        "elapsed_ms": 2044,
+        "started_at": "2026-02-21T03:52:20.054812+00:00"
+      }
+    },
+    {
+      "id": "006",
+      "category": "Boundary coordinates",
+      "name": "corner(lat=-26.0, lon=44.0)",
+      "tags": [
+        "boundary",
+        "corner"
+      ],
+      "request": {
+        "url": "http://localhost:8000/api/v1/predict-generation",
+        "headers_sent": {
+          "Content-Type": "application/json",
+          "X-API-KEY": "***set***"
+        },
+        "payload_sent": {
+          "latitude": -26.0,
+          "longitude": 44.0,
+          "month": 6,
+          "include_lifetime": false
+        },
+        "timeout_seconds": 3
+      },
+      "response": {
+        "status_code": 200,
+        "json": {
+          "annual_summary": {
+            "average_daily_kwh": 8.252725601196289,
+            "year_1_generation_kwh": 3012.2448444366455
+          },
+          "assumptions": {
+            "note": "Lifetime metrics disabled for this request.",
+            "panel_area_m2": 10.0,
+            "panel_efficiency_pct": 20.0
+          },
+          "confidence": {},
+          "coordinate_validation": {
+            "status": "valid",
+            "warnings": [
+              "Latitude is near the edge of the training coverage; predictions may have higher uncertainty."
+            ]
+          },
+          "lifetime_prediction": null,
+          "location": {
+            "latitude": -26.0,
+            "longitude": 44.0
+          },
+          "monthly_generation": [
+            {
+              "daily_kwh": 8.252725601196289,
+              "is_dry_season": true,
+              "month": "June",
+              "month_index": 6
+            }
+          ],
+          "note": "Predictions represent typical expected generation, not a daily weather forecast.",
+          "status": "success"
+        },
+        "text": "{\"annual_summary\":{\"average_daily_kwh\":8.252725601196289,\"year_1_generation_kwh\":3012.2448444366455},\"assumptions\":{\"note\":\"Lifetime metrics disabled for this request.\",\"panel_area_m2\":10.0,\"panel_efficiency_pct\":20.0},\"confidence\":{},\"coordinate_validation\":{\"status\":\"valid\",\"warnings\":[\"Latitude is near the edge of the training coverage; predictions may have higher uncertainty.\"]},\"lifetime_prediction\":null,\"location\":{\"latitude\":-26.0,\"longitude\":44.0},\"monthly_generation\":[{\"daily_kwh\":8.252725601196289,\"is_dry_season\":true,\"month\":\"June\",\"month_index\":6}],\"note\":\"Predictions represent typical expected generation, not a daily weather forecast.\",\"status\":\"success\"}\n"
+      },
+      "evaluation": {
+        "expectation": "accept",
+        "acceptable_definition": {
+          "status_code": 200,
+          "kwh_field_preference": [
+            "monthly_generation[0].daily_kwh",
+            "annual_summary.average_daily_kwh"
+          ],
+          "plausible_kwh_range": {
+            "gt": 0.0,
+            "lt": 50.0
+          }
+        },
+        "extracted_kwh": 8.252725601196289,
+        "extracted_kwh_field": "monthly_generation[0].daily_kwh",
+        "acceptable": true,
+        "passed": true,
+        "failure_mode": null
+      },
+      "timing": {
+        "elapsed_ms": 2059,
+        "started_at": "2026-02-21T03:52:22.114487+00:00"
+      }
+    },
+    {
+      "id": "007",
+      "category": "Boundary coordinates",
+      "name": "corner(lat=6.0, lon=-18.0)",
+      "tags": [
+        "boundary",
+        "corner"
+      ],
+      "request": {
+        "url": "http://localhost:8000/api/v1/predict-generation",
+        "headers_sent": {
+          "Content-Type": "application/json",
+          "X-API-KEY": "***set***"
+        },
+        "payload_sent": {
+          "latitude": 6.0,
+          "longitude": -18.0,
+          "month": 6,
+          "include_lifetime": false
+        },
+        "timeout_seconds": 3
+      },
+      "response": {
+        "status_code": 200,
+        "json": {
+          "annual_summary": {
+            "average_daily_kwh": 8.929179191589355,
+            "year_1_generation_kwh": 3259.1504049301147
+          },
+          "assumptions": {
+            "note": "Lifetime metrics disabled for this request.",
+            "panel_area_m2": 10.0,
+            "panel_efficiency_pct": 20.0
+          },
+          "confidence": {},
+          "coordinate_validation": {
+            "status": "valid",
+            "warnings": [
+              "Latitude is near the edge of the training coverage; predictions may have higher uncertainty."
+            ]
+          },
+          "lifetime_prediction": null,
+          "location": {
+            "latitude": 6.0,
+            "longitude": -18.0
+          },
+          "monthly_generation": [
+            {
+              "daily_kwh": 8.929179191589355,
+              "is_dry_season": true,
+              "month": "June",
+              "month_index": 6
+            }
+          ],
+          "note": "Predictions represent typical expected generation, not a daily weather forecast.",
+          "status": "success"
+        },
+        "text": "{\"annual_summary\":{\"average_daily_kwh\":8.929179191589355,\"year_1_generation_kwh\":3259.1504049301147},\"assumptions\":{\"note\":\"Lifetime metrics disabled for this request.\",\"panel_area_m2\":10.0,\"panel_efficiency_pct\":20.0},\"confidence\":{},\"coordinate_validation\":{\"status\":\"valid\",\"warnings\":[\"Latitude is near the edge of the training coverage; predictions may have higher uncertainty.\"]},\"lifetime_prediction\":null,\"location\":{\"latitude\":6.0,\"longitude\":-18.0},\"monthly_generation\":[{\"daily_kwh\":8.929179191589355,\"is_dry_season\":true,\"month\":\"June\",\"month_index\":6}],\"note\":\"Predictions represent typical expected generation, not a daily weather forecast.\",\"status\":\"success\"}\n"
+      },
+      "evaluation": {
+        "expectation": "accept",
+        "acceptable_definition": {
+          "status_code": 200,
+          "kwh_field_preference": [
+            "monthly_generation[0].daily_kwh",
+            "annual_summary.average_daily_kwh"
+          ],
+          "plausible_kwh_range": {
+            "gt": 0.0,
+            "lt": 50.0
+          }
+        },
+        "extracted_kwh": 8.929179191589355,
+        "extracted_kwh_field": "monthly_generation[0].daily_kwh",
+        "acceptable": true,
+        "passed": true,
+        "failure_mode": null
+      },
+      "timing": {
+        "elapsed_ms": 2064,
+        "started_at": "2026-02-21T03:52:24.178805+00:00"
+      }
+    },
+    {
+      "id": "008",
+      "category": "Boundary coordinates",
+      "name": "corner(lat=6.0, lon=44.0)",
+      "tags": [
+        "boundary",
+        "corner"
+      ],
+      "request": {
+        "url": "http://localhost:8000/api/v1/predict-generation",
+        "headers_sent": {
+          "Content-Type": "application/json",
+          "X-API-KEY": "***set***"
+        },
+        "payload_sent": {
+          "latitude": 6.0,
+          "longitude": 44.0,
+          "month": 6,
+          "include_lifetime": false
+        },
+        "timeout_seconds": 3
+      },
+      "response": {
+        "status_code": 200,
+        "json": {
+          "annual_summary": {
+            "average_daily_kwh": 9.966296195983887,
+            "year_1_generation_kwh": 3637.6981115341187
+          },
+          "assumptions": {
+            "note": "Lifetime metrics disabled for this request.",
+            "panel_area_m2": 10.0,
+            "panel_efficiency_pct": 20.0
+          },
+          "confidence": {},
+          "coordinate_validation": {
+            "status": "valid",
+            "warnings": [
+              "Latitude is near the edge of the training coverage; predictions may have higher uncertainty."
+            ]
+          },
+          "lifetime_prediction": null,
+          "location": {
+            "latitude": 6.0,
+            "longitude": 44.0
+          },
+          "monthly_generation": [
+            {
+              "daily_kwh": 9.966296195983887,
+              "is_dry_season": true,
+              "month": "June",
+              "month_index": 6
+            }
+          ],
+          "note": "Predictions represent typical expected generation, not a daily weather forecast.",
+          "status": "success"
+        },
+        "text": "{\"annual_summary\":{\"average_daily_kwh\":9.966296195983887,\"year_1_generation_kwh\":3637.6981115341187},\"assumptions\":{\"note\":\"Lifetime metrics disabled for this request.\",\"panel_area_m2\":10.0,\"panel_efficiency_pct\":20.0},\"confidence\":{},\"coordinate_validation\":{\"status\":\"valid\",\"warnings\":[\"Latitude is near the edge of the training coverage; predictions may have higher uncertainty.\"]},\"lifetime_prediction\":null,\"location\":{\"latitude\":6.0,\"longitude\":44.0},\"monthly_generation\":[{\"daily_kwh\":9.966296195983887,\"is_dry_season\":true,\"month\":\"June\",\"month_index\":6}],\"note\":\"Predictions represent typical expected generation, not a daily weather forecast.\",\"status\":\"success\"}\n"
+      },
+      "evaluation": {
+        "expectation": "accept",
+        "acceptable_definition": {
+          "status_code": 200,
+          "kwh_field_preference": [
+            "monthly_generation[0].daily_kwh",
+            "annual_summary.average_daily_kwh"
+          ],
+          "plausible_kwh_range": {
+            "gt": 0.0,
+            "lt": 50.0
+          }
+        },
+        "extracted_kwh": 9.966296195983887,
+        "extracted_kwh_field": "monthly_generation[0].daily_kwh",
+        "acceptable": true,
+        "passed": true,
+        "failure_mode": null
+      },
+      "timing": {
+        "elapsed_ms": 2067,
+        "started_at": "2026-02-21T03:52:26.246619+00:00"
+      }
+    },
+    {
+      "id": "009",
+      "category": "Just outside boundaries",
+      "name": "outside_lat(lat=-27.0, lon=10.0)",
+      "tags": [
+        "outside"
+      ],
+      "request": {
+        "url": "http://localhost:8000/api/v1/predict-generation",
+        "headers_sent": {
+          "Content-Type": "application/json",
+          "X-API-KEY": "***set***"
+        },
+        "payload_sent": {
+          "latitude": -27.0,
+          "longitude": 10.0,
+          "month": 6,
+          "include_lifetime": false
+        },
+        "timeout_seconds": 3
+      },
+      "response": {
+        "status_code": 400,
+        "json": {
+          "message": "Coordinates are outside the model's calibrated Sub-Saharan Africa coverage (lat: -26 to 6, lon: -18 to 44).",
+          "status": "error"
+        },
+        "text": "{\"message\":\"Coordinates are outside the model's calibrated Sub-Saharan Africa coverage (lat: -26 to 6, lon: -18 to 44).\",\"status\":\"error\"}\n"
+      },
+      "evaluation": {
+        "expectation": "reject_or_degrade",
+        "acceptable_definition": {
+          "status_code": 200,
+          "kwh_field_preference": [
+            "monthly_generation[0].daily_kwh",
+            "annual_summary.average_daily_kwh"
+          ],
+          "plausible_kwh_range": {
+            "gt": 0.0,
+            "lt": 50.0
+          }
+        },
+        "extracted_kwh": null,
+        "extracted_kwh_field": null,
+        "acceptable": false,
+        "passed": true,
+        "failure_mode": null
+      },
+      "timing": {
+        "elapsed_ms": 2079,
+        "started_at": "2026-02-21T03:52:28.325645+00:00"
+      }
+    },
+    {
+      "id": "010",
+      "category": "Just outside boundaries",
+      "name": "outside_lat(lat=7.0, lon=10.0)",
+      "tags": [
+        "outside"
+      ],
+      "request": {
+        "url": "http://localhost:8000/api/v1/predict-generation",
+        "headers_sent": {
+          "Content-Type": "application/json",
+          "X-API-KEY": "***set***"
+        },
+        "payload_sent": {
+          "latitude": 7.0,
+          "longitude": 10.0,
+          "month": 6,
+          "include_lifetime": false
+        },
+        "timeout_seconds": 3
+      },
+      "response": {
+        "status_code": 400,
+        "json": {
+          "message": "Coordinates are outside the model's calibrated Sub-Saharan Africa coverage (lat: -26 to 6, lon: -18 to 44).",
+          "status": "error"
+        },
+        "text": "{\"message\":\"Coordinates are outside the model's calibrated Sub-Saharan Africa coverage (lat: -26 to 6, lon: -18 to 44).\",\"status\":\"error\"}\n"
+      },
+      "evaluation": {
+        "expectation": "reject_or_degrade",
+        "acceptable_definition": {
+          "status_code": 200,
+          "kwh_field_preference": [
+            "monthly_generation[0].daily_kwh",
+            "annual_summary.average_daily_kwh"
+          ],
+          "plausible_kwh_range": {
+            "gt": 0.0,
+            "lt": 50.0
+          }
+        },
+        "extracted_kwh": null,
+        "extracted_kwh_field": null,
+        "acceptable": false,
+        "passed": true,
+        "failure_mode": null
+      },
+      "timing": {
+        "elapsed_ms": 2074,
+        "started_at": "2026-02-21T03:52:30.400496+00:00"
+      }
+    },
+    {
+      "id": "011",
+      "category": "Just outside boundaries",
+      "name": "outside_lon(lat=-10.0, lon=-19.0)",
+      "tags": [
+        "outside"
+      ],
+      "request": {
+        "url": "http://localhost:8000/api/v1/predict-generation",
+        "headers_sent": {
+          "Content-Type": "application/json",
+          "X-API-KEY": "***set***"
+        },
+        "payload_sent": {
+          "latitude": -10.0,
+          "longitude": -19.0,
+          "month": 6,
+          "include_lifetime": false
+        },
+        "timeout_seconds": 3
+      },
+      "response": {
+        "status_code": 400,
+        "json": {
+          "message": "Coordinates are outside the model's calibrated Sub-Saharan Africa coverage (lat: -26 to 6, lon: -18 to 44).",
+          "status": "error"
+        },
+        "text": "{\"message\":\"Coordinates are outside the model's calibrated Sub-Saharan Africa coverage (lat: -26 to 6, lon: -18 to 44).\",\"status\":\"error\"}\n"
+      },
+      "evaluation": {
+        "expectation": "reject_or_degrade",
+        "acceptable_definition": {
+          "status_code": 200,
+          "kwh_field_preference": [
+            "monthly_generation[0].daily_kwh",
+            "annual_summary.average_daily_kwh"
+          ],
+          "plausible_kwh_range": {
+            "gt": 0.0,
+            "lt": 50.0
+          }
+        },
+        "extracted_kwh": null,
+        "extracted_kwh_field": null,
+        "acceptable": false,
+        "passed": true,
+        "failure_mode": null
+      },
+      "timing": {
+        "elapsed_ms": 2046,
+        "started_at": "2026-02-21T03:52:32.446754+00:00"
+      }
+    },
+    {
+      "id": "012",
+      "category": "Just outside boundaries",
+      "name": "outside_lon(lat=-10.0, lon=45.0)",
+      "tags": [
+        "outside"
+      ],
+      "request": {
+        "url": "http://localhost:8000/api/v1/predict-generation",
+        "headers_sent": {
+          "Content-Type": "application/json",
+          "X-API-KEY": "***set***"
+        },
+        "payload_sent": {
+          "latitude": -10.0,
+          "longitude": 45.0,
+          "month": 6,
+          "include_lifetime": false
+        },
+        "timeout_seconds": 3
+      },
+      "response": {
+        "status_code": 400,
+        "json": {
+          "message": "Coordinates are outside the model's calibrated Sub-Saharan Africa coverage (lat: -26 to 6, lon: -18 to 44).",
+          "status": "error"
+        },
+        "text": "{\"message\":\"Coordinates are outside the model's calibrated Sub-Saharan Africa coverage (lat: -26 to 6, lon: -18 to 44).\",\"status\":\"error\"}\n"
+      },
+      "evaluation": {
+        "expectation": "reject_or_degrade",
+        "acceptable_definition": {
+          "status_code": 200,
+          "kwh_field_preference": [
+            "monthly_generation[0].daily_kwh",
+            "annual_summary.average_daily_kwh"
+          ],
+          "plausible_kwh_range": {
+            "gt": 0.0,
+            "lt": 50.0
+          }
+        },
+        "extracted_kwh": null,
+        "extracted_kwh_field": null,
+        "acceptable": false,
+        "passed": true,
+        "failure_mode": null
+      },
+      "timing": {
+        "elapsed_ms": 2078,
+        "started_at": "2026-02-21T03:52:34.525337+00:00"
+      }
+    },
+    {
+      "id": "013",
+      "category": "Just outside boundaries",
+      "name": "outside_corner(lat=-27.0, lon=-19.0)",
+      "tags": [
+        "outside",
+        "corner"
+      ],
+      "request": {
+        "url": "http://localhost:8000/api/v1/predict-generation",
+        "headers_sent": {
+          "Content-Type": "application/json",
+          "X-API-KEY": "***set***"
+        },
+        "payload_sent": {
+          "latitude": -27.0,
+          "longitude": -19.0,
+          "month": 6,
+          "include_lifetime": false
+        },
+        "timeout_seconds": 3
+      },
+      "response": {
+        "status_code": 400,
+        "json": {
+          "message": "Coordinates are outside the model's calibrated Sub-Saharan Africa coverage (lat: -26 to 6, lon: -18 to 44).",
+          "status": "error"
+        },
+        "text": "{\"message\":\"Coordinates are outside the model's calibrated Sub-Saharan Africa coverage (lat: -26 to 6, lon: -18 to 44).\",\"status\":\"error\"}\n"
+      },
+      "evaluation": {
+        "expectation": "reject_or_degrade",
+        "acceptable_definition": {
+          "status_code": 200,
+          "kwh_field_preference": [
+            "monthly_generation[0].daily_kwh",
+            "annual_summary.average_daily_kwh"
+          ],
+          "plausible_kwh_range": {
+            "gt": 0.0,
+            "lt": 50.0
+          }
+        },
+        "extracted_kwh": null,
+        "extracted_kwh_field": null,
+        "acceptable": false,
+        "passed": true,
+        "failure_mode": null
+      },
+      "timing": {
+        "elapsed_ms": 2052,
+        "started_at": "2026-02-21T03:52:36.577339+00:00"
+      }
+    },
+    {
+      "id": "014",
+      "category": "Just outside boundaries",
+      "name": "outside_corner(lat=7.0, lon=45.0)",
+      "tags": [
+        "outside",
+        "corner"
+      ],
+      "request": {
+        "url": "http://localhost:8000/api/v1/predict-generation",
+        "headers_sent": {
+          "Content-Type": "application/json",
+          "X-API-KEY": "***set***"
+        },
+        "payload_sent": {
+          "latitude": 7.0,
+          "longitude": 45.0,
+          "month": 6,
+          "include_lifetime": false
+        },
+        "timeout_seconds": 3
+      },
+      "response": {
+        "status_code": 400,
+        "json": {
+          "message": "Coordinates are outside the model's calibrated Sub-Saharan Africa coverage (lat: -26 to 6, lon: -18 to 44).",
+          "status": "error"
+        },
+        "text": "{\"message\":\"Coordinates are outside the model's calibrated Sub-Saharan Africa coverage (lat: -26 to 6, lon: -18 to 44).\",\"status\":\"error\"}\n"
+      },
+      "evaluation": {
+        "expectation": "reject_or_degrade",
+        "acceptable_definition": {
+          "status_code": 200,
+          "kwh_field_preference": [
+            "monthly_generation[0].daily_kwh",
+            "annual_summary.average_daily_kwh"
+          ],
+          "plausible_kwh_range": {
+            "gt": 0.0,
+            "lt": 50.0
+          }
+        },
+        "extracted_kwh": null,
+        "extracted_kwh_field": null,
+        "acceptable": false,
+        "passed": true,
+        "failure_mode": null
+      },
+      "timing": {
+        "elapsed_ms": 2092,
+        "started_at": "2026-02-21T03:52:38.670279+00:00"
+      }
+    },
+    {
+      "id": "015",
+      "category": "Just outside boundaries",
+      "name": "outside_corner(lat=-27.0, lon=45.0)",
+      "tags": [
+        "outside",
+        "corner"
+      ],
+      "request": {
+        "url": "http://localhost:8000/api/v1/predict-generation",
+        "headers_sent": {
+          "Content-Type": "application/json",
+          "X-API-KEY": "***set***"
+        },
+        "payload_sent": {
+          "latitude": -27.0,
+          "longitude": 45.0,
+          "month": 6,
+          "include_lifetime": false
+        },
+        "timeout_seconds": 3
+      },
+      "response": {
+        "status_code": 400,
+        "json": {
+          "message": "Coordinates are outside the model's calibrated Sub-Saharan Africa coverage (lat: -26 to 6, lon: -18 to 44).",
+          "status": "error"
+        },
+        "text": "{\"message\":\"Coordinates are outside the model's calibrated Sub-Saharan Africa coverage (lat: -26 to 6, lon: -18 to 44).\",\"status\":\"error\"}\n"
+      },
+      "evaluation": {
+        "expectation": "reject_or_degrade",
+        "acceptable_definition": {
+          "status_code": 200,
+          "kwh_field_preference": [
+            "monthly_generation[0].daily_kwh",
+            "annual_summary.average_daily_kwh"
+          ],
+          "plausible_kwh_range": {
+            "gt": 0.0,
+            "lt": 50.0
+          }
+        },
+        "extracted_kwh": null,
+        "extracted_kwh_field": null,
+        "acceptable": false,
+        "passed": true,
+        "failure_mode": null
+      },
+      "timing": {
+        "elapsed_ms": 2056,
+        "started_at": "2026-02-21T03:52:40.726621+00:00"
+      }
+    },
+    {
+      "id": "016",
+      "category": "Just outside boundaries",
+      "name": "outside_corner(lat=7.0, lon=-19.0)",
+      "tags": [
+        "outside",
+        "corner"
+      ],
+      "request": {
+        "url": "http://localhost:8000/api/v1/predict-generation",
+        "headers_sent": {
+          "Content-Type": "application/json",
+          "X-API-KEY": "***set***"
+        },
+        "payload_sent": {
+          "latitude": 7.0,
+          "longitude": -19.0,
+          "month": 6,
+          "include_lifetime": false
+        },
+        "timeout_seconds": 3
+      },
+      "response": {
+        "status_code": 400,
+        "json": {
+          "message": "Coordinates are outside the model's calibrated Sub-Saharan Africa coverage (lat: -26 to 6, lon: -18 to 44).",
+          "status": "error"
+        },
+        "text": "{\"message\":\"Coordinates are outside the model's calibrated Sub-Saharan Africa coverage (lat: -26 to 6, lon: -18 to 44).\",\"status\":\"error\"}\n"
+      },
+      "evaluation": {
+        "expectation": "reject_or_degrade",
+        "acceptable_definition": {
+          "status_code": 200,
+          "kwh_field_preference": [
+            "monthly_generation[0].daily_kwh",
+            "annual_summary.average_daily_kwh"
+          ],
+          "plausible_kwh_range": {
+            "gt": 0.0,
+            "lt": 50.0
+          }
+        },
+        "extracted_kwh": null,
+        "extracted_kwh_field": null,
+        "acceptable": false,
+        "passed": true,
+        "failure_mode": null
+      },
+      "timing": {
+        "elapsed_ms": 2046,
+        "started_at": "2026-02-21T03:52:42.772910+00:00"
+      }
+    },
+    {
+      "id": "017",
+      "category": "Equator and extreme south",
+      "name": "lat_focus(lat=0.0)",
+      "tags": [
+        "lat_focus"
+      ],
+      "request": {
+        "url": "http://localhost:8000/api/v1/predict-generation",
+        "headers_sent": {
+          "Content-Type": "application/json",
+          "X-API-KEY": "***set***"
+        },
+        "payload_sent": {
+          "latitude": 0.0,
+          "longitude": 36.8219,
+          "month": 6,
+          "include_lifetime": false
+        },
+        "timeout_seconds": 3
+      },
+      "response": {
+        "status_code": 200,
+        "json": {
+          "annual_summary": {
+            "average_daily_kwh": 9.552544593811035,
+            "year_1_generation_kwh": 3486.678776741028
+          },
+          "assumptions": {
+            "note": "Lifetime metrics disabled for this request.",
+            "panel_area_m2": 10.0,
+            "panel_efficiency_pct": 20.0
+          },
+          "confidence": {},
+          "coordinate_validation": {
+            "status": "valid",
+            "warnings": []
+          },
+          "lifetime_prediction": null,
+          "location": {
+            "latitude": 0.0,
+            "longitude": 36.8219
+          },
+          "monthly_generation": [
+            {
+              "daily_kwh": 9.552544593811035,
+              "is_dry_season": true,
+              "month": "June",
+              "month_index": 6
+            }
+          ],
+          "note": "Predictions represent typical expected generation, not a daily weather forecast.",
+          "status": "success"
+        },
+        "text": "{\"annual_summary\":{\"average_daily_kwh\":9.552544593811035,\"year_1_generation_kwh\":3486.678776741028},\"assumptions\":{\"note\":\"Lifetime metrics disabled for this request.\",\"panel_area_m2\":10.0,\"panel_efficiency_pct\":20.0},\"confidence\":{},\"coordinate_validation\":{\"status\":\"valid\",\"warnings\":[]},\"lifetime_prediction\":null,\"location\":{\"latitude\":0.0,\"longitude\":36.8219},\"monthly_generation\":[{\"daily_kwh\":9.552544593811035,\"is_dry_season\":true,\"month\":\"June\",\"month_index\":6}],\"note\":\"Predictions represent typical expected generation, not a daily weather forecast.\",\"status\":\"success\"}\n"
+      },
+      "evaluation": {
+        "expectation": "accept",
+        "acceptable_definition": {
+          "status_code": 200,
+          "kwh_field_preference": [
+            "monthly_generation[0].daily_kwh",
+            "annual_summary.average_daily_kwh"
+          ],
+          "plausible_kwh_range": {
+            "gt": 0.0,
+            "lt": 50.0
+          }
+        },
+        "extracted_kwh": 9.552544593811035,
+        "extracted_kwh_field": "monthly_generation[0].daily_kwh",
+        "acceptable": true,
+        "passed": true,
+        "failure_mode": null
+      },
+      "timing": {
+        "elapsed_ms": 2057,
+        "started_at": "2026-02-21T03:52:44.830535+00:00"
+      }
+    },
+    {
+      "id": "018",
+      "category": "Equator and extreme south",
+      "name": "lat_focus(lat=-25.9)",
+      "tags": [
+        "lat_focus"
+      ],
+      "request": {
+        "url": "http://localhost:8000/api/v1/predict-generation",
+        "headers_sent": {
+          "Content-Type": "application/json",
+          "X-API-KEY": "***set***"
+        },
+        "payload_sent": {
+          "latitude": -25.9,
+          "longitude": 36.8219,
+          "month": 6,
+          "include_lifetime": false
+        },
+        "timeout_seconds": 3
+      },
+      "response": {
+        "status_code": 200,
+        "json": {
+          "annual_summary": {
+            "average_daily_kwh": 7.658026218414307,
+            "year_1_generation_kwh": 2795.179569721222
+          },
+          "assumptions": {
+            "note": "Lifetime metrics disabled for this request.",
+            "panel_area_m2": 10.0,
+            "panel_efficiency_pct": 20.0
+          },
+          "confidence": {},
+          "coordinate_validation": {
+            "status": "valid",
+            "warnings": [
+              "Latitude is near the edge of the training coverage; predictions may have higher uncertainty."
+            ]
+          },
+          "lifetime_prediction": null,
+          "location": {
+            "latitude": -25.9,
+            "longitude": 36.8219
+          },
+          "monthly_generation": [
+            {
+              "daily_kwh": 7.658026218414307,
+              "is_dry_season": true,
+              "month": "June",
+              "month_index": 6
+            }
+          ],
+          "note": "Predictions represent typical expected generation, not a daily weather forecast.",
+          "status": "success"
+        },
+        "text": "{\"annual_summary\":{\"average_daily_kwh\":7.658026218414307,\"year_1_generation_kwh\":2795.179569721222},\"assumptions\":{\"note\":\"Lifetime metrics disabled for this request.\",\"panel_area_m2\":10.0,\"panel_efficiency_pct\":20.0},\"confidence\":{},\"coordinate_validation\":{\"status\":\"valid\",\"warnings\":[\"Latitude is near the edge of the training coverage; predictions may have higher uncertainty.\"]},\"lifetime_prediction\":null,\"location\":{\"latitude\":-25.9,\"longitude\":36.8219},\"monthly_generation\":[{\"daily_kwh\":7.658026218414307,\"is_dry_season\":true,\"month\":\"June\",\"month_index\":6}],\"note\":\"Predictions represent typical expected generation, not a daily weather forecast.\",\"status\":\"success\"}\n"
+      },
+      "evaluation": {
+        "expectation": "accept",
+        "acceptable_definition": {
+          "status_code": 200,
+          "kwh_field_preference": [
+            "monthly_generation[0].daily_kwh",
+            "annual_summary.average_daily_kwh"
+          ],
+          "plausible_kwh_range": {
+            "gt": 0.0,
+            "lt": 50.0
+          }
+        },
+        "extracted_kwh": 7.658026218414307,
+        "extracted_kwh_field": "monthly_generation[0].daily_kwh",
+        "acceptable": true,
+        "passed": true,
+        "failure_mode": null
+      },
+      "timing": {
+        "elapsed_ms": 2061,
+        "started_at": "2026-02-21T03:52:46.891656+00:00"
+      }
+    },
+    {
+      "id": "019",
+      "category": "Dry vs wet season months",
+      "name": "month=1 (dry)",
+      "tags": [
+        "dry_season"
+      ],
+      "request": {
+        "url": "http://localhost:8000/api/v1/predict-generation",
+        "headers_sent": {
+          "Content-Type": "application/json",
+          "X-API-KEY": "***set***"
+        },
+        "payload_sent": {
+          "latitude": -1.2921,
+          "longitude": 36.8219,
+          "month": 1,
+          "include_lifetime": false
+        },
+        "timeout_seconds": 3
+      },
+      "response": {
+        "status_code": 200,
+        "json": {
+          "annual_summary": {
+            "average_daily_kwh": 11.107422828674316,
+            "year_1_generation_kwh": 4054.2093324661255
+          },
+          "assumptions": {
+            "note": "Lifetime metrics disabled for this request.",
+            "panel_area_m2": 10.0,
+            "panel_efficiency_pct": 20.0
+          },
+          "confidence": {},
+          "coordinate_validation": {
+            "status": "valid",
+            "warnings": []
+          },
+          "lifetime_prediction": null,
+          "location": {
+            "latitude": -1.2921,
+            "longitude": 36.8219
+          },
+          "monthly_generation": [
+            {
+              "daily_kwh": 11.107422828674316,
+              "is_dry_season": true,
+              "month": "January",
+              "month_index": 1
+            }
+          ],
+          "note": "Predictions represent typical expected generation, not a daily weather forecast.",
+          "status": "success"
+        },
+        "text": "{\"annual_summary\":{\"average_daily_kwh\":11.107422828674316,\"year_1_generation_kwh\":4054.2093324661255},\"assumptions\":{\"note\":\"Lifetime metrics disabled for this request.\",\"panel_area_m2\":10.0,\"panel_efficiency_pct\":20.0},\"confidence\":{},\"coordinate_validation\":{\"status\":\"valid\",\"warnings\":[]},\"lifetime_prediction\":null,\"location\":{\"latitude\":-1.2921,\"longitude\":36.8219},\"monthly_generation\":[{\"daily_kwh\":11.107422828674316,\"is_dry_season\":true,\"month\":\"January\",\"month_index\":1}],\"note\":\"Predictions represent typical expected generation, not a daily weather forecast.\",\"status\":\"success\"}\n"
+      },
+      "evaluation": {
+        "expectation": "accept",
+        "acceptable_definition": {
+          "status_code": 200,
+          "kwh_field_preference": [
+            "monthly_generation[0].daily_kwh",
+            "annual_summary.average_daily_kwh"
+          ],
+          "plausible_kwh_range": {
+            "gt": 0.0,
+            "lt": 50.0
+          }
+        },
+        "extracted_kwh": 11.107422828674316,
+        "extracted_kwh_field": "monthly_generation[0].daily_kwh",
+        "acceptable": true,
+        "passed": true,
+        "failure_mode": null
+      },
+      "timing": {
+        "elapsed_ms": 2054,
+        "started_at": "2026-02-21T03:52:48.945865+00:00"
+      }
+    },
+    {
+      "id": "020",
+      "category": "Dry vs wet season months",
+      "name": "month=2 (dry)",
+      "tags": [
+        "dry_season"
+      ],
+      "request": {
+        "url": "http://localhost:8000/api/v1/predict-generation",
+        "headers_sent": {
+          "Content-Type": "application/json",
+          "X-API-KEY": "***set***"
+        },
+        "payload_sent": {
+          "latitude": -1.2921,
+          "longitude": 36.8219,
+          "month": 2,
+          "include_lifetime": false
+        },
+        "timeout_seconds": 3
+      },
+      "response": {
+        "status_code": 200,
+        "json": {
+          "annual_summary": {
+            "average_daily_kwh": 11.670186996459961,
+            "year_1_generation_kwh": 4259.618253707886
+          },
+          "assumptions": {
+            "note": "Lifetime metrics disabled for this request.",
+            "panel_area_m2": 10.0,
+            "panel_efficiency_pct": 20.0
+          },
+          "confidence": {},
+          "coordinate_validation": {
+            "status": "valid",
+            "warnings": []
+          },
+          "lifetime_prediction": null,
+          "location": {
+            "latitude": -1.2921,
+            "longitude": 36.8219
+          },
+          "monthly_generation": [
+            {
+              "daily_kwh": 11.670186996459961,
+              "is_dry_season": true,
+              "month": "February",
+              "month_index": 2
+            }
+          ],
+          "note": "Predictions represent typical expected generation, not a daily weather forecast.",
+          "status": "success"
+        },
+        "text": "{\"annual_summary\":{\"average_daily_kwh\":11.670186996459961,\"year_1_generation_kwh\":4259.618253707886},\"assumptions\":{\"note\":\"Lifetime metrics disabled for this request.\",\"panel_area_m2\":10.0,\"panel_efficiency_pct\":20.0},\"confidence\":{},\"coordinate_validation\":{\"status\":\"valid\",\"warnings\":[]},\"lifetime_prediction\":null,\"location\":{\"latitude\":-1.2921,\"longitude\":36.8219},\"monthly_generation\":[{\"daily_kwh\":11.670186996459961,\"is_dry_season\":true,\"month\":\"February\",\"month_index\":2}],\"note\":\"Predictions represent typical expected generation, not a daily weather forecast.\",\"status\":\"success\"}\n"
+      },
+      "evaluation": {
+        "expectation": "accept",
+        "acceptable_definition": {
+          "status_code": 200,
+          "kwh_field_preference": [
+            "monthly_generation[0].daily_kwh",
+            "annual_summary.average_daily_kwh"
+          ],
+          "plausible_kwh_range": {
+            "gt": 0.0,
+            "lt": 50.0
+          }
+        },
+        "extracted_kwh": 11.670186996459961,
+        "extracted_kwh_field": "monthly_generation[0].daily_kwh",
+        "acceptable": true,
+        "passed": true,
+        "failure_mode": null
+      },
+      "timing": {
+        "elapsed_ms": 2031,
+        "started_at": "2026-02-21T03:52:50.977408+00:00"
+      }
+    },
+    {
+      "id": "021",
+      "category": "Dry vs wet season months",
+      "name": "month=3 (wet)",
+      "tags": [
+        "wet_season"
+      ],
+      "request": {
+        "url": "http://localhost:8000/api/v1/predict-generation",
+        "headers_sent": {
+          "Content-Type": "application/json",
+          "X-API-KEY": "***set***"
+        },
+        "payload_sent": {
+          "latitude": -1.2921,
+          "longitude": 36.8219,
+          "month": 3,
+          "include_lifetime": false
+        },
+        "timeout_seconds": 3
+      },
+      "response": {
+        "status_code": 200,
+        "json": {
+          "annual_summary": {
+            "average_daily_kwh": 11.146100997924805,
+            "year_1_generation_kwh": 4068.3268642425537
+          },
+          "assumptions": {
+            "note": "Lifetime metrics disabled for this request.",
+            "panel_area_m2": 10.0,
+            "panel_efficiency_pct": 20.0
+          },
+          "confidence": {},
+          "coordinate_validation": {
+            "status": "valid",
+            "warnings": []
+          },
+          "lifetime_prediction": null,
+          "location": {
+            "latitude": -1.2921,
+            "longitude": 36.8219
+          },
+          "monthly_generation": [
+            {
+              "daily_kwh": 11.146100997924805,
+              "is_dry_season": false,
+              "month": "March",
+              "month_index": 3
+            }
+          ],
+          "note": "Predictions represent typical expected generation, not a daily weather forecast.",
+          "status": "success"
+        },
+        "text": "{\"annual_summary\":{\"average_daily_kwh\":11.146100997924805,\"year_1_generation_kwh\":4068.3268642425537},\"assumptions\":{\"note\":\"Lifetime metrics disabled for this request.\",\"panel_area_m2\":10.0,\"panel_efficiency_pct\":20.0},\"confidence\":{},\"coordinate_validation\":{\"status\":\"valid\",\"warnings\":[]},\"lifetime_prediction\":null,\"location\":{\"latitude\":-1.2921,\"longitude\":36.8219},\"monthly_generation\":[{\"daily_kwh\":11.146100997924805,\"is_dry_season\":false,\"month\":\"March\",\"month_index\":3}],\"note\":\"Predictions represent typical expected generation, not a daily weather forecast.\",\"status\":\"success\"}\n"
+      },
+      "evaluation": {
+        "expectation": "accept",
+        "acceptable_definition": {
+          "status_code": 200,
+          "kwh_field_preference": [
+            "monthly_generation[0].daily_kwh",
+            "annual_summary.average_daily_kwh"
+          ],
+          "plausible_kwh_range": {
+            "gt": 0.0,
+            "lt": 50.0
+          }
+        },
+        "extracted_kwh": 11.146100997924805,
+        "extracted_kwh_field": "monthly_generation[0].daily_kwh",
+        "acceptable": true,
+        "passed": true,
+        "failure_mode": null
+      },
+      "timing": {
+        "elapsed_ms": 2061,
+        "started_at": "2026-02-21T03:52:53.039311+00:00"
+      }
+    },
+    {
+      "id": "022",
+      "category": "Dry vs wet season months",
+      "name": "month=4 (wet)",
+      "tags": [
+        "wet_season"
+      ],
+      "request": {
+        "url": "http://localhost:8000/api/v1/predict-generation",
+        "headers_sent": {
+          "Content-Type": "application/json",
+          "X-API-KEY": "***set***"
+        },
+        "payload_sent": {
+          "latitude": -1.2921,
+          "longitude": 36.8219,
+          "month": 4,
+          "include_lifetime": false
+        },
+        "timeout_seconds": 3
+      },
+      "response": {
+        "status_code": 200,
+        "json": {
+          "annual_summary": {
+            "average_daily_kwh": 10.035064697265625,
+            "year_1_generation_kwh": 3662.798614501953
+          },
+          "assumptions": {
+            "note": "Lifetime metrics disabled for this request.",
+            "panel_area_m2": 10.0,
+            "panel_efficiency_pct": 20.0
+          },
+          "confidence": {},
+          "coordinate_validation": {
+            "status": "valid",
+            "warnings": []
+          },
+          "lifetime_prediction": null,
+          "location": {
+            "latitude": -1.2921,
+            "longitude": 36.8219
+          },
+          "monthly_generation": [
+            {
+              "daily_kwh": 10.035064697265625,
+              "is_dry_season": false,
+              "month": "April",
+              "month_index": 4
+            }
+          ],
+          "note": "Predictions represent typical expected generation, not a daily weather forecast.",
+          "status": "success"
+        },
+        "text": "{\"annual_summary\":{\"average_daily_kwh\":10.035064697265625,\"year_1_generation_kwh\":3662.798614501953},\"assumptions\":{\"note\":\"Lifetime metrics disabled for this request.\",\"panel_area_m2\":10.0,\"panel_efficiency_pct\":20.0},\"confidence\":{},\"coordinate_validation\":{\"status\":\"valid\",\"warnings\":[]},\"lifetime_prediction\":null,\"location\":{\"latitude\":-1.2921,\"longitude\":36.8219},\"monthly_generation\":[{\"daily_kwh\":10.035064697265625,\"is_dry_season\":false,\"month\":\"April\",\"month_index\":4}],\"note\":\"Predictions represent typical expected generation, not a daily weather forecast.\",\"status\":\"success\"}\n"
+      },
+      "evaluation": {
+        "expectation": "accept",
+        "acceptable_definition": {
+          "status_code": 200,
+          "kwh_field_preference": [
+            "monthly_generation[0].daily_kwh",
+            "annual_summary.average_daily_kwh"
+          ],
+          "plausible_kwh_range": {
+            "gt": 0.0,
+            "lt": 50.0
+          }
+        },
+        "extracted_kwh": 10.035064697265625,
+        "extracted_kwh_field": "monthly_generation[0].daily_kwh",
+        "acceptable": true,
+        "passed": true,
+        "failure_mode": null
+      },
+      "timing": {
+        "elapsed_ms": 2048,
+        "started_at": "2026-02-21T03:52:55.088159+00:00"
+      }
+    },
+    {
+      "id": "023",
+      "category": "Dry vs wet season months",
+      "name": "month=5 (wet)",
+      "tags": [
+        "wet_season"
+      ],
+      "request": {
+        "url": "http://localhost:8000/api/v1/predict-generation",
+        "headers_sent": {
+          "Content-Type": "application/json",
+          "X-API-KEY": "***set***"
+        },
+        "payload_sent": {
+          "latitude": -1.2921,
+          "longitude": 36.8219,
+          "month": 5,
+          "include_lifetime": false
+        },
+        "timeout_seconds": 3
+      },
+      "response": {
+        "status_code": 200,
+        "json": {
+          "annual_summary": {
+            "average_daily_kwh": 9.636865615844727,
+            "year_1_generation_kwh": 3517.455949783325
+          },
+          "assumptions": {
+            "note": "Lifetime metrics disabled for this request.",
+            "panel_area_m2": 10.0,
+            "panel_efficiency_pct": 20.0
+          },
+          "confidence": {},
+          "coordinate_validation": {
+            "status": "valid",
+            "warnings": []
+          },
+          "lifetime_prediction": null,
+          "location": {
+            "latitude": -1.2921,
+            "longitude": 36.8219
+          },
+          "monthly_generation": [
+            {
+              "daily_kwh": 9.636865615844727,
+              "is_dry_season": false,
+              "month": "May",
+              "month_index": 5
+            }
+          ],
+          "note": "Predictions represent typical expected generation, not a daily weather forecast.",
+          "status": "success"
+        },
+        "text": "{\"annual_summary\":{\"average_daily_kwh\":9.636865615844727,\"year_1_generation_kwh\":3517.455949783325},\"assumptions\":{\"note\":\"Lifetime metrics disabled for this request.\",\"panel_area_m2\":10.0,\"panel_efficiency_pct\":20.0},\"confidence\":{},\"coordinate_validation\":{\"status\":\"valid\",\"warnings\":[]},\"lifetime_prediction\":null,\"location\":{\"latitude\":-1.2921,\"longitude\":36.8219},\"monthly_generation\":[{\"daily_kwh\":9.636865615844727,\"is_dry_season\":false,\"month\":\"May\",\"month_index\":5}],\"note\":\"Predictions represent typical expected generation, not a daily weather forecast.\",\"status\":\"success\"}\n"
+      },
+      "evaluation": {
+        "expectation": "accept",
+        "acceptable_definition": {
+          "status_code": 200,
+          "kwh_field_preference": [
+            "monthly_generation[0].daily_kwh",
+            "annual_summary.average_daily_kwh"
+          ],
+          "plausible_kwh_range": {
+            "gt": 0.0,
+            "lt": 50.0
+          }
+        },
+        "extracted_kwh": 9.636865615844727,
+        "extracted_kwh_field": "monthly_generation[0].daily_kwh",
+        "acceptable": true,
+        "passed": true,
+        "failure_mode": null
+      },
+      "timing": {
+        "elapsed_ms": 2047,
+        "started_at": "2026-02-21T03:52:57.137639+00:00"
+      }
+    },
+    {
+      "id": "024",
+      "category": "Dry vs wet season months",
+      "name": "month=6 (dry)",
+      "tags": [
+        "dry_season"
+      ],
+      "request": {
+        "url": "http://localhost:8000/api/v1/predict-generation",
+        "headers_sent": {
+          "Content-Type": "application/json",
+          "X-API-KEY": "***set***"
+        },
+        "payload_sent": {
+          "latitude": -1.2921,
+          "longitude": 36.8219,
+          "month": 6,
+          "include_lifetime": false
+        },
+        "timeout_seconds": 3
+      },
+      "response": {
+        "status_code": 200,
+        "json": {
+          "annual_summary": {
+            "average_daily_kwh": 9.407774925231934,
+            "year_1_generation_kwh": 3433.8378477096558
+          },
+          "assumptions": {
+            "note": "Lifetime metrics disabled for this request.",
+            "panel_area_m2": 10.0,
+            "panel_efficiency_pct": 20.0
+          },
+          "confidence": {},
+          "coordinate_validation": {
+            "status": "valid",
+            "warnings": []
+          },
+          "lifetime_prediction": null,
+          "location": {
+            "latitude": -1.2921,
+            "longitude": 36.8219
+          },
+          "monthly_generation": [
+            {
+              "daily_kwh": 9.407774925231934,
+              "is_dry_season": true,
+              "month": "June",
+              "month_index": 6
+            }
+          ],
+          "note": "Predictions represent typical expected generation, not a daily weather forecast.",
+          "status": "success"
+        },
+        "text": "{\"annual_summary\":{\"average_daily_kwh\":9.407774925231934,\"year_1_generation_kwh\":3433.8378477096558},\"assumptions\":{\"note\":\"Lifetime metrics disabled for this request.\",\"panel_area_m2\":10.0,\"panel_efficiency_pct\":20.0},\"confidence\":{},\"coordinate_validation\":{\"status\":\"valid\",\"warnings\":[]},\"lifetime_prediction\":null,\"location\":{\"latitude\":-1.2921,\"longitude\":36.8219},\"monthly_generation\":[{\"daily_kwh\":9.407774925231934,\"is_dry_season\":true,\"month\":\"June\",\"month_index\":6}],\"note\":\"Predictions represent typical expected generation, not a daily weather forecast.\",\"status\":\"success\"}\n"
+      },
+      "evaluation": {
+        "expectation": "accept",
+        "acceptable_definition": {
+          "status_code": 200,
+          "kwh_field_preference": [
+            "monthly_generation[0].daily_kwh",
+            "annual_summary.average_daily_kwh"
+          ],
+          "plausible_kwh_range": {
+            "gt": 0.0,
+            "lt": 50.0
+          }
+        },
+        "extracted_kwh": 9.407774925231934,
+        "extracted_kwh_field": "monthly_generation[0].daily_kwh",
+        "acceptable": true,
+        "passed": true,
+        "failure_mode": null
+      },
+      "timing": {
+        "elapsed_ms": 2091,
+        "started_at": "2026-02-21T03:52:59.229484+00:00"
+      }
+    },
+    {
+      "id": "025",
+      "category": "Dry vs wet season months",
+      "name": "month=7 (dry)",
+      "tags": [
+        "dry_season"
+      ],
+      "request": {
+        "url": "http://localhost:8000/api/v1/predict-generation",
+        "headers_sent": {
+          "Content-Type": "application/json",
+          "X-API-KEY": "***set***"
+        },
+        "payload_sent": {
+          "latitude": -1.2921,
+          "longitude": 36.8219,
+          "month": 7,
+          "include_lifetime": false
+        },
+        "timeout_seconds": 3
+      },
+      "response": {
+        "status_code": 200,
+        "json": {
+          "annual_summary": {
+            "average_daily_kwh": 9.510245323181152,
+            "year_1_generation_kwh": 3471.2395429611206
+          },
+          "assumptions": {
+            "note": "Lifetime metrics disabled for this request.",
+            "panel_area_m2": 10.0,
+            "panel_efficiency_pct": 20.0
+          },
+          "confidence": {},
+          "coordinate_validation": {
+            "status": "valid",
+            "warnings": []
+          },
+          "lifetime_prediction": null,
+          "location": {
+            "latitude": -1.2921,
+            "longitude": 36.8219
+          },
+          "monthly_generation": [
+            {
+              "daily_kwh": 9.510245323181152,
+              "is_dry_season": true,
+              "month": "July",
+              "month_index": 7
+            }
+          ],
+          "note": "Predictions represent typical expected generation, not a daily weather forecast.",
+          "status": "success"
+        },
+        "text": "{\"annual_summary\":{\"average_daily_kwh\":9.510245323181152,\"year_1_generation_kwh\":3471.2395429611206},\"assumptions\":{\"note\":\"Lifetime metrics disabled for this request.\",\"panel_area_m2\":10.0,\"panel_efficiency_pct\":20.0},\"confidence\":{},\"coordinate_validation\":{\"status\":\"valid\",\"warnings\":[]},\"lifetime_prediction\":null,\"location\":{\"latitude\":-1.2921,\"longitude\":36.8219},\"monthly_generation\":[{\"daily_kwh\":9.510245323181152,\"is_dry_season\":true,\"month\":\"July\",\"month_index\":7}],\"note\":\"Predictions represent typical expected generation, not a daily weather forecast.\",\"status\":\"success\"}\n"
+      },
+      "evaluation": {
+        "expectation": "accept",
+        "acceptable_definition": {
+          "status_code": 200,
+          "kwh_field_preference": [
+            "monthly_generation[0].daily_kwh",
+            "annual_summary.average_daily_kwh"
+          ],
+          "plausible_kwh_range": {
+            "gt": 0.0,
+            "lt": 50.0
+          }
+        },
+        "extracted_kwh": 9.510245323181152,
+        "extracted_kwh_field": "monthly_generation[0].daily_kwh",
+        "acceptable": true,
+        "passed": true,
+        "failure_mode": null
+      },
+      "timing": {
+        "elapsed_ms": 2066,
+        "started_at": "2026-02-21T03:53:01.295698+00:00"
+      }
+    },
+    {
+      "id": "026",
+      "category": "Dry vs wet season months",
+      "name": "month=8 (dry)",
+      "tags": [
+        "dry_season"
+      ],
+      "request": {
+        "url": "http://localhost:8000/api/v1/predict-generation",
+        "headers_sent": {
+          "Content-Type": "application/json",
+          "X-API-KEY": "***set***"
+        },
+        "payload_sent": {
+          "latitude": -1.2921,
+          "longitude": 36.8219,
+          "month": 8,
+          "include_lifetime": false
+        },
+        "timeout_seconds": 3
+      },
+      "response": {
+        "status_code": 200,
+        "json": {
+          "annual_summary": {
+            "average_daily_kwh": 9.97419261932373,
+            "year_1_generation_kwh": 3640.5803060531616
+          },
+          "assumptions": {
+            "note": "Lifetime metrics disabled for this request.",
+            "panel_area_m2": 10.0,
+            "panel_efficiency_pct": 20.0
+          },
+          "confidence": {},
+          "coordinate_validation": {
+            "status": "valid",
+            "warnings": []
+          },
+          "lifetime_prediction": null,
+          "location": {
+            "latitude": -1.2921,
+            "longitude": 36.8219
+          },
+          "monthly_generation": [
+            {
+              "daily_kwh": 9.97419261932373,
+              "is_dry_season": true,
+              "month": "August",
+              "month_index": 8
+            }
+          ],
+          "note": "Predictions represent typical expected generation, not a daily weather forecast.",
+          "status": "success"
+        },
+        "text": "{\"annual_summary\":{\"average_daily_kwh\":9.97419261932373,\"year_1_generation_kwh\":3640.5803060531616},\"assumptions\":{\"note\":\"Lifetime metrics disabled for this request.\",\"panel_area_m2\":10.0,\"panel_efficiency_pct\":20.0},\"confidence\":{},\"coordinate_validation\":{\"status\":\"valid\",\"warnings\":[]},\"lifetime_prediction\":null,\"location\":{\"latitude\":-1.2921,\"longitude\":36.8219},\"monthly_generation\":[{\"daily_kwh\":9.97419261932373,\"is_dry_season\":true,\"month\":\"August\",\"month_index\":8}],\"note\":\"Predictions represent typical expected generation, not a daily weather forecast.\",\"status\":\"success\"}\n"
+      },
+      "evaluation": {
+        "expectation": "accept",
+        "acceptable_definition": {
+          "status_code": 200,
+          "kwh_field_preference": [
+            "monthly_generation[0].daily_kwh",
+            "annual_summary.average_daily_kwh"
+          ],
+          "plausible_kwh_range": {
+            "gt": 0.0,
+            "lt": 50.0
+          }
+        },
+        "extracted_kwh": 9.97419261932373,
+        "extracted_kwh_field": "monthly_generation[0].daily_kwh",
+        "acceptable": true,
+        "passed": true,
+        "failure_mode": null
+      },
+      "timing": {
+        "elapsed_ms": 2048,
+        "started_at": "2026-02-21T03:53:03.344599+00:00"
+      }
+    },
+    {
+      "id": "027",
+      "category": "Dry vs wet season months",
+      "name": "month=9 (wet)",
+      "tags": [
+        "wet_season"
+      ],
+      "request": {
+        "url": "http://localhost:8000/api/v1/predict-generation",
+        "headers_sent": {
+          "Content-Type": "application/json",
+          "X-API-KEY": "***set***"
+        },
+        "payload_sent": {
+          "latitude": -1.2921,
+          "longitude": 36.8219,
+          "month": 9,
+          "include_lifetime": false
+        },
+        "timeout_seconds": 3
+      },
+      "response": {
+        "status_code": 200,
+        "json": {
+          "annual_summary": {
+            "average_daily_kwh": 10.594863891601562,
+            "year_1_generation_kwh": 3867.1253204345703
+          },
+          "assumptions": {
+            "note": "Lifetime metrics disabled for this request.",
+            "panel_area_m2": 10.0,
+            "panel_efficiency_pct": 20.0
+          },
+          "confidence": {},
+          "coordinate_validation": {
+            "status": "valid",
+            "warnings": []
+          },
+          "lifetime_prediction": null,
+          "location": {
+            "latitude": -1.2921,
+            "longitude": 36.8219
+          },
+          "monthly_generation": [
+            {
+              "daily_kwh": 10.594863891601562,
+              "is_dry_season": false,
+              "month": "September",
+              "month_index": 9
+            }
+          ],
+          "note": "Predictions represent typical expected generation, not a daily weather forecast.",
+          "status": "success"
+        },
+        "text": "{\"annual_summary\":{\"average_daily_kwh\":10.594863891601562,\"year_1_generation_kwh\":3867.1253204345703},\"assumptions\":{\"note\":\"Lifetime metrics disabled for this request.\",\"panel_area_m2\":10.0,\"panel_efficiency_pct\":20.0},\"confidence\":{},\"coordinate_validation\":{\"status\":\"valid\",\"warnings\":[]},\"lifetime_prediction\":null,\"location\":{\"latitude\":-1.2921,\"longitude\":36.8219},\"monthly_generation\":[{\"daily_kwh\":10.594863891601562,\"is_dry_season\":false,\"month\":\"September\",\"month_index\":9}],\"note\":\"Predictions represent typical expected generation, not a daily weather forecast.\",\"status\":\"success\"}\n"
+      },
+      "evaluation": {
+        "expectation": "accept",
+        "acceptable_definition": {
+          "status_code": 200,
+          "kwh_field_preference": [
+            "monthly_generation[0].daily_kwh",
+            "annual_summary.average_daily_kwh"
+          ],
+          "plausible_kwh_range": {
+            "gt": 0.0,
+            "lt": 50.0
+          }
+        },
+        "extracted_kwh": 10.594863891601562,
+        "extracted_kwh_field": "monthly_generation[0].daily_kwh",
+        "acceptable": true,
+        "passed": true,
+        "failure_mode": null
+      },
+      "timing": {
+        "elapsed_ms": 2067,
+        "started_at": "2026-02-21T03:53:05.412562+00:00"
+      }
+    },
+    {
+      "id": "028",
+      "category": "Dry vs wet season months",
+      "name": "month=10 (wet)",
+      "tags": [
+        "wet_season"
+      ],
+      "request": {
+        "url": "http://localhost:8000/api/v1/predict-generation",
+        "headers_sent": {
+          "Content-Type": "application/json",
+          "X-API-KEY": "***set***"
+        },
+        "payload_sent": {
+          "latitude": -1.2921,
+          "longitude": 36.8219,
+          "month": 10,
+          "include_lifetime": false
+        },
+        "timeout_seconds": 3
+      },
+      "response": {
+        "status_code": 200,
+        "json": {
+          "annual_summary": {
+            "average_daily_kwh": 10.74325180053711,
+            "year_1_generation_kwh": 3921.286907196045
+          },
+          "assumptions": {
+            "note": "Lifetime metrics disabled for this request.",
+            "panel_area_m2": 10.0,
+            "panel_efficiency_pct": 20.0
+          },
+          "confidence": {},
+          "coordinate_validation": {
+            "status": "valid",
+            "warnings": []
+          },
+          "lifetime_prediction": null,
+          "location": {
+            "latitude": -1.2921,
+            "longitude": 36.8219
+          },
+          "monthly_generation": [
+            {
+              "daily_kwh": 10.74325180053711,
+              "is_dry_season": false,
+              "month": "October",
+              "month_index": 10
+            }
+          ],
+          "note": "Predictions represent typical expected generation, not a daily weather forecast.",
+          "status": "success"
+        },
+        "text": "{\"annual_summary\":{\"average_daily_kwh\":10.74325180053711,\"year_1_generation_kwh\":3921.286907196045},\"assumptions\":{\"note\":\"Lifetime metrics disabled for this request.\",\"panel_area_m2\":10.0,\"panel_efficiency_pct\":20.0},\"confidence\":{},\"coordinate_validation\":{\"status\":\"valid\",\"warnings\":[]},\"lifetime_prediction\":null,\"location\":{\"latitude\":-1.2921,\"longitude\":36.8219},\"monthly_generation\":[{\"daily_kwh\":10.74325180053711,\"is_dry_season\":false,\"month\":\"October\",\"month_index\":10}],\"note\":\"Predictions represent typical expected generation, not a daily weather forecast.\",\"status\":\"success\"}\n"
+      },
+      "evaluation": {
+        "expectation": "accept",
+        "acceptable_definition": {
+          "status_code": 200,
+          "kwh_field_preference": [
+            "monthly_generation[0].daily_kwh",
+            "annual_summary.average_daily_kwh"
+          ],
+          "plausible_kwh_range": {
+            "gt": 0.0,
+            "lt": 50.0
+          }
+        },
+        "extracted_kwh": 10.74325180053711,
+        "extracted_kwh_field": "monthly_generation[0].daily_kwh",
+        "acceptable": true,
+        "passed": true,
+        "failure_mode": null
+      },
+      "timing": {
+        "elapsed_ms": 2078,
+        "started_at": "2026-02-21T03:53:07.491219+00:00"
+      }
+    },
+    {
+      "id": "029",
+      "category": "Dry vs wet season months",
+      "name": "month=11 (wet)",
+      "tags": [
+        "wet_season"
+      ],
+      "request": {
+        "url": "http://localhost:8000/api/v1/predict-generation",
+        "headers_sent": {
+          "Content-Type": "application/json",
+          "X-API-KEY": "***set***"
+        },
+        "payload_sent": {
+          "latitude": -1.2921,
+          "longitude": 36.8219,
+          "month": 11,
+          "include_lifetime": false
+        },
+        "timeout_seconds": 3
+      },
+      "response": {
+        "status_code": 200,
+        "json": {
+          "annual_summary": {
+            "average_daily_kwh": 9.68812084197998,
+            "year_1_generation_kwh": 3536.164107322693
+          },
+          "assumptions": {
+            "note": "Lifetime metrics disabled for this request.",
+            "panel_area_m2": 10.0,
+            "panel_efficiency_pct": 20.0
+          },
+          "confidence": {},
+          "coordinate_validation": {
+            "status": "valid",
+            "warnings": []
+          },
+          "lifetime_prediction": null,
+          "location": {
+            "latitude": -1.2921,
+            "longitude": 36.8219
+          },
+          "monthly_generation": [
+            {
+              "daily_kwh": 9.68812084197998,
+              "is_dry_season": false,
+              "month": "November",
+              "month_index": 11
+            }
+          ],
+          "note": "Predictions represent typical expected generation, not a daily weather forecast.",
+          "status": "success"
+        },
+        "text": "{\"annual_summary\":{\"average_daily_kwh\":9.68812084197998,\"year_1_generation_kwh\":3536.164107322693},\"assumptions\":{\"note\":\"Lifetime metrics disabled for this request.\",\"panel_area_m2\":10.0,\"panel_efficiency_pct\":20.0},\"confidence\":{},\"coordinate_validation\":{\"status\":\"valid\",\"warnings\":[]},\"lifetime_prediction\":null,\"location\":{\"latitude\":-1.2921,\"longitude\":36.8219},\"monthly_generation\":[{\"daily_kwh\":9.68812084197998,\"is_dry_season\":false,\"month\":\"November\",\"month_index\":11}],\"note\":\"Predictions represent typical expected generation, not a daily weather forecast.\",\"status\":\"success\"}\n"
+      },
+      "evaluation": {
+        "expectation": "accept",
+        "acceptable_definition": {
+          "status_code": 200,
+          "kwh_field_preference": [
+            "monthly_generation[0].daily_kwh",
+            "annual_summary.average_daily_kwh"
+          ],
+          "plausible_kwh_range": {
+            "gt": 0.0,
+            "lt": 50.0
+          }
+        },
+        "extracted_kwh": 9.68812084197998,
+        "extracted_kwh_field": "monthly_generation[0].daily_kwh",
+        "acceptable": true,
+        "passed": true,
+        "failure_mode": null
+      },
+      "timing": {
+        "elapsed_ms": 2062,
+        "started_at": "2026-02-21T03:53:09.553773+00:00"
+      }
+    },
+    {
+      "id": "030",
+      "category": "Dry vs wet season months",
+      "name": "month=12 (dry)",
+      "tags": [
+        "dry_season"
+      ],
+      "request": {
+        "url": "http://localhost:8000/api/v1/predict-generation",
+        "headers_sent": {
+          "Content-Type": "application/json",
+          "X-API-KEY": "***set***"
+        },
+        "payload_sent": {
+          "latitude": -1.2921,
+          "longitude": 36.8219,
+          "month": 12,
+          "include_lifetime": false
+        },
+        "timeout_seconds": 3
+      },
+      "response": {
+        "status_code": 200,
+        "json": {
+          "annual_summary": {
+            "average_daily_kwh": 10.072378158569336,
+            "year_1_generation_kwh": 3676.4180278778076
+          },
+          "assumptions": {
+            "note": "Lifetime metrics disabled for this request.",
+            "panel_area_m2": 10.0,
+            "panel_efficiency_pct": 20.0
+          },
+          "confidence": {},
+          "coordinate_validation": {
+            "status": "valid",
+            "warnings": []
+          },
+          "lifetime_prediction": null,
+          "location": {
+            "latitude": -1.2921,
+            "longitude": 36.8219
+          },
+          "monthly_generation": [
+            {
+              "daily_kwh": 10.072378158569336,
+              "is_dry_season": true,
+              "month": "December",
+              "month_index": 12
+            }
+          ],
+          "note": "Predictions represent typical expected generation, not a daily weather forecast.",
+          "status": "success"
+        },
+        "text": "{\"annual_summary\":{\"average_daily_kwh\":10.072378158569336,\"year_1_generation_kwh\":3676.4180278778076},\"assumptions\":{\"note\":\"Lifetime metrics disabled for this request.\",\"panel_area_m2\":10.0,\"panel_efficiency_pct\":20.0},\"confidence\":{},\"coordinate_validation\":{\"status\":\"valid\",\"warnings\":[]},\"lifetime_prediction\":null,\"location\":{\"latitude\":-1.2921,\"longitude\":36.8219},\"monthly_generation\":[{\"daily_kwh\":10.072378158569336,\"is_dry_season\":true,\"month\":\"December\",\"month_index\":12}],\"note\":\"Predictions represent typical expected generation, not a daily weather forecast.\",\"status\":\"success\"}\n"
+      },
+      "evaluation": {
+        "expectation": "accept",
+        "acceptable_definition": {
+          "status_code": 200,
+          "kwh_field_preference": [
+            "monthly_generation[0].daily_kwh",
+            "annual_summary.average_daily_kwh"
+          ],
+          "plausible_kwh_range": {
+            "gt": 0.0,
+            "lt": 50.0
+          }
+        },
+        "extracted_kwh": 10.072378158569336,
+        "extracted_kwh_field": "monthly_generation[0].daily_kwh",
+        "acceptable": true,
+        "passed": true,
+        "failure_mode": null
+      },
+      "timing": {
+        "elapsed_ms": 2049,
+        "started_at": "2026-02-21T03:53:11.603554+00:00"
+      }
+    },
+    {
+      "id": "031",
+      "category": "Month boundaries",
+      "name": "month=1",
+      "tags": [
+        "month_boundary"
+      ],
+      "request": {
+        "url": "http://localhost:8000/api/v1/predict-generation",
+        "headers_sent": {
+          "Content-Type": "application/json",
+          "X-API-KEY": "***set***"
+        },
+        "payload_sent": {
+          "latitude": -1.2921,
+          "longitude": 36.8219,
+          "month": 1,
+          "include_lifetime": false
+        },
+        "timeout_seconds": 3
+      },
+      "response": {
+        "status_code": 200,
+        "json": {
+          "annual_summary": {
+            "average_daily_kwh": 11.107422828674316,
+            "year_1_generation_kwh": 4054.2093324661255
+          },
+          "assumptions": {
+            "note": "Lifetime metrics disabled for this request.",
+            "panel_area_m2": 10.0,
+            "panel_efficiency_pct": 20.0
+          },
+          "confidence": {},
+          "coordinate_validation": {
+            "status": "valid",
+            "warnings": []
+          },
+          "lifetime_prediction": null,
+          "location": {
+            "latitude": -1.2921,
+            "longitude": 36.8219
+          },
+          "monthly_generation": [
+            {
+              "daily_kwh": 11.107422828674316,
+              "is_dry_season": true,
+              "month": "January",
+              "month_index": 1
+            }
+          ],
+          "note": "Predictions represent typical expected generation, not a daily weather forecast.",
+          "status": "success"
+        },
+        "text": "{\"annual_summary\":{\"average_daily_kwh\":11.107422828674316,\"year_1_generation_kwh\":4054.2093324661255},\"assumptions\":{\"note\":\"Lifetime metrics disabled for this request.\",\"panel_area_m2\":10.0,\"panel_efficiency_pct\":20.0},\"confidence\":{},\"coordinate_validation\":{\"status\":\"valid\",\"warnings\":[]},\"lifetime_prediction\":null,\"location\":{\"latitude\":-1.2921,\"longitude\":36.8219},\"monthly_generation\":[{\"daily_kwh\":11.107422828674316,\"is_dry_season\":true,\"month\":\"January\",\"month_index\":1}],\"note\":\"Predictions represent typical expected generation, not a daily weather forecast.\",\"status\":\"success\"}\n"
+      },
+      "evaluation": {
+        "expectation": "accept",
+        "acceptable_definition": {
+          "status_code": 200,
+          "kwh_field_preference": [
+            "monthly_generation[0].daily_kwh",
+            "annual_summary.average_daily_kwh"
+          ],
+          "plausible_kwh_range": {
+            "gt": 0.0,
+            "lt": 50.0
+          }
+        },
+        "extracted_kwh": 11.107422828674316,
+        "extracted_kwh_field": "monthly_generation[0].daily_kwh",
+        "acceptable": true,
+        "passed": true,
+        "failure_mode": null
+      },
+      "timing": {
+        "elapsed_ms": 2052,
+        "started_at": "2026-02-21T03:53:13.655741+00:00"
+      }
+    },
+    {
+      "id": "032",
+      "category": "Month boundaries",
+      "name": "month=12",
+      "tags": [
+        "month_boundary"
+      ],
+      "request": {
+        "url": "http://localhost:8000/api/v1/predict-generation",
+        "headers_sent": {
+          "Content-Type": "application/json",
+          "X-API-KEY": "***set***"
+        },
+        "payload_sent": {
+          "latitude": -1.2921,
+          "longitude": 36.8219,
+          "month": 12,
+          "include_lifetime": false
+        },
+        "timeout_seconds": 3
+      },
+      "response": {
+        "status_code": 200,
+        "json": {
+          "annual_summary": {
+            "average_daily_kwh": 10.072378158569336,
+            "year_1_generation_kwh": 3676.4180278778076
+          },
+          "assumptions": {
+            "note": "Lifetime metrics disabled for this request.",
+            "panel_area_m2": 10.0,
+            "panel_efficiency_pct": 20.0
+          },
+          "confidence": {},
+          "coordinate_validation": {
+            "status": "valid",
+            "warnings": []
+          },
+          "lifetime_prediction": null,
+          "location": {
+            "latitude": -1.2921,
+            "longitude": 36.8219
+          },
+          "monthly_generation": [
+            {
+              "daily_kwh": 10.072378158569336,
+              "is_dry_season": true,
+              "month": "December",
+              "month_index": 12
+            }
+          ],
+          "note": "Predictions represent typical expected generation, not a daily weather forecast.",
+          "status": "success"
+        },
+        "text": "{\"annual_summary\":{\"average_daily_kwh\":10.072378158569336,\"year_1_generation_kwh\":3676.4180278778076},\"assumptions\":{\"note\":\"Lifetime metrics disabled for this request.\",\"panel_area_m2\":10.0,\"panel_efficiency_pct\":20.0},\"confidence\":{},\"coordinate_validation\":{\"status\":\"valid\",\"warnings\":[]},\"lifetime_prediction\":null,\"location\":{\"latitude\":-1.2921,\"longitude\":36.8219},\"monthly_generation\":[{\"daily_kwh\":10.072378158569336,\"is_dry_season\":true,\"month\":\"December\",\"month_index\":12}],\"note\":\"Predictions represent typical expected generation, not a daily weather forecast.\",\"status\":\"success\"}\n"
+      },
+      "evaluation": {
+        "expectation": "accept",
+        "acceptable_definition": {
+          "status_code": 200,
+          "kwh_field_preference": [
+            "monthly_generation[0].daily_kwh",
+            "annual_summary.average_daily_kwh"
+          ],
+          "plausible_kwh_range": {
+            "gt": 0.0,
+            "lt": 50.0
+          }
+        },
+        "extracted_kwh": 10.072378158569336,
+        "extracted_kwh_field": "monthly_generation[0].daily_kwh",
+        "acceptable": true,
+        "passed": true,
+        "failure_mode": null
+      },
+      "timing": {
+        "elapsed_ms": 2076,
+        "started_at": "2026-02-21T03:53:15.731743+00:00"
+      }
+    },
+    {
+      "id": "033",
+      "category": "Month boundaries",
+      "name": "month=0",
+      "tags": [
+        "month_boundary"
+      ],
+      "request": {
+        "url": "http://localhost:8000/api/v1/predict-generation",
+        "headers_sent": {
+          "Content-Type": "application/json",
+          "X-API-KEY": "***set***"
+        },
+        "payload_sent": {
+          "latitude": -1.2921,
+          "longitude": 36.8219,
+          "month": 0,
+          "include_lifetime": false
+        },
+        "timeout_seconds": 3
+      },
+      "response": {
+        "status_code": 400,
+        "json": {
+          "message": "month must be an integer between 1 and 12.",
+          "status": "error"
+        },
+        "text": "{\"message\":\"month must be an integer between 1 and 12.\",\"status\":\"error\"}\n"
+      },
+      "evaluation": {
+        "expectation": "reject_or_degrade",
+        "acceptable_definition": {
+          "status_code": 200,
+          "kwh_field_preference": [
+            "monthly_generation[0].daily_kwh",
+            "annual_summary.average_daily_kwh"
+          ],
+          "plausible_kwh_range": {
+            "gt": 0.0,
+            "lt": 50.0
+          }
+        },
+        "extracted_kwh": null,
+        "extracted_kwh_field": null,
+        "acceptable": false,
+        "passed": true,
+        "failure_mode": null
+      },
+      "timing": {
+        "elapsed_ms": 2052,
+        "started_at": "2026-02-21T03:53:17.784192+00:00"
+      }
+    },
+    {
+      "id": "034",
+      "category": "Month boundaries",
+      "name": "month=13",
+      "tags": [
+        "month_boundary"
+      ],
+      "request": {
+        "url": "http://localhost:8000/api/v1/predict-generation",
+        "headers_sent": {
+          "Content-Type": "application/json",
+          "X-API-KEY": "***set***"
+        },
+        "payload_sent": {
+          "latitude": -1.2921,
+          "longitude": 36.8219,
+          "month": 13,
+          "include_lifetime": false
+        },
+        "timeout_seconds": 3
+      },
+      "response": {
+        "status_code": 400,
+        "json": {
+          "message": "month must be an integer between 1 and 12.",
+          "status": "error"
+        },
+        "text": "{\"message\":\"month must be an integer between 1 and 12.\",\"status\":\"error\"}\n"
+      },
+      "evaluation": {
+        "expectation": "reject_or_degrade",
+        "acceptable_definition": {
+          "status_code": 200,
+          "kwh_field_preference": [
+            "monthly_generation[0].daily_kwh",
+            "annual_summary.average_daily_kwh"
+          ],
+          "plausible_kwh_range": {
+            "gt": 0.0,
+            "lt": 50.0
+          }
+        },
+        "extracted_kwh": null,
+        "extracted_kwh_field": null,
+        "acceptable": false,
+        "passed": true,
+        "failure_mode": null
+      },
+      "timing": {
+        "elapsed_ms": 2059,
+        "started_at": "2026-02-21T03:53:19.843349+00:00"
+      }
+    },
+    {
+      "id": "035",
+      "category": "Missing optional fields",
+      "name": "omit include_lifetime",
+      "tags": [
+        "optional_missing"
+      ],
+      "request": {
+        "url": "http://localhost:8000/api/v1/predict-generation",
+        "headers_sent": {
+          "Content-Type": "application/json",
+          "X-API-KEY": "***set***"
+        },
+        "payload_sent": {
+          "latitude": -1.2921,
+          "longitude": 36.8219,
+          "month": 6
+        },
+        "timeout_seconds": 3
+      },
+      "response": {
+        "status_code": 200,
+        "json": {
+          "annual_summary": {
+            "average_daily_kwh": 9.407774925231934,
+            "year_1_generation_kwh": 3433.8378477096558
+          },
+          "assumptions": {
+            "note": "Lifetime metrics disabled for this request.",
+            "panel_area_m2": 10.0,
+            "panel_efficiency_pct": 20.0
+          },
+          "confidence": {},
+          "coordinate_validation": {
+            "status": "valid",
+            "warnings": []
+          },
+          "lifetime_prediction": null,
+          "location": {
+            "latitude": -1.2921,
+            "longitude": 36.8219
+          },
+          "monthly_generation": [
+            {
+              "daily_kwh": 9.407774925231934,
+              "is_dry_season": true,
+              "month": "June",
+              "month_index": 6
+            }
+          ],
+          "note": "Predictions represent typical expected generation, not a daily weather forecast.",
+          "status": "success"
+        },
+        "text": "{\"annual_summary\":{\"average_daily_kwh\":9.407774925231934,\"year_1_generation_kwh\":3433.8378477096558},\"assumptions\":{\"note\":\"Lifetime metrics disabled for this request.\",\"panel_area_m2\":10.0,\"panel_efficiency_pct\":20.0},\"confidence\":{},\"coordinate_validation\":{\"status\":\"valid\",\"warnings\":[]},\"lifetime_prediction\":null,\"location\":{\"latitude\":-1.2921,\"longitude\":36.8219},\"monthly_generation\":[{\"daily_kwh\":9.407774925231934,\"is_dry_season\":true,\"month\":\"June\",\"month_index\":6}],\"note\":\"Predictions represent typical expected generation, not a daily weather forecast.\",\"status\":\"success\"}\n"
+      },
+      "evaluation": {
+        "expectation": "accept",
+        "acceptable_definition": {
+          "status_code": 200,
+          "kwh_field_preference": [
+            "monthly_generation[0].daily_kwh",
+            "annual_summary.average_daily_kwh"
+          ],
+          "plausible_kwh_range": {
+            "gt": 0.0,
+            "lt": 50.0
+          }
+        },
+        "extracted_kwh": 9.407774925231934,
+        "extracted_kwh_field": "monthly_generation[0].daily_kwh",
+        "acceptable": true,
+        "passed": true,
+        "failure_mode": null
+      },
+      "timing": {
+        "elapsed_ms": 2084,
+        "started_at": "2026-02-21T03:53:21.928012+00:00"
+      }
+    },
+    {
+      "id": "036",
+      "category": "Null and wrong types",
+      "name": "latitude as string",
+      "tags": [
+        "type_error"
+      ],
+      "request": {
+        "url": "http://localhost:8000/api/v1/predict-generation",
+        "headers_sent": {
+          "Content-Type": "application/json",
+          "X-API-KEY": "***set***"
+        },
+        "payload_sent": {
+          "latitude": "0",
+          "longitude": 36.8219,
+          "month": 6,
+          "include_lifetime": false
+        },
+        "timeout_seconds": 3
+      },
+      "response": {
+        "status_code": 422,
+        "json": {
+          "message": "latitude must be a number.",
+          "status": "error"
+        },
+        "text": "{\"message\":\"latitude must be a number.\",\"status\":\"error\"}\n"
+      },
+      "evaluation": {
+        "expectation": "reject_or_degrade",
+        "acceptable_definition": {
+          "status_code": 200,
+          "kwh_field_preference": [
+            "monthly_generation[0].daily_kwh",
+            "annual_summary.average_daily_kwh"
+          ],
+          "plausible_kwh_range": {
+            "gt": 0.0,
+            "lt": 50.0
+          }
+        },
+        "extracted_kwh": null,
+        "extracted_kwh_field": null,
+        "acceptable": false,
+        "passed": true,
+        "failure_mode": null
+      },
+      "timing": {
+        "elapsed_ms": 2050,
+        "started_at": "2026-02-21T03:53:23.978019+00:00"
+      }
+    },
+    {
+      "id": "037",
+      "category": "Null and wrong types",
+      "name": "month as null",
+      "tags": [
+        "null_value"
+      ],
+      "request": {
+        "url": "http://localhost:8000/api/v1/predict-generation",
+        "headers_sent": {
+          "Content-Type": "application/json",
+          "X-API-KEY": "***set***"
+        },
+        "payload_sent": {
+          "latitude": -1.2921,
+          "longitude": 36.8219,
+          "month": null,
+          "include_lifetime": false
+        },
+        "timeout_seconds": 3
+      },
+      "response": {
+        "status_code": 422,
+        "json": {
+          "message": "month must be an integer between 1 and 12.",
+          "status": "error"
+        },
+        "text": "{\"message\":\"month must be an integer between 1 and 12.\",\"status\":\"error\"}\n"
+      },
+      "evaluation": {
+        "expectation": "reject_or_degrade",
+        "acceptable_definition": {
+          "status_code": 200,
+          "kwh_field_preference": [
+            "monthly_generation[0].daily_kwh",
+            "annual_summary.average_daily_kwh"
+          ],
+          "plausible_kwh_range": {
+            "gt": 0.0,
+            "lt": 50.0
+          }
+        },
+        "extracted_kwh": null,
+        "extracted_kwh_field": null,
+        "acceptable": false,
+        "passed": true,
+        "failure_mode": null
+      },
+      "timing": {
+        "elapsed_ms": 2062,
+        "started_at": "2026-02-21T03:53:26.040035+00:00"
+      }
+    },
+    {
+      "id": "038",
+      "category": "Null and wrong types",
+      "name": "empty json object body",
+      "tags": [
+        "empty_body"
+      ],
+      "request": {
+        "url": "http://localhost:8000/api/v1/predict-generation",
+        "headers_sent": {
+          "Content-Type": "application/json",
+          "X-API-KEY": "***set***"
+        },
+        "payload_sent": {},
+        "timeout_seconds": 3
+      },
+      "response": {
+        "status_code": 400,
+        "json": {
+          "message": "Request must include 'latitude' and 'longitude'.",
+          "status": "error"
+        },
+        "text": "{\"message\":\"Request must include 'latitude' and 'longitude'.\",\"status\":\"error\"}\n"
+      },
+      "evaluation": {
+        "expectation": "reject_or_degrade",
+        "acceptable_definition": {
+          "status_code": 200,
+          "kwh_field_preference": [
+            "monthly_generation[0].daily_kwh",
+            "annual_summary.average_daily_kwh"
+          ],
+          "plausible_kwh_range": {
+            "gt": 0.0,
+            "lt": 50.0
+          }
+        },
+        "extracted_kwh": null,
+        "extracted_kwh_field": null,
+        "acceptable": false,
+        "passed": true,
+        "failure_mode": null
+      },
+      "timing": {
+        "elapsed_ms": 2048,
+        "started_at": "2026-02-21T03:53:28.088939+00:00"
+      }
+    },
+    {
+      "id": "039",
+      "category": "Null and wrong types",
+      "name": "no json body",
+      "tags": [
+        "empty_body",
+        "no_json"
+      ],
+      "request": {
+        "url": "http://localhost:8000/api/v1/predict-generation",
+        "headers_sent": {
+          "Content-Type": "application/json",
+          "X-API-KEY": "***set***"
+        },
+        "payload_sent": null,
+        "timeout_seconds": 3
+      },
+      "response": {
+        "status_code": 400,
+        "json": {
+          "message": "Bad input.",
+          "status": "error"
+        },
+        "text": "{\"message\":\"Bad input.\",\"status\":\"error\"}\n"
+      },
+      "evaluation": {
+        "expectation": "reject_or_degrade",
+        "acceptable_definition": {
+          "status_code": 200,
+          "kwh_field_preference": [
+            "monthly_generation[0].daily_kwh",
+            "annual_summary.average_daily_kwh"
+          ],
+          "plausible_kwh_range": {
+            "gt": 0.0,
+            "lt": 50.0
+          }
+        },
+        "extracted_kwh": null,
+        "extracted_kwh_field": null,
+        "acceptable": false,
+        "passed": true,
+        "failure_mode": null
+      },
+      "timing": {
+        "elapsed_ms": 2121,
+        "started_at": "2026-02-21T03:53:30.210062+00:00"
+      }
+    },
+    {
+      "id": "040",
+      "category": "Coordinate precision",
+      "name": "many decimals",
+      "tags": [
+        "precision"
+      ],
+      "request": {
+        "url": "http://localhost:8000/api/v1/predict-generation",
+        "headers_sent": {
+          "Content-Type": "application/json",
+          "X-API-KEY": "***set***"
+        },
+        "payload_sent": {
+          "latitude": -10.1234567890123,
+          "longitude": 10.9876543210987,
+          "month": 3,
+          "include_lifetime": false
+        },
+        "timeout_seconds": 3
+      },
+      "response": {
+        "status_code": 200,
+        "json": {
+          "annual_summary": {
+            "average_daily_kwh": 10.845476150512695,
+            "year_1_generation_kwh": 3958.598794937134
+          },
+          "assumptions": {
+            "note": "Lifetime metrics disabled for this request.",
+            "panel_area_m2": 10.0,
+            "panel_efficiency_pct": 20.0
+          },
+          "confidence": {},
+          "coordinate_validation": {
+            "status": "valid",
+            "warnings": []
+          },
+          "lifetime_prediction": null,
+          "location": {
+            "latitude": -10.1234567890123,
+            "longitude": 10.9876543210987
+          },
+          "monthly_generation": [
+            {
+              "daily_kwh": 10.845476150512695,
+              "is_dry_season": false,
+              "month": "March",
+              "month_index": 3
+            }
+          ],
+          "note": "Predictions represent typical expected generation, not a daily weather forecast.",
+          "status": "success"
+        },
+        "text": "{\"annual_summary\":{\"average_daily_kwh\":10.845476150512695,\"year_1_generation_kwh\":3958.598794937134},\"assumptions\":{\"note\":\"Lifetime metrics disabled for this request.\",\"panel_area_m2\":10.0,\"panel_efficiency_pct\":20.0},\"confidence\":{},\"coordinate_validation\":{\"status\":\"valid\",\"warnings\":[]},\"lifetime_prediction\":null,\"location\":{\"latitude\":-10.1234567890123,\"longitude\":10.9876543210987},\"monthly_generation\":[{\"daily_kwh\":10.845476150512695,\"is_dry_season\":false,\"month\":\"March\",\"month_index\":3}],\"note\":\"Predictions represent typical expected generation, not a daily weather forecast.\",\"status\":\"success\"}\n"
+      },
+      "evaluation": {
+        "expectation": "accept",
+        "acceptable_definition": {
+          "status_code": 200,
+          "kwh_field_preference": [
+            "monthly_generation[0].daily_kwh",
+            "annual_summary.average_daily_kwh"
+          ],
+          "plausible_kwh_range": {
+            "gt": 0.0,
+            "lt": 50.0
+          }
+        },
+        "extracted_kwh": 10.845476150512695,
+        "extracted_kwh_field": "monthly_generation[0].daily_kwh",
+        "acceptable": true,
+        "passed": true,
+        "failure_mode": null
+      },
+      "timing": {
+        "elapsed_ms": 2059,
+        "started_at": "2026-02-21T03:53:32.269770+00:00"
+      }
+    },
+    {
+      "id": "041",
+      "category": "Coordinate precision",
+      "name": "zero latitude",
+      "tags": [
+        "zero_coord"
+      ],
+      "request": {
+        "url": "http://localhost:8000/api/v1/predict-generation",
+        "headers_sent": {
+          "Content-Type": "application/json",
+          "X-API-KEY": "***set***"
+        },
+        "payload_sent": {
+          "latitude": 0.0,
+          "longitude": 36.8219,
+          "month": 6,
+          "include_lifetime": false
+        },
+        "timeout_seconds": 3
+      },
+      "response": {
+        "status_code": 200,
+        "json": {
+          "annual_summary": {
+            "average_daily_kwh": 9.552544593811035,
+            "year_1_generation_kwh": 3486.678776741028
+          },
+          "assumptions": {
+            "note": "Lifetime metrics disabled for this request.",
+            "panel_area_m2": 10.0,
+            "panel_efficiency_pct": 20.0
+          },
+          "confidence": {},
+          "coordinate_validation": {
+            "status": "valid",
+            "warnings": []
+          },
+          "lifetime_prediction": null,
+          "location": {
+            "latitude": 0.0,
+            "longitude": 36.8219
+          },
+          "monthly_generation": [
+            {
+              "daily_kwh": 9.552544593811035,
+              "is_dry_season": true,
+              "month": "June",
+              "month_index": 6
+            }
+          ],
+          "note": "Predictions represent typical expected generation, not a daily weather forecast.",
+          "status": "success"
+        },
+        "text": "{\"annual_summary\":{\"average_daily_kwh\":9.552544593811035,\"year_1_generation_kwh\":3486.678776741028},\"assumptions\":{\"note\":\"Lifetime metrics disabled for this request.\",\"panel_area_m2\":10.0,\"panel_efficiency_pct\":20.0},\"confidence\":{},\"coordinate_validation\":{\"status\":\"valid\",\"warnings\":[]},\"lifetime_prediction\":null,\"location\":{\"latitude\":0.0,\"longitude\":36.8219},\"monthly_generation\":[{\"daily_kwh\":9.552544593811035,\"is_dry_season\":true,\"month\":\"June\",\"month_index\":6}],\"note\":\"Predictions represent typical expected generation, not a daily weather forecast.\",\"status\":\"success\"}\n"
+      },
+      "evaluation": {
+        "expectation": "accept",
+        "acceptable_definition": {
+          "status_code": 200,
+          "kwh_field_preference": [
+            "monthly_generation[0].daily_kwh",
+            "annual_summary.average_daily_kwh"
+          ],
+          "plausible_kwh_range": {
+            "gt": 0.0,
+            "lt": 50.0
+          }
+        },
+        "extracted_kwh": 9.552544593811035,
+        "extracted_kwh_field": "monthly_generation[0].daily_kwh",
+        "acceptable": true,
+        "passed": true,
+        "failure_mode": null
+      },
+      "timing": {
+        "elapsed_ms": 2052,
+        "started_at": "2026-02-21T03:53:34.321960+00:00"
+      }
+    },
+    {
+      "id": "042",
+      "category": "Coordinate precision",
+      "name": "zero longitude",
+      "tags": [
+        "zero_coord"
+      ],
+      "request": {
+        "url": "http://localhost:8000/api/v1/predict-generation",
+        "headers_sent": {
+          "Content-Type": "application/json",
+          "X-API-KEY": "***set***"
+        },
+        "payload_sent": {
+          "latitude": -1.2921,
+          "longitude": 0.0,
+          "month": 6,
+          "include_lifetime": false
+        },
+        "timeout_seconds": 3
+      },
+      "response": {
+        "status_code": 200,
+        "json": {
+          "annual_summary": {
+            "average_daily_kwh": 9.109872817993164,
+            "year_1_generation_kwh": 3325.103578567505
+          },
+          "assumptions": {
+            "note": "Lifetime metrics disabled for this request.",
+            "panel_area_m2": 10.0,
+            "panel_efficiency_pct": 20.0
+          },
+          "confidence": {},
+          "coordinate_validation": {
+            "status": "valid",
+            "warnings": []
+          },
+          "lifetime_prediction": null,
+          "location": {
+            "latitude": -1.2921,
+            "longitude": 0.0
+          },
+          "monthly_generation": [
+            {
+              "daily_kwh": 9.109872817993164,
+              "is_dry_season": true,
+              "month": "June",
+              "month_index": 6
+            }
+          ],
+          "note": "Predictions represent typical expected generation, not a daily weather forecast.",
+          "status": "success"
+        },
+        "text": "{\"annual_summary\":{\"average_daily_kwh\":9.109872817993164,\"year_1_generation_kwh\":3325.103578567505},\"assumptions\":{\"note\":\"Lifetime metrics disabled for this request.\",\"panel_area_m2\":10.0,\"panel_efficiency_pct\":20.0},\"confidence\":{},\"coordinate_validation\":{\"status\":\"valid\",\"warnings\":[]},\"lifetime_prediction\":null,\"location\":{\"latitude\":-1.2921,\"longitude\":0.0},\"monthly_generation\":[{\"daily_kwh\":9.109872817993164,\"is_dry_season\":true,\"month\":\"June\",\"month_index\":6}],\"note\":\"Predictions represent typical expected generation, not a daily weather forecast.\",\"status\":\"success\"}\n"
+      },
+      "evaluation": {
+        "expectation": "accept",
+        "acceptable_definition": {
+          "status_code": 200,
+          "kwh_field_preference": [
+            "monthly_generation[0].daily_kwh",
+            "annual_summary.average_daily_kwh"
+          ],
+          "plausible_kwh_range": {
+            "gt": 0.0,
+            "lt": 50.0
+          }
+        },
+        "extracted_kwh": 9.109872817993164,
+        "extracted_kwh_field": "monthly_generation[0].daily_kwh",
+        "acceptable": true,
+        "passed": true,
+        "failure_mode": null
+      },
+      "timing": {
+        "elapsed_ms": 2043,
+        "started_at": "2026-02-21T03:53:36.365282+00:00"
+      }
+    },
+    {
+      "id": "043",
+      "category": "Coordinate precision",
+      "name": "zero lat & lon",
+      "tags": [
+        "zero_coord"
+      ],
+      "request": {
+        "url": "http://localhost:8000/api/v1/predict-generation",
+        "headers_sent": {
+          "Content-Type": "application/json",
+          "X-API-KEY": "***set***"
+        },
+        "payload_sent": {
+          "latitude": 0.0,
+          "longitude": 0.0,
+          "month": 6,
+          "include_lifetime": false
+        },
+        "timeout_seconds": 3
+      },
+      "response": {
+        "status_code": 200,
+        "json": {
+          "annual_summary": {
+            "average_daily_kwh": 9.219263076782227,
+            "year_1_generation_kwh": 3365.0310230255127
+          },
+          "assumptions": {
+            "note": "Lifetime metrics disabled for this request.",
+            "panel_area_m2": 10.0,
+            "panel_efficiency_pct": 20.0
+          },
+          "confidence": {},
+          "coordinate_validation": {
+            "status": "valid",
+            "warnings": []
+          },
+          "lifetime_prediction": null,
+          "location": {
+            "latitude": 0.0,
+            "longitude": 0.0
+          },
+          "monthly_generation": [
+            {
+              "daily_kwh": 9.219263076782227,
+              "is_dry_season": true,
+              "month": "June",
+              "month_index": 6
+            }
+          ],
+          "note": "Predictions represent typical expected generation, not a daily weather forecast.",
+          "status": "success"
+        },
+        "text": "{\"annual_summary\":{\"average_daily_kwh\":9.219263076782227,\"year_1_generation_kwh\":3365.0310230255127},\"assumptions\":{\"note\":\"Lifetime metrics disabled for this request.\",\"panel_area_m2\":10.0,\"panel_efficiency_pct\":20.0},\"confidence\":{},\"coordinate_validation\":{\"status\":\"valid\",\"warnings\":[]},\"lifetime_prediction\":null,\"location\":{\"latitude\":0.0,\"longitude\":0.0},\"monthly_generation\":[{\"daily_kwh\":9.219263076782227,\"is_dry_season\":true,\"month\":\"June\",\"month_index\":6}],\"note\":\"Predictions represent typical expected generation, not a daily weather forecast.\",\"status\":\"success\"}\n"
+      },
+      "evaluation": {
+        "expectation": "accept",
+        "acceptable_definition": {
+          "status_code": 200,
+          "kwh_field_preference": [
+            "monthly_generation[0].daily_kwh",
+            "annual_summary.average_daily_kwh"
+          ],
+          "plausible_kwh_range": {
+            "gt": 0.0,
+            "lt": 50.0
+          }
+        },
+        "extracted_kwh": 9.219263076782227,
+        "extracted_kwh_field": "monthly_generation[0].daily_kwh",
+        "acceptable": true,
+        "passed": true,
+        "failure_mode": null
+      },
+      "timing": {
+        "elapsed_ms": 2082,
+        "started_at": "2026-02-21T03:53:38.448006+00:00"
+      }
+    }
+  ]
+}
