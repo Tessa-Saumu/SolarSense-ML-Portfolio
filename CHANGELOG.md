@@ -4,11 +4,13 @@ All notable changes to the SolarSense AI ML Microservice project are documented 
 
 ---
 
-## [Unreleased] - 2026-02-15
+## [Unreleased] - 2026-02-21
 
 ### Summary
 
 Integrated Model 4 (AI Recommendation Engine & Orchestration) into the unified gateway. Refactored `model4_app.py` to use the application factory pattern consistent with Models 1–3, wired it into `api/main.py` via the WSGI dispatcher, and extended deployment tests to cover the new `/api/v1/analyze` endpoint. Also resolved a series of pre-deployment bugs in Model 4 including a response key mismatch, invalid test coordinates, SME system cost cap, viability score recalibration, and diesel fuel efficiency correction.
+
+**Security (2026-02-21):** Applied strict type coercion fix across all model APIs: request JSON fields that are cast with `int()` or `float()` now require an `isinstance()` check before the cast so that invalid types (e.g. JSON float→int, bool→int/float) are rejected with 400 instead of being silently coerced. Model 4 also gained an `equipment_type` allowlist when `equipment_list` is provided.
 
 ---
 
@@ -94,6 +96,17 @@ Integrated Model 4 (AI Recommendation Engine & Orchestration) into the unified g
 
 ## 🔒 Security
 
+### Strict type coercion fix (all model APIs)
+- **Issue**: Python’s `int()` and `float()` silently accept values they should reject (e.g. JSON float `3.7` → `int` 3, bool `True` → int 1), which can lead to unexpected or insecure behaviour.
+- **Fix**: Before any `int()` or `float()` on a request JSON field, an `isinstance()` check is applied. Integer fields require `isinstance(x, int)` and reject `bool` (since `bool` is a subclass of `int`). Float fields require `isinstance(x, (int, float))` and reject `bool`. Invalid types return 400 with `INVALID_FIELD_TYPE` (or equivalent) without changing valid-input behaviour.
+- **Files updated**:
+  - **Model 1** (`models/energy_consumption/src/app_ml.py`): `sqft_m2`, `operating_hours_weekly`, `num_refrigeration_units`, optional `num_workers`, optional `months_per_year`.
+  - **Model 2** (`models/solar_generation/src/solar_climatology_api.py`): `latitude`, `longitude`, `month`, and optional fields in `_validate_optional_business_fields` (`hours_per_day`, `equipment_units`, `monthly_cost`, `monthly_consumption_kwh`).
+  - **Model 3** (`models/roi_calculation/src/roi_calculation_api.py`): `_validate_float_field`, `_validate_optional_hours`, `_validate_optional_units`.
+  - **Model 4** (`models/recommendations/model4_app.py`): In `validate_business_input()` — `latitude`, `longitude`, `sqft_m2`, `operating_hours_weekly`, `num_refrigeration_units`, `diesel_hours_per_day`, `diesel_price_per_liter`. In `call_model1_consumption()` — same metrics plus `num_workers`, `months_per_year` when using business metrics (errors logged, returns `None`).
+- **Model 4 — equipment_type allowlist**: When request includes `equipment_list`, each item’s `equipment_type` is now validated against an allowlist (e.g. refrigerator, freezer, cold_room, display_cooler, oven, stove, ac, lights, etc.). Invalid types return validation error. This check was added (did not exist before).
+
+### Other security (unchanged)
 - **Preserved**: All Model 4 authentication (`@require_api_key` decorator), rate limiting (100 req/min), input validation, and output sanitization
 - **Added**: `MODELS_API_KEY` and `MODELS_BASE_URL` must now be set in root `.env` (previously only in `models/recommendations/.env`)
 - **Removed**: `models/recommendations/.env` — vars consolidated to root `.env`
@@ -150,7 +163,7 @@ MODELS_BASE_URL=https://dse-models-production.up.railway.app/api/v1
 ---
 
 **Changelog Maintained By**: Tessa
-**Last Updated**: 2026-02-15
+**Last Updated**: 2026-02-21
 
 ---
 

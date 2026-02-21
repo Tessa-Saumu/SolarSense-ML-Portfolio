@@ -299,25 +299,8 @@ def create_app(
 
             # SECURITY: Enhanced input validation with realistic ranges
             # Validate sqft_m2: must be positive and realistic (1 m² to 10,000 m²)
-            try:
-                sqft_m2 = float(data['sqft_m2'])
-                if sqft_m2 <= 0:
-                    return jsonify({
-                        'error': {
-                            'code': 'INVALID_FIELD_VALUE',
-                            'message': 'sqft_m2 must be greater than 0',
-                            'status': 400
-                        }
-                    }), 400
-                if sqft_m2 > 10000:  # SECURITY: Reject unrealistically large values
-                    return jsonify({
-                        'error': {
-                            'code': 'INVALID_FIELD_VALUE',
-                            'message': 'sqft_m2 exceeds maximum allowed value (10,000 m²)',
-                            'status': 400
-                        }
-                    }), 400
-            except (ValueError, TypeError):
+            _raw = data['sqft_m2']
+            if not isinstance(_raw, (int, float)) or isinstance(_raw, bool):
                 return jsonify({
                     'error': {
                         'code': 'INVALID_FIELD_TYPE',
@@ -325,19 +308,27 @@ def create_app(
                         'status': 400
                     }
                 }), 400
+            sqft_m2 = float(_raw)
+            if sqft_m2 <= 0:
+                return jsonify({
+                    'error': {
+                        'code': 'INVALID_FIELD_VALUE',
+                        'message': 'sqft_m2 must be greater than 0',
+                        'status': 400
+                    }
+                }), 400
+            if sqft_m2 > 10000:  # SECURITY: Reject unrealistically large values
+                return jsonify({
+                    'error': {
+                        'code': 'INVALID_FIELD_VALUE',
+                        'message': 'sqft_m2 exceeds maximum allowed value (10,000 m²)',
+                        'status': 400
+                    }
+                }), 400
 
             # SECURITY: Validate operating_hours_weekly: 0-168 (hours in a week)
-            try:
-                operating_hours_weekly = float(data['operating_hours_weekly'])
-                if operating_hours_weekly <= 0 or operating_hours_weekly > 168:
-                    return jsonify({
-                        'error': {
-                            'code': 'INVALID_FIELD_VALUE',
-                            'message': 'operating_hours_weekly must be between 0 and 168',
-                            'status': 400
-                        }
-                    }), 400
-            except (ValueError, TypeError):
+            _raw = data['operating_hours_weekly']
+            if not isinstance(_raw, (int, float)) or isinstance(_raw, bool):
                 return jsonify({
                     'error': {
                         'code': 'INVALID_FIELD_TYPE',
@@ -345,31 +336,40 @@ def create_app(
                         'status': 400
                     }
                 }), 400
+            operating_hours_weekly = float(_raw)
+            if operating_hours_weekly <= 0 or operating_hours_weekly > 168:
+                return jsonify({
+                    'error': {
+                        'code': 'INVALID_FIELD_VALUE',
+                        'message': 'operating_hours_weekly must be between 0 and 168',
+                        'status': 400
+                    }
+                }), 400
 
             # SECURITY: Validate num_refrigeration_units: non-negative and realistic (max 500)
-            try:
-                num_refrigeration_units = int(data['num_refrigeration_units'])
-                if num_refrigeration_units < 0:
-                    return jsonify({
-                        'error': {
-                            'code': 'INVALID_FIELD_VALUE',
-                            'message': 'num_refrigeration_units must be non-negative',
-                            'status': 400
-                        }
-                    }), 400
-                if num_refrigeration_units > 500:  # SECURITY: Reject obviously wrong data
-                    return jsonify({
-                        'error': {
-                            'code': 'INVALID_FIELD_VALUE',
-                            'message': 'num_refrigeration_units exceeds maximum allowed value (500)',
-                            'status': 400
-                        }
-                    }), 400
-            except (ValueError, TypeError):
+            _raw = data['num_refrigeration_units']
+            if not isinstance(_raw, int) or isinstance(_raw, bool):
                 return jsonify({
                     'error': {
                         'code': 'INVALID_FIELD_TYPE',
                         'message': 'num_refrigeration_units must be an integer',
+                        'status': 400
+                    }
+                }), 400
+            num_refrigeration_units = int(_raw)
+            if num_refrigeration_units < 0:
+                return jsonify({
+                    'error': {
+                        'code': 'INVALID_FIELD_VALUE',
+                        'message': 'num_refrigeration_units must be non-negative',
+                        'status': 400
+                    }
+                }), 400
+            if num_refrigeration_units > 500:  # SECURITY: Reject obviously wrong data
+                return jsonify({
+                    'error': {
+                        'code': 'INVALID_FIELD_VALUE',
+                        'message': 'num_refrigeration_units exceeds maximum allowed value (500)',
                         'status': 400
                     }
                 }), 400
@@ -385,27 +385,39 @@ def create_app(
                 }), 400
 
             # SECURITY: Validate optional fields with realistic ranges
-            try:
-                num_workers = int(data.get('num_workers', 5))
-                if num_workers <= 0:
-                    num_workers = 5  # Default fallback
-                if num_workers > 1000:  # SECURITY: Reject unrealistically large values
-                    return jsonify({
-                        'error': {
-                            'code': 'INVALID_FIELD_VALUE',
-                            'message': 'num_workers exceeds maximum allowed value (1000)',
-                            'status': 400
-                        }
-                    }), 400
-            except (ValueError, TypeError):
-                num_workers = 5
+            _raw_workers = data.get('num_workers', 5)
+            if not isinstance(_raw_workers, int) or isinstance(_raw_workers, bool):
+                return jsonify({
+                    'error': {
+                        'code': 'INVALID_FIELD_TYPE',
+                        'message': 'num_workers must be an integer',
+                        'status': 400
+                    }
+                }), 400
+            num_workers = int(_raw_workers)
+            if num_workers <= 0:
+                num_workers = 5  # Default fallback
+            if num_workers > 1000:  # SECURITY: Reject unrealistically large values
+                return jsonify({
+                    'error': {
+                        'code': 'INVALID_FIELD_VALUE',
+                        'message': 'num_workers exceeds maximum allowed value (1000)',
+                        'status': 400
+                    }
+                }), 400
 
-            try:
-                months_per_year = int(data.get('months_per_year', 12))
-                if months_per_year <= 0 or months_per_year > 12:
-                    months_per_year = 12  # Default fallback
-            except (ValueError, TypeError):
-                months_per_year = 12
+            _raw_months = data.get('months_per_year', 12)
+            if not isinstance(_raw_months, int) or isinstance(_raw_months, bool):
+                return jsonify({
+                    'error': {
+                        'code': 'INVALID_FIELD_TYPE',
+                        'message': 'months_per_year must be an integer',
+                        'status': 400
+                    }
+                }), 400
+            months_per_year = int(_raw_months)
+            if months_per_year <= 0 or months_per_year > 12:
+                months_per_year = 12  # Default fallback
 
             # SECURITY: Validate business_type matches expected format
             valid_business_types = ['butchery', 'grocery', 'mini_supermarket']

@@ -224,20 +224,21 @@ def register_routes(app: Flask) -> None:
                     400,
                 )
 
-            # [VALIDATION] Reject non-numeric types for lat/lon (e.g. strings)
-            if not isinstance(payload["latitude"], (int, float)):
+            # [VALIDATION] Reject non-numeric types for lat/lon (exclude bool — subclass of int)
+            _lat = payload["latitude"]
+            if not isinstance(_lat, (int, float)) or isinstance(_lat, bool):
                 return (
                     jsonify({"status": "error", "message": "latitude must be a number."}),
                     422,
                 )
-            if not isinstance(payload["longitude"], (int, float)):
+            _lon = payload["longitude"]
+            if not isinstance(_lon, (int, float)) or isinstance(_lon, bool):
                 return (
                     jsonify({"status": "error", "message": "longitude must be a number."}),
                     422,
                 )
-
-            latitude = float(payload["latitude"])
-            longitude = float(payload["longitude"])
+            latitude = float(_lat)
+            longitude = float(_lon)
             month_raw: Optional[Any] = payload.get("month")
             include_lifetime = bool(payload.get("include_lifetime", False))
 
@@ -270,9 +271,7 @@ def register_routes(app: Flask) -> None:
             # Month: if provided, use it; otherwise, compute full climatology
             month: Optional[int] = None
             if month_raw is not None:
-                try:
-                    month = int(month_raw)
-                except (TypeError, ValueError):
+                if not isinstance(month_raw, int) or isinstance(month_raw, bool):
                     return (
                         jsonify(
                             {
@@ -282,6 +281,7 @@ def register_routes(app: Flask) -> None:
                         ),
                         400,
                     )
+                month = int(month_raw)
                 if not 1 <= month <= 12:
                     return (
                         jsonify(
@@ -440,31 +440,34 @@ def _validate_optional_business_fields(payload: Dict[str, Any]) -> List[str]:
     """
     errors: List[str] = []
 
-    # Numeric ranges
+    # Numeric ranges (reject bool — no loose coercion)
     if "hours_per_day" in payload:
-        try:
-            h = float(payload["hours_per_day"])
+        _raw = payload["hours_per_day"]
+        if not isinstance(_raw, (int, float)) or isinstance(_raw, bool):
+            errors.append("hours_per_day must be numeric.")
+        else:
+            h = float(_raw)
             if h < 0 or h > 24:
                 errors.append("hours_per_day must be between 0 and 24.")
-        except (TypeError, ValueError):
-            errors.append("hours_per_day must be numeric.")
 
     if "equipment_units" in payload:
-        try:
-            units = float(payload["equipment_units"])
+        _raw = payload["equipment_units"]
+        if not isinstance(_raw, (int, float)) or isinstance(_raw, bool):
+            errors.append("equipment_units must be numeric.")
+        else:
+            units = float(_raw)
             if units < 0 or units > 500:
                 errors.append("equipment_units must be between 0 and 500.")
-        except (TypeError, ValueError):
-            errors.append("equipment_units must be numeric.")
 
     for field in ("monthly_cost", "monthly_consumption_kwh"):
         if field in payload:
-            try:
-                v = float(payload[field])
+            _raw = payload[field]
+            if not isinstance(_raw, (int, float)) or isinstance(_raw, bool):
+                errors.append(f"{field} must be numeric.")
+            else:
+                v = float(_raw)
                 if v < 0:
                     errors.append(f"{field} must be non-negative.")
-            except (TypeError, ValueError):
-                errors.append(f"{field} must be numeric.")
 
     # Simple format checks for strings
     def _check_str(name: str) -> None:
