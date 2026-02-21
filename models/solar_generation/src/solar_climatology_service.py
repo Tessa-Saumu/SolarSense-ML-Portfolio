@@ -228,12 +228,12 @@ def predict_solar_generation(
         for m in range(1, 13):
             X = _build_feature_vector(latitude, longitude, m, feature_cols)
             # NOTE: model target is generation, not GHI; derive GHI only if needed.
-            gen_kwh = float(model.predict(xgb.DMatrix(X))[0])
+            gen_kwh = float(model.predict(xgb.DMatrix(X, feature_names=feature_cols))[0])
             preds.append(max(0.0, gen_kwh))
         return float(np.mean(preds))
 
     X = _build_feature_vector(latitude, longitude, int(month), feature_cols)
-    gen_kwh = float(model.predict(xgb.DMatrix(X))[0])
+    gen_kwh = float(model.predict(xgb.DMatrix(X, feature_names=feature_cols))[0])
 
     # If you want the implied GHI, you could compute:
     # predicted_ghi = gen_kwh / (10.0 * 0.2)
