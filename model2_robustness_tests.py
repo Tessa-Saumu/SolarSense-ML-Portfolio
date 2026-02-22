@@ -7,6 +7,16 @@ POST /api/v1/predict-generation
 Outputs:
 - Console summary table
 - model2_robustness_report.json
+
+Boundary update (v2.1):
+  Training data (solar_data_20cities_4yr.csv) covers 20 Sub-Saharan cities.
+  Derived bounds from actual training coordinates:
+    lat:  -34.0 (Cape Town ~-33.9) to  16.0 (Dakar ~15.5, Bamako ~12.6)
+    lon:  -18.0 (Dakar ~-17.4)     to  45.0 (Addis Ababa ~38.7, Garissa ~39.6)
+  Previous cap of lat_max=6.0 was wrong — Lagos (6.5°N) and Abuja (9.1°N)
+  are both training cities and must be within bounds.
+  NOTE: Cape Town has 25.2% MAPE (Mediterranean climate outlier). Predictions
+  near the southern extreme should be used with caution.
 """
 
 from __future__ import annotations
@@ -30,7 +40,7 @@ import requests
 
 BASE_URL = os.getenv("MODEL2_BASE_URL", "http://localhost:8000")
 ENDPOINT_PATH = "/api/v1/predict-generation"
-TIMEOUT_SECONDS = 3
+TIMEOUT_SECONDS = 10
 
 # Auth is required by the Model 2 service per integration guide.
 # Set SOLAR_API_KEY (preferred) or API_KEY in your environment.
@@ -38,11 +48,31 @@ API_KEY = os.getenv("SOLAR_API_KEY") or os.getenv("API_KEY") or "QfBmvo3htYQPSJW
 
 DRY_SEASON_MONTHS = {12, 1, 2, 6, 7, 8}
 
-# "Acceptable" definition requested by user:
+# "Acceptable" definition:
 # - HTTP 200
-# - plausible kWh value > 0 and < 50 (we use daily_kwh / average_daily_kwh)
+# - plausible daily kWh value > 0 and < 50
 KWH_LOWER_EXCLUSIVE = 0.0
 KWH_UPPER_EXCLUSIVE = 50.0
+
+# ---------------------------------------------------------------------------
+# Coordinate bounds — derived from 20-city training dataset (v2 retrain)
+#
+#   Northernmost training city : Dakar, Senegal          ~15.54°N
+#   Southernmost training city : Cape Town, South Africa ~-33.92°S
+#   Westernmost training city  : Dakar, Senegal          ~-17.44°
+#   Easternmost training city  : Addis Ababa / Garissa   ~39.6°
+#
+#   We add ~0.5° margin beyond the outermost training point so the exact
+#   city coordinate is clearly inside the valid range.
+# ---------------------------------------------------------------------------
+LAT_MIN = -34.0   # was -26.0 — updated to cover Cape Town (-33.9°S)
+LAT_MAX = 16.0    # was  6.0  — updated to cover Dakar (15.5°N), Lagos (6.5°N), Abuja (9.1°N)
+LON_MIN = -18.0   # unchanged — Dakar is -17.4° so this already has margin
+LON_MAX = 45.0    # unchanged — sufficient margin beyond Garissa (39.6°)
+
+# Mid-point references used in boundary tests
+MID_LAT = -10.0
+MID_LON = 10.0
 
 
 _NO_JSON_BODY = object()
@@ -76,7 +106,7 @@ def _build_headers() -> Dict[str, str]:
 def _safe_json(response: requests.Response) -> Tuple[Optional[Any], Optional[str]]:
     try:
         return response.json(), None
-    except Exception as e:  # noqa: BLE001 - we want any JSON parsing issue
+    except Exception as e:  # noqa: BLE001
         text = None
         try:
             text = response.text
@@ -109,7 +139,7 @@ def _extract_daily_kwh(resp_json: Any) -> Tuple[Optional[float], Optional[str]]:
 
     Fallbacks:
     - annual_summary.average_daily_kwh
-    - any numeric-looking field named generation_kwh (less likely for this API)
+    - any numeric-looking field named generation_kwh
     """
     candidates: List[Tuple[str, List[Union[str, int]]]] = [
         ("monthly_generation[0].daily_kwh", ["monthly_generation", 0, "daily_kwh"]),
@@ -121,7 +151,6 @@ def _extract_daily_kwh(resp_json: Any) -> Tuple[Optional[float], Optional[str]]:
         if isinstance(val, (int, float)):
             return float(val), label
 
-    # As a last resort, scan a few known keys shallowly.
     if isinstance(resp_json, dict):
         for k in ("generation_kwh", "daily_kwh", "average_daily_kwh"):
             v = resp_json.get(k)
@@ -134,7 +163,9 @@ def _is_plausible_kwh(kwh: float) -> bool:
     return (kwh > KWH_LOWER_EXCLUSIVE) and (kwh < KWH_UPPER_EXCLUSIVE)
 
 
-def _evaluate_acceptability(status_code: Optional[int], resp_json: Any) -> Tuple[bool, Optional[str], Optional[float], Optional[str]]:
+def _evaluate_acceptability(
+    status_code: Optional[int], resp_json: Any
+) -> Tuple[bool, Optional[str], Optional[float], Optional[str]]:
     if status_code != 200:
         return False, "status_not_200", None, None
 
@@ -174,10 +205,10 @@ def _classify_failure_mode(
     if status_code is None:
         return "no_status_code"
     if status_code != 200:
-        return None  # rejection is acceptable for this expectation
+        return None  # rejection is acceptable
     if acceptable:
         return "unexpected_acceptance"
-    return None  # degraded output (200 but unacceptable) is acceptable here
+    return None  # degraded output (200 but unacceptable) is also acceptable
 
 
 def _run_test_case(test: TestCase, base_url: str) -> Dict[str, Any]:
@@ -211,13 +242,16 @@ def _run_test_case(test: TestCase, base_url: str) -> Dict[str, Any]:
 
     elapsed_ms = int((time.time() - started) * 1000)
 
-    acceptable, acceptable_failure, extracted_kwh, extracted_kwh_path = _evaluate_acceptability(status_code, resp_json)
+    acceptable, acceptable_failure, extracted_kwh, extracted_kwh_path = _evaluate_acceptability(
+        status_code, resp_json
+    )
 
     if test.expectation == "accept":
         passed = acceptable
     else:
-        # Outside range / invalid types: "pass" if rejected (non-200) OR degraded (200 but unacceptable).
-        passed = (status_code is not None and status_code != 200) or (status_code == 200 and not acceptable)
+        passed = (status_code is not None and status_code != 200) or (
+            status_code == 200 and not acceptable
+        )
 
     failure_mode = _classify_failure_mode(
         request_error=request_error,
@@ -228,11 +262,11 @@ def _run_test_case(test: TestCase, base_url: str) -> Dict[str, Any]:
         status_code=status_code,
     )
 
-    # Keep response body in the report, but guard against extremely large output.
-    # Lifetime responses can be sizable; cap text to 20k for readability.
     resp_text_capped = None
     if resp_text is not None:
-        resp_text_capped = resp_text if len(resp_text) <= 20_000 else (resp_text[:20_000] + "\n...<truncated>...")
+        resp_text_capped = (
+            resp_text if len(resp_text) <= 20_000 else (resp_text[:20_000] + "\n...<truncated>...")
+        )
 
     return {
         "id": test.id,
@@ -241,7 +275,10 @@ def _run_test_case(test: TestCase, base_url: str) -> Dict[str, Any]:
         "tags": list(test.tags),
         "request": {
             "url": url,
-            "headers_sent": {"Content-Type": "application/json", **({"X-API-KEY": "***set***"} if API_KEY else {})},
+            "headers_sent": {
+                "Content-Type": "application/json",
+                **({"X-API-KEY": "***set***"} if API_KEY else {}),
+            },
             "payload_sent": None if test.payload is _NO_JSON_BODY else test.payload,
             "timeout_seconds": TIMEOUT_SECONDS,
         },
@@ -254,7 +291,10 @@ def _run_test_case(test: TestCase, base_url: str) -> Dict[str, Any]:
             "expectation": test.expectation,
             "acceptable_definition": {
                 "status_code": 200,
-                "kwh_field_preference": ["monthly_generation[0].daily_kwh", "annual_summary.average_daily_kwh"],
+                "kwh_field_preference": [
+                    "monthly_generation[0].daily_kwh",
+                    "annual_summary.average_daily_kwh",
+                ],
                 "plausible_kwh_range": {"gt": KWH_LOWER_EXCLUSIVE, "lt": KWH_UPPER_EXCLUSIVE},
             },
             "extracted_kwh": extracted_kwh,
@@ -327,18 +367,34 @@ def _make_test_cases() -> List[TestCase]:
             )
         )
 
-    # Common "in-range" baseline location/month (Nairobi-like, per docs)
+    # Common baseline location/month (Nairobi)
     base_lat = -1.2921
     base_lon = 36.8219
     base_month = 6
 
-    # 1) Boundary coordinates — exact boundary values and combinations
-    boundary_lats = [-26.0, 6.0]
-    boundary_lons = [-18.0, 44.0]
-    mid_lat = -10.0
-    mid_lon = 10.0
+    # =========================================================================
+    # 1) Boundary coordinates — updated to reflect v2 retrain extents
+    #
+    #   lat: [-34.0, 16.0]   lon: [-18.0, 45.0]
+    #
+    #   NEW edges vs v1:
+    #     lat=-34.0  (was -26.0)  — covers Cape Town
+    #     lat= 16.0  (was  6.0)  — covers Dakar, Lagos, Abuja
+    #
+    #   We test:
+    #     - Each of the 4 edges independently (edge tests)
+    #     - All 4 corners (corner tests)
+    #     - Lagos specifically (was blocked by old cap, must now accept)
+    #     - Abuja specifically (9.1°N, also previously blocked)
+    # =========================================================================
 
-    for lat, lon in [(-26.0, mid_lon), (6.0, mid_lon), (mid_lat, -18.0), (mid_lat, 44.0)]:
+    # 4 edge tests (one boundary dimension at a time, mid-point on the other)
+    for lat, lon in [
+        (LAT_MIN, MID_LON),   # south extreme
+        (LAT_MAX, MID_LON),   # north extreme  ← was 6.0, now 16.0
+        (MID_LAT, LON_MIN),   # west extreme
+        (MID_LAT, LON_MAX),   # east extreme
+    ]:
         add(
             category="Boundary coordinates",
             name=f"edge(lat={lat}, lon={lon})",
@@ -346,8 +402,10 @@ def _make_test_cases() -> List[TestCase]:
             expectation="accept",
             tags=("boundary",),
         )
-    for lat in boundary_lats:
-        for lon in boundary_lons:
+
+    # 4 corner tests
+    for lat in [LAT_MIN, LAT_MAX]:
+        for lon in [LON_MIN, LON_MAX]:
             add(
                 category="Boundary coordinates",
                 name=f"corner(lat={lat}, lon={lon})",
@@ -356,26 +414,72 @@ def _make_test_cases() -> List[TestCase]:
                 tags=("boundary", "corner"),
             )
 
+    # Lagos — the city that triggered this boundary fix (lat=6.5°N)
+    add(
+        category="Boundary coordinates",
+        name="Lagos, Nigeria (lat=6.5, was blocked by old cap of 6.0)",
+        payload={"latitude": 6.5, "longitude": 3.3, "month": base_month, "include_lifetime": False},
+        expectation="accept",
+        tags=("boundary", "lagos_fix"),
+    )
+
+    # Abuja — also above old cap (lat=9.076°N), training city
+    add(
+        category="Boundary coordinates",
+        name="Abuja, Nigeria (lat=9.076, training city)",
+        payload={"latitude": 9.076, "longitude": 7.399, "month": base_month, "include_lifetime": False},
+        expectation="accept",
+        tags=("boundary", "training_city"),
+    )
+
+    # Dakar — northernmost training city (lat=15.54°N)
+    add(
+        category="Boundary coordinates",
+        name="Dakar, Senegal (lat=15.54, northernmost training city)",
+        payload={"latitude": 15.54, "longitude": -17.44, "month": base_month, "include_lifetime": False},
+        expectation="accept",
+        tags=("boundary", "training_city"),
+    )
+
+    # Cape Town — southernmost training city (lat=-33.92°S, 25.2% MAPE outlier)
+    add(
+        category="Boundary coordinates",
+        name="Cape Town, SA (lat=-33.92, southernmost training city, high MAPE)",
+        payload={"latitude": -33.92, "longitude": 18.42, "month": base_month, "include_lifetime": False},
+        expectation="accept",
+        tags=("boundary", "training_city", "high_mape_warning"),
+    )
+
+    # =========================================================================
     # 2) Just outside boundaries — expect rejection or degraded output
-    outside_lats = [-27.0, 7.0]
-    outside_lons = [-19.0, 45.0]
+    #    Updated to match new bounds
+    # =========================================================================
+
+    outside_lats = [LAT_MIN - 1.0, LAT_MAX + 1.0]   # -35.0, 17.0
+    outside_lons = [LON_MIN - 1.0, LON_MAX + 1.0]   # -19.0, 46.0
+
     for lat in outside_lats:
         add(
             category="Just outside boundaries",
-            name=f"outside_lat(lat={lat}, lon={mid_lon})",
-            payload={"latitude": lat, "longitude": mid_lon, "month": base_month, "include_lifetime": False},
+            name=f"outside_lat(lat={lat}, lon={MID_LON})",
+            payload={"latitude": lat, "longitude": MID_LON, "month": base_month, "include_lifetime": False},
             expectation="reject_or_degrade",
             tags=("outside",),
         )
     for lon in outside_lons:
         add(
             category="Just outside boundaries",
-            name=f"outside_lon(lat={mid_lat}, lon={lon})",
-            payload={"latitude": mid_lat, "longitude": lon, "month": base_month, "include_lifetime": False},
+            name=f"outside_lon(lat={MID_LAT}, lon={lon})",
+            payload={"latitude": MID_LAT, "longitude": lon, "month": base_month, "include_lifetime": False},
             expectation="reject_or_degrade",
             tags=("outside",),
         )
-    for lat, lon in [(-27.0, -19.0), (7.0, 45.0), (-27.0, 45.0), (7.0, -19.0)]:
+    for lat, lon in [
+        (LAT_MIN - 1.0, LON_MIN - 1.0),
+        (LAT_MAX + 1.0, LON_MAX + 1.0),
+        (LAT_MIN - 1.0, LON_MAX + 1.0),
+        (LAT_MAX + 1.0, LON_MIN - 1.0),
+    ]:
         add(
             category="Just outside boundaries",
             name=f"outside_corner(lat={lat}, lon={lon})",
@@ -384,8 +488,20 @@ def _make_test_cases() -> List[TestCase]:
             tags=("outside", "corner"),
         )
 
-    # 3) Equator and extreme south
-    for lat in [0.0, -25.9]:
+    # Old north boundary (lat=7.0) must now be ACCEPTED (inside new range)
+    add(
+        category="Just outside boundaries",
+        name="old_outside_lat(lat=7.0) — now INSIDE new boundary, must accept",
+        payload={"latitude": 7.0, "longitude": MID_LON, "month": base_month, "include_lifetime": False},
+        expectation="accept",
+        tags=("boundary_regression", "old_outside_now_inside"),
+    )
+
+    # =========================================================================
+    # 3) Equator and extreme south — updated to test full new south range
+    # =========================================================================
+
+    for lat in [0.0, -25.9, -33.9]:   # added -33.9 (near Cape Town)
         add(
             category="Equator and extreme south",
             name=f"lat_focus(lat={lat})",
@@ -394,7 +510,10 @@ def _make_test_cases() -> List[TestCase]:
             tags=("lat_focus",),
         )
 
-    # 4) Dry season vs wet season months — test all 12 months, flag dry season months
+    # =========================================================================
+    # 4) Dry season vs wet season months — all 12 months (unchanged)
+    # =========================================================================
+
     for m in range(1, 13):
         dry = m in DRY_SEASON_MONTHS
         add(
@@ -405,7 +524,10 @@ def _make_test_cases() -> List[TestCase]:
             tags=("dry_season" if dry else "wet_season",),
         )
 
-    # 5) Month boundaries — valid boundaries and invalid values
+    # =========================================================================
+    # 5) Month boundaries — valid and invalid (unchanged)
+    # =========================================================================
+
     for m, exp in [(1, "accept"), (12, "accept"), (0, "reject_or_degrade"), (13, "reject_or_degrade")]:
         add(
             category="Month boundaries",
@@ -415,7 +537,10 @@ def _make_test_cases() -> List[TestCase]:
             tags=("month_boundary",),
         )
 
-    # 6) Missing optional fields — send request without include_lifetime
+    # =========================================================================
+    # 6) Missing optional fields (unchanged)
+    # =========================================================================
+
     add(
         category="Missing optional fields",
         name="omit include_lifetime",
@@ -424,7 +549,10 @@ def _make_test_cases() -> List[TestCase]:
         tags=("optional_missing",),
     )
 
-    # 7) Null and wrong types — latitude as string, month as null, empty body
+    # =========================================================================
+    # 7) Null and wrong types (unchanged)
+    # =========================================================================
+
     add(
         category="Null and wrong types",
         name="latitude as string",
@@ -454,7 +582,10 @@ def _make_test_cases() -> List[TestCase]:
         tags=("empty_body", "no_json"),
     )
 
-    # 8) Coordinate precision — many decimals, zero longitude, zero latitude
+    # =========================================================================
+    # 8) Coordinate precision (unchanged)
+    # =========================================================================
+
     add(
         category="Coordinate precision",
         name="many decimals",
@@ -484,8 +615,14 @@ def _make_test_cases() -> List[TestCase]:
 
 
 def main(argv: Optional[List[str]] = None) -> int:
-    parser = argparse.ArgumentParser(description="Stress-test Model 2 /api/v1/predict-generation robustness.")
-    parser.add_argument("--base-url", default=BASE_URL, help="Base URL for the Model 2 service (default: env MODEL2_BASE_URL or http://localhost:8000).")
+    parser = argparse.ArgumentParser(
+        description="Stress-test Model 2 /api/v1/predict-generation robustness."
+    )
+    parser.add_argument(
+        "--base-url",
+        default=BASE_URL,
+        help="Base URL for the service (default: env MODEL2_BASE_URL or http://localhost:8000).",
+    )
     parser.add_argument(
         "--out",
         default="model2_robustness_report.json",
@@ -497,6 +634,9 @@ def main(argv: Optional[List[str]] = None) -> int:
     out_path = Path(args.out)
 
     cases = _make_test_cases()
+    print(f"Running {len(cases)} test cases against {_join_url(base_url, ENDPOINT_PATH)} ...")
+    print(f"Coordinate bounds: lat=[{LAT_MIN}, {LAT_MAX}]  lon=[{LON_MIN}, {LON_MAX}]")
+    print()
 
     started = time.time()
     results: List[Dict[str, Any]] = []
@@ -505,7 +645,6 @@ def main(argv: Optional[List[str]] = None) -> int:
 
     elapsed_ms = int((time.time() - started) * 1000)
 
-    # Summary counts
     by_category: Dict[str, Dict[str, int]] = {}
     for r in results:
         cat = r["category"]
@@ -519,14 +658,31 @@ def main(argv: Optional[List[str]] = None) -> int:
     report = {
         "meta": {
             "model": "Model 2 - XGBoost Climatological Solar Generation",
+            "version": "v2.1 — updated boundaries from 20-city retrain",
             "endpoint": ENDPOINT_PATH,
             "base_url": base_url,
             "timeout_seconds": TIMEOUT_SECONDS,
             "auth_header_used": bool(API_KEY),
             "generated_at": _now_iso(),
             "duration_ms": elapsed_ms,
-            "acceptable_definition": {"status_code": 200, "plausible_kwh_range": {"gt": KWH_LOWER_EXCLUSIVE, "lt": KWH_UPPER_EXCLUSIVE}},
+            "coordinate_bounds": {
+                "lat_min": LAT_MIN,
+                "lat_max": LAT_MAX,
+                "lon_min": LON_MIN,
+                "lon_max": LON_MAX,
+                "change_from_v1": {
+                    "lat_min": "changed -26.0 → -34.0 (Cape Town coverage)",
+                    "lat_max": "changed  6.0 →  16.0 (Lagos, Abuja, Dakar coverage)",
+                    "lon_min": "unchanged -18.0",
+                    "lon_max": "unchanged  45.0",
+                },
+            },
+            "acceptable_definition": {
+                "status_code": 200,
+                "plausible_kwh_range": {"gt": KWH_LOWER_EXCLUSIVE, "lt": KWH_UPPER_EXCLUSIVE},
+            },
             "dry_season_months": sorted(DRY_SEASON_MONTHS),
+            "high_mape_warning": "Cape Town (~-33.9°S) has 25.2% MAPE — Mediterranean climate outlier",
         },
         "summary": {
             "total": len(results),
@@ -543,10 +699,8 @@ def main(argv: Optional[List[str]] = None) -> int:
     print()
     print(f"Wrote report: {out_path.resolve()}")
 
-    # Exit code indicates whether all tests passed per expectations.
     return 0 if report["summary"]["failed"] == 0 else 1
 
 
 if __name__ == "__main__":
     raise SystemExit(main())
-

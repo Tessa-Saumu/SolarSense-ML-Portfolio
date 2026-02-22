@@ -152,8 +152,8 @@ def validate_coordinates(latitude: float, longitude: float) -> Dict[str, Any]:
     Validate whether coordinates fall roughly within the model's SSA coverage.
 
     Rules:
-    - Error if latitude not in [-26, 6] or longitude not in [-18, 44]
-    - Warning if near edge: latitude < -20 or latitude > 2
+    - Error if latitude not in [-34, 16] or longitude not in [-18, 45]
+    - Warning if near edge: latitude < -26 or latitude > 12
     - Otherwise status = 'valid'
     """
     lat = float(latitude)
@@ -164,15 +164,16 @@ def validate_coordinates(latitude: float, longitude: float) -> Dict[str, Any]:
         "warnings": [],
     }
 
-    if lat < -26 or lat > 6 or lon < -18 or lon > 44:
+    # AFTER
+    if lat < -34 or lat > 16 or lon < -18 or lon > 45:
         result["status"] = "error"
         result["message"] = (
             "Coordinates are outside the model's calibrated Sub-Saharan Africa coverage "
-            "(lat: -26 to 6, lon: -18 to 44)."
+            "(lat: -34 to 16, lon: -18 to 45)."
         )
         return result
 
-    if lat < -20 or lat > 2:
+    if lat < -26 or lat > 12:
         result["warnings"].append(
             "Latitude is near the edge of the training coverage; predictions may have higher uncertainty."
         )

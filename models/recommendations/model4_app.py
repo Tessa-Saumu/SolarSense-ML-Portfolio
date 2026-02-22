@@ -628,6 +628,67 @@ def generate_recommendation(consumption_data, generation_data, roi_data):
     }
 
 # ============================================
+# DYNAMIC SYSTEM COST ESTIMATION
+# ============================================
+
+def calculate_system_cost(panel_area_m2, country=None):
+    """
+    Estimate realistic solar system installed cost based on panel area and country.
+
+    Cost model rationale:
+    - Small systems (<15m²) carry high fixed costs (inverter, install, wiring) relative to size
+    - Mid-range systems (15-35m²) approach typical African market rates
+    - Large systems (>35m²) benefit from bulk purchasing and single-mobilisation install costs
+
+    Country adjustments reflect local labour, import duties, and market maturity:
+    - South Africa: most mature solar market, most competitive pricing
+    - Nigeria/Ghana: high import duties on panels, higher logistics cost
+    - Kenya/Rwanda/Uganda: growing market, mid-range costs
+    - Ethiopia/Tanzania: higher logistics/import costs
+
+    All figures based on IRENA 2023 Africa solar SME cost data and industry estimates.
+    Units: USD per m² installed (panels + inverter + mounting + wiring + installation labour)
+    """
+
+    # Tiered cost per m² based on system size
+    if panel_area_m2 <= 10:
+        # Small system: high fixed cost amortised over small area
+        cost_per_m2 = 750
+    elif panel_area_m2 <= 20:
+        # Transition zone: linear ramp from 750 to 650
+        cost_per_m2 = 750 - (panel_area_m2 - 10) * 10
+    elif panel_area_m2 <= 35:
+        # Mid-size: typical SME market rate
+        cost_per_m2 = 650
+    else:
+        # Large system: economies of scale kick in
+        cost_per_m2 = 600
+
+    # Country-level adjustment factor
+    COUNTRY_COST_FACTORS = {
+        "South Africa":  0.90,   # Most mature market, competitive pricing
+        "Kenya":         1.00,   # Reference country
+        "Rwanda":        1.05,   # Smaller market, slightly higher costs
+        "Uganda":        1.05,
+        "Tanzania":      1.08,   # Higher logistics
+        "Ghana":         1.10,   # Import duties
+        "Nigeria":       1.15,   # Import duties + logistics complexity
+        "Ethiopia":      1.12,   # Higher import/logistics costs
+    }
+
+    factor = COUNTRY_COST_FACTORS.get(country, 1.00)  # Default to Kenya rate
+    system_cost = panel_area_m2 * cost_per_m2 * factor
+
+    logger.info(f"💵 System Cost Estimate:")
+    logger.info(f"   Panel area: {panel_area_m2:.1f}m²")
+    logger.info(f"   Cost/m²: ${cost_per_m2} (tiered)")
+    logger.info(f"   Country factor: {factor} ({country or 'default'})")
+    logger.info(f"   Total: ${system_cost:,.0f}")
+
+    return round(system_cost, 2)
+
+
+# ============================================
 # COUNTRY + TARIFF RESOLUTION (MVP)
 # ============================================
 
@@ -785,9 +846,11 @@ def register_routes(app: Flask) -> None:
                     scaled_daily_kwh = base_daily_kwh * scaling_factor
                     recommended_panel_area = 10.0 * scaling_factor
                 
-                    # Calculate scaled system cost ($600/m² is typical for African markets)
-                    base_system_cost = 6000  # for 10m²
-                    scaled_system_cost = base_system_cost * scaling_factor
+                    # Dynamic system cost based on panel area and country
+                    # Smaller systems cost more per m² (fixed installation costs amortised over less area)
+                    # Larger systems benefit from economies of scale
+                    # Base rates reflect African market solar installed costs (panels + inverter + mounting + install)
+                    scaled_system_cost = calculate_system_cost(recommended_panel_area, country)
                 
                     # Update generation_data with scaled values
                     generation_data['predicted_generation_kwh'] = scaled_generation_kwh
