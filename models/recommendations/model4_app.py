@@ -214,42 +214,56 @@ def validate_business_input(data):
     if not isinstance(data['business_name'], str) or not (1 <= len(data['business_name']) <= 200):
         return False, "business_name must be 1-200 characters"
     
-    try:
-        lat = float(data['latitude'])
-        if not (-90 <= lat <= 90):
-            return False, "latitude must be between -90 and 90"
-    except (ValueError, TypeError):
+    _raw = data['latitude']
+    if not isinstance(_raw, (int, float)) or isinstance(_raw, bool):
         return False, "latitude must be a valid number"
+    lat = float(_raw)
+    if not (-90 <= lat <= 90):
+        return False, "latitude must be between -90 and 90"
     
-    try:
-        lon = float(data['longitude'])
-        if not (-180 <= lon <= 180):
-            return False, "longitude must be between -180 and 180"
-    except (ValueError, TypeError):
+    _raw = data['longitude']
+    if not isinstance(_raw, (int, float)) or isinstance(_raw, bool):
         return False, "longitude must be a valid number"
+    lon = float(_raw)
+    if not (-180 <= lon <= 180):
+        return False, "longitude must be between -180 and 180"
     
     # If business metrics provided, validate them
     if has_metrics:
-        try:
-            sqft = float(data['sqft_m2'])
-            if not (0 < sqft <= 10000):
-                return False, "sqft_m2 must be between 0 and 10000"
-        except (ValueError, TypeError):
+        _raw = data['sqft_m2']
+        if not isinstance(_raw, (int, float)) or isinstance(_raw, bool):
             return False, "sqft_m2 must be a valid number"
+        sqft = float(_raw)
+        if not (0 < sqft <= 10000):
+            return False, "sqft_m2 must be between 0 and 10000"
         
-        try:
-            hours = float(data['operating_hours_weekly'])
-            if not (0 < hours <= 168):
-                return False, "operating_hours_weekly must be between 0 and 168"
-        except (ValueError, TypeError):
+        _raw = data['operating_hours_weekly']
+        if not isinstance(_raw, (int, float)) or isinstance(_raw, bool):
             return False, "operating_hours_weekly must be a valid number"
+        hours = float(_raw)
+        if not (0 < hours <= 168):
+            return False, "operating_hours_weekly must be between 0 and 168"
         
-        try:
-            units = int(data['num_refrigeration_units'])
-            if not (0 <= units <= 500):
-                return False, "num_refrigeration_units must be between 0 and 500"
-        except (ValueError, TypeError):
+        _raw = data['num_refrigeration_units']
+        if not isinstance(_raw, int) or isinstance(_raw, bool):
             return False, "num_refrigeration_units must be an integer"
+        units = int(_raw)
+        if not (0 <= units <= 500):
+            return False, "num_refrigeration_units must be between 0 and 500"
+    
+    # Validate equipment_list equipment_type allowlist when present
+    if has_equipment:
+        ALLOWED_EQUIPMENT_TYPES = {
+            'refrigerator', 'freezer', 'cold_room', 'display_cooler', 'ice_maker', 'oven',
+            'stove', 'microwave', 'grill', 'fryer', 'espresso_machine', 'coffee_maker',
+            'air_conditioner', 'ac', 'fan', 'heater', 'lights', 'led_lights', 'fluorescent',
+            'computer', 'printer', 'monitor', 'treadmill', 'water_cooler', 'water_heater',
+            'dishwasher', 'washing_machine', 'fridge'
+        }
+        for item in data['equipment_list']:
+            eq_type = item.get('equipment_type', '')
+            if eq_type.lower() not in ALLOWED_EQUIPMENT_TYPES:
+                return False, f"Invalid equipment_type: '{eq_type}'. Must be one of the allowed types."
     
     # Validate diesel parameters if provided (all optional)
     if 'uses_diesel' in data:
@@ -257,20 +271,20 @@ def validate_business_input(data):
             return False, "uses_diesel must be true or false"
     
     if 'diesel_hours_per_day' in data:
-        try:
-            diesel_hours = float(data['diesel_hours_per_day'])
-            if not (0 <= diesel_hours <= 24):
-                return False, "diesel_hours_per_day must be between 0 and 24"
-        except (ValueError, TypeError):
+        _raw = data['diesel_hours_per_day']
+        if not isinstance(_raw, (int, float)) or isinstance(_raw, bool):
             return False, "diesel_hours_per_day must be a valid number"
+        diesel_hours = float(_raw)
+        if not (0 <= diesel_hours <= 24):
+            return False, "diesel_hours_per_day must be between 0 and 24"
     
     if 'diesel_price_per_liter' in data:
-        try:
-            diesel_price = float(data['diesel_price_per_liter'])
-            if not (0 < diesel_price <= 10):
-                return False, "diesel_price_per_liter must be between 0 and 10"
-        except (ValueError, TypeError):
+        _raw = data['diesel_price_per_liter']
+        if not isinstance(_raw, (int, float)) or isinstance(_raw, bool):
             return False, "diesel_price_per_liter must be a valid number"
+        diesel_price = float(_raw)
+        if not (0 < diesel_price <= 10):
+            return False, "diesel_price_per_liter must be between 0 and 10"
     
     return True, None
 
@@ -385,10 +399,22 @@ def call_model1_consumption(data):
             operating_hours_weekly = metrics['operating_hours_weekly']
             num_refrigeration_units = metrics['num_refrigeration_units']
         else:
-            # Use provided metrics
-            sqft_m2 = float(data['sqft_m2'])
-            operating_hours_weekly = float(data['operating_hours_weekly'])
-            num_refrigeration_units = int(data['num_refrigeration_units'])
+            # Use provided metrics (with strict type checks — reject bool/coercion)
+            _raw = data['sqft_m2']
+            if not isinstance(_raw, (int, float)) or isinstance(_raw, bool):
+                logger.error("call_model1_consumption: sqft_m2 must be a valid number")
+                return None
+            sqft_m2 = float(_raw)
+            _raw = data['operating_hours_weekly']
+            if not isinstance(_raw, (int, float)) or isinstance(_raw, bool):
+                logger.error("call_model1_consumption: operating_hours_weekly must be a valid number")
+                return None
+            operating_hours_weekly = float(_raw)
+            _raw = data['num_refrigeration_units']
+            if not isinstance(_raw, int) or isinstance(_raw, bool):
+                logger.error("call_model1_consumption: num_refrigeration_units must be an integer")
+                return None
+            num_refrigeration_units = int(_raw)
         
         # Map business type
         business_type_mapping = {
@@ -399,14 +425,22 @@ def call_model1_consumption(data):
         }
         mapped_business_type = business_type_mapping.get(data['business_type'], "grocery")
         
+        _raw_workers = data.get('num_workers', 5)
+        if not isinstance(_raw_workers, int) or isinstance(_raw_workers, bool):
+            logger.error("call_model1_consumption: num_workers must be an integer")
+            return None
+        _raw_months = data.get('months_per_year', 12)
+        if not isinstance(_raw_months, int) or isinstance(_raw_months, bool):
+            logger.error("call_model1_consumption: months_per_year must be an integer")
+            return None
         model1_payload = {
             "business_type": mapped_business_type,
             "sqft_m2": sqft_m2,
             "operating_hours_weekly": operating_hours_weekly,
             "num_refrigeration_units": num_refrigeration_units,
             "location": data['location'],
-            "num_workers": int(data.get('num_workers', 5)),
-            "months_per_year": int(data.get('months_per_year', 12))
+            "num_workers": int(_raw_workers),
+            "months_per_year": int(_raw_months)
         }
         
         logger.info(f"📤 Model 1 Payload: {model1_payload}")
@@ -594,6 +628,113 @@ def generate_recommendation(consumption_data, generation_data, roi_data):
     }
 
 # ============================================
+# DYNAMIC SYSTEM COST ESTIMATION
+# ============================================
+
+def calculate_system_cost(panel_area_m2, country=None):
+    """
+    Estimate realistic solar system installed cost based on panel area and country.
+
+    Cost model rationale:
+    - Small systems (<15m²) carry high fixed costs (inverter, install, wiring) relative to size
+    - Mid-range systems (15-35m²) approach typical African market rates
+    - Large systems (>35m²) benefit from bulk purchasing and single-mobilisation install costs
+
+    Country adjustments reflect local labour, import duties, and market maturity:
+    - South Africa: most mature solar market, most competitive pricing
+    - Nigeria/Ghana: high import duties on panels, higher logistics cost
+    - Kenya/Rwanda/Uganda: growing market, mid-range costs
+    - Ethiopia/Tanzania: higher logistics/import costs
+
+    All figures based on IRENA 2023 Africa solar SME cost data and industry estimates.
+    Units: USD per m² installed (panels + inverter + mounting + wiring + installation labour)
+    """
+
+    # Tiered cost per m² based on system size
+    if panel_area_m2 <= 10:
+        # Small system: high fixed cost amortised over small area
+        cost_per_m2 = 750
+    elif panel_area_m2 <= 20:
+        # Transition zone: linear ramp from 750 to 650
+        cost_per_m2 = 750 - (panel_area_m2 - 10) * 10
+    elif panel_area_m2 <= 35:
+        # Mid-size: typical SME market rate
+        cost_per_m2 = 650
+    else:
+        # Large system: economies of scale kick in
+        cost_per_m2 = 600
+
+    # Country-level adjustment factor
+    COUNTRY_COST_FACTORS = {
+        "South Africa":  0.90,   # Most mature market, competitive pricing
+        "Kenya":         1.00,   # Reference country
+        "Rwanda":        1.05,   # Smaller market, slightly higher costs
+        "Uganda":        1.05,
+        "Tanzania":      1.08,   # Higher logistics
+        "Ghana":         1.10,   # Import duties
+        "Nigeria":       1.15,   # Import duties + logistics complexity
+        "Ethiopia":      1.12,   # Higher import/logistics costs
+    }
+
+    factor = COUNTRY_COST_FACTORS.get(country, 1.00)  # Default to Kenya rate
+    system_cost = panel_area_m2 * cost_per_m2 * factor
+
+    logger.info(f"💵 System Cost Estimate:")
+    logger.info(f"   Panel area: {panel_area_m2:.1f}m²")
+    logger.info(f"   Cost/m²: ${cost_per_m2} (tiered)")
+    logger.info(f"   Country factor: {factor} ({country or 'default'})")
+    logger.info(f"   Total: ${system_cost:,.0f}")
+
+    return round(system_cost, 2)
+
+
+# ============================================
+# COUNTRY + TARIFF RESOLUTION (MVP)
+# ============================================
+
+def resolve_country_and_tariff(lat, lon):
+    """
+    Resolve supported country and return national average tariff (USD/kWh)
+    Returns:
+        dict with { country, tariff }
+        or None if not supported
+    """
+
+    # GHANA
+    if 4 <= lat <= 12 and -4 <= lon <= 2:
+        return {"country": "Ghana", "tariff": 0.13}
+
+    # NIGERIA
+    if 4 <= lat <= 15 and 2 <= lon <= 15:
+        return {"country": "Nigeria", "tariff": 0.08}
+
+    # SOUTH AFRICA
+    if -35 <= lat <= -21 and 16 <= lon <= 33:
+        return {"country": "South Africa", "tariff": 0.14}
+
+    # TANZANIA
+    if -12 <= lat <= 2 and 29 <= lon <= 41:
+        return {"country": "Tanzania", "tariff": 0.11}
+
+    # KENYA
+    if -5 <= lat <= 6 and 33 <= lon <= 42:
+        return {"country": "Kenya", "tariff": 0.22}
+
+    # RWANDA
+    if -3 <= lat <= -1 and 28 <= lon <= 31:
+        return {"country": "Rwanda", "tariff": 0.24}
+
+    # UGANDA
+    if -2 <= lat <= 5 and 29 <= lon <= 36:
+        return {"country": "Uganda", "tariff": 0.20}
+
+    # ETHIOPIA
+    if 3 <= lat <= 15 and 32 <= lon <= 48:
+        return {"country": "Ethiopia", "tariff": 0.06}
+
+    return None
+
+# ============================================
 # ENDPOINTS
 # ============================================
 
@@ -654,7 +795,22 @@ def register_routes(app: Flask) -> None:
         
             latitude = float(data['latitude'])
             longitude = float(data['longitude'])
-            tariff = float(data.get('tariff', 0.15))
+
+            # --- AUTO RESOLVE TARIFF FROM COORDINATES ---
+            location_data = resolve_country_and_tariff(latitude, longitude)
+
+            if not location_data:
+                logger.warning(f"❌ Unsupported coordinates: {latitude}, {longitude}")
+                return jsonify({
+                    'error': 'Unsupported Location',
+                    'message': 'Coordinates not within supported countries'
+                }), 400
+
+            country = location_data['country']
+            tariff = location_data['tariff']
+
+            logger.info(f"🌍 Location resolved: {country}")
+            logger.info(f"💲 Grid tariff applied: ${tariff}/kWh")
         
             # Extract diesel parameters
             diesel_params = {
@@ -690,9 +846,11 @@ def register_routes(app: Flask) -> None:
                     scaled_daily_kwh = base_daily_kwh * scaling_factor
                     recommended_panel_area = 10.0 * scaling_factor
                 
-                    # Calculate scaled system cost ($600/m² is typical for African markets)
-                    base_system_cost = 6000  # for 10m²
-                    scaled_system_cost = base_system_cost * scaling_factor
+                    # Dynamic system cost based on panel area and country
+                    # Smaller systems cost more per m² (fixed installation costs amortised over less area)
+                    # Larger systems benefit from economies of scale
+                    # Base rates reflect African market solar installed costs (panels + inverter + mounting + install)
+                    scaled_system_cost = calculate_system_cost(recommended_panel_area, country)
                 
                     # Update generation_data with scaled values
                     generation_data['predicted_generation_kwh'] = scaled_generation_kwh

@@ -80,10 +80,10 @@ def _validate_float_field(data: dict,
     if field_name not in data:
         return None, ({"error": f"Missing field: {field_name}"}, 400)
 
-    try:
-        value = float(data[field_name])
-    except (TypeError, ValueError):
+    _raw = data[field_name]
+    if not isinstance(_raw, (int, float)) or isinstance(_raw, bool):
         return None, ({"error": f"{field_name} must be a number"}, 400)
+    value = float(_raw)
 
     if strictly_positive:
         if value <= min_value:
@@ -118,10 +118,10 @@ def _validate_optional_hours(data: dict, field_name: str):
     """
     if field_name not in data:
         return None, None
-    try:
-        value = float(data[field_name])
-    except (TypeError, ValueError):
+    _raw = data[field_name]
+    if not isinstance(_raw, (int, float)) or isinstance(_raw, bool):
         return None, ({"error": f"{field_name} must be a number"}, 400)
+    value = float(_raw)
 
     if value < 0 or value > 24:
         return None, ({
@@ -138,10 +138,10 @@ def _validate_optional_units(data: dict, field_name: str, max_units: int = 500):
     """
     if field_name not in data:
         return None, None
-    try:
-        value = int(data[field_name])
-    except (TypeError, ValueError):
+    _raw = data[field_name]
+    if not isinstance(_raw, int) or isinstance(_raw, bool):
         return None, ({"error": f"{field_name} must be an integer"}, 400)
+    value = int(_raw)
 
     if value < 0 or value > max_units:
         return None, ({

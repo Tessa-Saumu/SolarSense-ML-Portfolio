@@ -1,0 +1,4083 @@
+{
+  "meta": {
+    "model": "Model 1 - Energy Consumption ML API",
+    "endpoint": "/api/v1/estimate-consumption",
+    "base_url": "http://localhost:8000",
+    "timeout_seconds": 10,
+    "auth_header_used": true,
+    "generated_at": "2026-02-22T05:10:16.482118+00:00",
+    "duration_ms": 158030,
+    "acceptable_definition": {
+      "status_code": 200,
+      "plausible_kwh_range": {
+        "gte": 0.0,
+        "lte": 1000000.0
+      }
+    }
+  },
+  "summary": {
+    "individual_tests": {
+      "total": 77,
+      "passed": 77,
+      "failed": 0,
+      "by_category": {
+        "Authentication & Security": {
+          "total": 4,
+          "passed": 4,
+          "failed": 0
+        },
+        "Content Type & JSON Validation": {
+          "total": 3,
+          "passed": 3,
+          "failed": 0
+        },
+        "Missing Required Fields": {
+          "total": 5,
+          "passed": 5,
+          "failed": 0
+        },
+        "Invalid Field Types": {
+          "total": 5,
+          "passed": 5,
+          "failed": 0
+        },
+        "Boundary / Range Validation": {
+          "total": 19,
+          "passed": 19,
+          "failed": 0
+        },
+        "Business Type Validation": {
+          "total": 6,
+          "passed": 6,
+          "failed": 0
+        },
+        "Climate Factor Sensitivity": {
+          "total": 9,
+          "passed": 9,
+          "failed": 0
+        },
+        "Input Sensitivity - sqft_m2 sweep": {
+          "total": 5,
+          "passed": 5,
+          "failed": 0
+        },
+        "Input Sensitivity - operating_hours sweep": {
+          "total": 5,
+          "passed": 5,
+          "failed": 0
+        },
+        "Input Sensitivity - refrigeration sweep": {
+          "total": 5,
+          "passed": 5,
+          "failed": 0
+        },
+        "Input Sensitivity - num_workers sweep": {
+          "total": 4,
+          "passed": 4,
+          "failed": 0
+        },
+        "Input Sensitivity - business type comparison": {
+          "total": 3,
+          "passed": 3,
+          "failed": 0
+        },
+        "Confidence Score Logic": {
+          "total": 4,
+          "passed": 4,
+          "failed": 0
+        }
+      }
+    },
+    "cross_case_checks": {
+      "total": 15,
+      "passed": 14,
+      "failed": 1
+    },
+    "overall_passed": false
+  },
+  "tests": [
+    {
+      "id": "001",
+      "category": "Authentication & Security",
+      "name": "missing API key → 401 UNAUTHORIZED",
+      "tags": [
+        "auth",
+        "no_auth"
+      ],
+      "request": {
+        "url": "http://localhost:8000/api/v1/estimate-consumption",
+        "headers_sent": {
+          "Content-Type": "application/json"
+        },
+        "payload_sent": {
+          "business_type": "butchery",
+          "sqft_m2": 60,
+          "operating_hours_weekly": 98,
+          "num_refrigeration_units": 3,
+          "location": "Lagos, Nigeria"
+        },
+        "timeout_seconds": 10
+      },
+      "response": {
+        "status_code": 401,
+        "json": {
+          "error": {
+            "code": "UNAUTHORIZED",
+            "message": "Invalid or missing API key",
+            "status": 401
+          }
+        },
+        "text": "{\"error\":{\"code\":\"UNAUTHORIZED\",\"message\":\"Invalid or missing API key\",\"status\":401}}\n"
+      },
+      "evaluation": {
+        "expectation": "reject",
+        "expected_status": 401,
+        "expected_error_code": "UNAUTHORIZED",
+        "extracted_kwh_monthly": null,
+        "passed": true,
+        "failure_mode": null
+      },
+      "timing": {
+        "elapsed_ms": 2059,
+        "started_at": "2026-02-22T05:07:40.495012+00:00"
+      }
+    },
+    {
+      "id": "002",
+      "category": "Authentication & Security",
+      "name": "wrong API key → 401 UNAUTHORIZED",
+      "tags": [
+        "auth",
+        "wrong_auth"
+      ],
+      "request": {
+        "url": "http://localhost:8000/api/v1/estimate-consumption",
+        "headers_sent": {
+          "Content-Type": "application/json"
+        },
+        "payload_sent": {
+          "business_type": "butchery",
+          "sqft_m2": 60,
+          "operating_hours_weekly": 98,
+          "num_refrigeration_units": 3,
+          "location": "Lagos, Nigeria"
+        },
+        "timeout_seconds": 10
+      },
+      "response": {
+        "status_code": 401,
+        "json": {
+          "error": {
+            "code": "UNAUTHORIZED",
+            "message": "Invalid or missing API key",
+            "status": 401
+          }
+        },
+        "text": "{\"error\":{\"code\":\"UNAUTHORIZED\",\"message\":\"Invalid or missing API key\",\"status\":401}}\n"
+      },
+      "evaluation": {
+        "expectation": "reject",
+        "expected_status": 401,
+        "expected_error_code": "UNAUTHORIZED",
+        "extracted_kwh_monthly": null,
+        "passed": true,
+        "failure_mode": null
+      },
+      "timing": {
+        "elapsed_ms": 2050,
+        "started_at": "2026-02-22T05:07:42.545611+00:00"
+      }
+    },
+    {
+      "id": "003",
+      "category": "Authentication & Security",
+      "name": "correct API key → not 401",
+      "tags": [
+        "auth"
+      ],
+      "request": {
+        "url": "http://localhost:8000/api/v1/estimate-consumption",
+        "headers_sent": {
+          "Content-Type": "application/json",
+          "X-API-KEY": "***set***"
+        },
+        "payload_sent": {
+          "business_type": "butchery",
+          "sqft_m2": 60,
+          "operating_hours_weekly": 98,
+          "num_refrigeration_units": 3,
+          "location": "Lagos, Nigeria"
+        },
+        "timeout_seconds": 10
+      },
+      "response": {
+        "status_code": 200,
+        "json": {
+          "breakdown": {
+            "other": 111.75,
+            "refrigeration": 111.75
+          },
+          "climate_adjustment_factor": 1.35,
+          "confidence_score": 0.85,
+          "equipment_summary": {
+            "total_other_equipment": 0,
+            "total_refrigeration_units": 3
+          },
+          "estimated_consumption_kwh_monthly": 223.5
+        },
+        "text": "{\"breakdown\":{\"other\":111.75,\"refrigeration\":111.75},\"climate_adjustment_factor\":1.35,\"confidence_score\":0.85,\"equipment_summary\":{\"total_other_equipment\":0,\"total_refrigeration_units\":3},\"estimated_consumption_kwh_monthly\":223.5}\n"
+      },
+      "evaluation": {
+        "expectation": "accept",
+        "expected_status": null,
+        "expected_error_code": null,
+        "extracted_kwh_monthly": 223.5,
+        "passed": true,
+        "failure_mode": null
+      },
+      "timing": {
+        "elapsed_ms": 2057,
+        "started_at": "2026-02-22T05:07:44.602704+00:00"
+      }
+    },
+    {
+      "id": "HEALTH",
+      "category": "Authentication & Security",
+      "name": "health endpoint requires no auth → 200",
+      "tags": [
+        "health_check"
+      ],
+      "request": {
+        "url": "http://localhost:8000/api/v1/health",
+        "method": "GET",
+        "headers_sent": {},
+        "timeout_seconds": 10
+      },
+      "response": {
+        "status_code": 200,
+        "json": {
+          "service": "gateway",
+          "status": "ok"
+        }
+      },
+      "evaluation": {
+        "expectation": "accept",
+        "expected_status": 200,
+        "expected_error_code": null,
+        "extracted_kwh_monthly": null,
+        "passed": true,
+        "failure_mode": null
+      },
+      "timing": {
+        "elapsed_ms": 2036,
+        "started_at": "2026-02-22T05:07:46.639002+00:00"
+      }
+    },
+    {
+      "id": "005",
+      "category": "Content Type & JSON Validation",
+      "name": "no Content-Type header → 415 UNSUPPORTED_MEDIA_TYPE",
+      "tags": [
+        "content_type",
+        "no_content_type"
+      ],
+      "request": {
+        "url": "http://localhost:8000/api/v1/estimate-consumption",
+        "headers_sent": {
+          "Content-Type": "application/json",
+          "X-API-KEY": "***set***"
+        },
+        "payload_sent": {
+          "business_type": "butchery",
+          "sqft_m2": 60,
+          "operating_hours_weekly": 98,
+          "num_refrigeration_units": 3,
+          "location": "Lagos, Nigeria"
+        },
+        "timeout_seconds": 10
+      },
+      "response": {
+        "status_code": 415,
+        "json": {
+          "error": {
+            "code": "UNSUPPORTED_MEDIA_TYPE",
+            "message": "Content-Type must be 'application/json'",
+            "status": 415
+          }
+        },
+        "text": "{\"error\":{\"code\":\"UNSUPPORTED_MEDIA_TYPE\",\"message\":\"Content-Type must be 'application/json'\",\"status\":415}}\n"
+      },
+      "evaluation": {
+        "expectation": "reject",
+        "expected_status": 415,
+        "expected_error_code": "UNSUPPORTED_MEDIA_TYPE",
+        "extracted_kwh_monthly": null,
+        "passed": true,
+        "failure_mode": null
+      },
+      "timing": {
+        "elapsed_ms": 2042,
+        "started_at": "2026-02-22T05:07:48.681575+00:00"
+      }
+    },
+    {
+      "id": "006",
+      "category": "Content Type & JSON Validation",
+      "name": "malformed JSON body → 400 INVALID_JSON",
+      "tags": [
+        "json_validation",
+        "malformed_json"
+      ],
+      "request": {
+        "url": "http://localhost:8000/api/v1/estimate-consumption",
+        "headers_sent": {
+          "Content-Type": "application/json",
+          "X-API-KEY": "***set***"
+        },
+        "payload_sent": {
+          "business_type": "butchery",
+          "sqft_m2": 60,
+          "operating_hours_weekly": 98,
+          "num_refrigeration_units": 3,
+          "location": "Lagos, Nigeria"
+        },
+        "timeout_seconds": 10
+      },
+      "response": {
+        "status_code": 400,
+        "json": {
+          "error": {
+            "code": "INVALID_JSON",
+            "message": "Request body must be valid JSON",
+            "status": 400
+          }
+        },
+        "text": "{\"error\":{\"code\":\"INVALID_JSON\",\"message\":\"Request body must be valid JSON\",\"status\":400}}\n"
+      },
+      "evaluation": {
+        "expectation": "reject",
+        "expected_status": 400,
+        "expected_error_code": "INVALID_JSON",
+        "extracted_kwh_monthly": null,
+        "passed": true,
+        "failure_mode": null
+      },
+      "timing": {
+        "elapsed_ms": 2037,
+        "started_at": "2026-02-22T05:07:50.718942+00:00"
+      }
+    },
+    {
+      "id": "007",
+      "category": "Content Type & JSON Validation",
+      "name": "empty body with correct Content-Type → 400 INVALID_JSON",
+      "tags": [
+        "json_validation",
+        "empty_body"
+      ],
+      "request": {
+        "url": "http://localhost:8000/api/v1/estimate-consumption",
+        "headers_sent": {
+          "Content-Type": "application/json",
+          "X-API-KEY": "***set***"
+        },
+        "payload_sent": {
+          "business_type": "butchery",
+          "sqft_m2": 60,
+          "operating_hours_weekly": 98,
+          "num_refrigeration_units": 3,
+          "location": "Lagos, Nigeria"
+        },
+        "timeout_seconds": 10
+      },
+      "response": {
+        "status_code": 400,
+        "json": {
+          "error": {
+            "code": "INVALID_JSON",
+            "message": "Request body must be valid JSON",
+            "status": 400
+          }
+        },
+        "text": "{\"error\":{\"code\":\"INVALID_JSON\",\"message\":\"Request body must be valid JSON\",\"status\":400}}\n"
+      },
+      "evaluation": {
+        "expectation": "reject",
+        "expected_status": 400,
+        "expected_error_code": "INVALID_JSON",
+        "extracted_kwh_monthly": null,
+        "passed": true,
+        "failure_mode": null
+      },
+      "timing": {
+        "elapsed_ms": 2038,
+        "started_at": "2026-02-22T05:07:52.762885+00:00"
+      }
+    },
+    {
+      "id": "008",
+      "category": "Missing Required Fields",
+      "name": "missing business_type → 400 MISSING_FIELD",
+      "tags": [
+        "missing_field"
+      ],
+      "request": {
+        "url": "http://localhost:8000/api/v1/estimate-consumption",
+        "headers_sent": {
+          "Content-Type": "application/json",
+          "X-API-KEY": "***set***"
+        },
+        "payload_sent": {
+          "sqft_m2": 60,
+          "operating_hours_weekly": 98,
+          "num_refrigeration_units": 3,
+          "location": "Lagos, Nigeria"
+        },
+        "timeout_seconds": 10
+      },
+      "response": {
+        "status_code": 400,
+        "json": {
+          "error": {
+            "code": "MISSING_FIELD",
+            "message": "Missing required field: business_type",
+            "status": 400
+          }
+        },
+        "text": "{\"error\":{\"code\":\"MISSING_FIELD\",\"message\":\"Missing required field: business_type\",\"status\":400}}\n"
+      },
+      "evaluation": {
+        "expectation": "reject",
+        "expected_status": 400,
+        "expected_error_code": "MISSING_FIELD",
+        "extracted_kwh_monthly": null,
+        "passed": true,
+        "failure_mode": null
+      },
+      "timing": {
+        "elapsed_ms": 2044,
+        "started_at": "2026-02-22T05:07:54.807540+00:00"
+      }
+    },
+    {
+      "id": "009",
+      "category": "Missing Required Fields",
+      "name": "missing sqft_m2 → 400 MISSING_FIELD",
+      "tags": [
+        "missing_field"
+      ],
+      "request": {
+        "url": "http://localhost:8000/api/v1/estimate-consumption",
+        "headers_sent": {
+          "Content-Type": "application/json",
+          "X-API-KEY": "***set***"
+        },
+        "payload_sent": {
+          "business_type": "butchery",
+          "operating_hours_weekly": 98,
+          "num_refrigeration_units": 3,
+          "location": "Lagos, Nigeria"
+        },
+        "timeout_seconds": 10
+      },
+      "response": {
+        "status_code": 400,
+        "json": {
+          "error": {
+            "code": "MISSING_FIELD",
+            "message": "Missing required field: sqft_m2",
+            "status": 400
+          }
+        },
+        "text": "{\"error\":{\"code\":\"MISSING_FIELD\",\"message\":\"Missing required field: sqft_m2\",\"status\":400}}\n"
+      },
+      "evaluation": {
+        "expectation": "reject",
+        "expected_status": 400,
+        "expected_error_code": "MISSING_FIELD",
+        "extracted_kwh_monthly": null,
+        "passed": true,
+        "failure_mode": null
+      },
+      "timing": {
+        "elapsed_ms": 2039,
+        "started_at": "2026-02-22T05:07:56.847097+00:00"
+      }
+    },
+    {
+      "id": "010",
+      "category": "Missing Required Fields",
+      "name": "missing operating_hours_weekly → 400 MISSING_FIELD",
+      "tags": [
+        "missing_field"
+      ],
+      "request": {
+        "url": "http://localhost:8000/api/v1/estimate-consumption",
+        "headers_sent": {
+          "Content-Type": "application/json",
+          "X-API-KEY": "***set***"
+        },
+        "payload_sent": {
+          "business_type": "butchery",
+          "sqft_m2": 60,
+          "num_refrigeration_units": 3,
+          "location": "Lagos, Nigeria"
+        },
+        "timeout_seconds": 10
+      },
+      "response": {
+        "status_code": 400,
+        "json": {
+          "error": {
+            "code": "MISSING_FIELD",
+            "message": "Missing required field: operating_hours_weekly",
+            "status": 400
+          }
+        },
+        "text": "{\"error\":{\"code\":\"MISSING_FIELD\",\"message\":\"Missing required field: operating_hours_weekly\",\"status\":400}}\n"
+      },
+      "evaluation": {
+        "expectation": "reject",
+        "expected_status": 400,
+        "expected_error_code": "MISSING_FIELD",
+        "extracted_kwh_monthly": null,
+        "passed": true,
+        "failure_mode": null
+      },
+      "timing": {
+        "elapsed_ms": 2049,
+        "started_at": "2026-02-22T05:07:58.896546+00:00"
+      }
+    },
+    {
+      "id": "011",
+      "category": "Missing Required Fields",
+      "name": "missing num_refrigeration_units → 400 MISSING_FIELD",
+      "tags": [
+        "missing_field"
+      ],
+      "request": {
+        "url": "http://localhost:8000/api/v1/estimate-consumption",
+        "headers_sent": {
+          "Content-Type": "application/json",
+          "X-API-KEY": "***set***"
+        },
+        "payload_sent": {
+          "business_type": "butchery",
+          "sqft_m2": 60,
+          "operating_hours_weekly": 98,
+          "location": "Lagos, Nigeria"
+        },
+        "timeout_seconds": 10
+      },
+      "response": {
+        "status_code": 400,
+        "json": {
+          "error": {
+            "code": "MISSING_FIELD",
+            "message": "Missing required field: num_refrigeration_units",
+            "status": 400
+          }
+        },
+        "text": "{\"error\":{\"code\":\"MISSING_FIELD\",\"message\":\"Missing required field: num_refrigeration_units\",\"status\":400}}\n"
+      },
+      "evaluation": {
+        "expectation": "reject",
+        "expected_status": 400,
+        "expected_error_code": "MISSING_FIELD",
+        "extracted_kwh_monthly": null,
+        "passed": true,
+        "failure_mode": null
+      },
+      "timing": {
+        "elapsed_ms": 2047,
+        "started_at": "2026-02-22T05:08:00.943786+00:00"
+      }
+    },
+    {
+      "id": "012",
+      "category": "Missing Required Fields",
+      "name": "missing location → 400 MISSING_FIELD",
+      "tags": [
+        "missing_field"
+      ],
+      "request": {
+        "url": "http://localhost:8000/api/v1/estimate-consumption",
+        "headers_sent": {
+          "Content-Type": "application/json",
+          "X-API-KEY": "***set***"
+        },
+        "payload_sent": {
+          "business_type": "butchery",
+          "sqft_m2": 60,
+          "operating_hours_weekly": 98,
+          "num_refrigeration_units": 3
+        },
+        "timeout_seconds": 10
+      },
+      "response": {
+        "status_code": 400,
+        "json": {
+          "error": {
+            "code": "MISSING_FIELD",
+            "message": "Missing required field: location",
+            "status": 400
+          }
+        },
+        "text": "{\"error\":{\"code\":\"MISSING_FIELD\",\"message\":\"Missing required field: location\",\"status\":400}}\n"
+      },
+      "evaluation": {
+        "expectation": "reject",
+        "expected_status": 400,
+        "expected_error_code": "MISSING_FIELD",
+        "extracted_kwh_monthly": null,
+        "passed": true,
+        "failure_mode": null
+      },
+      "timing": {
+        "elapsed_ms": 2072,
+        "started_at": "2026-02-22T05:08:03.016334+00:00"
+      }
+    },
+    {
+      "id": "013",
+      "category": "Invalid Field Types",
+      "name": "sqft_m2 as string 'abc' → 400 INVALID_FIELD_TYPE",
+      "tags": [
+        "type_error"
+      ],
+      "request": {
+        "url": "http://localhost:8000/api/v1/estimate-consumption",
+        "headers_sent": {
+          "Content-Type": "application/json",
+          "X-API-KEY": "***set***"
+        },
+        "payload_sent": {
+          "business_type": "butchery",
+          "sqft_m2": "abc",
+          "operating_hours_weekly": 98,
+          "num_refrigeration_units": 3,
+          "location": "Lagos, Nigeria"
+        },
+        "timeout_seconds": 10
+      },
+      "response": {
+        "status_code": 400,
+        "json": {
+          "error": {
+            "code": "INVALID_FIELD_TYPE",
+            "message": "sqft_m2 must be a number",
+            "status": 400
+          }
+        },
+        "text": "{\"error\":{\"code\":\"INVALID_FIELD_TYPE\",\"message\":\"sqft_m2 must be a number\",\"status\":400}}\n"
+      },
+      "evaluation": {
+        "expectation": "reject",
+        "expected_status": 400,
+        "expected_error_code": "INVALID_FIELD_TYPE",
+        "extracted_kwh_monthly": null,
+        "passed": true,
+        "failure_mode": null
+      },
+      "timing": {
+        "elapsed_ms": 2041,
+        "started_at": "2026-02-22T05:08:05.057559+00:00"
+      }
+    },
+    {
+      "id": "014",
+      "category": "Invalid Field Types",
+      "name": "operating_hours_weekly as string 'abc' → 400 INVALID_FIELD_TYPE",
+      "tags": [
+        "type_error"
+      ],
+      "request": {
+        "url": "http://localhost:8000/api/v1/estimate-consumption",
+        "headers_sent": {
+          "Content-Type": "application/json",
+          "X-API-KEY": "***set***"
+        },
+        "payload_sent": {
+          "business_type": "butchery",
+          "sqft_m2": 60,
+          "operating_hours_weekly": "abc",
+          "num_refrigeration_units": 3,
+          "location": "Lagos, Nigeria"
+        },
+        "timeout_seconds": 10
+      },
+      "response": {
+        "status_code": 400,
+        "json": {
+          "error": {
+            "code": "INVALID_FIELD_TYPE",
+            "message": "operating_hours_weekly must be a number",
+            "status": 400
+          }
+        },
+        "text": "{\"error\":{\"code\":\"INVALID_FIELD_TYPE\",\"message\":\"operating_hours_weekly must be a number\",\"status\":400}}\n"
+      },
+      "evaluation": {
+        "expectation": "reject",
+        "expected_status": 400,
+        "expected_error_code": "INVALID_FIELD_TYPE",
+        "extracted_kwh_monthly": null,
+        "passed": true,
+        "failure_mode": null
+      },
+      "timing": {
+        "elapsed_ms": 2052,
+        "started_at": "2026-02-22T05:08:07.109567+00:00"
+      }
+    },
+    {
+      "id": "015",
+      "category": "Invalid Field Types",
+      "name": "num_refrigeration_units as float string '3.5' → 400 INVALID_FIELD_TYPE",
+      "tags": [
+        "type_error"
+      ],
+      "request": {
+        "url": "http://localhost:8000/api/v1/estimate-consumption",
+        "headers_sent": {
+          "Content-Type": "application/json",
+          "X-API-KEY": "***set***"
+        },
+        "payload_sent": {
+          "business_type": "butchery",
+          "sqft_m2": 60,
+          "operating_hours_weekly": 98,
+          "num_refrigeration_units": "3.5",
+          "location": "Lagos, Nigeria"
+        },
+        "timeout_seconds": 10
+      },
+      "response": {
+        "status_code": 400,
+        "json": {
+          "error": {
+            "code": "INVALID_FIELD_TYPE",
+            "message": "num_refrigeration_units must be an integer",
+            "status": 400
+          }
+        },
+        "text": "{\"error\":{\"code\":\"INVALID_FIELD_TYPE\",\"message\":\"num_refrigeration_units must be an integer\",\"status\":400}}\n"
+      },
+      "evaluation": {
+        "expectation": "reject",
+        "expected_status": 400,
+        "expected_error_code": "INVALID_FIELD_TYPE",
+        "extracted_kwh_monthly": null,
+        "passed": true,
+        "failure_mode": null
+      },
+      "timing": {
+        "elapsed_ms": 2055,
+        "started_at": "2026-02-22T05:08:09.166205+00:00"
+      }
+    },
+    {
+      "id": "016",
+      "category": "Invalid Field Types",
+      "name": "location as integer → 400 INVALID_FIELD_TYPE",
+      "tags": [
+        "type_error"
+      ],
+      "request": {
+        "url": "http://localhost:8000/api/v1/estimate-consumption",
+        "headers_sent": {
+          "Content-Type": "application/json",
+          "X-API-KEY": "***set***"
+        },
+        "payload_sent": {
+          "business_type": "butchery",
+          "sqft_m2": 60,
+          "operating_hours_weekly": 98,
+          "num_refrigeration_units": 3,
+          "location": 12345
+        },
+        "timeout_seconds": 10
+      },
+      "response": {
+        "status_code": 400,
+        "json": {
+          "error": {
+            "code": "INVALID_FIELD_TYPE",
+            "message": "location must be a string",
+            "status": 400
+          }
+        },
+        "text": "{\"error\":{\"code\":\"INVALID_FIELD_TYPE\",\"message\":\"location must be a string\",\"status\":400}}\n"
+      },
+      "evaluation": {
+        "expectation": "reject",
+        "expected_status": 400,
+        "expected_error_code": "INVALID_FIELD_TYPE",
+        "extracted_kwh_monthly": null,
+        "passed": true,
+        "failure_mode": null
+      },
+      "timing": {
+        "elapsed_ms": 2025,
+        "started_at": "2026-02-22T05:08:11.191671+00:00"
+      }
+    },
+    {
+      "id": "017",
+      "category": "Invalid Field Types",
+      "name": "business_type as integer → 400 INVALID_FIELD_TYPE",
+      "tags": [
+        "type_error"
+      ],
+      "request": {
+        "url": "http://localhost:8000/api/v1/estimate-consumption",
+        "headers_sent": {
+          "Content-Type": "application/json",
+          "X-API-KEY": "***set***"
+        },
+        "payload_sent": {
+          "business_type": 123,
+          "sqft_m2": 60,
+          "operating_hours_weekly": 98,
+          "num_refrigeration_units": 3,
+          "location": "Lagos, Nigeria"
+        },
+        "timeout_seconds": 10
+      },
+      "response": {
+        "status_code": 400,
+        "json": {
+          "error": {
+            "code": "INVALID_FIELD_TYPE",
+            "message": "business_type must be a string",
+            "status": 400
+          }
+        },
+        "text": "{\"error\":{\"code\":\"INVALID_FIELD_TYPE\",\"message\":\"business_type must be a string\",\"status\":400}}\n"
+      },
+      "evaluation": {
+        "expectation": "reject",
+        "expected_status": 400,
+        "expected_error_code": "INVALID_FIELD_TYPE",
+        "extracted_kwh_monthly": null,
+        "passed": true,
+        "failure_mode": null
+      },
+      "timing": {
+        "elapsed_ms": 2042,
+        "started_at": "2026-02-22T05:08:13.234531+00:00"
+      }
+    },
+    {
+      "id": "018",
+      "category": "Boundary / Range Validation",
+      "name": "sqft_m2 = 0 → 400 INVALID_FIELD_VALUE",
+      "tags": [
+        "boundary"
+      ],
+      "request": {
+        "url": "http://localhost:8000/api/v1/estimate-consumption",
+        "headers_sent": {
+          "Content-Type": "application/json",
+          "X-API-KEY": "***set***"
+        },
+        "payload_sent": {
+          "business_type": "butchery",
+          "sqft_m2": 0,
+          "operating_hours_weekly": 98,
+          "num_refrigeration_units": 3,
+          "location": "Lagos, Nigeria"
+        },
+        "timeout_seconds": 10
+      },
+      "response": {
+        "status_code": 400,
+        "json": {
+          "error": {
+            "code": "INVALID_FIELD_VALUE",
+            "message": "sqft_m2 must be greater than 0",
+            "status": 400
+          }
+        },
+        "text": "{\"error\":{\"code\":\"INVALID_FIELD_VALUE\",\"message\":\"sqft_m2 must be greater than 0\",\"status\":400}}\n"
+      },
+      "evaluation": {
+        "expectation": "reject",
+        "expected_status": 400,
+        "expected_error_code": "INVALID_FIELD_VALUE",
+        "extracted_kwh_monthly": null,
+        "passed": true,
+        "failure_mode": null
+      },
+      "timing": {
+        "elapsed_ms": 2061,
+        "started_at": "2026-02-22T05:08:15.296230+00:00"
+      }
+    },
+    {
+      "id": "019",
+      "category": "Boundary / Range Validation",
+      "name": "sqft_m2 = -1 → 400 INVALID_FIELD_VALUE",
+      "tags": [
+        "boundary"
+      ],
+      "request": {
+        "url": "http://localhost:8000/api/v1/estimate-consumption",
+        "headers_sent": {
+          "Content-Type": "application/json",
+          "X-API-KEY": "***set***"
+        },
+        "payload_sent": {
+          "business_type": "butchery",
+          "sqft_m2": -1,
+          "operating_hours_weekly": 98,
+          "num_refrigeration_units": 3,
+          "location": "Lagos, Nigeria"
+        },
+        "timeout_seconds": 10
+      },
+      "response": {
+        "status_code": 400,
+        "json": {
+          "error": {
+            "code": "INVALID_FIELD_VALUE",
+            "message": "sqft_m2 must be greater than 0",
+            "status": 400
+          }
+        },
+        "text": "{\"error\":{\"code\":\"INVALID_FIELD_VALUE\",\"message\":\"sqft_m2 must be greater than 0\",\"status\":400}}\n"
+      },
+      "evaluation": {
+        "expectation": "reject",
+        "expected_status": 400,
+        "expected_error_code": "INVALID_FIELD_VALUE",
+        "extracted_kwh_monthly": null,
+        "passed": true,
+        "failure_mode": null
+      },
+      "timing": {
+        "elapsed_ms": 2047,
+        "started_at": "2026-02-22T05:08:17.343998+00:00"
+      }
+    },
+    {
+      "id": "020",
+      "category": "Boundary / Range Validation",
+      "name": "sqft_m2 = 0.001 → 200 (just above zero)",
+      "tags": [
+        "boundary"
+      ],
+      "request": {
+        "url": "http://localhost:8000/api/v1/estimate-consumption",
+        "headers_sent": {
+          "Content-Type": "application/json",
+          "X-API-KEY": "***set***"
+        },
+        "payload_sent": {
+          "business_type": "butchery",
+          "sqft_m2": 0.001,
+          "operating_hours_weekly": 98,
+          "num_refrigeration_units": 3,
+          "location": "Lagos, Nigeria"
+        },
+        "timeout_seconds": 10
+      },
+      "response": {
+        "status_code": 200,
+        "json": {
+          "breakdown": {
+            "other": 111.75,
+            "refrigeration": 111.75
+          },
+          "climate_adjustment_factor": 1.35,
+          "confidence_score": 0.85,
+          "equipment_summary": {
+            "total_other_equipment": 0,
+            "total_refrigeration_units": 3
+          },
+          "estimated_consumption_kwh_monthly": 223.5
+        },
+        "text": "{\"breakdown\":{\"other\":111.75,\"refrigeration\":111.75},\"climate_adjustment_factor\":1.35,\"confidence_score\":0.85,\"equipment_summary\":{\"total_other_equipment\":0,\"total_refrigeration_units\":3},\"estimated_consumption_kwh_monthly\":223.5}\n"
+      },
+      "evaluation": {
+        "expectation": "accept",
+        "expected_status": null,
+        "expected_error_code": null,
+        "extracted_kwh_monthly": 223.5,
+        "passed": true,
+        "failure_mode": null
+      },
+      "timing": {
+        "elapsed_ms": 2052,
+        "started_at": "2026-02-22T05:08:19.396888+00:00"
+      }
+    },
+    {
+      "id": "021",
+      "category": "Boundary / Range Validation",
+      "name": "sqft_m2 = 10000 → 200 (at max)",
+      "tags": [
+        "boundary"
+      ],
+      "request": {
+        "url": "http://localhost:8000/api/v1/estimate-consumption",
+        "headers_sent": {
+          "Content-Type": "application/json",
+          "X-API-KEY": "***set***"
+        },
+        "payload_sent": {
+          "business_type": "butchery",
+          "sqft_m2": 10000,
+          "operating_hours_weekly": 98,
+          "num_refrigeration_units": 3,
+          "location": "Lagos, Nigeria"
+        },
+        "timeout_seconds": 10
+      },
+      "response": {
+        "status_code": 200,
+        "json": {
+          "breakdown": {
+            "other": 15265.35,
+            "refrigeration": 15265.35
+          },
+          "climate_adjustment_factor": 1.35,
+          "confidence_score": 0.85,
+          "equipment_summary": {
+            "total_other_equipment": 0,
+            "total_refrigeration_units": 3
+          },
+          "estimated_consumption_kwh_monthly": 30530.7
+        },
+        "text": "{\"breakdown\":{\"other\":15265.35,\"refrigeration\":15265.35},\"climate_adjustment_factor\":1.35,\"confidence_score\":0.85,\"equipment_summary\":{\"total_other_equipment\":0,\"total_refrigeration_units\":3},\"estimated_consumption_kwh_monthly\":30530.7}\n"
+      },
+      "evaluation": {
+        "expectation": "accept",
+        "expected_status": null,
+        "expected_error_code": null,
+        "extracted_kwh_monthly": 30530.7,
+        "passed": true,
+        "failure_mode": null
+      },
+      "timing": {
+        "elapsed_ms": 2091,
+        "started_at": "2026-02-22T05:08:21.488805+00:00"
+      }
+    },
+    {
+      "id": "022",
+      "category": "Boundary / Range Validation",
+      "name": "sqft_m2 = 10001 → 400 INVALID_FIELD_VALUE",
+      "tags": [
+        "boundary"
+      ],
+      "request": {
+        "url": "http://localhost:8000/api/v1/estimate-consumption",
+        "headers_sent": {
+          "Content-Type": "application/json",
+          "X-API-KEY": "***set***"
+        },
+        "payload_sent": {
+          "business_type": "butchery",
+          "sqft_m2": 10001,
+          "operating_hours_weekly": 98,
+          "num_refrigeration_units": 3,
+          "location": "Lagos, Nigeria"
+        },
+        "timeout_seconds": 10
+      },
+      "response": {
+        "status_code": 400,
+        "json": {
+          "error": {
+            "code": "INVALID_FIELD_VALUE",
+            "message": "sqft_m2 exceeds maximum allowed value (10,000 m²)",
+            "status": 400
+          }
+        },
+        "text": "{\"error\":{\"code\":\"INVALID_FIELD_VALUE\",\"message\":\"sqft_m2 exceeds maximum allowed value (10,000 m\\u00b2)\",\"status\":400}}\n"
+      },
+      "evaluation": {
+        "expectation": "reject",
+        "expected_status": 400,
+        "expected_error_code": "INVALID_FIELD_VALUE",
+        "extracted_kwh_monthly": null,
+        "passed": true,
+        "failure_mode": null
+      },
+      "timing": {
+        "elapsed_ms": 2040,
+        "started_at": "2026-02-22T05:08:23.529692+00:00"
+      }
+    },
+    {
+      "id": "023",
+      "category": "Boundary / Range Validation",
+      "name": "operating_hours_weekly = 0 → 400",
+      "tags": [
+        "boundary"
+      ],
+      "request": {
+        "url": "http://localhost:8000/api/v1/estimate-consumption",
+        "headers_sent": {
+          "Content-Type": "application/json",
+          "X-API-KEY": "***set***"
+        },
+        "payload_sent": {
+          "business_type": "butchery",
+          "sqft_m2": 60,
+          "operating_hours_weekly": 0,
+          "num_refrigeration_units": 3,
+          "location": "Lagos, Nigeria"
+        },
+        "timeout_seconds": 10
+      },
+      "response": {
+        "status_code": 400,
+        "json": {
+          "error": {
+            "code": "INVALID_FIELD_VALUE",
+            "message": "operating_hours_weekly must be between 0 and 168",
+            "status": 400
+          }
+        },
+        "text": "{\"error\":{\"code\":\"INVALID_FIELD_VALUE\",\"message\":\"operating_hours_weekly must be between 0 and 168\",\"status\":400}}\n"
+      },
+      "evaluation": {
+        "expectation": "reject",
+        "expected_status": 400,
+        "expected_error_code": null,
+        "extracted_kwh_monthly": null,
+        "passed": true,
+        "failure_mode": null
+      },
+      "timing": {
+        "elapsed_ms": 2036,
+        "started_at": "2026-02-22T05:08:25.566619+00:00"
+      }
+    },
+    {
+      "id": "024",
+      "category": "Boundary / Range Validation",
+      "name": "operating_hours_weekly = 168 → 200 (at max)",
+      "tags": [
+        "boundary"
+      ],
+      "request": {
+        "url": "http://localhost:8000/api/v1/estimate-consumption",
+        "headers_sent": {
+          "Content-Type": "application/json",
+          "X-API-KEY": "***set***"
+        },
+        "payload_sent": {
+          "business_type": "butchery",
+          "sqft_m2": 60,
+          "operating_hours_weekly": 168,
+          "num_refrigeration_units": 3,
+          "location": "Lagos, Nigeria"
+        },
+        "timeout_seconds": 10
+      },
+      "response": {
+        "status_code": 200,
+        "json": {
+          "breakdown": {
+            "other": 103.32,
+            "refrigeration": 103.32
+          },
+          "climate_adjustment_factor": 1.35,
+          "confidence_score": 0.85,
+          "equipment_summary": {
+            "total_other_equipment": 0,
+            "total_refrigeration_units": 3
+          },
+          "estimated_consumption_kwh_monthly": 206.63
+        },
+        "text": "{\"breakdown\":{\"other\":103.32,\"refrigeration\":103.32},\"climate_adjustment_factor\":1.35,\"confidence_score\":0.85,\"equipment_summary\":{\"total_other_equipment\":0,\"total_refrigeration_units\":3},\"estimated_consumption_kwh_monthly\":206.63}\n"
+      },
+      "evaluation": {
+        "expectation": "accept",
+        "expected_status": null,
+        "expected_error_code": null,
+        "extracted_kwh_monthly": 206.63,
+        "passed": true,
+        "failure_mode": null
+      },
+      "timing": {
+        "elapsed_ms": 2076,
+        "started_at": "2026-02-22T05:08:27.642840+00:00"
+      }
+    },
+    {
+      "id": "025",
+      "category": "Boundary / Range Validation",
+      "name": "operating_hours_weekly = 168.1 → 400",
+      "tags": [
+        "boundary"
+      ],
+      "request": {
+        "url": "http://localhost:8000/api/v1/estimate-consumption",
+        "headers_sent": {
+          "Content-Type": "application/json",
+          "X-API-KEY": "***set***"
+        },
+        "payload_sent": {
+          "business_type": "butchery",
+          "sqft_m2": 60,
+          "operating_hours_weekly": 168.1,
+          "num_refrigeration_units": 3,
+          "location": "Lagos, Nigeria"
+        },
+        "timeout_seconds": 10
+      },
+      "response": {
+        "status_code": 400,
+        "json": {
+          "error": {
+            "code": "INVALID_FIELD_VALUE",
+            "message": "operating_hours_weekly must be between 0 and 168",
+            "status": 400
+          }
+        },
+        "text": "{\"error\":{\"code\":\"INVALID_FIELD_VALUE\",\"message\":\"operating_hours_weekly must be between 0 and 168\",\"status\":400}}\n"
+      },
+      "evaluation": {
+        "expectation": "reject",
+        "expected_status": 400,
+        "expected_error_code": null,
+        "extracted_kwh_monthly": null,
+        "passed": true,
+        "failure_mode": null
+      },
+      "timing": {
+        "elapsed_ms": 2036,
+        "started_at": "2026-02-22T05:08:29.679787+00:00"
+      }
+    },
+    {
+      "id": "026",
+      "category": "Boundary / Range Validation",
+      "name": "num_refrigeration_units = 0 → 200 (valid)",
+      "tags": [
+        "boundary"
+      ],
+      "request": {
+        "url": "http://localhost:8000/api/v1/estimate-consumption",
+        "headers_sent": {
+          "Content-Type": "application/json",
+          "X-API-KEY": "***set***"
+        },
+        "payload_sent": {
+          "business_type": "butchery",
+          "sqft_m2": 60,
+          "operating_hours_weekly": 98,
+          "num_refrigeration_units": 0,
+          "location": "Lagos, Nigeria"
+        },
+        "timeout_seconds": 10
+      },
+      "response": {
+        "status_code": 200,
+        "json": {
+          "breakdown": {
+            "other": 110.84,
+            "refrigeration": 110.84
+          },
+          "climate_adjustment_factor": 1.35,
+          "confidence_score": 0.75,
+          "equipment_summary": {
+            "total_other_equipment": 0,
+            "total_refrigeration_units": 0
+          },
+          "estimated_consumption_kwh_monthly": 221.68
+        },
+        "text": "{\"breakdown\":{\"other\":110.84,\"refrigeration\":110.84},\"climate_adjustment_factor\":1.35,\"confidence_score\":0.75,\"equipment_summary\":{\"total_other_equipment\":0,\"total_refrigeration_units\":0},\"estimated_consumption_kwh_monthly\":221.68}\n"
+      },
+      "evaluation": {
+        "expectation": "accept",
+        "expected_status": null,
+        "expected_error_code": null,
+        "extracted_kwh_monthly": 221.68,
+        "passed": true,
+        "failure_mode": null
+      },
+      "timing": {
+        "elapsed_ms": 2043,
+        "started_at": "2026-02-22T05:08:31.723612+00:00"
+      }
+    },
+    {
+      "id": "027",
+      "category": "Boundary / Range Validation",
+      "name": "num_refrigeration_units = 500 → 200 (at max)",
+      "tags": [
+        "boundary"
+      ],
+      "request": {
+        "url": "http://localhost:8000/api/v1/estimate-consumption",
+        "headers_sent": {
+          "Content-Type": "application/json",
+          "X-API-KEY": "***set***"
+        },
+        "payload_sent": {
+          "business_type": "butchery",
+          "sqft_m2": 60,
+          "operating_hours_weekly": 98,
+          "num_refrigeration_units": 500,
+          "location": "Lagos, Nigeria"
+        },
+        "timeout_seconds": 10
+      },
+      "response": {
+        "status_code": 200,
+        "json": {
+          "breakdown": {
+            "other": 4399.03,
+            "refrigeration": 10264.4
+          },
+          "climate_adjustment_factor": 1.35,
+          "confidence_score": 0.85,
+          "equipment_summary": {
+            "total_other_equipment": 0,
+            "total_refrigeration_units": 500
+          },
+          "estimated_consumption_kwh_monthly": 14663.42
+        },
+        "text": "{\"breakdown\":{\"other\":4399.03,\"refrigeration\":10264.4},\"climate_adjustment_factor\":1.35,\"confidence_score\":0.85,\"equipment_summary\":{\"total_other_equipment\":0,\"total_refrigeration_units\":500},\"estimated_consumption_kwh_monthly\":14663.42}\n"
+      },
+      "evaluation": {
+        "expectation": "accept",
+        "expected_status": null,
+        "expected_error_code": null,
+        "extracted_kwh_monthly": 14663.42,
+        "passed": true,
+        "failure_mode": null
+      },
+      "timing": {
+        "elapsed_ms": 2037,
+        "started_at": "2026-02-22T05:08:33.761554+00:00"
+      }
+    },
+    {
+      "id": "028",
+      "category": "Boundary / Range Validation",
+      "name": "num_refrigeration_units = 501 → 400",
+      "tags": [
+        "boundary"
+      ],
+      "request": {
+        "url": "http://localhost:8000/api/v1/estimate-consumption",
+        "headers_sent": {
+          "Content-Type": "application/json",
+          "X-API-KEY": "***set***"
+        },
+        "payload_sent": {
+          "business_type": "butchery",
+          "sqft_m2": 60,
+          "operating_hours_weekly": 98,
+          "num_refrigeration_units": 501,
+          "location": "Lagos, Nigeria"
+        },
+        "timeout_seconds": 10
+      },
+      "response": {
+        "status_code": 400,
+        "json": {
+          "error": {
+            "code": "INVALID_FIELD_VALUE",
+            "message": "num_refrigeration_units exceeds maximum allowed value (500)",
+            "status": 400
+          }
+        },
+        "text": "{\"error\":{\"code\":\"INVALID_FIELD_VALUE\",\"message\":\"num_refrigeration_units exceeds maximum allowed value (500)\",\"status\":400}}\n"
+      },
+      "evaluation": {
+        "expectation": "reject",
+        "expected_status": 400,
+        "expected_error_code": null,
+        "extracted_kwh_monthly": null,
+        "passed": true,
+        "failure_mode": null
+      },
+      "timing": {
+        "elapsed_ms": 2044,
+        "started_at": "2026-02-22T05:08:35.805881+00:00"
+      }
+    },
+    {
+      "id": "029",
+      "category": "Boundary / Range Validation",
+      "name": "num_refrigeration_units = -1 → 400",
+      "tags": [
+        "boundary"
+      ],
+      "request": {
+        "url": "http://localhost:8000/api/v1/estimate-consumption",
+        "headers_sent": {
+          "Content-Type": "application/json",
+          "X-API-KEY": "***set***"
+        },
+        "payload_sent": {
+          "business_type": "butchery",
+          "sqft_m2": 60,
+          "operating_hours_weekly": 98,
+          "num_refrigeration_units": -1,
+          "location": "Lagos, Nigeria"
+        },
+        "timeout_seconds": 10
+      },
+      "response": {
+        "status_code": 400,
+        "json": {
+          "error": {
+            "code": "INVALID_FIELD_VALUE",
+            "message": "num_refrigeration_units must be non-negative",
+            "status": 400
+          }
+        },
+        "text": "{\"error\":{\"code\":\"INVALID_FIELD_VALUE\",\"message\":\"num_refrigeration_units must be non-negative\",\"status\":400}}\n"
+      },
+      "evaluation": {
+        "expectation": "reject",
+        "expected_status": 400,
+        "expected_error_code": null,
+        "extracted_kwh_monthly": null,
+        "passed": true,
+        "failure_mode": null
+      },
+      "timing": {
+        "elapsed_ms": 2061,
+        "started_at": "2026-02-22T05:08:37.867238+00:00"
+      }
+    },
+    {
+      "id": "030",
+      "category": "Boundary / Range Validation",
+      "name": "num_workers = 0 → 200 (defaults to 5)",
+      "tags": [
+        "boundary",
+        "optional"
+      ],
+      "request": {
+        "url": "http://localhost:8000/api/v1/estimate-consumption",
+        "headers_sent": {
+          "Content-Type": "application/json",
+          "X-API-KEY": "***set***"
+        },
+        "payload_sent": {
+          "business_type": "butchery",
+          "sqft_m2": 60,
+          "operating_hours_weekly": 98,
+          "num_refrigeration_units": 3,
+          "location": "Lagos, Nigeria",
+          "num_workers": 0
+        },
+        "timeout_seconds": 10
+      },
+      "response": {
+        "status_code": 200,
+        "json": {
+          "breakdown": {
+            "other": 111.75,
+            "refrigeration": 111.75
+          },
+          "climate_adjustment_factor": 1.35,
+          "confidence_score": 0.85,
+          "equipment_summary": {
+            "total_other_equipment": 0,
+            "total_refrigeration_units": 3
+          },
+          "estimated_consumption_kwh_monthly": 223.5
+        },
+        "text": "{\"breakdown\":{\"other\":111.75,\"refrigeration\":111.75},\"climate_adjustment_factor\":1.35,\"confidence_score\":0.85,\"equipment_summary\":{\"total_other_equipment\":0,\"total_refrigeration_units\":3},\"estimated_consumption_kwh_monthly\":223.5}\n"
+      },
+      "evaluation": {
+        "expectation": "accept",
+        "expected_status": null,
+        "expected_error_code": null,
+        "extracted_kwh_monthly": 223.5,
+        "passed": true,
+        "failure_mode": null
+      },
+      "timing": {
+        "elapsed_ms": 2049,
+        "started_at": "2026-02-22T05:08:39.916688+00:00"
+      }
+    },
+    {
+      "id": "031",
+      "category": "Boundary / Range Validation",
+      "name": "num_workers = 1000 → 200 (at max)",
+      "tags": [
+        "boundary",
+        "optional"
+      ],
+      "request": {
+        "url": "http://localhost:8000/api/v1/estimate-consumption",
+        "headers_sent": {
+          "Content-Type": "application/json",
+          "X-API-KEY": "***set***"
+        },
+        "payload_sent": {
+          "business_type": "butchery",
+          "sqft_m2": 60,
+          "operating_hours_weekly": 98,
+          "num_refrigeration_units": 3,
+          "location": "Lagos, Nigeria",
+          "num_workers": 1000
+        },
+        "timeout_seconds": 10
+      },
+      "response": {
+        "status_code": 200,
+        "json": {
+          "breakdown": {
+            "other": 495.5,
+            "refrigeration": 495.5
+          },
+          "climate_adjustment_factor": 1.35,
+          "confidence_score": 0.85,
+          "equipment_summary": {
+            "total_other_equipment": 0,
+            "total_refrigeration_units": 3
+          },
+          "estimated_consumption_kwh_monthly": 990.99
+        },
+        "text": "{\"breakdown\":{\"other\":495.5,\"refrigeration\":495.5},\"climate_adjustment_factor\":1.35,\"confidence_score\":0.85,\"equipment_summary\":{\"total_other_equipment\":0,\"total_refrigeration_units\":3},\"estimated_consumption_kwh_monthly\":990.99}\n"
+      },
+      "evaluation": {
+        "expectation": "accept",
+        "expected_status": null,
+        "expected_error_code": null,
+        "extracted_kwh_monthly": 990.99,
+        "passed": true,
+        "failure_mode": null
+      },
+      "timing": {
+        "elapsed_ms": 2036,
+        "started_at": "2026-02-22T05:08:41.953634+00:00"
+      }
+    },
+    {
+      "id": "032",
+      "category": "Boundary / Range Validation",
+      "name": "num_workers = 1001 → 400",
+      "tags": [
+        "boundary",
+        "optional"
+      ],
+      "request": {
+        "url": "http://localhost:8000/api/v1/estimate-consumption",
+        "headers_sent": {
+          "Content-Type": "application/json",
+          "X-API-KEY": "***set***"
+        },
+        "payload_sent": {
+          "business_type": "butchery",
+          "sqft_m2": 60,
+          "operating_hours_weekly": 98,
+          "num_refrigeration_units": 3,
+          "location": "Lagos, Nigeria",
+          "num_workers": 1001
+        },
+        "timeout_seconds": 10
+      },
+      "response": {
+        "status_code": 400,
+        "json": {
+          "error": {
+            "code": "INVALID_FIELD_VALUE",
+            "message": "num_workers exceeds maximum allowed value (1000)",
+            "status": 400
+          }
+        },
+        "text": "{\"error\":{\"code\":\"INVALID_FIELD_VALUE\",\"message\":\"num_workers exceeds maximum allowed value (1000)\",\"status\":400}}\n"
+      },
+      "evaluation": {
+        "expectation": "reject",
+        "expected_status": 400,
+        "expected_error_code": null,
+        "extracted_kwh_monthly": null,
+        "passed": true,
+        "failure_mode": null
+      },
+      "timing": {
+        "elapsed_ms": 2078,
+        "started_at": "2026-02-22T05:08:44.032390+00:00"
+      }
+    },
+    {
+      "id": "033",
+      "category": "Boundary / Range Validation",
+      "name": "months_per_year = 0 → 200 (resets to 12)",
+      "tags": [
+        "boundary",
+        "optional"
+      ],
+      "request": {
+        "url": "http://localhost:8000/api/v1/estimate-consumption",
+        "headers_sent": {
+          "Content-Type": "application/json",
+          "X-API-KEY": "***set***"
+        },
+        "payload_sent": {
+          "business_type": "butchery",
+          "sqft_m2": 60,
+          "operating_hours_weekly": 98,
+          "num_refrigeration_units": 3,
+          "location": "Lagos, Nigeria",
+          "months_per_year": 0
+        },
+        "timeout_seconds": 10
+      },
+      "response": {
+        "status_code": 200,
+        "json": {
+          "breakdown": {
+            "other": 111.75,
+            "refrigeration": 111.75
+          },
+          "climate_adjustment_factor": 1.35,
+          "confidence_score": 0.85,
+          "equipment_summary": {
+            "total_other_equipment": 0,
+            "total_refrigeration_units": 3
+          },
+          "estimated_consumption_kwh_monthly": 223.5
+        },
+        "text": "{\"breakdown\":{\"other\":111.75,\"refrigeration\":111.75},\"climate_adjustment_factor\":1.35,\"confidence_score\":0.85,\"equipment_summary\":{\"total_other_equipment\":0,\"total_refrigeration_units\":3},\"estimated_consumption_kwh_monthly\":223.5}\n"
+      },
+      "evaluation": {
+        "expectation": "accept",
+        "expected_status": null,
+        "expected_error_code": null,
+        "extracted_kwh_monthly": 223.5,
+        "passed": true,
+        "failure_mode": null
+      },
+      "timing": {
+        "elapsed_ms": 2034,
+        "started_at": "2026-02-22T05:08:46.066626+00:00"
+      }
+    },
+    {
+      "id": "034",
+      "category": "Boundary / Range Validation",
+      "name": "months_per_year = 13 → 200 (resets to 12)",
+      "tags": [
+        "boundary",
+        "optional"
+      ],
+      "request": {
+        "url": "http://localhost:8000/api/v1/estimate-consumption",
+        "headers_sent": {
+          "Content-Type": "application/json",
+          "X-API-KEY": "***set***"
+        },
+        "payload_sent": {
+          "business_type": "butchery",
+          "sqft_m2": 60,
+          "operating_hours_weekly": 98,
+          "num_refrigeration_units": 3,
+          "location": "Lagos, Nigeria",
+          "months_per_year": 13
+        },
+        "timeout_seconds": 10
+      },
+      "response": {
+        "status_code": 200,
+        "json": {
+          "breakdown": {
+            "other": 111.75,
+            "refrigeration": 111.75
+          },
+          "climate_adjustment_factor": 1.35,
+          "confidence_score": 0.85,
+          "equipment_summary": {
+            "total_other_equipment": 0,
+            "total_refrigeration_units": 3
+          },
+          "estimated_consumption_kwh_monthly": 223.5
+        },
+        "text": "{\"breakdown\":{\"other\":111.75,\"refrigeration\":111.75},\"climate_adjustment_factor\":1.35,\"confidence_score\":0.85,\"equipment_summary\":{\"total_other_equipment\":0,\"total_refrigeration_units\":3},\"estimated_consumption_kwh_monthly\":223.5}\n"
+      },
+      "evaluation": {
+        "expectation": "accept",
+        "expected_status": null,
+        "expected_error_code": null,
+        "extracted_kwh_monthly": 223.5,
+        "passed": true,
+        "failure_mode": null
+      },
+      "timing": {
+        "elapsed_ms": 2041,
+        "started_at": "2026-02-22T05:08:48.108464+00:00"
+      }
+    },
+    {
+      "id": "035",
+      "category": "Boundary / Range Validation",
+      "name": "location string 200 chars → 200 (at max)",
+      "tags": [
+        "boundary"
+      ],
+      "request": {
+        "url": "http://localhost:8000/api/v1/estimate-consumption",
+        "headers_sent": {
+          "Content-Type": "application/json",
+          "X-API-KEY": "***set***"
+        },
+        "payload_sent": {
+          "business_type": "butchery",
+          "sqft_m2": 60,
+          "operating_hours_weekly": 98,
+          "num_refrigeration_units": 3,
+          "location": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+        },
+        "timeout_seconds": 10
+      },
+      "response": {
+        "status_code": 200,
+        "json": {
+          "breakdown": {
+            "other": 91.28,
+            "refrigeration": 91.28
+          },
+          "climate_adjustment_factor": 1.2,
+          "confidence_score": 0.85,
+          "equipment_summary": {
+            "total_other_equipment": 0,
+            "total_refrigeration_units": 3
+          },
+          "estimated_consumption_kwh_monthly": 182.55
+        },
+        "text": "{\"breakdown\":{\"other\":91.28,\"refrigeration\":91.28},\"climate_adjustment_factor\":1.2,\"confidence_score\":0.85,\"equipment_summary\":{\"total_other_equipment\":0,\"total_refrigeration_units\":3},\"estimated_consumption_kwh_monthly\":182.55}\n"
+      },
+      "evaluation": {
+        "expectation": "accept",
+        "expected_status": null,
+        "expected_error_code": null,
+        "extracted_kwh_monthly": 182.55,
+        "passed": true,
+        "failure_mode": null
+      },
+      "timing": {
+        "elapsed_ms": 2035,
+        "started_at": "2026-02-22T05:08:50.143797+00:00"
+      }
+    },
+    {
+      "id": "036",
+      "category": "Boundary / Range Validation",
+      "name": "location string 201 chars → 400 INVALID_FIELD_VALUE",
+      "tags": [
+        "boundary"
+      ],
+      "request": {
+        "url": "http://localhost:8000/api/v1/estimate-consumption",
+        "headers_sent": {
+          "Content-Type": "application/json",
+          "X-API-KEY": "***set***"
+        },
+        "payload_sent": {
+          "business_type": "butchery",
+          "sqft_m2": 60,
+          "operating_hours_weekly": 98,
+          "num_refrigeration_units": 3,
+          "location": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+        },
+        "timeout_seconds": 10
+      },
+      "response": {
+        "status_code": 400,
+        "json": {
+          "error": {
+            "code": "INVALID_FIELD_VALUE",
+            "message": "location string exceeds maximum length (200 characters)",
+            "status": 400
+          }
+        },
+        "text": "{\"error\":{\"code\":\"INVALID_FIELD_VALUE\",\"message\":\"location string exceeds maximum length (200 characters)\",\"status\":400}}\n"
+      },
+      "evaluation": {
+        "expectation": "reject",
+        "expected_status": 400,
+        "expected_error_code": "INVALID_FIELD_VALUE",
+        "extracted_kwh_monthly": null,
+        "passed": true,
+        "failure_mode": null
+      },
+      "timing": {
+        "elapsed_ms": 2032,
+        "started_at": "2026-02-22T05:08:52.176534+00:00"
+      }
+    },
+    {
+      "id": "037",
+      "category": "Business Type Validation",
+      "name": "business_type='butchery' → 200",
+      "tags": [
+        "business_type"
+      ],
+      "request": {
+        "url": "http://localhost:8000/api/v1/estimate-consumption",
+        "headers_sent": {
+          "Content-Type": "application/json",
+          "X-API-KEY": "***set***"
+        },
+        "payload_sent": {
+          "business_type": "butchery",
+          "sqft_m2": 60,
+          "operating_hours_weekly": 98,
+          "num_refrigeration_units": 3,
+          "location": "Lagos, Nigeria"
+        },
+        "timeout_seconds": 10
+      },
+      "response": {
+        "status_code": 200,
+        "json": {
+          "breakdown": {
+            "other": 111.75,
+            "refrigeration": 111.75
+          },
+          "climate_adjustment_factor": 1.35,
+          "confidence_score": 0.85,
+          "equipment_summary": {
+            "total_other_equipment": 0,
+            "total_refrigeration_units": 3
+          },
+          "estimated_consumption_kwh_monthly": 223.5
+        },
+        "text": "{\"breakdown\":{\"other\":111.75,\"refrigeration\":111.75},\"climate_adjustment_factor\":1.35,\"confidence_score\":0.85,\"equipment_summary\":{\"total_other_equipment\":0,\"total_refrigeration_units\":3},\"estimated_consumption_kwh_monthly\":223.5}\n"
+      },
+      "evaluation": {
+        "expectation": "accept",
+        "expected_status": null,
+        "expected_error_code": null,
+        "extracted_kwh_monthly": 223.5,
+        "passed": true,
+        "failure_mode": null
+      },
+      "timing": {
+        "elapsed_ms": 2042,
+        "started_at": "2026-02-22T05:08:54.219395+00:00"
+      }
+    },
+    {
+      "id": "038",
+      "category": "Business Type Validation",
+      "name": "business_type='grocery' → 200",
+      "tags": [
+        "business_type"
+      ],
+      "request": {
+        "url": "http://localhost:8000/api/v1/estimate-consumption",
+        "headers_sent": {
+          "Content-Type": "application/json",
+          "X-API-KEY": "***set***"
+        },
+        "payload_sent": {
+          "business_type": "grocery",
+          "sqft_m2": 60,
+          "operating_hours_weekly": 98,
+          "num_refrigeration_units": 3,
+          "location": "Lagos, Nigeria"
+        },
+        "timeout_seconds": 10
+      },
+      "response": {
+        "status_code": 200,
+        "json": {
+          "breakdown": {
+            "other": 111.75,
+            "refrigeration": 111.75
+          },
+          "climate_adjustment_factor": 1.35,
+          "confidence_score": 0.85,
+          "equipment_summary": {
+            "total_other_equipment": 0,
+            "total_refrigeration_units": 3
+          },
+          "estimated_consumption_kwh_monthly": 223.5
+        },
+        "text": "{\"breakdown\":{\"other\":111.75,\"refrigeration\":111.75},\"climate_adjustment_factor\":1.35,\"confidence_score\":0.85,\"equipment_summary\":{\"total_other_equipment\":0,\"total_refrigeration_units\":3},\"estimated_consumption_kwh_monthly\":223.5}\n"
+      },
+      "evaluation": {
+        "expectation": "accept",
+        "expected_status": null,
+        "expected_error_code": null,
+        "extracted_kwh_monthly": 223.5,
+        "passed": true,
+        "failure_mode": null
+      },
+      "timing": {
+        "elapsed_ms": 2052,
+        "started_at": "2026-02-22T05:08:56.271444+00:00"
+      }
+    },
+    {
+      "id": "039",
+      "category": "Business Type Validation",
+      "name": "business_type='mini_supermarket' → 200",
+      "tags": [
+        "business_type"
+      ],
+      "request": {
+        "url": "http://localhost:8000/api/v1/estimate-consumption",
+        "headers_sent": {
+          "Content-Type": "application/json",
+          "X-API-KEY": "***set***"
+        },
+        "payload_sent": {
+          "business_type": "mini_supermarket",
+          "sqft_m2": 60,
+          "operating_hours_weekly": 98,
+          "num_refrigeration_units": 3,
+          "location": "Lagos, Nigeria"
+        },
+        "timeout_seconds": 10
+      },
+      "response": {
+        "status_code": 200,
+        "json": {
+          "breakdown": {
+            "other": 111.75,
+            "refrigeration": 111.75
+          },
+          "climate_adjustment_factor": 1.35,
+          "confidence_score": 0.85,
+          "equipment_summary": {
+            "total_other_equipment": 0,
+            "total_refrigeration_units": 3
+          },
+          "estimated_consumption_kwh_monthly": 223.5
+        },
+        "text": "{\"breakdown\":{\"other\":111.75,\"refrigeration\":111.75},\"climate_adjustment_factor\":1.35,\"confidence_score\":0.85,\"equipment_summary\":{\"total_other_equipment\":0,\"total_refrigeration_units\":3},\"estimated_consumption_kwh_monthly\":223.5}\n"
+      },
+      "evaluation": {
+        "expectation": "accept",
+        "expected_status": null,
+        "expected_error_code": null,
+        "extracted_kwh_monthly": 223.5,
+        "passed": true,
+        "failure_mode": null
+      },
+      "timing": {
+        "elapsed_ms": 2067,
+        "started_at": "2026-02-22T05:08:58.338909+00:00"
+      }
+    },
+    {
+      "id": "040",
+      "category": "Business Type Validation",
+      "name": "business_type='BUTCHERY' → 200",
+      "tags": [
+        "business_type"
+      ],
+      "request": {
+        "url": "http://localhost:8000/api/v1/estimate-consumption",
+        "headers_sent": {
+          "Content-Type": "application/json",
+          "X-API-KEY": "***set***"
+        },
+        "payload_sent": {
+          "business_type": "BUTCHERY",
+          "sqft_m2": 60,
+          "operating_hours_weekly": 98,
+          "num_refrigeration_units": 3,
+          "location": "Lagos, Nigeria"
+        },
+        "timeout_seconds": 10
+      },
+      "response": {
+        "status_code": 200,
+        "json": {
+          "breakdown": {
+            "other": 111.75,
+            "refrigeration": 111.75
+          },
+          "climate_adjustment_factor": 1.35,
+          "confidence_score": 0.85,
+          "equipment_summary": {
+            "total_other_equipment": 0,
+            "total_refrigeration_units": 3
+          },
+          "estimated_consumption_kwh_monthly": 223.5
+        },
+        "text": "{\"breakdown\":{\"other\":111.75,\"refrigeration\":111.75},\"climate_adjustment_factor\":1.35,\"confidence_score\":0.85,\"equipment_summary\":{\"total_other_equipment\":0,\"total_refrigeration_units\":3},\"estimated_consumption_kwh_monthly\":223.5}\n"
+      },
+      "evaluation": {
+        "expectation": "accept",
+        "expected_status": null,
+        "expected_error_code": null,
+        "extracted_kwh_monthly": 223.5,
+        "passed": true,
+        "failure_mode": null
+      },
+      "timing": {
+        "elapsed_ms": 2063,
+        "started_at": "2026-02-22T05:09:00.401917+00:00"
+      }
+    },
+    {
+      "id": "041",
+      "category": "Business Type Validation",
+      "name": "business_type='restaurant' → 400 INVALID_BUSINESS_TYPE",
+      "tags": [
+        "business_type"
+      ],
+      "request": {
+        "url": "http://localhost:8000/api/v1/estimate-consumption",
+        "headers_sent": {
+          "Content-Type": "application/json",
+          "X-API-KEY": "***set***"
+        },
+        "payload_sent": {
+          "business_type": "restaurant",
+          "sqft_m2": 60,
+          "operating_hours_weekly": 98,
+          "num_refrigeration_units": 3,
+          "location": "Lagos, Nigeria"
+        },
+        "timeout_seconds": 10
+      },
+      "response": {
+        "status_code": 400,
+        "json": {
+          "error": {
+            "code": "INVALID_BUSINESS_TYPE",
+            "message": "Invalid business_type. Must be one of: ['butchery', 'grocery', 'mini_supermarket']",
+            "status": 400
+          }
+        },
+        "text": "{\"error\":{\"code\":\"INVALID_BUSINESS_TYPE\",\"message\":\"Invalid business_type. Must be one of: ['butchery', 'grocery', 'mini_supermarket']\",\"status\":400}}\n"
+      },
+      "evaluation": {
+        "expectation": "reject",
+        "expected_status": 400,
+        "expected_error_code": "INVALID_BUSINESS_TYPE",
+        "extracted_kwh_monthly": null,
+        "passed": true,
+        "failure_mode": null
+      },
+      "timing": {
+        "elapsed_ms": 2059,
+        "started_at": "2026-02-22T05:09:02.461216+00:00"
+      }
+    },
+    {
+      "id": "042",
+      "category": "Business Type Validation",
+      "name": "business_type='' → 400 INVALID_BUSINESS_TYPE",
+      "tags": [
+        "business_type"
+      ],
+      "request": {
+        "url": "http://localhost:8000/api/v1/estimate-consumption",
+        "headers_sent": {
+          "Content-Type": "application/json",
+          "X-API-KEY": "***set***"
+        },
+        "payload_sent": {
+          "business_type": "",
+          "sqft_m2": 60,
+          "operating_hours_weekly": 98,
+          "num_refrigeration_units": 3,
+          "location": "Lagos, Nigeria"
+        },
+        "timeout_seconds": 10
+      },
+      "response": {
+        "status_code": 400,
+        "json": {
+          "error": {
+            "code": "INVALID_BUSINESS_TYPE",
+            "message": "Invalid business_type. Must be one of: ['butchery', 'grocery', 'mini_supermarket']",
+            "status": 400
+          }
+        },
+        "text": "{\"error\":{\"code\":\"INVALID_BUSINESS_TYPE\",\"message\":\"Invalid business_type. Must be one of: ['butchery', 'grocery', 'mini_supermarket']\",\"status\":400}}\n"
+      },
+      "evaluation": {
+        "expectation": "reject",
+        "expected_status": 400,
+        "expected_error_code": "INVALID_BUSINESS_TYPE",
+        "extracted_kwh_monthly": null,
+        "passed": true,
+        "failure_mode": null
+      },
+      "timing": {
+        "elapsed_ms": 2051,
+        "started_at": "2026-02-22T05:09:04.513203+00:00"
+      }
+    },
+    {
+      "id": "043",
+      "category": "Climate Factor Sensitivity",
+      "name": "climate_factor Lagos, Nigeria → 1.35",
+      "tags": [
+        "climate"
+      ],
+      "request": {
+        "url": "http://localhost:8000/api/v1/estimate-consumption",
+        "headers_sent": {
+          "Content-Type": "application/json",
+          "X-API-KEY": "***set***"
+        },
+        "payload_sent": {
+          "business_type": "butchery",
+          "sqft_m2": 60,
+          "operating_hours_weekly": 98,
+          "num_refrigeration_units": 3,
+          "location": "Lagos, Nigeria"
+        },
+        "timeout_seconds": 10
+      },
+      "response": {
+        "status_code": 200,
+        "json": {
+          "breakdown": {
+            "other": 111.75,
+            "refrigeration": 111.75
+          },
+          "climate_adjustment_factor": 1.35,
+          "confidence_score": 0.85,
+          "equipment_summary": {
+            "total_other_equipment": 0,
+            "total_refrigeration_units": 3
+          },
+          "estimated_consumption_kwh_monthly": 223.5
+        },
+        "text": "{\"breakdown\":{\"other\":111.75,\"refrigeration\":111.75},\"climate_adjustment_factor\":1.35,\"confidence_score\":0.85,\"equipment_summary\":{\"total_other_equipment\":0,\"total_refrigeration_units\":3},\"estimated_consumption_kwh_monthly\":223.5}\n"
+      },
+      "evaluation": {
+        "expectation": "accept",
+        "expected_status": null,
+        "expected_error_code": null,
+        "extracted_kwh_monthly": 223.5,
+        "passed": true,
+        "failure_mode": null
+      },
+      "timing": {
+        "elapsed_ms": 2074,
+        "started_at": "2026-02-22T05:09:06.587958+00:00"
+      }
+    },
+    {
+      "id": "044",
+      "category": "Climate Factor Sensitivity",
+      "name": "climate_factor Accra, Ghana → 1.3",
+      "tags": [
+        "climate"
+      ],
+      "request": {
+        "url": "http://localhost:8000/api/v1/estimate-consumption",
+        "headers_sent": {
+          "Content-Type": "application/json",
+          "X-API-KEY": "***set***"
+        },
+        "payload_sent": {
+          "business_type": "butchery",
+          "sqft_m2": 60,
+          "operating_hours_weekly": 98,
+          "num_refrigeration_units": 3,
+          "location": "Accra, Ghana"
+        },
+        "timeout_seconds": 10
+      },
+      "response": {
+        "status_code": 200,
+        "json": {
+          "breakdown": {
+            "other": 104.93,
+            "refrigeration": 104.93
+          },
+          "climate_adjustment_factor": 1.3,
+          "confidence_score": 0.85,
+          "equipment_summary": {
+            "total_other_equipment": 0,
+            "total_refrigeration_units": 3
+          },
+          "estimated_consumption_kwh_monthly": 209.85
+        },
+        "text": "{\"breakdown\":{\"other\":104.93,\"refrigeration\":104.93},\"climate_adjustment_factor\":1.3,\"confidence_score\":0.85,\"equipment_summary\":{\"total_other_equipment\":0,\"total_refrigeration_units\":3},\"estimated_consumption_kwh_monthly\":209.85}\n"
+      },
+      "evaluation": {
+        "expectation": "accept",
+        "expected_status": null,
+        "expected_error_code": null,
+        "extracted_kwh_monthly": 209.85,
+        "passed": true,
+        "failure_mode": null
+      },
+      "timing": {
+        "elapsed_ms": 2050,
+        "started_at": "2026-02-22T05:09:08.638267+00:00"
+      }
+    },
+    {
+      "id": "045",
+      "category": "Climate Factor Sensitivity",
+      "name": "climate_factor Nairobi, Kenya → 1.2",
+      "tags": [
+        "climate"
+      ],
+      "request": {
+        "url": "http://localhost:8000/api/v1/estimate-consumption",
+        "headers_sent": {
+          "Content-Type": "application/json",
+          "X-API-KEY": "***set***"
+        },
+        "payload_sent": {
+          "business_type": "butchery",
+          "sqft_m2": 60,
+          "operating_hours_weekly": 98,
+          "num_refrigeration_units": 3,
+          "location": "Nairobi, Kenya"
+        },
+        "timeout_seconds": 10
+      },
+      "response": {
+        "status_code": 200,
+        "json": {
+          "breakdown": {
+            "other": 91.28,
+            "refrigeration": 91.28
+          },
+          "climate_adjustment_factor": 1.2,
+          "confidence_score": 0.85,
+          "equipment_summary": {
+            "total_other_equipment": 0,
+            "total_refrigeration_units": 3
+          },
+          "estimated_consumption_kwh_monthly": 182.55
+        },
+        "text": "{\"breakdown\":{\"other\":91.28,\"refrigeration\":91.28},\"climate_adjustment_factor\":1.2,\"confidence_score\":0.85,\"equipment_summary\":{\"total_other_equipment\":0,\"total_refrigeration_units\":3},\"estimated_consumption_kwh_monthly\":182.55}\n"
+      },
+      "evaluation": {
+        "expectation": "accept",
+        "expected_status": null,
+        "expected_error_code": null,
+        "extracted_kwh_monthly": 182.55,
+        "passed": true,
+        "failure_mode": null
+      },
+      "timing": {
+        "elapsed_ms": 2039,
+        "started_at": "2026-02-22T05:09:10.678061+00:00"
+      }
+    },
+    {
+      "id": "046",
+      "category": "Climate Factor Sensitivity",
+      "name": "climate_factor Kampala, Uganda → 1.25",
+      "tags": [
+        "climate"
+      ],
+      "request": {
+        "url": "http://localhost:8000/api/v1/estimate-consumption",
+        "headers_sent": {
+          "Content-Type": "application/json",
+          "X-API-KEY": "***set***"
+        },
+        "payload_sent": {
+          "business_type": "butchery",
+          "sqft_m2": 60,
+          "operating_hours_weekly": 98,
+          "num_refrigeration_units": 3,
+          "location": "Kampala, Uganda"
+        },
+        "timeout_seconds": 10
+      },
+      "response": {
+        "status_code": 200,
+        "json": {
+          "breakdown": {
+            "other": 98.1,
+            "refrigeration": 98.1
+          },
+          "climate_adjustment_factor": 1.25,
+          "confidence_score": 0.85,
+          "equipment_summary": {
+            "total_other_equipment": 0,
+            "total_refrigeration_units": 3
+          },
+          "estimated_consumption_kwh_monthly": 196.2
+        },
+        "text": "{\"breakdown\":{\"other\":98.1,\"refrigeration\":98.1},\"climate_adjustment_factor\":1.25,\"confidence_score\":0.85,\"equipment_summary\":{\"total_other_equipment\":0,\"total_refrigeration_units\":3},\"estimated_consumption_kwh_monthly\":196.2}\n"
+      },
+      "evaluation": {
+        "expectation": "accept",
+        "expected_status": null,
+        "expected_error_code": null,
+        "extracted_kwh_monthly": 196.2,
+        "passed": true,
+        "failure_mode": null
+      },
+      "timing": {
+        "elapsed_ms": 2062,
+        "started_at": "2026-02-22T05:09:12.740345+00:00"
+      }
+    },
+    {
+      "id": "047",
+      "category": "Climate Factor Sensitivity",
+      "name": "climate_factor Johannesburg, South Africa → 1.18",
+      "tags": [
+        "climate"
+      ],
+      "request": {
+        "url": "http://localhost:8000/api/v1/estimate-consumption",
+        "headers_sent": {
+          "Content-Type": "application/json",
+          "X-API-KEY": "***set***"
+        },
+        "payload_sent": {
+          "business_type": "butchery",
+          "sqft_m2": 60,
+          "operating_hours_weekly": 98,
+          "num_refrigeration_units": 3,
+          "location": "Johannesburg, South Africa"
+        },
+        "timeout_seconds": 10
+      },
+      "response": {
+        "status_code": 200,
+        "json": {
+          "breakdown": {
+            "other": 88.55,
+            "refrigeration": 88.55
+          },
+          "climate_adjustment_factor": 1.18,
+          "confidence_score": 0.85,
+          "equipment_summary": {
+            "total_other_equipment": 0,
+            "total_refrigeration_units": 3
+          },
+          "estimated_consumption_kwh_monthly": 177.09
+        },
+        "text": "{\"breakdown\":{\"other\":88.55,\"refrigeration\":88.55},\"climate_adjustment_factor\":1.18,\"confidence_score\":0.85,\"equipment_summary\":{\"total_other_equipment\":0,\"total_refrigeration_units\":3},\"estimated_consumption_kwh_monthly\":177.09}\n"
+      },
+      "evaluation": {
+        "expectation": "accept",
+        "expected_status": null,
+        "expected_error_code": null,
+        "extracted_kwh_monthly": 177.09,
+        "passed": true,
+        "failure_mode": null
+      },
+      "timing": {
+        "elapsed_ms": 2049,
+        "started_at": "2026-02-22T05:09:14.789903+00:00"
+      }
+    },
+    {
+      "id": "048",
+      "category": "Climate Factor Sensitivity",
+      "name": "climate_factor Dar es Salaam, Tanzania → 1.35",
+      "tags": [
+        "climate"
+      ],
+      "request": {
+        "url": "http://localhost:8000/api/v1/estimate-consumption",
+        "headers_sent": {
+          "Content-Type": "application/json",
+          "X-API-KEY": "***set***"
+        },
+        "payload_sent": {
+          "business_type": "butchery",
+          "sqft_m2": 60,
+          "operating_hours_weekly": 98,
+          "num_refrigeration_units": 3,
+          "location": "Dar es Salaam, Tanzania"
+        },
+        "timeout_seconds": 10
+      },
+      "response": {
+        "status_code": 200,
+        "json": {
+          "breakdown": {
+            "other": 111.75,
+            "refrigeration": 111.75
+          },
+          "climate_adjustment_factor": 1.35,
+          "confidence_score": 0.85,
+          "equipment_summary": {
+            "total_other_equipment": 0,
+            "total_refrigeration_units": 3
+          },
+          "estimated_consumption_kwh_monthly": 223.5
+        },
+        "text": "{\"breakdown\":{\"other\":111.75,\"refrigeration\":111.75},\"climate_adjustment_factor\":1.35,\"confidence_score\":0.85,\"equipment_summary\":{\"total_other_equipment\":0,\"total_refrigeration_units\":3},\"estimated_consumption_kwh_monthly\":223.5}\n"
+      },
+      "evaluation": {
+        "expectation": "accept",
+        "expected_status": null,
+        "expected_error_code": null,
+        "extracted_kwh_monthly": 223.5,
+        "passed": true,
+        "failure_mode": null
+      },
+      "timing": {
+        "elapsed_ms": 2059,
+        "started_at": "2026-02-22T05:09:16.849654+00:00"
+      }
+    },
+    {
+      "id": "049",
+      "category": "Climate Factor Sensitivity",
+      "name": "climate_factor Unknown City, Country → 1.2",
+      "tags": [
+        "climate"
+      ],
+      "request": {
+        "url": "http://localhost:8000/api/v1/estimate-consumption",
+        "headers_sent": {
+          "Content-Type": "application/json",
+          "X-API-KEY": "***set***"
+        },
+        "payload_sent": {
+          "business_type": "butchery",
+          "sqft_m2": 60,
+          "operating_hours_weekly": 98,
+          "num_refrigeration_units": 3,
+          "location": "Unknown City, Country"
+        },
+        "timeout_seconds": 10
+      },
+      "response": {
+        "status_code": 200,
+        "json": {
+          "breakdown": {
+            "other": 91.28,
+            "refrigeration": 91.28
+          },
+          "climate_adjustment_factor": 1.2,
+          "confidence_score": 0.85,
+          "equipment_summary": {
+            "total_other_equipment": 0,
+            "total_refrigeration_units": 3
+          },
+          "estimated_consumption_kwh_monthly": 182.55
+        },
+        "text": "{\"breakdown\":{\"other\":91.28,\"refrigeration\":91.28},\"climate_adjustment_factor\":1.2,\"confidence_score\":0.85,\"equipment_summary\":{\"total_other_equipment\":0,\"total_refrigeration_units\":3},\"estimated_consumption_kwh_monthly\":182.55}\n"
+      },
+      "evaluation": {
+        "expectation": "accept",
+        "expected_status": null,
+        "expected_error_code": null,
+        "extracted_kwh_monthly": 182.55,
+        "passed": true,
+        "failure_mode": null
+      },
+      "timing": {
+        "elapsed_ms": 2061,
+        "started_at": "2026-02-22T05:09:18.911062+00:00"
+      }
+    },
+    {
+      "id": "050",
+      "category": "Climate Factor Sensitivity",
+      "name": "Lagos kWh > Johannesburg kWh (highest vs lowest factor)",
+      "tags": [
+        "climate",
+        "comparative_lagos"
+      ],
+      "request": {
+        "url": "http://localhost:8000/api/v1/estimate-consumption",
+        "headers_sent": {
+          "Content-Type": "application/json",
+          "X-API-KEY": "***set***"
+        },
+        "payload_sent": {
+          "business_type": "butchery",
+          "sqft_m2": 60,
+          "operating_hours_weekly": 98,
+          "num_refrigeration_units": 3,
+          "location": "Lagos, Nigeria"
+        },
+        "timeout_seconds": 10
+      },
+      "response": {
+        "status_code": 200,
+        "json": {
+          "breakdown": {
+            "other": 111.75,
+            "refrigeration": 111.75
+          },
+          "climate_adjustment_factor": 1.35,
+          "confidence_score": 0.85,
+          "equipment_summary": {
+            "total_other_equipment": 0,
+            "total_refrigeration_units": 3
+          },
+          "estimated_consumption_kwh_monthly": 223.5
+        },
+        "text": "{\"breakdown\":{\"other\":111.75,\"refrigeration\":111.75},\"climate_adjustment_factor\":1.35,\"confidence_score\":0.85,\"equipment_summary\":{\"total_other_equipment\":0,\"total_refrigeration_units\":3},\"estimated_consumption_kwh_monthly\":223.5}\n"
+      },
+      "evaluation": {
+        "expectation": "accept",
+        "expected_status": null,
+        "expected_error_code": null,
+        "extracted_kwh_monthly": 223.5,
+        "passed": true,
+        "failure_mode": null
+      },
+      "timing": {
+        "elapsed_ms": 2090,
+        "started_at": "2026-02-22T05:09:21.001562+00:00"
+      }
+    },
+    {
+      "id": "051",
+      "category": "Climate Factor Sensitivity",
+      "name": "Johannesburg kWh reference (for comparison with Lagos)",
+      "tags": [
+        "climate",
+        "comparative_joburg"
+      ],
+      "request": {
+        "url": "http://localhost:8000/api/v1/estimate-consumption",
+        "headers_sent": {
+          "Content-Type": "application/json",
+          "X-API-KEY": "***set***"
+        },
+        "payload_sent": {
+          "business_type": "butchery",
+          "sqft_m2": 60,
+          "operating_hours_weekly": 98,
+          "num_refrigeration_units": 3,
+          "location": "Johannesburg, South Africa"
+        },
+        "timeout_seconds": 10
+      },
+      "response": {
+        "status_code": 200,
+        "json": {
+          "breakdown": {
+            "other": 88.55,
+            "refrigeration": 88.55
+          },
+          "climate_adjustment_factor": 1.18,
+          "confidence_score": 0.85,
+          "equipment_summary": {
+            "total_other_equipment": 0,
+            "total_refrigeration_units": 3
+          },
+          "estimated_consumption_kwh_monthly": 177.09
+        },
+        "text": "{\"breakdown\":{\"other\":88.55,\"refrigeration\":88.55},\"climate_adjustment_factor\":1.18,\"confidence_score\":0.85,\"equipment_summary\":{\"total_other_equipment\":0,\"total_refrigeration_units\":3},\"estimated_consumption_kwh_monthly\":177.09}\n"
+      },
+      "evaluation": {
+        "expectation": "accept",
+        "expected_status": null,
+        "expected_error_code": null,
+        "extracted_kwh_monthly": 177.09,
+        "passed": true,
+        "failure_mode": null
+      },
+      "timing": {
+        "elapsed_ms": 2040,
+        "started_at": "2026-02-22T05:09:23.041738+00:00"
+      }
+    },
+    {
+      "id": "052",
+      "category": "Input Sensitivity - sqft_m2 sweep",
+      "name": "sqft_m2=20",
+      "tags": [
+        "sweep",
+        "sqft_sweep"
+      ],
+      "request": {
+        "url": "http://localhost:8000/api/v1/estimate-consumption",
+        "headers_sent": {
+          "Content-Type": "application/json",
+          "X-API-KEY": "***set***"
+        },
+        "payload_sent": {
+          "business_type": "butchery",
+          "sqft_m2": 20,
+          "operating_hours_weekly": 98,
+          "num_refrigeration_units": 3,
+          "location": "Lagos, Nigeria"
+        },
+        "timeout_seconds": 10
+      },
+      "response": {
+        "status_code": 200,
+        "json": {
+          "breakdown": {
+            "other": 111.75,
+            "refrigeration": 111.75
+          },
+          "climate_adjustment_factor": 1.35,
+          "confidence_score": 0.85,
+          "equipment_summary": {
+            "total_other_equipment": 0,
+            "total_refrigeration_units": 3
+          },
+          "estimated_consumption_kwh_monthly": 223.5
+        },
+        "text": "{\"breakdown\":{\"other\":111.75,\"refrigeration\":111.75},\"climate_adjustment_factor\":1.35,\"confidence_score\":0.85,\"equipment_summary\":{\"total_other_equipment\":0,\"total_refrigeration_units\":3},\"estimated_consumption_kwh_monthly\":223.5}\n"
+      },
+      "evaluation": {
+        "expectation": "accept",
+        "expected_status": null,
+        "expected_error_code": null,
+        "extracted_kwh_monthly": 223.5,
+        "passed": true,
+        "failure_mode": null
+      },
+      "timing": {
+        "elapsed_ms": 2050,
+        "started_at": "2026-02-22T05:09:25.091914+00:00"
+      }
+    },
+    {
+      "id": "053",
+      "category": "Input Sensitivity - sqft_m2 sweep",
+      "name": "sqft_m2=60",
+      "tags": [
+        "sweep",
+        "sqft_sweep"
+      ],
+      "request": {
+        "url": "http://localhost:8000/api/v1/estimate-consumption",
+        "headers_sent": {
+          "Content-Type": "application/json",
+          "X-API-KEY": "***set***"
+        },
+        "payload_sent": {
+          "business_type": "butchery",
+          "sqft_m2": 60,
+          "operating_hours_weekly": 98,
+          "num_refrigeration_units": 3,
+          "location": "Lagos, Nigeria"
+        },
+        "timeout_seconds": 10
+      },
+      "response": {
+        "status_code": 200,
+        "json": {
+          "breakdown": {
+            "other": 111.75,
+            "refrigeration": 111.75
+          },
+          "climate_adjustment_factor": 1.35,
+          "confidence_score": 0.85,
+          "equipment_summary": {
+            "total_other_equipment": 0,
+            "total_refrigeration_units": 3
+          },
+          "estimated_consumption_kwh_monthly": 223.5
+        },
+        "text": "{\"breakdown\":{\"other\":111.75,\"refrigeration\":111.75},\"climate_adjustment_factor\":1.35,\"confidence_score\":0.85,\"equipment_summary\":{\"total_other_equipment\":0,\"total_refrigeration_units\":3},\"estimated_consumption_kwh_monthly\":223.5}\n"
+      },
+      "evaluation": {
+        "expectation": "accept",
+        "expected_status": null,
+        "expected_error_code": null,
+        "extracted_kwh_monthly": 223.5,
+        "passed": true,
+        "failure_mode": null
+      },
+      "timing": {
+        "elapsed_ms": 2065,
+        "started_at": "2026-02-22T05:09:27.156977+00:00"
+      }
+    },
+    {
+      "id": "054",
+      "category": "Input Sensitivity - sqft_m2 sweep",
+      "name": "sqft_m2=150",
+      "tags": [
+        "sweep",
+        "sqft_sweep"
+      ],
+      "request": {
+        "url": "http://localhost:8000/api/v1/estimate-consumption",
+        "headers_sent": {
+          "Content-Type": "application/json",
+          "X-API-KEY": "***set***"
+        },
+        "payload_sent": {
+          "business_type": "butchery",
+          "sqft_m2": 150,
+          "operating_hours_weekly": 98,
+          "num_refrigeration_units": 3,
+          "location": "Lagos, Nigeria"
+        },
+        "timeout_seconds": 10
+      },
+      "response": {
+        "status_code": 200,
+        "json": {
+          "breakdown": {
+            "other": 120.4,
+            "refrigeration": 120.4
+          },
+          "climate_adjustment_factor": 1.35,
+          "confidence_score": 0.85,
+          "equipment_summary": {
+            "total_other_equipment": 0,
+            "total_refrigeration_units": 3
+          },
+          "estimated_consumption_kwh_monthly": 240.81
+        },
+        "text": "{\"breakdown\":{\"other\":120.4,\"refrigeration\":120.4},\"climate_adjustment_factor\":1.35,\"confidence_score\":0.85,\"equipment_summary\":{\"total_other_equipment\":0,\"total_refrigeration_units\":3},\"estimated_consumption_kwh_monthly\":240.81}\n"
+      },
+      "evaluation": {
+        "expectation": "accept",
+        "expected_status": null,
+        "expected_error_code": null,
+        "extracted_kwh_monthly": 240.81,
+        "passed": true,
+        "failure_mode": null
+      },
+      "timing": {
+        "elapsed_ms": 2083,
+        "started_at": "2026-02-22T05:09:29.240075+00:00"
+      }
+    },
+    {
+      "id": "055",
+      "category": "Input Sensitivity - sqft_m2 sweep",
+      "name": "sqft_m2=500",
+      "tags": [
+        "sweep",
+        "sqft_sweep"
+      ],
+      "request": {
+        "url": "http://localhost:8000/api/v1/estimate-consumption",
+        "headers_sent": {
+          "Content-Type": "application/json",
+          "X-API-KEY": "***set***"
+        },
+        "payload_sent": {
+          "business_type": "butchery",
+          "sqft_m2": 500,
+          "operating_hours_weekly": 98,
+          "num_refrigeration_units": 3,
+          "location": "Lagos, Nigeria"
+        },
+        "timeout_seconds": 10
+      },
+      "response": {
+        "status_code": 200,
+        "json": {
+          "breakdown": {
+            "other": 698.17,
+            "refrigeration": 698.17
+          },
+          "climate_adjustment_factor": 1.35,
+          "confidence_score": 0.85,
+          "equipment_summary": {
+            "total_other_equipment": 0,
+            "total_refrigeration_units": 3
+          },
+          "estimated_consumption_kwh_monthly": 1396.33
+        },
+        "text": "{\"breakdown\":{\"other\":698.17,\"refrigeration\":698.17},\"climate_adjustment_factor\":1.35,\"confidence_score\":0.85,\"equipment_summary\":{\"total_other_equipment\":0,\"total_refrigeration_units\":3},\"estimated_consumption_kwh_monthly\":1396.33}\n"
+      },
+      "evaluation": {
+        "expectation": "accept",
+        "expected_status": null,
+        "expected_error_code": null,
+        "extracted_kwh_monthly": 1396.33,
+        "passed": true,
+        "failure_mode": null
+      },
+      "timing": {
+        "elapsed_ms": 2056,
+        "started_at": "2026-02-22T05:09:31.296495+00:00"
+      }
+    },
+    {
+      "id": "056",
+      "category": "Input Sensitivity - sqft_m2 sweep",
+      "name": "sqft_m2=2000",
+      "tags": [
+        "sweep",
+        "sqft_sweep"
+      ],
+      "request": {
+        "url": "http://localhost:8000/api/v1/estimate-consumption",
+        "headers_sent": {
+          "Content-Type": "application/json",
+          "X-API-KEY": "***set***"
+        },
+        "payload_sent": {
+          "business_type": "butchery",
+          "sqft_m2": 2000,
+          "operating_hours_weekly": 98,
+          "num_refrigeration_units": 3,
+          "location": "Lagos, Nigeria"
+        },
+        "timeout_seconds": 10
+      },
+      "response": {
+        "status_code": 200,
+        "json": {
+          "breakdown": {
+            "other": 2905.9,
+            "refrigeration": 2905.9
+          },
+          "climate_adjustment_factor": 1.35,
+          "confidence_score": 0.85,
+          "equipment_summary": {
+            "total_other_equipment": 0,
+            "total_refrigeration_units": 3
+          },
+          "estimated_consumption_kwh_monthly": 5811.79
+        },
+        "text": "{\"breakdown\":{\"other\":2905.9,\"refrigeration\":2905.9},\"climate_adjustment_factor\":1.35,\"confidence_score\":0.85,\"equipment_summary\":{\"total_other_equipment\":0,\"total_refrigeration_units\":3},\"estimated_consumption_kwh_monthly\":5811.79}\n"
+      },
+      "evaluation": {
+        "expectation": "accept",
+        "expected_status": null,
+        "expected_error_code": null,
+        "extracted_kwh_monthly": 5811.79,
+        "passed": true,
+        "failure_mode": null
+      },
+      "timing": {
+        "elapsed_ms": 2054,
+        "started_at": "2026-02-22T05:09:33.350935+00:00"
+      }
+    },
+    {
+      "id": "057",
+      "category": "Input Sensitivity - operating_hours sweep",
+      "name": "operating_hours_weekly=10",
+      "tags": [
+        "sweep",
+        "hours_sweep"
+      ],
+      "request": {
+        "url": "http://localhost:8000/api/v1/estimate-consumption",
+        "headers_sent": {
+          "Content-Type": "application/json",
+          "X-API-KEY": "***set***"
+        },
+        "payload_sent": {
+          "business_type": "butchery",
+          "sqft_m2": 60,
+          "operating_hours_weekly": 10,
+          "num_refrigeration_units": 3,
+          "location": "Lagos, Nigeria"
+        },
+        "timeout_seconds": 10
+      },
+      "response": {
+        "status_code": 200,
+        "json": {
+          "breakdown": {
+            "other": 63.37,
+            "refrigeration": 63.37
+          },
+          "climate_adjustment_factor": 1.35,
+          "confidence_score": 0.85,
+          "equipment_summary": {
+            "total_other_equipment": 0,
+            "total_refrigeration_units": 3
+          },
+          "estimated_consumption_kwh_monthly": 126.74
+        },
+        "text": "{\"breakdown\":{\"other\":63.37,\"refrigeration\":63.37},\"climate_adjustment_factor\":1.35,\"confidence_score\":0.85,\"equipment_summary\":{\"total_other_equipment\":0,\"total_refrigeration_units\":3},\"estimated_consumption_kwh_monthly\":126.74}\n"
+      },
+      "evaluation": {
+        "expectation": "accept",
+        "expected_status": null,
+        "expected_error_code": null,
+        "extracted_kwh_monthly": 126.74,
+        "passed": true,
+        "failure_mode": null
+      },
+      "timing": {
+        "elapsed_ms": 2047,
+        "started_at": "2026-02-22T05:09:35.398050+00:00"
+      }
+    },
+    {
+      "id": "058",
+      "category": "Input Sensitivity - operating_hours sweep",
+      "name": "operating_hours_weekly=40",
+      "tags": [
+        "sweep",
+        "hours_sweep"
+      ],
+      "request": {
+        "url": "http://localhost:8000/api/v1/estimate-consumption",
+        "headers_sent": {
+          "Content-Type": "application/json",
+          "X-API-KEY": "***set***"
+        },
+        "payload_sent": {
+          "business_type": "butchery",
+          "sqft_m2": 60,
+          "operating_hours_weekly": 40,
+          "num_refrigeration_units": 3,
+          "location": "Lagos, Nigeria"
+        },
+        "timeout_seconds": 10
+      },
+      "response": {
+        "status_code": 200,
+        "json": {
+          "breakdown": {
+            "other": 63.14,
+            "refrigeration": 63.14
+          },
+          "climate_adjustment_factor": 1.35,
+          "confidence_score": 0.85,
+          "equipment_summary": {
+            "total_other_equipment": 0,
+            "total_refrigeration_units": 3
+          },
+          "estimated_consumption_kwh_monthly": 126.28
+        },
+        "text": "{\"breakdown\":{\"other\":63.14,\"refrigeration\":63.14},\"climate_adjustment_factor\":1.35,\"confidence_score\":0.85,\"equipment_summary\":{\"total_other_equipment\":0,\"total_refrigeration_units\":3},\"estimated_consumption_kwh_monthly\":126.28}\n"
+      },
+      "evaluation": {
+        "expectation": "accept",
+        "expected_status": null,
+        "expected_error_code": null,
+        "extracted_kwh_monthly": 126.28,
+        "passed": true,
+        "failure_mode": null
+      },
+      "timing": {
+        "elapsed_ms": 2043,
+        "started_at": "2026-02-22T05:09:37.442120+00:00"
+      }
+    },
+    {
+      "id": "059",
+      "category": "Input Sensitivity - operating_hours sweep",
+      "name": "operating_hours_weekly=80",
+      "tags": [
+        "sweep",
+        "hours_sweep"
+      ],
+      "request": {
+        "url": "http://localhost:8000/api/v1/estimate-consumption",
+        "headers_sent": {
+          "Content-Type": "application/json",
+          "X-API-KEY": "***set***"
+        },
+        "payload_sent": {
+          "business_type": "butchery",
+          "sqft_m2": 60,
+          "operating_hours_weekly": 80,
+          "num_refrigeration_units": 3,
+          "location": "Lagos, Nigeria"
+        },
+        "timeout_seconds": 10
+      },
+      "response": {
+        "status_code": 200,
+        "json": {
+          "breakdown": {
+            "other": 111.75,
+            "refrigeration": 111.75
+          },
+          "climate_adjustment_factor": 1.35,
+          "confidence_score": 0.85,
+          "equipment_summary": {
+            "total_other_equipment": 0,
+            "total_refrigeration_units": 3
+          },
+          "estimated_consumption_kwh_monthly": 223.5
+        },
+        "text": "{\"breakdown\":{\"other\":111.75,\"refrigeration\":111.75},\"climate_adjustment_factor\":1.35,\"confidence_score\":0.85,\"equipment_summary\":{\"total_other_equipment\":0,\"total_refrigeration_units\":3},\"estimated_consumption_kwh_monthly\":223.5}\n"
+      },
+      "evaluation": {
+        "expectation": "accept",
+        "expected_status": null,
+        "expected_error_code": null,
+        "extracted_kwh_monthly": 223.5,
+        "passed": true,
+        "failure_mode": null
+      },
+      "timing": {
+        "elapsed_ms": 2043,
+        "started_at": "2026-02-22T05:09:39.485306+00:00"
+      }
+    },
+    {
+      "id": "060",
+      "category": "Input Sensitivity - operating_hours sweep",
+      "name": "operating_hours_weekly=120",
+      "tags": [
+        "sweep",
+        "hours_sweep"
+      ],
+      "request": {
+        "url": "http://localhost:8000/api/v1/estimate-consumption",
+        "headers_sent": {
+          "Content-Type": "application/json",
+          "X-API-KEY": "***set***"
+        },
+        "payload_sent": {
+          "business_type": "butchery",
+          "sqft_m2": 60,
+          "operating_hours_weekly": 120,
+          "num_refrigeration_units": 3,
+          "location": "Lagos, Nigeria"
+        },
+        "timeout_seconds": 10
+      },
+      "response": {
+        "status_code": 200,
+        "json": {
+          "breakdown": {
+            "other": 113.06,
+            "refrigeration": 113.06
+          },
+          "climate_adjustment_factor": 1.35,
+          "confidence_score": 0.85,
+          "equipment_summary": {
+            "total_other_equipment": 0,
+            "total_refrigeration_units": 3
+          },
+          "estimated_consumption_kwh_monthly": 226.12
+        },
+        "text": "{\"breakdown\":{\"other\":113.06,\"refrigeration\":113.06},\"climate_adjustment_factor\":1.35,\"confidence_score\":0.85,\"equipment_summary\":{\"total_other_equipment\":0,\"total_refrigeration_units\":3},\"estimated_consumption_kwh_monthly\":226.12}\n"
+      },
+      "evaluation": {
+        "expectation": "accept",
+        "expected_status": null,
+        "expected_error_code": null,
+        "extracted_kwh_monthly": 226.12,
+        "passed": true,
+        "failure_mode": null
+      },
+      "timing": {
+        "elapsed_ms": 2056,
+        "started_at": "2026-02-22T05:09:41.542095+00:00"
+      }
+    },
+    {
+      "id": "061",
+      "category": "Input Sensitivity - operating_hours sweep",
+      "name": "operating_hours_weekly=168",
+      "tags": [
+        "sweep",
+        "hours_sweep"
+      ],
+      "request": {
+        "url": "http://localhost:8000/api/v1/estimate-consumption",
+        "headers_sent": {
+          "Content-Type": "application/json",
+          "X-API-KEY": "***set***"
+        },
+        "payload_sent": {
+          "business_type": "butchery",
+          "sqft_m2": 60,
+          "operating_hours_weekly": 168,
+          "num_refrigeration_units": 3,
+          "location": "Lagos, Nigeria"
+        },
+        "timeout_seconds": 10
+      },
+      "response": {
+        "status_code": 200,
+        "json": {
+          "breakdown": {
+            "other": 103.32,
+            "refrigeration": 103.32
+          },
+          "climate_adjustment_factor": 1.35,
+          "confidence_score": 0.85,
+          "equipment_summary": {
+            "total_other_equipment": 0,
+            "total_refrigeration_units": 3
+          },
+          "estimated_consumption_kwh_monthly": 206.63
+        },
+        "text": "{\"breakdown\":{\"other\":103.32,\"refrigeration\":103.32},\"climate_adjustment_factor\":1.35,\"confidence_score\":0.85,\"equipment_summary\":{\"total_other_equipment\":0,\"total_refrigeration_units\":3},\"estimated_consumption_kwh_monthly\":206.63}\n"
+      },
+      "evaluation": {
+        "expectation": "accept",
+        "expected_status": null,
+        "expected_error_code": null,
+        "extracted_kwh_monthly": 206.63,
+        "passed": true,
+        "failure_mode": null
+      },
+      "timing": {
+        "elapsed_ms": 2068,
+        "started_at": "2026-02-22T05:09:43.610123+00:00"
+      }
+    },
+    {
+      "id": "062",
+      "category": "Input Sensitivity - refrigeration sweep",
+      "name": "num_refrigeration_units=0",
+      "tags": [
+        "sweep",
+        "refrigeration_sweep"
+      ],
+      "request": {
+        "url": "http://localhost:8000/api/v1/estimate-consumption",
+        "headers_sent": {
+          "Content-Type": "application/json",
+          "X-API-KEY": "***set***"
+        },
+        "payload_sent": {
+          "business_type": "butchery",
+          "sqft_m2": 60,
+          "operating_hours_weekly": 98,
+          "num_refrigeration_units": 0,
+          "location": "Lagos, Nigeria"
+        },
+        "timeout_seconds": 10
+      },
+      "response": {
+        "status_code": 200,
+        "json": {
+          "breakdown": {
+            "other": 110.84,
+            "refrigeration": 110.84
+          },
+          "climate_adjustment_factor": 1.35,
+          "confidence_score": 0.75,
+          "equipment_summary": {
+            "total_other_equipment": 0,
+            "total_refrigeration_units": 0
+          },
+          "estimated_consumption_kwh_monthly": 221.68
+        },
+        "text": "{\"breakdown\":{\"other\":110.84,\"refrigeration\":110.84},\"climate_adjustment_factor\":1.35,\"confidence_score\":0.75,\"equipment_summary\":{\"total_other_equipment\":0,\"total_refrigeration_units\":0},\"estimated_consumption_kwh_monthly\":221.68}\n"
+      },
+      "evaluation": {
+        "expectation": "accept",
+        "expected_status": null,
+        "expected_error_code": null,
+        "extracted_kwh_monthly": 221.68,
+        "passed": true,
+        "failure_mode": null
+      },
+      "timing": {
+        "elapsed_ms": 2033,
+        "started_at": "2026-02-22T05:09:45.643991+00:00"
+      }
+    },
+    {
+      "id": "063",
+      "category": "Input Sensitivity - refrigeration sweep",
+      "name": "num_refrigeration_units=1",
+      "tags": [
+        "sweep",
+        "refrigeration_sweep"
+      ],
+      "request": {
+        "url": "http://localhost:8000/api/v1/estimate-consumption",
+        "headers_sent": {
+          "Content-Type": "application/json",
+          "X-API-KEY": "***set***"
+        },
+        "payload_sent": {
+          "business_type": "butchery",
+          "sqft_m2": 60,
+          "operating_hours_weekly": 98,
+          "num_refrigeration_units": 1,
+          "location": "Lagos, Nigeria"
+        },
+        "timeout_seconds": 10
+      },
+      "response": {
+        "status_code": 200,
+        "json": {
+          "breakdown": {
+            "other": 88.43,
+            "refrigeration": 88.43
+          },
+          "climate_adjustment_factor": 1.35,
+          "confidence_score": 0.85,
+          "equipment_summary": {
+            "total_other_equipment": 0,
+            "total_refrigeration_units": 1
+          },
+          "estimated_consumption_kwh_monthly": 176.86
+        },
+        "text": "{\"breakdown\":{\"other\":88.43,\"refrigeration\":88.43},\"climate_adjustment_factor\":1.35,\"confidence_score\":0.85,\"equipment_summary\":{\"total_other_equipment\":0,\"total_refrigeration_units\":1},\"estimated_consumption_kwh_monthly\":176.86}\n"
+      },
+      "evaluation": {
+        "expectation": "accept",
+        "expected_status": null,
+        "expected_error_code": null,
+        "extracted_kwh_monthly": 176.86,
+        "passed": true,
+        "failure_mode": null
+      },
+      "timing": {
+        "elapsed_ms": 2027,
+        "started_at": "2026-02-22T05:09:47.671676+00:00"
+      }
+    },
+    {
+      "id": "064",
+      "category": "Input Sensitivity - refrigeration sweep",
+      "name": "num_refrigeration_units=3",
+      "tags": [
+        "sweep",
+        "refrigeration_sweep"
+      ],
+      "request": {
+        "url": "http://localhost:8000/api/v1/estimate-consumption",
+        "headers_sent": {
+          "Content-Type": "application/json",
+          "X-API-KEY": "***set***"
+        },
+        "payload_sent": {
+          "business_type": "butchery",
+          "sqft_m2": 60,
+          "operating_hours_weekly": 98,
+          "num_refrigeration_units": 3,
+          "location": "Lagos, Nigeria"
+        },
+        "timeout_seconds": 10
+      },
+      "response": {
+        "status_code": 200,
+        "json": {
+          "breakdown": {
+            "other": 111.75,
+            "refrigeration": 111.75
+          },
+          "climate_adjustment_factor": 1.35,
+          "confidence_score": 0.85,
+          "equipment_summary": {
+            "total_other_equipment": 0,
+            "total_refrigeration_units": 3
+          },
+          "estimated_consumption_kwh_monthly": 223.5
+        },
+        "text": "{\"breakdown\":{\"other\":111.75,\"refrigeration\":111.75},\"climate_adjustment_factor\":1.35,\"confidence_score\":0.85,\"equipment_summary\":{\"total_other_equipment\":0,\"total_refrigeration_units\":3},\"estimated_consumption_kwh_monthly\":223.5}\n"
+      },
+      "evaluation": {
+        "expectation": "accept",
+        "expected_status": null,
+        "expected_error_code": null,
+        "extracted_kwh_monthly": 223.5,
+        "passed": true,
+        "failure_mode": null
+      },
+      "timing": {
+        "elapsed_ms": 2039,
+        "started_at": "2026-02-22T05:09:49.711660+00:00"
+      }
+    },
+    {
+      "id": "065",
+      "category": "Input Sensitivity - refrigeration sweep",
+      "name": "num_refrigeration_units=10",
+      "tags": [
+        "sweep",
+        "refrigeration_sweep"
+      ],
+      "request": {
+        "url": "http://localhost:8000/api/v1/estimate-consumption",
+        "headers_sent": {
+          "Content-Type": "application/json",
+          "X-API-KEY": "***set***"
+        },
+        "payload_sent": {
+          "business_type": "butchery",
+          "sqft_m2": 60,
+          "operating_hours_weekly": 98,
+          "num_refrigeration_units": 10,
+          "location": "Lagos, Nigeria"
+        },
+        "timeout_seconds": 10
+      },
+      "response": {
+        "status_code": 200,
+        "json": {
+          "breakdown": {
+            "other": 139.6,
+            "refrigeration": 325.72
+          },
+          "climate_adjustment_factor": 1.35,
+          "confidence_score": 0.85,
+          "equipment_summary": {
+            "total_other_equipment": 0,
+            "total_refrigeration_units": 10
+          },
+          "estimated_consumption_kwh_monthly": 465.32
+        },
+        "text": "{\"breakdown\":{\"other\":139.6,\"refrigeration\":325.72},\"climate_adjustment_factor\":1.35,\"confidence_score\":0.85,\"equipment_summary\":{\"total_other_equipment\":0,\"total_refrigeration_units\":10},\"estimated_consumption_kwh_monthly\":465.32}\n"
+      },
+      "evaluation": {
+        "expectation": "accept",
+        "expected_status": null,
+        "expected_error_code": null,
+        "extracted_kwh_monthly": 465.32,
+        "passed": true,
+        "failure_mode": null
+      },
+      "timing": {
+        "elapsed_ms": 2039,
+        "started_at": "2026-02-22T05:09:51.750984+00:00"
+      }
+    },
+    {
+      "id": "066",
+      "category": "Input Sensitivity - refrigeration sweep",
+      "name": "num_refrigeration_units=50",
+      "tags": [
+        "sweep",
+        "refrigeration_sweep"
+      ],
+      "request": {
+        "url": "http://localhost:8000/api/v1/estimate-consumption",
+        "headers_sent": {
+          "Content-Type": "application/json",
+          "X-API-KEY": "***set***"
+        },
+        "payload_sent": {
+          "business_type": "butchery",
+          "sqft_m2": 60,
+          "operating_hours_weekly": 98,
+          "num_refrigeration_units": 50,
+          "location": "Lagos, Nigeria"
+        },
+        "timeout_seconds": 10
+      },
+      "response": {
+        "status_code": 200,
+        "json": {
+          "breakdown": {
+            "other": 487.6,
+            "refrigeration": 1137.72
+          },
+          "climate_adjustment_factor": 1.35,
+          "confidence_score": 0.85,
+          "equipment_summary": {
+            "total_other_equipment": 0,
+            "total_refrigeration_units": 50
+          },
+          "estimated_consumption_kwh_monthly": 1625.32
+        },
+        "text": "{\"breakdown\":{\"other\":487.6,\"refrigeration\":1137.72},\"climate_adjustment_factor\":1.35,\"confidence_score\":0.85,\"equipment_summary\":{\"total_other_equipment\":0,\"total_refrigeration_units\":50},\"estimated_consumption_kwh_monthly\":1625.32}\n"
+      },
+      "evaluation": {
+        "expectation": "accept",
+        "expected_status": null,
+        "expected_error_code": null,
+        "extracted_kwh_monthly": 1625.32,
+        "passed": true,
+        "failure_mode": null
+      },
+      "timing": {
+        "elapsed_ms": 2045,
+        "started_at": "2026-02-22T05:09:53.796879+00:00"
+      }
+    },
+    {
+      "id": "067",
+      "category": "Input Sensitivity - num_workers sweep",
+      "name": "num_workers=1",
+      "tags": [
+        "sweep",
+        "workers_sweep"
+      ],
+      "request": {
+        "url": "http://localhost:8000/api/v1/estimate-consumption",
+        "headers_sent": {
+          "Content-Type": "application/json",
+          "X-API-KEY": "***set***"
+        },
+        "payload_sent": {
+          "business_type": "butchery",
+          "sqft_m2": 60,
+          "operating_hours_weekly": 98,
+          "num_refrigeration_units": 3,
+          "location": "Lagos, Nigeria",
+          "num_workers": 1
+        },
+        "timeout_seconds": 10
+      },
+      "response": {
+        "status_code": 200,
+        "json": {
+          "breakdown": {
+            "other": 71.18,
+            "refrigeration": 166.08
+          },
+          "climate_adjustment_factor": 1.35,
+          "confidence_score": 0.85,
+          "equipment_summary": {
+            "total_other_equipment": 0,
+            "total_refrigeration_units": 3
+          },
+          "estimated_consumption_kwh_monthly": 237.25
+        },
+        "text": "{\"breakdown\":{\"other\":71.18,\"refrigeration\":166.08},\"climate_adjustment_factor\":1.35,\"confidence_score\":0.85,\"equipment_summary\":{\"total_other_equipment\":0,\"total_refrigeration_units\":3},\"estimated_consumption_kwh_monthly\":237.25}\n"
+      },
+      "evaluation": {
+        "expectation": "accept",
+        "expected_status": null,
+        "expected_error_code": null,
+        "extracted_kwh_monthly": 237.25,
+        "passed": true,
+        "failure_mode": null
+      },
+      "timing": {
+        "elapsed_ms": 2057,
+        "started_at": "2026-02-22T05:09:55.853893+00:00"
+      }
+    },
+    {
+      "id": "068",
+      "category": "Input Sensitivity - num_workers sweep",
+      "name": "num_workers=5",
+      "tags": [
+        "sweep",
+        "workers_sweep"
+      ],
+      "request": {
+        "url": "http://localhost:8000/api/v1/estimate-consumption",
+        "headers_sent": {
+          "Content-Type": "application/json",
+          "X-API-KEY": "***set***"
+        },
+        "payload_sent": {
+          "business_type": "butchery",
+          "sqft_m2": 60,
+          "operating_hours_weekly": 98,
+          "num_refrigeration_units": 3,
+          "location": "Lagos, Nigeria",
+          "num_workers": 5
+        },
+        "timeout_seconds": 10
+      },
+      "response": {
+        "status_code": 200,
+        "json": {
+          "breakdown": {
+            "other": 111.75,
+            "refrigeration": 111.75
+          },
+          "climate_adjustment_factor": 1.35,
+          "confidence_score": 0.85,
+          "equipment_summary": {
+            "total_other_equipment": 0,
+            "total_refrigeration_units": 3
+          },
+          "estimated_consumption_kwh_monthly": 223.5
+        },
+        "text": "{\"breakdown\":{\"other\":111.75,\"refrigeration\":111.75},\"climate_adjustment_factor\":1.35,\"confidence_score\":0.85,\"equipment_summary\":{\"total_other_equipment\":0,\"total_refrigeration_units\":3},\"estimated_consumption_kwh_monthly\":223.5}\n"
+      },
+      "evaluation": {
+        "expectation": "accept",
+        "expected_status": null,
+        "expected_error_code": null,
+        "extracted_kwh_monthly": 223.5,
+        "passed": true,
+        "failure_mode": null
+      },
+      "timing": {
+        "elapsed_ms": 2024,
+        "started_at": "2026-02-22T05:09:57.878141+00:00"
+      }
+    },
+    {
+      "id": "069",
+      "category": "Input Sensitivity - num_workers sweep",
+      "name": "num_workers=20",
+      "tags": [
+        "sweep",
+        "workers_sweep"
+      ],
+      "request": {
+        "url": "http://localhost:8000/api/v1/estimate-consumption",
+        "headers_sent": {
+          "Content-Type": "application/json",
+          "X-API-KEY": "***set***"
+        },
+        "payload_sent": {
+          "business_type": "butchery",
+          "sqft_m2": 60,
+          "operating_hours_weekly": 98,
+          "num_refrigeration_units": 3,
+          "location": "Lagos, Nigeria",
+          "num_workers": 20
+        },
+        "timeout_seconds": 10
+      },
+      "response": {
+        "status_code": 200,
+        "json": {
+          "breakdown": {
+            "other": 302.6,
+            "refrigeration": 302.6
+          },
+          "climate_adjustment_factor": 1.35,
+          "confidence_score": 0.85,
+          "equipment_summary": {
+            "total_other_equipment": 0,
+            "total_refrigeration_units": 3
+          },
+          "estimated_consumption_kwh_monthly": 605.2
+        },
+        "text": "{\"breakdown\":{\"other\":302.6,\"refrigeration\":302.6},\"climate_adjustment_factor\":1.35,\"confidence_score\":0.85,\"equipment_summary\":{\"total_other_equipment\":0,\"total_refrigeration_units\":3},\"estimated_consumption_kwh_monthly\":605.2}\n"
+      },
+      "evaluation": {
+        "expectation": "accept",
+        "expected_status": null,
+        "expected_error_code": null,
+        "extracted_kwh_monthly": 605.2,
+        "passed": true,
+        "failure_mode": null
+      },
+      "timing": {
+        "elapsed_ms": 2066,
+        "started_at": "2026-02-22T05:09:59.944227+00:00"
+      }
+    },
+    {
+      "id": "070",
+      "category": "Input Sensitivity - num_workers sweep",
+      "name": "num_workers=100",
+      "tags": [
+        "sweep",
+        "workers_sweep"
+      ],
+      "request": {
+        "url": "http://localhost:8000/api/v1/estimate-consumption",
+        "headers_sent": {
+          "Content-Type": "application/json",
+          "X-API-KEY": "***set***"
+        },
+        "payload_sent": {
+          "business_type": "butchery",
+          "sqft_m2": 60,
+          "operating_hours_weekly": 98,
+          "num_refrigeration_units": 3,
+          "location": "Lagos, Nigeria",
+          "num_workers": 100
+        },
+        "timeout_seconds": 10
+      },
+      "response": {
+        "status_code": 200,
+        "json": {
+          "breakdown": {
+            "other": 378.66,
+            "refrigeration": 378.66
+          },
+          "climate_adjustment_factor": 1.35,
+          "confidence_score": 0.85,
+          "equipment_summary": {
+            "total_other_equipment": 0,
+            "total_refrigeration_units": 3
+          },
+          "estimated_consumption_kwh_monthly": 757.33
+        },
+        "text": "{\"breakdown\":{\"other\":378.66,\"refrigeration\":378.66},\"climate_adjustment_factor\":1.35,\"confidence_score\":0.85,\"equipment_summary\":{\"total_other_equipment\":0,\"total_refrigeration_units\":3},\"estimated_consumption_kwh_monthly\":757.33}\n"
+      },
+      "evaluation": {
+        "expectation": "accept",
+        "expected_status": null,
+        "expected_error_code": null,
+        "extracted_kwh_monthly": 757.33,
+        "passed": true,
+        "failure_mode": null
+      },
+      "timing": {
+        "elapsed_ms": 2018,
+        "started_at": "2026-02-22T05:10:01.962404+00:00"
+      }
+    },
+    {
+      "id": "071",
+      "category": "Input Sensitivity - business type comparison",
+      "name": "business_type=butchery kWh in [0, 1_000_000]",
+      "tags": [
+        "sweep",
+        "business_type_sweep"
+      ],
+      "request": {
+        "url": "http://localhost:8000/api/v1/estimate-consumption",
+        "headers_sent": {
+          "Content-Type": "application/json",
+          "X-API-KEY": "***set***"
+        },
+        "payload_sent": {
+          "business_type": "butchery",
+          "sqft_m2": 60,
+          "operating_hours_weekly": 98,
+          "num_refrigeration_units": 3,
+          "location": "Lagos, Nigeria"
+        },
+        "timeout_seconds": 10
+      },
+      "response": {
+        "status_code": 200,
+        "json": {
+          "breakdown": {
+            "other": 111.75,
+            "refrigeration": 111.75
+          },
+          "climate_adjustment_factor": 1.35,
+          "confidence_score": 0.85,
+          "equipment_summary": {
+            "total_other_equipment": 0,
+            "total_refrigeration_units": 3
+          },
+          "estimated_consumption_kwh_monthly": 223.5
+        },
+        "text": "{\"breakdown\":{\"other\":111.75,\"refrigeration\":111.75},\"climate_adjustment_factor\":1.35,\"confidence_score\":0.85,\"equipment_summary\":{\"total_other_equipment\":0,\"total_refrigeration_units\":3},\"estimated_consumption_kwh_monthly\":223.5}\n"
+      },
+      "evaluation": {
+        "expectation": "accept",
+        "expected_status": null,
+        "expected_error_code": null,
+        "extracted_kwh_monthly": 223.5,
+        "passed": true,
+        "failure_mode": null
+      },
+      "timing": {
+        "elapsed_ms": 2059,
+        "started_at": "2026-02-22T05:10:04.021496+00:00"
+      }
+    },
+    {
+      "id": "072",
+      "category": "Input Sensitivity - business type comparison",
+      "name": "business_type=grocery kWh in [0, 1_000_000]",
+      "tags": [
+        "sweep",
+        "business_type_sweep"
+      ],
+      "request": {
+        "url": "http://localhost:8000/api/v1/estimate-consumption",
+        "headers_sent": {
+          "Content-Type": "application/json",
+          "X-API-KEY": "***set***"
+        },
+        "payload_sent": {
+          "business_type": "grocery",
+          "sqft_m2": 60,
+          "operating_hours_weekly": 98,
+          "num_refrigeration_units": 3,
+          "location": "Lagos, Nigeria"
+        },
+        "timeout_seconds": 10
+      },
+      "response": {
+        "status_code": 200,
+        "json": {
+          "breakdown": {
+            "other": 111.75,
+            "refrigeration": 111.75
+          },
+          "climate_adjustment_factor": 1.35,
+          "confidence_score": 0.85,
+          "equipment_summary": {
+            "total_other_equipment": 0,
+            "total_refrigeration_units": 3
+          },
+          "estimated_consumption_kwh_monthly": 223.5
+        },
+        "text": "{\"breakdown\":{\"other\":111.75,\"refrigeration\":111.75},\"climate_adjustment_factor\":1.35,\"confidence_score\":0.85,\"equipment_summary\":{\"total_other_equipment\":0,\"total_refrigeration_units\":3},\"estimated_consumption_kwh_monthly\":223.5}\n"
+      },
+      "evaluation": {
+        "expectation": "accept",
+        "expected_status": null,
+        "expected_error_code": null,
+        "extracted_kwh_monthly": 223.5,
+        "passed": true,
+        "failure_mode": null
+      },
+      "timing": {
+        "elapsed_ms": 2064,
+        "started_at": "2026-02-22T05:10:06.085721+00:00"
+      }
+    },
+    {
+      "id": "073",
+      "category": "Input Sensitivity - business type comparison",
+      "name": "business_type=mini_supermarket kWh in [0, 1_000_000]",
+      "tags": [
+        "sweep",
+        "business_type_sweep"
+      ],
+      "request": {
+        "url": "http://localhost:8000/api/v1/estimate-consumption",
+        "headers_sent": {
+          "Content-Type": "application/json",
+          "X-API-KEY": "***set***"
+        },
+        "payload_sent": {
+          "business_type": "mini_supermarket",
+          "sqft_m2": 60,
+          "operating_hours_weekly": 98,
+          "num_refrigeration_units": 3,
+          "location": "Lagos, Nigeria"
+        },
+        "timeout_seconds": 10
+      },
+      "response": {
+        "status_code": 200,
+        "json": {
+          "breakdown": {
+            "other": 111.75,
+            "refrigeration": 111.75
+          },
+          "climate_adjustment_factor": 1.35,
+          "confidence_score": 0.85,
+          "equipment_summary": {
+            "total_other_equipment": 0,
+            "total_refrigeration_units": 3
+          },
+          "estimated_consumption_kwh_monthly": 223.5
+        },
+        "text": "{\"breakdown\":{\"other\":111.75,\"refrigeration\":111.75},\"climate_adjustment_factor\":1.35,\"confidence_score\":0.85,\"equipment_summary\":{\"total_other_equipment\":0,\"total_refrigeration_units\":3},\"estimated_consumption_kwh_monthly\":223.5}\n"
+      },
+      "evaluation": {
+        "expectation": "accept",
+        "expected_status": null,
+        "expected_error_code": null,
+        "extracted_kwh_monthly": 223.5,
+        "passed": true,
+        "failure_mode": null
+      },
+      "timing": {
+        "elapsed_ms": 2087,
+        "started_at": "2026-02-22T05:10:08.174418+00:00"
+      }
+    },
+    {
+      "id": "074",
+      "category": "Confidence Score Logic",
+      "name": "num_refrigeration_units=0 → confidence_score=0.75",
+      "tags": [
+        "confidence"
+      ],
+      "request": {
+        "url": "http://localhost:8000/api/v1/estimate-consumption",
+        "headers_sent": {
+          "Content-Type": "application/json",
+          "X-API-KEY": "***set***"
+        },
+        "payload_sent": {
+          "business_type": "butchery",
+          "sqft_m2": 60,
+          "operating_hours_weekly": 98,
+          "num_refrigeration_units": 0,
+          "location": "Lagos, Nigeria"
+        },
+        "timeout_seconds": 10
+      },
+      "response": {
+        "status_code": 200,
+        "json": {
+          "breakdown": {
+            "other": 110.84,
+            "refrigeration": 110.84
+          },
+          "climate_adjustment_factor": 1.35,
+          "confidence_score": 0.75,
+          "equipment_summary": {
+            "total_other_equipment": 0,
+            "total_refrigeration_units": 0
+          },
+          "estimated_consumption_kwh_monthly": 221.68
+        },
+        "text": "{\"breakdown\":{\"other\":110.84,\"refrigeration\":110.84},\"climate_adjustment_factor\":1.35,\"confidence_score\":0.75,\"equipment_summary\":{\"total_other_equipment\":0,\"total_refrigeration_units\":0},\"estimated_consumption_kwh_monthly\":221.68}\n"
+      },
+      "evaluation": {
+        "expectation": "accept",
+        "expected_status": null,
+        "expected_error_code": null,
+        "extracted_kwh_monthly": 221.68,
+        "passed": true,
+        "failure_mode": null
+      },
+      "timing": {
+        "elapsed_ms": 2074,
+        "started_at": "2026-02-22T05:10:10.249037+00:00"
+      }
+    },
+    {
+      "id": "075",
+      "category": "Confidence Score Logic",
+      "name": "positive inputs → confidence_score=0.85",
+      "tags": [
+        "confidence"
+      ],
+      "request": {
+        "url": "http://localhost:8000/api/v1/estimate-consumption",
+        "headers_sent": {
+          "Content-Type": "application/json",
+          "X-API-KEY": "***set***"
+        },
+        "payload_sent": {
+          "business_type": "butchery",
+          "sqft_m2": 60,
+          "operating_hours_weekly": 98,
+          "num_refrigeration_units": 3,
+          "location": "Lagos, Nigeria"
+        },
+        "timeout_seconds": 10
+      },
+      "response": {
+        "status_code": 200,
+        "json": {
+          "breakdown": {
+            "other": 111.75,
+            "refrigeration": 111.75
+          },
+          "climate_adjustment_factor": 1.35,
+          "confidence_score": 0.85,
+          "equipment_summary": {
+            "total_other_equipment": 0,
+            "total_refrigeration_units": 3
+          },
+          "estimated_consumption_kwh_monthly": 223.5
+        },
+        "text": "{\"breakdown\":{\"other\":111.75,\"refrigeration\":111.75},\"climate_adjustment_factor\":1.35,\"confidence_score\":0.85,\"equipment_summary\":{\"total_other_equipment\":0,\"total_refrigeration_units\":3},\"estimated_consumption_kwh_monthly\":223.5}\n"
+      },
+      "evaluation": {
+        "expectation": "accept",
+        "expected_status": null,
+        "expected_error_code": null,
+        "extracted_kwh_monthly": 223.5,
+        "passed": true,
+        "failure_mode": null
+      },
+      "timing": {
+        "elapsed_ms": 2062,
+        "started_at": "2026-02-22T05:10:12.311950+00:00"
+      }
+    },
+    {
+      "id": "076",
+      "category": "Confidence Score Logic",
+      "name": "extreme low inputs → confidence_score in [0,1]",
+      "tags": [
+        "confidence"
+      ],
+      "request": {
+        "url": "http://localhost:8000/api/v1/estimate-consumption",
+        "headers_sent": {
+          "Content-Type": "application/json",
+          "X-API-KEY": "***set***"
+        },
+        "payload_sent": {
+          "business_type": "butchery",
+          "sqft_m2": 0.001,
+          "operating_hours_weekly": 1,
+          "num_refrigeration_units": 0,
+          "location": "Lagos, Nigeria"
+        },
+        "timeout_seconds": 10
+      },
+      "response": {
+        "status_code": 200,
+        "json": {
+          "breakdown": {
+            "other": 50.09,
+            "refrigeration": 50.09
+          },
+          "climate_adjustment_factor": 1.35,
+          "confidence_score": 0.75,
+          "equipment_summary": {
+            "total_other_equipment": 0,
+            "total_refrigeration_units": 0
+          },
+          "estimated_consumption_kwh_monthly": 100.18
+        },
+        "text": "{\"breakdown\":{\"other\":50.09,\"refrigeration\":50.09},\"climate_adjustment_factor\":1.35,\"confidence_score\":0.75,\"equipment_summary\":{\"total_other_equipment\":0,\"total_refrigeration_units\":0},\"estimated_consumption_kwh_monthly\":100.18}\n"
+      },
+      "evaluation": {
+        "expectation": "accept",
+        "expected_status": null,
+        "expected_error_code": null,
+        "extracted_kwh_monthly": 100.18,
+        "passed": true,
+        "failure_mode": null
+      },
+      "timing": {
+        "elapsed_ms": 2094,
+        "started_at": "2026-02-22T05:10:14.406535+00:00"
+      }
+    },
+    {
+      "id": "077",
+      "category": "Confidence Score Logic",
+      "name": "extreme high inputs → confidence_score in [0,1]",
+      "tags": [
+        "confidence"
+      ],
+      "request": {
+        "url": "http://localhost:8000/api/v1/estimate-consumption",
+        "headers_sent": {
+          "Content-Type": "application/json",
+          "X-API-KEY": "***set***"
+        },
+        "payload_sent": {
+          "business_type": "butchery",
+          "sqft_m2": 10000,
+          "operating_hours_weekly": 168,
+          "num_refrigeration_units": 500,
+          "location": "Lagos, Nigeria"
+        },
+        "timeout_seconds": 10
+      },
+      "response": {
+        "status_code": 200,
+        "json": {
+          "breakdown": {
+            "other": 16947.65,
+            "refrigeration": 39544.51
+          },
+          "climate_adjustment_factor": 1.35,
+          "confidence_score": 0.85,
+          "equipment_summary": {
+            "total_other_equipment": 0,
+            "total_refrigeration_units": 500
+          },
+          "estimated_consumption_kwh_monthly": 56492.15
+        },
+        "text": "{\"breakdown\":{\"other\":16947.65,\"refrigeration\":39544.51},\"climate_adjustment_factor\":1.35,\"confidence_score\":0.85,\"equipment_summary\":{\"total_other_equipment\":0,\"total_refrigeration_units\":500},\"estimated_consumption_kwh_monthly\":56492.15}\n"
+      },
+      "evaluation": {
+        "expectation": "accept",
+        "expected_status": null,
+        "expected_error_code": null,
+        "extracted_kwh_monthly": 56492.15,
+        "passed": true,
+        "failure_mode": null
+      },
+      "timing": {
+        "elapsed_ms": 2052,
+        "started_at": "2026-02-22T05:10:16.463738+00:00"
+      }
+    }
+  ],
+  "cross_case_checks": [
+    {
+      "check": "sqft_m2 sweep monotonically increasing",
+      "passed": true,
+      "values": [
+        223.5,
+        223.5,
+        240.81,
+        1396.33,
+        5811.79
+      ],
+      "failure_mode": null
+    },
+    {
+      "check": "operating_hours_weekly sweep monotonically increasing",
+      "passed": false,
+      "values": [
+        126.74,
+        126.28,
+        223.5,
+        226.12,
+        206.63
+      ],
+      "failure_mode": "not_monotonic: [126.74, 126.28, 223.5, 226.12, 206.63]"
+    },
+    {
+      "check": "refrigeration sweep: share 50-70% and increases with units",
+      "passed": true,
+      "refrigeration_kwh_values": [
+        110.84,
+        88.43,
+        111.75,
+        325.72,
+        1137.72
+      ],
+      "failure_mode": null
+    },
+    {
+      "check": "Lagos monthly kWh > Johannesburg monthly kWh",
+      "passed": true,
+      "kwh_lagos": 223.5,
+      "kwh_johannesburg": 177.09,
+      "failure_mode": null
+    },
+    {
+      "check": "climate_adjustment_factor for 'Lagos, Nigeria'",
+      "passed": true,
+      "expected": 1.35,
+      "actual": 1.35,
+      "failure_mode": null
+    },
+    {
+      "check": "climate_adjustment_factor for 'Accra, Ghana'",
+      "passed": true,
+      "expected": 1.3,
+      "actual": 1.3,
+      "failure_mode": null
+    },
+    {
+      "check": "climate_adjustment_factor for 'Nairobi, Kenya'",
+      "passed": true,
+      "expected": 1.2,
+      "actual": 1.2,
+      "failure_mode": null
+    },
+    {
+      "check": "climate_adjustment_factor for 'Kampala, Uganda'",
+      "passed": true,
+      "expected": 1.25,
+      "actual": 1.25,
+      "failure_mode": null
+    },
+    {
+      "check": "climate_adjustment_factor for 'Johannesburg, South Africa'",
+      "passed": true,
+      "expected": 1.18,
+      "actual": 1.18,
+      "failure_mode": null
+    },
+    {
+      "check": "climate_adjustment_factor for 'Dar es Salaam, Tanzania'",
+      "passed": true,
+      "expected": 1.35,
+      "actual": 1.35,
+      "failure_mode": null
+    },
+    {
+      "check": "climate_adjustment_factor for 'Unknown City, Country'",
+      "passed": true,
+      "expected": 1.2,
+      "actual": 1.2,
+      "failure_mode": null
+    },
+    {
+      "check": "confidence_score == 0.75 for 'num_refrigeration_units=0 → confidence_score=0.75'",
+      "passed": true,
+      "actual": 0.75,
+      "failure_mode": null
+    },
+    {
+      "check": "confidence_score == 0.85 for 'positive inputs → confidence_score=0.85'",
+      "passed": true,
+      "actual": 0.85,
+      "failure_mode": null
+    },
+    {
+      "check": "confidence_score in [0,1] for 'extreme low inputs → confidence_score in [0,1]'",
+      "passed": true,
+      "actual": 0.75,
+      "failure_mode": null
+    },
+    {
+      "check": "confidence_score in [0,1] for 'extreme high inputs → confidence_score in [0,1]'",
+      "passed": true,
+      "actual": 0.85,
+      "failure_mode": null
+    }
+  ]
+}
