@@ -20,7 +20,7 @@ Usage:
     python integration_tests_v3.py
 
     # Override base URLs if not running on localhost:
-    export MODEL_1_BASE_URL=https://dse-models-production.up.railway.app
+    export MODEL_1_BASE_URL=https://dse-models-production.up.railway.app 
     export MODEL_4_BASE_URL=https://your-model4.railway.app
 
     # Run only specific suites:
@@ -42,10 +42,10 @@ from requests.exceptions import RequestException, Timeout
 # CONFIGURATION
 # ============================================================================
 
-MODEL_1_BASE_URL = os.getenv("MODEL_1_BASE_URL", "http://localhost:8000")
-MODEL_2_BASE_URL = os.getenv("MODEL_2_BASE_URL", "http://localhost:8000")
-MODEL_3_BASE_URL = os.getenv("MODEL_3_BASE_URL", "http://localhost:8000")
-MODEL_4_BASE_URL = os.getenv("MODEL_4_BASE_URL", "http://localhost:8000")
+MODEL_1_BASE_URL = os.getenv("MODEL_1_BASE_URL", "https://dse-models-production.up.railway.app")
+MODEL_2_BASE_URL = os.getenv("MODEL_2_BASE_URL", "https://dse-models-production.up.railway.app")
+MODEL_3_BASE_URL = os.getenv("MODEL_3_BASE_URL", "https://dse-models-production.up.railway.app")
+MODEL_4_BASE_URL = os.getenv("MODEL_4_BASE_URL", "https://dse-models-production.up.railway.app")
 
 MODEL_1_ENDPOINT   = f"{MODEL_1_BASE_URL}/api/v1/estimate-consumption"
 MODEL_2_ENDPOINT   = f"{MODEL_2_BASE_URL}/api/v1/predict-generation"

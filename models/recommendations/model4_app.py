@@ -483,7 +483,8 @@ def call_model2_generation(latitude, longitude):
             # the patched solar_climatology_service.py (with _MODEL_CACHE) is
             # deployed and the validation script shows Model 2 daily_kwh >= 3.0
             # with no negative monthly values.
-            "include_lifetime": False
+            # UPDATE THIS WAS RESOLVED DEPENDENCY ISSUE 
+            "include_lifetime": True
         }
         
         logger.info(f"📤 Model 2 Payload: {payload}")
