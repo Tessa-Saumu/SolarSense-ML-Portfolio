@@ -628,6 +628,52 @@ def generate_recommendation(consumption_data, generation_data, roi_data):
     }
 
 # ============================================
+# COUNTRY + TARIFF RESOLUTION (MVP)
+# ============================================
+
+def resolve_country_and_tariff(lat, lon):
+    """
+    Resolve supported country and return national average tariff (USD/kWh)
+    Returns:
+        dict with { country, tariff }
+        or None if not supported
+    """
+
+    # GHANA
+    if 4 <= lat <= 12 and -4 <= lon <= 2:
+        return {"country": "Ghana", "tariff": 0.13}
+
+    # NIGERIA
+    if 4 <= lat <= 15 and 2 <= lon <= 15:
+        return {"country": "Nigeria", "tariff": 0.08}
+
+    # SOUTH AFRICA
+    if -35 <= lat <= -21 and 16 <= lon <= 33:
+        return {"country": "South Africa", "tariff": 0.14}
+
+    # TANZANIA
+    if -12 <= lat <= 2 and 29 <= lon <= 41:
+        return {"country": "Tanzania", "tariff": 0.11}
+
+    # KENYA
+    if -5 <= lat <= 6 and 33 <= lon <= 42:
+        return {"country": "Kenya", "tariff": 0.22}
+
+    # RWANDA
+    if -3 <= lat <= -1 and 28 <= lon <= 31:
+        return {"country": "Rwanda", "tariff": 0.24}
+
+    # UGANDA
+    if -2 <= lat <= 5 and 29 <= lon <= 36:
+        return {"country": "Uganda", "tariff": 0.20}
+
+    # ETHIOPIA
+    if 3 <= lat <= 15 and 32 <= lon <= 48:
+        return {"country": "Ethiopia", "tariff": 0.06}
+
+    return None
+
+# ============================================
 # ENDPOINTS
 # ============================================
 
@@ -688,7 +734,22 @@ def register_routes(app: Flask) -> None:
         
             latitude = float(data['latitude'])
             longitude = float(data['longitude'])
-            tariff = float(data.get('tariff', 0.15))
+
+            # --- AUTO RESOLVE TARIFF FROM COORDINATES ---
+            location_data = resolve_country_and_tariff(latitude, longitude)
+
+            if not location_data:
+                logger.warning(f"❌ Unsupported coordinates: {latitude}, {longitude}")
+                return jsonify({
+                    'error': 'Unsupported Location',
+                    'message': 'Coordinates not within supported countries'
+                }), 400
+
+            country = location_data['country']
+            tariff = location_data['tariff']
+
+            logger.info(f"🌍 Location resolved: {country}")
+            logger.info(f"💲 Grid tariff applied: ${tariff}/kWh")
         
             # Extract diesel parameters
             diesel_params = {

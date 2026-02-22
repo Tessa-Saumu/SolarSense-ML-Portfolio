@@ -502,6 +502,14 @@ def create_app(
             adjusted_prediction = base_prediction * climate_factor
             monthly_kwh = adjusted_prediction / 12
 
+            # Refrigeration scaling adjustment
+            # Model was trained on commercial buildings with median ~8 units
+            # This corrects for SME-scale refrigeration sensitivity the model can't learn
+            FRIDGE_KWH_PER_UNIT_MONTHLY = 29
+            BASELINE_FRIDGE_COUNT = 8
+            fridge_delta = num_refrigeration_units - BASELINE_FRIDGE_COUNT
+            monthly_kwh = max(0, monthly_kwh + (fridge_delta * FRIDGE_KWH_PER_UNIT_MONTHLY))
+
             # Breakdown
             refrigeration_share = min(0.70, max(0.50, num_refrigeration_units / max(num_workers * 2, 1)))
             refrigeration_kwh = monthly_kwh * refrigeration_share
