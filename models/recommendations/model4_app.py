@@ -908,7 +908,8 @@ def register_routes(app: Flask) -> None:
                         'total_monthly': roi_data.get('diesel_economics', {}).get('total_current_cost', 0),
                         'diesel_monthly': roi_data.get('diesel_economics', {}).get('diesel_cost_monthly', 0),
                         'grid_monthly': roi_data.get('diesel_economics', {}).get('grid_cost_monthly', 0)
-                    }
+                    },
+                    'lifetime_prediction': generation_data.get('lifetime_prediction')
                 }
             
                 # Add diesel details if applicable
