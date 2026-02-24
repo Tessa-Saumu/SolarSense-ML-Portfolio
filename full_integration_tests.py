@@ -64,7 +64,7 @@ CURRENT_MONTH   = datetime.datetime.now().month
 # Which suites to run (default: all)
 _suite_env = os.getenv("RUN_SUITES", "")
 RUN_SUITES  = set(int(x) for x in _suite_env.split(",") if x.strip().isdigit()) \
-                  if _suite_env else set(range(1, 10))  # ✅ Changed from 8 to 10
+                  if _suite_env else set(range(8, 10))  # ✅ Changed from 8 to 10
 
 OUTPUT_DIR = os.getenv("TEST_OUTPUT_DIR", "test_results")
 

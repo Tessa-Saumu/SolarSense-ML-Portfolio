@@ -123,6 +123,7 @@ def convert_equipment_to_business_metrics(equipment_list):
     - Better power consumption estimates (cold_room: 500W → 1000W)
     - Weighted hours calculation based on actual power consumption
     - More accurate floor area estimation
+    - ✅ REFINED: Weighted refrigeration counts (Cold Room = 5 units)
     
     Returns:
         dict with sqft_m2, operating_hours_weekly, num_refrigeration_units
@@ -132,7 +133,7 @@ def convert_equipment_to_business_metrics(equipment_list):
     num_refrigeration_units = 0
     
     total_power_watts = 0
-    total_weighted_hours = 0  # ✅ NEW: weighted by power consumption
+    total_weighted_hours = 0  # Weighted by power consumption
     equipment_count = 0
     
     for item in equipment_list:
@@ -140,21 +141,26 @@ def convert_equipment_to_business_metrics(equipment_list):
         quantity = item.get('quantity', 1)
         hours_per_day = item.get('hours_per_day', 12)  # Default 12 hrs/day
         
-        # Count refrigeration
-        if any(keyword in equipment_type for keyword in refrigeration_keywords):
-            num_refrigeration_units += quantity
-        
         # Get power estimate (now includes improved cold_room estimate)
         power_watts = EQUIPMENT_POWER_ESTIMATES.get(equipment_type, 100)  # Default 100W
         
-        # ✅ IMPROVED: Weight hours by power consumption
-        # High-power equipment (like cold rooms) should influence operating hours more
+        # Count refrigeration (Weighted by power impact)
+        if any(keyword in equipment_type for keyword in refrigeration_keywords):
+            # Model 1 expects "standard fridge units" (~200W). 
+            # We must normalize high-power items like Cold Rooms (1000W).
+            if power_watts >= 800:
+                # 1 Cold Room (1000W) ≈ 10 Standard Fridges (to match ~300kWh/mo load)
+                num_refrigeration_units += (quantity * 10)
+            else:
+                # Standard fridge/freezer
+                num_refrigeration_units += quantity
+        
+        # Weight hours by power consumption
         total_power_watts += power_watts * quantity
         total_weighted_hours += (power_watts * quantity * hours_per_day)
         equipment_count += 1
     
-    # ✅ IMPROVED: Calculate weighted average operating hours
-    # This gives more weight to high-power equipment like cold rooms
+    # Calculate weighted average operating hours
     if total_power_watts > 0:
         avg_hours_per_day = total_weighted_hours / total_power_watts
     else:
@@ -162,9 +168,7 @@ def convert_equipment_to_business_metrics(equipment_list):
     
     operating_hours_weekly = avg_hours_per_day * 7
     
-    # ✅ IMPROVED: Estimate floor area based on equipment count and type
-    # Base: 10-15 sqm per equipment item
-    # Add extra space for cold rooms (they're large)
+    # Estimate floor area based on equipment count and type
     base_area = len(equipment_list) * 15
     
     # Count cold rooms and add extra space for them
@@ -182,20 +186,19 @@ def convert_equipment_to_business_metrics(equipment_list):
     num_refrigeration_units = min(500, num_refrigeration_units)
     estimated_sqft_m2 = min(10000, estimated_sqft_m2)
     
-    logger.info(f"📊 Equipment conversion (IMPROVED):")
+    logger.info(f"📊 Equipment conversion (REFINED):")
     logger.info(f"   {len(equipment_list)} equipment items")
-    logger.info(f"   → {num_refrigeration_units} refrigeration units")
+    logger.info(f"   → {num_refrigeration_units} refrigeration units (weighted)")
     logger.info(f"   → {cold_room_count} cold rooms detected")
     logger.info(f"   → {operating_hours_weekly:.0f} hours/week (weighted)")
     logger.info(f"   → {estimated_sqft_m2:.0f} sqm estimated")
-    logger.info(f"   → {total_power_watts:.0f}W total power")
     
     return {
         'sqft_m2': estimated_sqft_m2,
         'operating_hours_weekly': operating_hours_weekly,
         'num_refrigeration_units': num_refrigeration_units
     }
-
+    
 def scale_lifetime_prediction(base_lifetime_dict, scaling_factor):
     """
     Scale Model 2's 10m² lifetime prediction to actual panel size.
