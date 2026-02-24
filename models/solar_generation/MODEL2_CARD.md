@@ -28,8 +28,8 @@
   - `is_dry_season` – binary (1 if month in {12,1,2,6,7,8}, else 0).
 
 - **Coordinate validity:**
-  - Latitude: \[-26, 6] (Johannesburg to Kampala corridor).
-  - Longitude: \[-18, 44] (West to East Africa).
+  - Hard error: lat [-34, 16], lon [-18, 45].
+  - Warning zone: lat < -26 or lat > 12 (predictions returned with a warning flag).
 
 ---
 
@@ -52,14 +52,7 @@
 
 - **Source**: NASA POWER API (Renewable Energy community).
 - **Coverage**:
-  - **7 SSA cities**, chosen for spatial + climate diversity:
-    - Lagos (Nigeria)
-    - Accra (Ghana)
-    - Dakar (Senegal)
-    - Kampala (Uganda)
-    - Nairobi (Kenya)
-    - Addis Ababa (Ethiopia)
-    - Johannesburg (South Africa)
+  - **20 SSA cities** (Full list returned by `GET /api/v1/model-info`).
   - **Period**: 2 years of daily GHI data per site.
 
 - **Preprocessing**:
@@ -71,7 +64,7 @@
   - Target:
     - `target_avg_generation_kwh = avg_ghi_kwh_m2 * 10 * 0.2`.
 
-- **Model**: `XGBRegressor` (tree-based regression).
+- **Model**: XGBoost Booster loaded via native JSON format (XGBoost ≥ 2.0). Inference uses `xgb.DMatrix` and `Booster.predict()`, not the sklearn-compatible `XGBRegressor` API.
 
 ---
 
@@ -108,12 +101,13 @@ Per-location MAPE is visualised in `outputs/per_location_validation.png`.
 
 - **Artifact paths (relative to `models/solar_generation`)**:
   - Model directory (`MODEL_DIR` env var, default: `models/`)
-    - `xgboost_climatological_model.pkl` – trained XGBoost regressor
-    - `feature_columns.pkl` – ordered feature list used at training/inference
-    - `xgboost_climatological_metadata.json` – metadata (type, MAPE, locations, features)
+    - `xgboost_climatological_model_v2.json` – trained XGBoost model (native JSON)
+    - `feature_columns_v2.pkl` – ordered feature list used at training/inference
+    - `xgboost_climatological_metadata_v2.json` – metadata (type, MAPE, locations, features)
 - **Runtime loader**: `solar_climatology_service.load_model_artifacts()`
   - Validates that all three artifacts exist.
   - Used by both the Flask API and the climatological notebook.
+  - Loads model via `Booster.load_model()`.
 
 ---
 
@@ -131,6 +125,8 @@ Example request:
   "include_lifetime": true
 }
 ```
+
+*Note: `include_lifetime` defaults to `false`. The example above passes it explicitly as `true`. Omitting it will return a response without `lifetime_prediction`.*
 
 Example response (truncated):
 

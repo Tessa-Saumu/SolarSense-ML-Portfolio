@@ -126,6 +126,16 @@ def create_app(config: Optional[Dict[str, Any]] = None) -> Flask:
     # Register routes
     register_routes(app)
 
+    # Eagerly warm the model cache at startup so the first real request
+    # pays no disk I/O cost, and missing-artifact errors surface immediately
+    # at deploy time rather than on the first live user request.
+    try:
+        load_model_artifacts()
+        logger.info("Model artifacts loaded and cached at startup.")
+    except FileNotFoundError as exc:
+        # Log clearly but don't crash — /health will surface the error state.
+        logger.error("STARTUP: model artifacts not found — %s", exc)
+
     return app
 
 
@@ -214,10 +224,30 @@ def register_routes(app: Flask) -> None:
                     400,
                 )
 
-            latitude = float(payload["latitude"])
-            longitude = float(payload["longitude"])
+            # [VALIDATION] Reject non-numeric types for lat/lon (exclude bool — subclass of int)
+            _lat = payload["latitude"]
+            if not isinstance(_lat, (int, float)) or isinstance(_lat, bool):
+                return (
+                    jsonify({"status": "error", "message": "latitude must be a number."}),
+                    422,
+                )
+            _lon = payload["longitude"]
+            if not isinstance(_lon, (int, float)) or isinstance(_lon, bool):
+                return (
+                    jsonify({"status": "error", "message": "longitude must be a number."}),
+                    422,
+                )
+            latitude = float(_lat)
+            longitude = float(_lon)
             month_raw: Optional[Any] = payload.get("month")
-            include_lifetime = bool(payload.get("include_lifetime", True))
+            include_lifetime = bool(payload.get("include_lifetime", False))
+
+            # [VALIDATION] Explicitly reject null month — None means "omit month", not null
+            if "month" in payload and payload["month"] is None:
+                return (
+                    jsonify({"status": "error", "message": "month must be an integer between 1 and 12."}),
+                    422,
+                )
 
             # Coordinate validation (range + edge warnings)
             coord_status = validate_coordinates(latitude, longitude)
@@ -241,9 +271,7 @@ def register_routes(app: Flask) -> None:
             # Month: if provided, use it; otherwise, compute full climatology
             month: Optional[int] = None
             if month_raw is not None:
-                try:
-                    month = int(month_raw)
-                except (TypeError, ValueError):
+                if not isinstance(month_raw, int) or isinstance(month_raw, bool):
                     return (
                         jsonify(
                             {
@@ -253,6 +281,7 @@ def register_routes(app: Flask) -> None:
                         ),
                         400,
                     )
+                month = int(month_raw)
                 if not 1 <= month <= 12:
                     return (
                         jsonify(
@@ -411,31 +440,34 @@ def _validate_optional_business_fields(payload: Dict[str, Any]) -> List[str]:
     """
     errors: List[str] = []
 
-    # Numeric ranges
+    # Numeric ranges (reject bool — no loose coercion)
     if "hours_per_day" in payload:
-        try:
-            h = float(payload["hours_per_day"])
+        _raw = payload["hours_per_day"]
+        if not isinstance(_raw, (int, float)) or isinstance(_raw, bool):
+            errors.append("hours_per_day must be numeric.")
+        else:
+            h = float(_raw)
             if h < 0 or h > 24:
                 errors.append("hours_per_day must be between 0 and 24.")
-        except (TypeError, ValueError):
-            errors.append("hours_per_day must be numeric.")
 
     if "equipment_units" in payload:
-        try:
-            units = float(payload["equipment_units"])
+        _raw = payload["equipment_units"]
+        if not isinstance(_raw, (int, float)) or isinstance(_raw, bool):
+            errors.append("equipment_units must be numeric.")
+        else:
+            units = float(_raw)
             if units < 0 or units > 500:
                 errors.append("equipment_units must be between 0 and 500.")
-        except (TypeError, ValueError):
-            errors.append("equipment_units must be numeric.")
 
     for field in ("monthly_cost", "monthly_consumption_kwh"):
         if field in payload:
-            try:
-                v = float(payload[field])
+            _raw = payload[field]
+            if not isinstance(_raw, (int, float)) or isinstance(_raw, bool):
+                errors.append(f"{field} must be numeric.")
+            else:
+                v = float(_raw)
                 if v < 0:
                     errors.append(f"{field} must be non-negative.")
-            except (TypeError, ValueError):
-                errors.append(f"{field} must be numeric.")
 
     # Simple format checks for strings
     def _check_str(name: str) -> None:
@@ -462,6 +494,3 @@ if __name__ == "__main__":
     # For local development only – in production, use a WSGI server.
     port = int(os.getenv("PORT", "8000"))
     app.run(host="0.0.0.0", port=port, debug=False)
-
-
-

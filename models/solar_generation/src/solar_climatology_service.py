@@ -18,9 +18,11 @@ from dataclasses import dataclass
 from datetime import datetime
 from pathlib import Path
 from typing import Any, Dict, List, Optional, Tuple
+import xgboost as xgb
 
 import joblib
 import numpy as np
+from xgboost import XGBRegressor
 
 # Months considered climatological "dry season" in many SSA regions
 DRY_MONTHS = {12, 1, 2, 6, 7, 8}
@@ -33,6 +35,21 @@ FEATURE_COLUMNS: List[str] = [
     "month",
     "is_dry_season",
 ]
+
+# ---------------------------------------------------------------------------
+# Module-level model cache
+# ---------------------------------------------------------------------------
+# BUG FIX (2026-02-20): load_model_artifacts() was called once per month
+# inside predict_lifetime_generation() — 12 disk reads of the .pkl per request
+# when include_lifetime=True. Under concurrency this caused joblib I/O to
+# corrupt XGBoost in-memory state, producing values ~160x too small and
+# negative monthly generation predictions.
+#
+# Fix: cache the loaded artifacts at module level. The model is loaded from
+# disk exactly once per process; all subsequent calls return the cached tuple.
+# _MODEL_CACHE is intentionally None until the first real request so that
+# tests that never call load_model_artifacts() are unaffected.
+_MODEL_CACHE: Optional[Tuple[Any, List[str], Dict[str, Any]]] = None
 
 
 @dataclass
@@ -54,9 +71,9 @@ def get_model_paths() -> ModelPaths:
     base_dir = Path(os.getenv("MODEL_DIR", str(default_dir))).resolve()
     return ModelPaths(
         model_dir=base_dir,
-        model_path=base_dir / "xgboost_climatological_model.pkl",
-        feature_cols_path=base_dir / "feature_columns.pkl",
-        metadata_path=base_dir / "xgboost_climatological_metadata.json",
+        model_path=base_dir / "xgboost_climatological_model_v2.json",
+        feature_cols_path=base_dir / "feature_columns_v2.pkl",
+        metadata_path=base_dir / "xgboost_climatological_metadata_v2.json",
     )
 
 
@@ -74,7 +91,8 @@ def save_model_artifacts(
     paths = get_model_paths()
     paths.model_dir.mkdir(parents=True, exist_ok=True)
 
-    joblib.dump(model, paths.model_path)
+    # Replace joblib.dump(model, paths.model_path) with:
+    model.save_model(str(paths.model_dir / "xgboost_climatological_model_v2.json"))
     joblib.dump(feature_columns, paths.feature_cols_path)
 
     metadata = {
@@ -89,11 +107,22 @@ def save_model_artifacts(
 
 def load_model_artifacts() -> Tuple[Any, List[str], Dict[str, Any]]:
     """
-    Load model, feature column list, and metadata.
+    Load model, feature column list, and metadata from disk — or return the
+    cached copy if already loaded.
+
+    The first call reads from disk and populates _MODEL_CACHE. Every subsequent
+    call returns the cached tuple with zero disk I/O. This eliminates the
+    concurrency bug where predict_lifetime_generation() triggered 12 sequential
+    joblib.load() calls per request, corrupting XGBoost in-memory state.
 
     Raises:
-        FileNotFoundError if any critical artifact is missing.
+        FileNotFoundError if any critical artifact is missing on first load.
     """
+    global _MODEL_CACHE
+
+    if _MODEL_CACHE is not None:
+        return _MODEL_CACHE
+
     paths = get_model_paths()
 
     missing = [
@@ -106,10 +135,16 @@ def load_model_artifacts() -> Tuple[Any, List[str], Dict[str, Any]]:
             + ". Run the climatological notebook to train and save the model first."
         )
 
-    model = joblib.load(paths.model_path)
+    model_path_json = paths.model_path  # uses the v2 path from get_model_paths()
+    from xgboost import Booster
+
+    model = Booster()
+    model.load_model(str(paths.model_path))
     feature_cols: List[str] = joblib.load(paths.feature_cols_path)
     metadata: Dict[str, Any] = json.loads(paths.metadata_path.read_text())
-    return model, feature_cols, metadata
+
+    _MODEL_CACHE = (model, feature_cols, metadata)
+    return _MODEL_CACHE
 
 
 def validate_coordinates(latitude: float, longitude: float) -> Dict[str, Any]:
@@ -117,8 +152,8 @@ def validate_coordinates(latitude: float, longitude: float) -> Dict[str, Any]:
     Validate whether coordinates fall roughly within the model's SSA coverage.
 
     Rules:
-    - Error if latitude not in [-26, 6] or longitude not in [-18, 44]
-    - Warning if near edge: latitude < -20 or latitude > 2
+    - Error if latitude not in [-34, 16] or longitude not in [-18, 45]
+    - Warning if near edge: latitude < -26 or latitude > 12
     - Otherwise status = 'valid'
     """
     lat = float(latitude)
@@ -129,15 +164,16 @@ def validate_coordinates(latitude: float, longitude: float) -> Dict[str, Any]:
         "warnings": [],
     }
 
-    if lat < -26 or lat > 6 or lon < -18 or lon > 44:
+    # AFTER
+    if lat < -34 or lat > 16 or lon < -18 or lon > 45:
         result["status"] = "error"
         result["message"] = (
             "Coordinates are outside the model's calibrated Sub-Saharan Africa coverage "
-            "(lat: -26 to 6, lon: -18 to 44)."
+            "(lat: -34 to 16, lon: -18 to 45)."
         )
         return result
 
-    if lat < -20 or lat > 2:
+    if lat < -26 or lat > 12:
         result["warnings"].append(
             "Latitude is near the edge of the training coverage; predictions may have higher uncertainty."
         )
@@ -193,17 +229,18 @@ def predict_solar_generation(
         for m in range(1, 13):
             X = _build_feature_vector(latitude, longitude, m, feature_cols)
             # NOTE: model target is generation, not GHI; derive GHI only if needed.
-            gen_kwh = float(model.predict(X)[0])
-            preds.append(gen_kwh)
+            gen_kwh = float(model.predict(xgb.DMatrix(X, feature_names=feature_cols))[0])
+            preds.append(max(0.0, gen_kwh))
         return float(np.mean(preds))
 
     X = _build_feature_vector(latitude, longitude, int(month), feature_cols)
-    gen_kwh = float(model.predict(X)[0])
+    gen_kwh = float(model.predict(xgb.DMatrix(X, feature_names=feature_cols))[0])
 
     # If you want the implied GHI, you could compute:
     # predicted_ghi = gen_kwh / (10.0 * 0.2)
     # but the core output here is generation_kwh.
-    return gen_kwh
+    # xgboost bug does not constrain vals to positve here is the fix
+    return max(0.0, gen_kwh)
 
 
 def predict_lifetime_generation(
@@ -297,7 +334,3 @@ def predict_lifetime_generation(
             for (m, g, is_dry) in monthly_gens
         ],
     }
-
-
-
-

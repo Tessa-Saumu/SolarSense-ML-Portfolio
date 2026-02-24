@@ -88,9 +88,10 @@ This is the primary endpoint. It orchestrates Models 1–3 and returns a complet
 
 ##### Optional Fields
 
+*Note: `tariff` is not used. Grid tariff is automatically resolved from coordinates via an internal country lookup. If coordinates do not map to a supported country, the endpoint returns 400 Unsupported Location.*
+
 | Field | Type | Default | Constraints | Description |
 |-------|------|---------|-------------|-------------|
-| `tariff` | float | 0.15 | — | Grid electricity cost ($/kWh) |
 | `num_workers` | integer | 5 | — | Number of employees |
 | `months_per_year` | integer | 12 | — | Operating months per year |
 | `uses_diesel` | boolean | false | — | Enable diesel replacement economics |
@@ -115,7 +116,7 @@ computer, printer, monitor,
 treadmill, water_cooler, water_heater, dishwasher, washing_machine
 ```
 
-Unknown equipment types are accepted and default to 100W power estimate.
+Equipment types must match the allowlist exactly (case-insensitive). Unrecognised types return 400 Bad Request.
 
 ---
 
@@ -177,7 +178,7 @@ All successful responses include the following fields.
 | `estimated_consumption_kwh` | float | Monthly energy consumption (kWh) from Model 1 |
 | `predicted_generation_kwh` | float | Monthly solar generation (kWh) scaled to recommended system size |
 | `recommended_panel_area_m2` | float | Recommended solar panel area. Capped at 50m² (~$20,000) for SME realism |
-| `system_cost` | float | Estimated system cost in USD ($600/m²). Max ~$20,000 |
+| `system_cost` | float | Estimated system cost in USD. Uses tiered pricing: $750/m² for ≤10m², linearly ramped to $650/m² for ≤20m², $650/m² for ≤35m², $600/m² for >35m². A country-level adjustment factor (0.90–1.15) is then applied. The max is not a fixed $20,000. |
 | `roi_percentage` | float | Annual ROI percentage |
 | `monthly_savings` | float | Monthly savings in USD |
 | `recommendation` | string | `"High"`, `"Medium"`, or `"Low"` |
@@ -189,6 +190,9 @@ All successful responses include the following fields.
 | `current_energy_cost.total_monthly` | float | Current total energy cost (USD/month) |
 | `current_energy_cost.diesel_monthly` | float | Diesel portion (0 if grid_only) |
 | `current_energy_cost.grid_monthly` | float | Grid electricity portion |
+| `lifetime_prediction` | object | 25-year generation projection from Model 2, scaled to the recommended panel area. Contains year_1_generation_kwh, lifetime_total_kwh, lifetime_average_annual_kwh, yearly_breakdown array, assumptions, and confidence objects. Present when Model 2 returns include_lifetime data. |
+
+*Note: The tariff used in ROI and savings calculations is resolved automatically from the business coordinates — the optional tariff request field is not read by the current implementation.*
 
 ##### Diesel-Only Fields (present when `uses_diesel=true`)
 
@@ -293,7 +297,7 @@ All error responses follow this shape:
 | `401` | `"Unauthorized"` | Missing or invalid `X-API-KEY` |
 | `429` | `"Too Many Requests"` | Rate limit exceeded (100 req/min per IP) |
 | `500` | `"Internal Server Error"` | Unexpected internal error (no details exposed) |
-| `503` | `"Service Unavailable"` | One of Models 1–3 failed or rejected the request |
+| `503` | `"Service Unavailable"` | Out-of-region coordinates are caught by Model 4's internal country lookup before Model 2 is called. These return 400 Unsupported Location, not 503. A 503 occurs only when Models 1–3 are called and return an unexpected error. |
 
 **503 response includes additional fields:**
 ```json
@@ -322,7 +326,7 @@ The most common cause of 503 is coordinates outside Model 2's geographic coverag
 
 | Constraint | Detail |
 |------------|--------|
-| Geographic coverage | Model 2 only covers Sub-Saharan Africa: lat -26 to 6, lon -18 to 44 |
+| Geographic coverage | Model 2 only covers Sub-Saharan Africa: lat -34 to 16, lon -18 to 45. Note that Model 4's own country lookup may reject coordinates before Model 2 is reached. |
 | Max system size | 50m² (~$20,000). Larger systems not modelled for SME context |
 | Diesel fuel efficiency | Model uses 0.40 L/kWh (partial load). Full-load rated efficiency is 0.25 L/kWh |
 | Generation month | Uses current calendar month for solar prediction (not annual average) |
@@ -330,9 +334,9 @@ The most common cause of 503 is coordinates outside Model 2's geographic coverag
 
 ---
 
-## INTEGRATION NOTES FOR FRONTEND
+## INTEGRATION NOTES FOR BACKEND
 
-1. **Always validate latitude/longitude** before sending — if the business is outside SSA bounds, display a friendly "location not supported" message rather than surfacing the 503.
+1. **Always validate latitude/longitude** before sending — If coordinates fall outside SSA bounds (lat [-34, 16], lon [-18, 45]) or outside Model 4's supported country list, the API returns 400 (not 503). Display a friendly location-not-supported message for both 400 Unsupported Location and any remaining 503.
 
 2. **Grid-only "Low" is not an error** — display it honestly but suggest the user check if they use a diesel generator, as that scenario typically scores much higher.
 

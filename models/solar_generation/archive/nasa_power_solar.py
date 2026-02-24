@@ -274,12 +274,25 @@ class SolarDatabase:
 # Sample Sub-Saharan Africa locations for refrigeration-heavy SMEs
 SSA_LOCATIONS = [
     {"name": "Nairobi_Kenya", "lat": -1.2921, "lon": 36.8219, "country": "Kenya"},
-    {"name": "Lagos_Nigeria", "lat": 6.5244, "lon": 3.3792, "country": "Nigeria"},
-    {"name": "Accra_Ghana", "lat": 5.6037, "lon": -0.1870, "country": "Ghana"},
-    {"name": "Kampala_Uganda", "lat": 0.3476, "lon": 32.5825, "country": "Uganda"},
+    {"name": "Mombasa_Kenya", "lat": -4.0435, "lon": 39.6682, "country": "Kenya"},
     {"name": "Dar_es_Salaam_Tanzania", "lat": -6.7924, "lon": 39.2083, "country": "Tanzania"},
+    {"name": "Kampala_Uganda", "lat": 0.3476, "lon": 32.5825, "country": "Uganda"},
     {"name": "Kigali_Rwanda", "lat": -1.9706, "lon": 30.1044, "country": "Rwanda"},
+    {"name": "Addis_Ababa_Ethiopia", "lat": 9.0320, "lon": 38.7469, "country": "Ethiopia"},
+    {"name": "Lusaka_Zambia", "lat": -15.4167, "lon": 28.2833, "country": "Zambia"},
+    {"name": "Lagos_Nigeria", "lat": 6.5244, "lon": 3.3792, "country": "Nigeria"},
+    {"name": "Abuja_Nigeria", "lat": 9.0765, "lon": 7.3986, "country": "Nigeria"},
+    {"name": "Accra_Ghana", "lat": 5.6037, "lon": -0.1870, "country": "Ghana"},
+    {"name": "Kumasi_Ghana", "lat": 6.6885, "lon": -1.6244, "country": "Ghana"},
+    {"name": "Dakar_Senegal", "lat": 14.6928, "lon": -17.0467, "country": "Senegal"},
+    {"name": "Abidjan_Ivory_Coast", "lat": 5.3600, "lon": -4.0083, "country": "Ivory Coast"},
+    {"name": "Bamako_Mali", "lat": 12.6392, "lon": -8.0029, "country": "Mali"},
     {"name": "Johannesburg_SA", "lat": -26.2041, "lon": 28.0473, "country": "South Africa"},
+    {"name": "Cape_Town_SA", "lat": -33.9249, "lon": 18.4241, "country": "South Africa"},
+    {"name": "Harare_Zimbabwe", "lat": -17.8252, "lon": 31.0335, "country": "Zimbabwe"},
+    {"name": "Maputo_Mozambique", "lat": -25.9692, "lon": 32.5732, "country": "Mozambique"},
+    {"name": "Kinshasa_DRC", "lat": -4.3217, "lon": 15.3222, "country": "DRC"},
+    {"name": "Garissa_Kenya", "lat": -0.4532, "lon": 39.6461, "country": "Kenya"},
 ]
 
 
@@ -293,7 +306,7 @@ def main():
 
     # Define date range (last 2 years for model training)
     end_date = datetime.now()
-    start_date = end_date - timedelta(days=730)  # 2 years
+    start_date = end_date - timedelta(days=365 * 4)  # 2 years
 
     start_str = start_date.strftime('%Y%m%d')
     end_str = end_date.strftime('%Y%m%d')

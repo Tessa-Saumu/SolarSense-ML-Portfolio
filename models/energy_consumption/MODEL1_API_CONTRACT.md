@@ -111,11 +111,12 @@ It reflects the **current code** only – no assumptions.
 |--------------------------|---------|----------|-------------------------------------------------------------------------------------------------------|
 | `business_type`          | string  | yes      | Must be one of: `"butchery"`, `"grocery"`, `"mini_supermarket"` (case-insensitive input, lowered in code). |
 | `sqft_m2`                | number  | yes      | Parsed as `float`. Must be **> 0** and **≤ 10000** (m²).                                             |
-| `operating_hours_weekly`| number  | yes      | Parsed as `float`. Must be **> 0** and **≤ 168** (hours in a week).                                  |
-| `num_refrigeration_units`| integer| yes      | Parsed as `int`. Must be **≥ 0** and **≤ 500**.                                                      |
+| `operating_hours_weekly` | number  | yes      | Parsed as `float`. Must be **> 0** and **≤ 168** (hours in a week).                                  |
+| `num_refrigeration_units`| integer | yes      | Parsed as `int`. Must be **≥ 0** and **≤ 500**.                                                      |
 | `location`               | string  | yes      | Must be a string. Length must be **≤ 200** characters. Used for climate factor (city substring).     |
-| `num_workers`            | integer | no       | Parsed as `int`. If missing/invalid → defaults to `5`. If ≤ 0 → reset to `5`. Must be **≤ 1000**.    |
-| `months_per_year`        | integer | no       | Parsed as `int`. If missing/invalid → defaults to `12`. If ≤ 0 or > 12 → reset to `12`.             |
+| `num_workers`            | integer | no       | If missing → defaults to 5. If present but not a valid integer or boolean → returns 400 INVALID_FIELD_TYPE. If ≤ 0 → returns 400 INVALID_FIELD_VALUE. Must be ≤ 1000. |
+| `months_per_year`        | integer | no       | If missing → defaults to 12. If present but not a valid integer → returns 400 INVALID_FIELD_TYPE. If ≤ 0 or > 12 → reset to 12. |
+
 
 #### 5.2 Derived / Internal Values (not in request)
 
@@ -167,7 +168,15 @@ These are computed internally and **not** part of the public request schema:
 | `equipment_summary.total_refrigeration_units` | integer | Echo of `num_refrigeration_units` from request.                                                           |
 | `equipment_summary.total_other_equipment`     | integer | Always `0` in current implementation (not tracked).                                                       |
 
-#### 6.3 Output Validation Rules
+#### 6.3 Post-Processing Logic
+
+**Refrigeration Scaling Delta**: After the climate-adjusted monthly kWh is computed, the following correction is applied:
+- `fridge_delta = num_refrigeration_units - 8`
+- `monthly_kwh = max(0, monthly_kwh + fridge_delta * 29)`
+
+This adds or subtracts 29 kWh per refrigeration unit relative to an 8-unit baseline, before the breakdown split is calculated.
+
+#### 6.4 Output Validation Rules
 
 From the current implementation:
 
@@ -178,7 +187,6 @@ From the current implementation:
   - Clipped to be **≥ 0.0**
 - `confidence_score`:
   - Clipped to `[0.0, 1.0]`
-
 ---
 
 ### 7. Error Responses
