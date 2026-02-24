@@ -50,8 +50,7 @@ gunicorn==21.2.0
 
 ```bash
 # Required — app will not start without these
-API_KEY=<your_generated_key>           # Model 4's own API key (for incoming requests)
-MODELS_API_KEY=<shared_railway_key>    # Key for calling Models 1-3 on Railway
+API_KEY=<your_generated_key>           # Used for both authenticating incoming requests to Model 4 AND as the X-API-KEY header when Model 4 calls Models 1–3. Only one API_KEY environment variable is required.
 
 # Required for production
 MODELS_BASE_URL=https://dse-models-production.up.railway.app/api/v1
@@ -158,9 +157,8 @@ interface AnalysisRequest {
   num_refrigeration_units?: number;
 
   // ── Optional: base settings ───────────────────────────────
-  tariff?: number;                // Grid electricity $/kWh. Default: 0.15
+  tariff?: number;                // WARNING: The tariff field is currently ignored by the implementation. Grid tariff is auto-resolved from the business coordinates using an internal country-to-tariff lookup. Do not rely on passing a custom tariff value — it has no effect.
   num_workers?: number;           // Default: 5
-  months_per_year?: number;       // Default: 12
 
   // ── Optional: diesel replacement mode ────────────────────
   uses_diesel?: boolean;          // Default: false
@@ -267,7 +265,9 @@ target_generation = consumption_kwh * 0.90          # 90% coverage target
 scaling_factor    = target_generation / base_10m2_generation
 scaling_factor    = clamp(scaling_factor, 1.0, 5.0) # max 50m² for SME realism
 recommended_m2    = 10 * scaling_factor
-system_cost_usd   = 6000 * scaling_factor           # $600/m² African market rate
+system_cost_usd   = tiered_rate * panel_area * country_adjustment
+# Tiered rate: $750/m² (≤10m²), linearly interpolated $750→$650/m² (10–20m²), $650/m² (20–35m²), $600/m² (>35m²).
+# country_adjustment: 0.90–1.15 based on coordinates.
 ```
 
 **Cap rationale:** 50m² (~$20,000) is the realistic upper bound for African SME solar deployment. Beyond this, financing becomes the limiting factor, not ROI.
@@ -451,7 +451,7 @@ railway up
 - [ ] 429 returned after 100 requests/minute
 - [ ] Valid grid-only request returns 200
 - [ ] Valid diesel request returns 200 with `diesel_details` field
-- [ ] Out-of-SSA coordinates return 503 (Model 2 rejects them)
+- [ ] Coordinates outside the supported country list return 400 Unsupported Location from Model 4 before Model 2 is called. Test for 400 specifically.
 - [ ] `test_diesel_mvp.py` passes all 3 tests
 
 ### Production

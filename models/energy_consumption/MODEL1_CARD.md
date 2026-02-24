@@ -151,6 +151,7 @@ API Output Post-Processing:
 - Monthly kWh is capped at a maximum of 1,000,000 kWh to avoid unrealistic values
 - Negative energy values (if any) are reset to zero
 - Confidence score is kept within [0, 1] (typically 0.75 or 0.85 depending on data completeness)
+- Refrigeration scaling delta applied after climate adjustment: `(num_refrigeration_units - 8) * 29` kWh is added to monthly_kwh (result clamped to ≥ 0). This is applied before the refrigeration/other split.
 
 8. MODEL VERSION AND METADATA
 --------------------------------------------------------------------------------
@@ -179,11 +180,13 @@ Key validation rules enforced in the Flask API (`app_ml.py`):
 - **num_refrigeration_units**:
   - Must be ≥ 0 and ≤ 500
 - **num_workers** (optional):
-  - Defaults to 5 if missing/invalid
-  - Must not exceed 1000 (otherwise rejected)
+  - Provided non-integer type → 400 INVALID_FIELD_TYPE (not silently defaulted).
+  - Missing → defaults to 5.
+  - ≤ 0 → 400 INVALID_FIELD_VALUE.
+  - Must not exceed 1000 (otherwise rejected).
 - **months_per_year** (optional):
-  - Defaults to 12 if missing/invalid
-  - Reset to 12 if ≤ 0 or > 12
+  - Non-integer type → 400 INVALID_FIELD_TYPE.
+  - Missing or out-of-range → silently reset to 12.
 - **location**:
   - Must be a string with length ≤ 200 characters
 

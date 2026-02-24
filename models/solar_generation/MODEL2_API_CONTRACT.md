@@ -29,7 +29,7 @@ Predict typical solar generation for a point location, with optional lifetime pr
 - `latitude` (float, required): -26 to 6.
 - `longitude` (float, required): -18 to 44.
 - `month` (int, optional): 1–12. If omitted, returns a full 12‑month climatology.
-- `include_lifetime` (bool, optional): default `true`. If true, includes 25‑year projection.
+- `include_lifetime`  (bool, optional): default `false`. If true, includes 25‑year projection.
 
 #### Successful Response (200)
 
@@ -99,7 +99,7 @@ Predict typical solar generation for a point location, with optional lifetime pr
     ```json
     {
       "status": "error",
-      "message": "Coordinates are outside the model's calibrated Sub-Saharan Africa coverage (lat: -26 to 6, lon: -18 to 44)."
+      "message": "Coordinates are outside the model's calibrated Sub-Saharan Africa coverage (lat: -34 to 16, lon: -18 to 45)."
     }
     ```
   - Other validation failures (e.g. invalid `month`, bad optional business fields) return:
@@ -144,6 +144,8 @@ Lightweight health and readiness probe.
 
 Returns model configuration and training details.
 
+The model is trained on 20 cities across Sub-Saharan Africa.
+
 #### Response (200)
 
 ```json
@@ -153,11 +155,40 @@ Returns model configuration and training details.
   "training_locations": [
     "Accra_Ghana",
     "Addis_Ababa_Ethiopia",
+    "Antananarivo_Madagascar",
+    "Bamako_Mali",
+    "Bangui_CAR",
+    "Beira_Mozambique",
+    "Brazzaville_Congo",
+    "Cape_Town_SA",
     "Dakar_Senegal",
+    "Dar_es_Salaam_Tanzania",
+    "Djibouti_City_Djibouti",
+    "Dodoma_Tanzania",
+    "Durban_SA",
+    "Freetown_Sierra_Leone",
+    "Gaborone_Botswana",
+    "Harare_Zimbabwe",
     "Johannesburg_SA",
     "Kampala_Uganda",
+    "Khartoum_Sudan",
+    "Kigali_Rwanda",
+    "Kinshasa_DRC",
     "Lagos_Nigeria",
-    "Nairobi_Kenya"
+    "Lilongwe_Malawi",
+    "Luanda_Angola",
+    "Lusaka_Zambia",
+    "Maputo_Mozambique",
+    "Mogadishu_Somalia",
+    "Mombasa_Kenya",
+    "Monrovia_Liberia",
+    "Nairobi_Kenya",
+    "Niamey_Niger",
+    "Nouakchott_Mauritania",
+    "Ouagadougou_Burkina_Faso",
+    "Port_Elizabeth_SA",
+    "Windhoek_Namibia",
+    "Yaounde_Cameroon"
   ],
   "feature_columns": [
     "latitude",
@@ -177,8 +208,14 @@ If metadata is missing or unreadable, returns 500 with a generic `"Internal Serv
 
 - **400 Bad Request**
   - Invalid or missing fields (`latitude`, `longitude`, `month`).
-  - Coordinates outside supported region.
+  - Coordinates outside supported region (lat: -34 to 16, lon: -18 to 45).
   - Invalid numeric ranges for optional fields (`hours_per_day`, `equipment_units`, `monthly_cost`, `monthly_consumption_kwh`).
+
+  - **422 Unprocessable Entity**
+  - Returned when `latitude` or `longitude` is provided but cannot be parsed as a float (e.g. a string value).
+  - Response body:
+    ```json
+    {"status": "error", "message": "Invalid input.", "details": ["<field> must be a number"]}
 
 - **401 Unauthorized**
   - Missing or incorrect `X-API-KEY` header.
@@ -206,8 +243,8 @@ Errors always return JSON with:
 ### 6. Environment Variables
 
 - `API_KEY` (required): API key expected in `X-API-KEY` header.
-- `MODEL_DIR` (optional, default `models`): Directory containing model artifacts (`xgboost_climatological_model.pkl`, `feature_columns.pkl`, metadata JSON).
 - `PORT` (optional, default `8000`): Port on which the Flask app listens in local development.
+- `MODEL_DIR` (optional, default `models`): Directory containing model artifacts (`xgboost_climatological_model_v2.json`, `feature_columns_v2.pkl`, `xgboost_climatological_metadata_v2.json`). Note that the model is loaded via `Booster.load_model()`, not joblib.
 
 ---
 
