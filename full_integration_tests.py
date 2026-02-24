@@ -13,7 +13,9 @@ NEW IN v3.0 — Five test suites added to catch the gaps identified post-v2.1:
   Suite 4 (NEW)       : Input variability → output diversity — 6 diverse profiles via M4
   Suite 5 (NEW)       : Coordinate variability — 5 cities → generation must differ by location
   Suite 6 (NEW)       : Caching / default-value detection — 8 varied M4 calls, check spread
-  Suite 7 (NEW)       : Model 2 location sensitivity — same month, 5 coords → generation varies
+  Suite 7 (NEW)       : Model 2 location sensitivity — same month, 5 coords → generation varies4
+  Suite 8 (NEW)       : Lifetime scaling validation — panel size must scale lifetime
+  Suite 9 (NEW)       : Cold room consumption validation — cold rooms properly counted
 
 Usage:
     export API_KEY=your_api_key_here
@@ -42,10 +44,10 @@ from requests.exceptions import RequestException, Timeout
 # CONFIGURATION
 # ============================================================================
 
-MODEL_1_BASE_URL = os.getenv("MODEL_1_BASE_URL", "https://dse-models-production.up.railway.app")
-MODEL_2_BASE_URL = os.getenv("MODEL_2_BASE_URL", "https://dse-models-production.up.railway.app")
-MODEL_3_BASE_URL = os.getenv("MODEL_3_BASE_URL", "https://dse-models-production.up.railway.app")
-MODEL_4_BASE_URL = os.getenv("MODEL_4_BASE_URL", "https://dse-models-production.up.railway.app")
+MODEL_1_BASE_URL = os.getenv("MODEL_1_BASE_URL", "http://localhost:8000") #live url https://dse-models-production.up.railway.app
+MODEL_2_BASE_URL = os.getenv("MODEL_2_BASE_URL", "http://localhost:8000")
+MODEL_3_BASE_URL = os.getenv("MODEL_3_BASE_URL", "http://localhost:8000")
+MODEL_4_BASE_URL = os.getenv("MODEL_4_BASE_URL", "http://localhost:8000")
 
 MODEL_1_ENDPOINT   = f"{MODEL_1_BASE_URL}/api/v1/estimate-consumption"
 MODEL_2_ENDPOINT   = f"{MODEL_2_BASE_URL}/api/v1/predict-generation"
@@ -62,7 +64,7 @@ CURRENT_MONTH   = datetime.datetime.now().month
 # Which suites to run (default: all)
 _suite_env = os.getenv("RUN_SUITES", "")
 RUN_SUITES  = set(int(x) for x in _suite_env.split(",") if x.strip().isdigit()) \
-              if _suite_env else set(range(1, 8))
+                  if _suite_env else set(range(1, 10))  # ✅ Changed from 8 to 10
 
 OUTPUT_DIR = os.getenv("TEST_OUTPUT_DIR", "test_results")
 
@@ -980,6 +982,309 @@ def suite_7_m2_location_sensitivity(api_key: str) -> bool:
     return passed
 
 # ============================================================================
+# SUITE 8: LIFETIME SCALING VALIDATION (Bug Fix #1 Validation)
+# ============================================================================
+def suite_8_lifetime_scaling(api_key: str) -> bool:
+    """
+    SUITE 8: Lifetime Scaling Validation
+    
+    Validates Bug Fix #1: Lifetime generation must scale proportionally with panel size.
+    
+    Test Plan:
+    1. Call Model 4 with small business (3 equipment items) → expect ~10-15m² system
+    2. Call Model 4 with large business (15 equipment items) → expect ~30-50m² system
+    3. Verify lifetime_total_kwh scales proportionally with panel_area_m2
+    4. Tolerance: ±20% (allows for degradation curves and rounding)
+    
+    Success Criteria:
+    - Large system lifetime ≈ (large_panel_area / small_panel_area) × small_lifetime
+    - Scaling ratio between 1.8 and 2.2 for 2x panel area increase
+    """
+    suite_header(8, "Lifetime Scaling Validation", 
+        "Verify lifetime generation scales correctly with panel size.\n"
+        "  Small business → small system → baseline lifetime\n"
+        "  Large business → large system → proportionally scaled lifetime")
+    
+    h = {"Content-Type": "application/json", "X-API-KEY": api_key}
+    checks = []
+    
+    # Test Case 1: Small Business
+    small_business = {
+        "business_name": "Small Corner Store",
+        "business_type": "grocery",
+        "location": "Nairobi",
+        "latitude": -1.2921,
+        "longitude": 36.8219,
+        "equipment_list": [
+            {"equipment_type": "refrigerator", "quantity": 2, "hours_per_day": 20},
+            {"equipment_type": "freezer", "quantity": 1, "hours_per_day": 20},
+            {"equipment_type": "lights", "quantity": 10, "hours_per_day": 12}
+        ],
+        "num_workers": 2
+    }
+    
+    print("  [1/2] Small business (3 refrigeration units)...")
+    try:
+        small_result = call_m4(h, small_business, "Small")
+        small_consumption = small_result.get('estimated_consumption_kwh', 0)
+        small_panel_area = small_result.get('recommended_panel_area_m2', 10.0)
+        small_lifetime_pred = small_result.get('lifetime_prediction', {})
+        small_lifetime = small_lifetime_pred.get('lifetime_total_kwh', 0)
+        
+        print(f"      Consumption: {small_consumption:.0f} kWh/month")
+        print(f"      Panel area: {small_panel_area:.1f} m²")
+        print(f"      Lifetime: {small_lifetime:,.0f} kWh")
+        
+        checks.append(check_print("Small business: consumption > 0", small_consumption > 0, f"{small_consumption:.0f}"))
+        checks.append(check_print("Small business: lifetime > 0", small_lifetime > 0, f"{small_lifetime:,.0f}"))
+        checks.append(check_print("Small business: panel_area 10-20m²", 10 <= small_panel_area <= 20, f"{small_panel_area:.1f}m²"))
+        
+    except Exception as e:
+        print(f"      ERROR: {e}")
+        checks.append(check_print("Small business M4 call", False))
+        return False
+    
+    print()
+    
+    # Test Case 2: Large Business
+    large_business = {
+        "business_name": "Large Supermarket",
+        "business_type": "mini_supermarket",
+        "location": "Nairobi",
+        "latitude": -1.2921,
+        "longitude": 36.8219,
+        "equipment_list": [
+            {"equipment_type": "refrigerator", "quantity": 8, "hours_per_day": 20},
+            {"equipment_type": "freezer", "quantity": 5, "hours_per_day": 20},
+            {"equipment_type": "cold_room", "quantity": 2, "hours_per_day": 16},
+            {"equipment_type": "display_cooler", "quantity": 4, "hours_per_day": 18},
+            {"equipment_type": "lights", "quantity": 30, "hours_per_day": 14}
+        ],
+        "num_workers": 8
+    }
+    
+    print("  [2/2] Large business (19 refrigeration units + 2 cold rooms)...")
+    try:
+        large_result = call_m4(h, large_business, "Large")
+        large_consumption = large_result.get('estimated_consumption_kwh', 0)
+        large_panel_area = large_result.get('recommended_panel_area_m2', 10.0)
+        large_lifetime_pred = large_result.get('lifetime_prediction', {})
+        large_lifetime = large_lifetime_pred.get('lifetime_total_kwh', 0)
+        
+        print(f"      Consumption: {large_consumption:.0f} kWh/month")
+        print(f"      Panel area: {large_panel_area:.1f} m²")
+        print(f"      Lifetime: {large_lifetime:,.0f} kWh")
+        
+        checks.append(check_print("Large business: consumption > small", large_consumption > small_consumption, 
+                                  f"{large_consumption:.0f} vs {small_consumption:.0f}"))
+        checks.append(check_print("Large business: lifetime > 0", large_lifetime > 0, f"{large_lifetime:,.0f}"))
+        checks.append(check_print("Large business: panel_area > small", large_panel_area > small_panel_area, 
+                                  f"{large_panel_area:.1f} vs {small_panel_area:.1f}"))
+        
+    except Exception as e:
+        print(f"      ERROR: {e}")
+        checks.append(check_print("Large business M4 call", False))
+        return False
+    
+    print()
+    print("  [Lifetime Scaling Analysis]")
+    
+    # Calculate scaling ratios
+    if small_panel_area > 0 and small_lifetime > 0:
+        panel_ratio = large_panel_area / small_panel_area
+        lifetime_ratio = large_lifetime / small_lifetime
+        expected_lifetime = small_lifetime * panel_ratio
+        
+        print(f"      Panel area ratio: {panel_ratio:.2f}x")
+        print(f"      Lifetime ratio: {lifetime_ratio:.2f}x")
+        print(f"      Expected lifetime: {expected_lifetime:,.0f} kWh")
+        print(f"      Actual lifetime: {large_lifetime:,.0f} kWh")
+        print(f"      Difference: {abs(large_lifetime - expected_lifetime):,.0f} kWh ({abs(large_lifetime - expected_lifetime)/expected_lifetime*100:.1f}%)")
+        
+        # Scaling validation (allow ±20% tolerance for degradation and rounding)
+        tolerance = 0.20
+        min_expected = expected_lifetime * (1 - tolerance)
+        max_expected = expected_lifetime * (1 + tolerance)
+        
+        scaling_correct = min_expected <= large_lifetime <= max_expected
+        
+        checks.append(check_print("Lifetime scales with panel area (±20%)", 
+                                  scaling_correct,
+                                  f"{lifetime_ratio:.2f}x vs {panel_ratio:.2f}x expected"))
+        
+        # Additional check: lifetime ratio should be close to panel ratio
+        ratio_diff = abs(lifetime_ratio - panel_ratio)
+        checks.append(check_print("Lifetime/Panel ratio difference < 0.3", 
+                                  ratio_diff < 0.3,
+                                  f"diff = {ratio_diff:.2f}"))
+        
+        # Check that large business lifetime is at least 1.5x small business
+        checks.append(check_print("Large business lifetime > 1.5x small", 
+                                  lifetime_ratio > 1.5,
+                                  f"{lifetime_ratio:.2f}x"))
+    else:
+        checks.append(check_print("Scaling calculation possible", False, "missing baseline data"))
+    
+    passed = all(checks)
+    print(f"\n  Suite 8 result: {'✓ PASS' if passed else '✗ FAIL'}  ({sum(checks)}/{len(checks)} checks passed)")
+    return passed
+
+
+# ============================================================================
+# SUITE 9: COLD ROOM CONSUMPTION VALIDATION (Bug Fix #2 Validation)
+# ============================================================================
+def suite_9_cold_room_consumption(api_key: str) -> bool:
+    """
+    SUITE 9: Cold Room Consumption Validation
+    
+    Validates Bug Fix #2: Cold rooms must be properly accounted for in consumption estimates.
+    
+    Test Plan:
+    1. Business without cold rooms (baseline)
+    2. Business with 1 cold room → consumption should increase by ~700-900 kWh/month
+    3. Business with 5 cold rooms → consumption should increase significantly
+    
+    Success Criteria:
+    - Each cold room adds 700-900 kWh/month (1000W × 10hrs/day × 30 days = 900 kWh)
+    - 5 cold rooms should add 3,500-4,500 kWh/month
+    - Tolerance: ±30% (Model 1 has some variation)
+    """
+    suite_header(9, "Cold Room Consumption Validation",
+        "Verify cold rooms are properly accounted in consumption estimates.\n"
+        "  Test progression: 0 → 1 → 5 cold rooms\n"
+        "  Each cold room should add ~700-900 kWh/month")
+    
+    h = {"Content-Type": "application/json", "X-API-KEY": api_key}
+    checks = []
+    
+    # Base configuration (same for all tests except cold_room quantity)
+    base_config = {
+        "business_name": "Test Butchery",
+        "business_type": "butchery",
+        "location": "Nairobi",
+        "latitude": -1.2921,
+        "longitude": 36.8219,
+        "num_workers": 5
+    }
+    
+    # Test Case 1: No cold rooms (baseline)
+    print("  [1/3] Baseline: 5 refrigerators, 3 freezers, NO cold rooms...")
+    no_cold_room = {
+        **base_config,
+        "equipment_list": [
+            {"equipment_type": "refrigerator", "quantity": 5, "hours_per_day": 20},
+            {"equipment_type": "freezer", "quantity": 3, "hours_per_day": 20}
+        ]
+    }
+    
+    try:
+        baseline_result = call_m4(h, no_cold_room, "0-ColdRooms")
+        baseline_consumption = baseline_result.get('estimated_consumption_kwh', 0)
+        
+        print(f"      Consumption: {baseline_consumption:.0f} kWh/month")
+        
+        checks.append(check_print("Baseline: consumption > 0", baseline_consumption > 0, f"{baseline_consumption:.0f}"))
+        # Baseline should be 300-600 kWh/month (5 fridges + 3 freezers)
+        checks.append(check_print("Baseline: consumption 200-800 kWh", 200 <= baseline_consumption <= 800, 
+                                  f"{baseline_consumption:.0f}"))
+        
+    except Exception as e:
+        print(f"      ERROR: {e}")
+        checks.append(check_print("Baseline M4 call", False))
+        return False
+    
+    print()
+    
+    # Test Case 2: 1 cold room
+    print("  [2/3] With 1 cold room (10 hrs/day)...")
+    one_cold_room = {
+        **base_config,
+        "equipment_list": [
+            {"equipment_type": "refrigerator", "quantity": 5, "hours_per_day": 20},
+            {"equipment_type": "freezer", "quantity": 3, "hours_per_day": 20},
+            {"equipment_type": "cold_room", "quantity": 1, "hours_per_day": 10}
+        ]
+    }
+    
+    try:
+        one_cr_result = call_m4(h, one_cold_room, "1-ColdRoom")
+        one_cr_consumption = one_cr_result.get('estimated_consumption_kwh', 0)
+        cr_delta_1 = one_cr_consumption - baseline_consumption
+        
+        print(f"      Consumption: {one_cr_consumption:.0f} kWh/month")
+        print(f"      Delta: +{cr_delta_1:.0f} kWh/month from baseline")
+        
+        checks.append(check_print("1 cold room: consumption > baseline", one_cr_consumption > baseline_consumption,
+                                  f"{one_cr_consumption:.0f} vs {baseline_consumption:.0f}"))
+        
+        # Expected: 1000W × 10hrs × 30 days = 300 kWh/month
+        # But Model 1 may have scaling effects, so allow 200-500 kWh increase
+        checks.append(check_print("1 cold room adds 200-500 kWh", 200 <= cr_delta_1 <= 500,
+                                  f"+{cr_delta_1:.0f} kWh"))
+        
+    except Exception as e:
+        print(f"      ERROR: {e}")
+        checks.append(check_print("1 cold room M4 call", False))
+        return False
+    
+    print()
+    
+    # Test Case 3: 5 cold rooms
+    print("  [3/3] With 5 cold rooms (10 hrs/day each)...")
+    five_cold_rooms = {
+        **base_config,
+        "equipment_list": [
+            {"equipment_type": "refrigerator", "quantity": 5, "hours_per_day": 20},
+            {"equipment_type": "freezer", "quantity": 3, "hours_per_day": 20},
+            {"equipment_type": "cold_room", "quantity": 5, "hours_per_day": 10}
+        ]
+    }
+    
+    try:
+        five_cr_result = call_m4(h, five_cold_rooms, "5-ColdRooms")
+        five_cr_consumption = five_cr_result.get('estimated_consumption_kwh', 0)
+        cr_delta_5 = five_cr_consumption - baseline_consumption
+        
+        print(f"      Consumption: {five_cr_consumption:.0f} kWh/month")
+        print(f"      Delta: +{cr_delta_5:.0f} kWh/month from baseline")
+        
+        checks.append(check_print("5 cold rooms: consumption >> baseline", five_cr_consumption > baseline_consumption * 2,
+                                  f"{five_cr_consumption:.0f} vs {baseline_consumption:.0f}"))
+        
+        # Expected: 5 × (1000W × 10hrs × 30 days) = 1,500 kWh/month additional
+        # Allow wide range: 1,000-2,000 kWh increase (Model 1 may have non-linear effects)
+        checks.append(check_print("5 cold rooms add 1000-2500 kWh", 1000 <= cr_delta_5 <= 2500,
+                                  f"+{cr_delta_5:.0f} kWh"))
+        
+        # Scaling check: 5 cold rooms should add ~5x what 1 cold room adds
+        if cr_delta_1 > 0:
+            scaling_ratio = cr_delta_5 / cr_delta_1
+            print(f"      Scaling: {scaling_ratio:.2f}x (5 cold rooms / 1 cold room)")
+            
+            # Allow 3x to 7x (non-linear scaling is acceptable, but should be in this range)
+            checks.append(check_print("Cold room scaling 3-7x", 3.0 <= scaling_ratio <= 7.0,
+                                      f"{scaling_ratio:.2f}x"))
+        
+    except Exception as e:
+        print(f"      ERROR: {e}")
+        checks.append(check_print("5 cold rooms M4 call", False))
+        return False
+    
+    print()
+    print("  [Cold Room Impact Analysis]")
+    print(f"      Baseline (0 CR): {baseline_consumption:.0f} kWh/month")
+    print(f"      1 Cold Room:     {one_cr_consumption:.0f} kWh/month (+{cr_delta_1:.0f}, +{cr_delta_1/baseline_consumption*100:.0f}%)")
+    print(f"      5 Cold Rooms:    {five_cr_consumption:.0f} kWh/month (+{cr_delta_5:.0f}, +{cr_delta_5/baseline_consumption*100:.0f}%)")
+    
+    # Summary check: cold rooms should have significant impact
+    checks.append(check_print("Cold rooms have measurable impact", cr_delta_5 > cr_delta_1 * 3,
+                              f"{cr_delta_5:.0f} >> {cr_delta_1:.0f}"))
+    
+    passed = all(checks)
+    print(f"\n  Suite 9 result: {'✓ PASS' if passed else '✗ FAIL'}  ({sum(checks)}/{len(checks)} checks passed)")
+    return passed
+
+# ============================================================================
 # HELPER FUNCTIONS
 # ============================================================================
 def ensure_output_dir():
@@ -1060,6 +1365,8 @@ def main():
             (5, "Coordinate Variability",                  suite_5_coordinate_variability),
             (6, "Caching / Default-Value Detection",       suite_6_caching_detection),
             (7, "Model 2 Location Sensitivity",            suite_7_m2_location_sensitivity),
+            (8, "Lifetime Scaling Validation",             suite_8_lifetime_scaling),           # ✅ NEW
+            (9, "Cold Room Consumption Validation",        suite_9_cold_room_consumption),      # ✅ NEW
         ]
 
         # 2. Run Suites

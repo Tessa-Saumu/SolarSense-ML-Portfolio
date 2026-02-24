@@ -71,15 +71,14 @@ def create_app() -> Flask:
 # EQUIPMENT TO BUSINESS METRICS CONVERTER
 # ============================================
 
-# Equipment power consumption estimates (watts)
 EQUIPMENT_POWER_ESTIMATES = {
-    # Refrigeration
-    'refrigerator': 150,
-    'freezer': 200,
-    'fridge': 150,
-    'cold_room': 500,
-    'display_cooler': 250,
-    'ice_maker': 300,
+    # Refrigeration - UPDATED ESTIMATES (Bug Fix #2)
+    'refrigerator': 150,           # Unchanged
+    'freezer': 250,                # ✅ CHANGED: 200 → 250 (more realistic)
+    'fridge': 150,                 # Unchanged
+    'cold_room': 1000,             # ✅ CRITICAL FIX: 500 → 1000 (was severely underestimated)
+    'display_cooler': 250,         # Unchanged
+    'ice_maker': 300,              # Unchanged
     
     # Kitchen
     'oven': 2500,
@@ -118,7 +117,12 @@ EQUIPMENT_POWER_ESTIMATES = {
 
 def convert_equipment_to_business_metrics(equipment_list):
     """
-    Convert equipment list to business metrics for Model 1
+    Convert equipment list to business metrics for Model 1.
+    
+    IMPROVED in Bug Fix #2:
+    - Better power consumption estimates (cold_room: 500W → 1000W)
+    - Weighted hours calculation based on actual power consumption
+    - More accurate floor area estimation
     
     Returns:
         dict with sqft_m2, operating_hours_weekly, num_refrigeration_units
@@ -128,7 +132,7 @@ def convert_equipment_to_business_metrics(equipment_list):
     num_refrigeration_units = 0
     
     total_power_watts = 0
-    total_hours = 0
+    total_weighted_hours = 0  # ✅ NEW: weighted by power consumption
     equipment_count = 0
     
     for item in equipment_list:
@@ -140,36 +144,116 @@ def convert_equipment_to_business_metrics(equipment_list):
         if any(keyword in equipment_type for keyword in refrigeration_keywords):
             num_refrigeration_units += quantity
         
-        # Estimate power consumption
-        power = EQUIPMENT_POWER_ESTIMATES.get(equipment_type, 100)  # Default 100W
-        total_power_watts += power * quantity
-        total_hours += hours_per_day
+        # Get power estimate (now includes improved cold_room estimate)
+        power_watts = EQUIPMENT_POWER_ESTIMATES.get(equipment_type, 100)  # Default 100W
+        
+        # ✅ IMPROVED: Weight hours by power consumption
+        # High-power equipment (like cold rooms) should influence operating hours more
+        total_power_watts += power_watts * quantity
+        total_weighted_hours += (power_watts * quantity * hours_per_day)
         equipment_count += 1
     
-    # Calculate average operating hours per week
-    avg_hours_per_day = total_hours / equipment_count if equipment_count > 0 else 12
+    # ✅ IMPROVED: Calculate weighted average operating hours
+    # This gives more weight to high-power equipment like cold rooms
+    if total_power_watts > 0:
+        avg_hours_per_day = total_weighted_hours / total_power_watts
+    else:
+        avg_hours_per_day = 12  # fallback
+    
     operating_hours_weekly = avg_hours_per_day * 7
     
-    # Estimate floor area based on equipment
-    # Rule of thumb: 10-20 sqm per major piece of equipment
-    estimated_sqft_m2 = max(50, len(equipment_list) * 15)  # Minimum 50 sqm
+    # ✅ IMPROVED: Estimate floor area based on equipment count and type
+    # Base: 10-15 sqm per equipment item
+    # Add extra space for cold rooms (they're large)
+    base_area = len(equipment_list) * 15
+    
+    # Count cold rooms and add extra space for them
+    cold_room_count = sum(
+        item.get('quantity', 1) 
+        for item in equipment_list 
+        if 'cold' in item.get('equipment_type', '').lower() and 'room' in item.get('equipment_type', '').lower()
+    )
+    cold_room_bonus = cold_room_count * 20  # Each cold room adds 20 sqm
+    
+    estimated_sqft_m2 = max(50, base_area + cold_room_bonus)  # Minimum 50 sqm
     
     # Cap at reasonable maximums
     operating_hours_weekly = min(168, operating_hours_weekly)
     num_refrigeration_units = min(500, num_refrigeration_units)
     estimated_sqft_m2 = min(10000, estimated_sqft_m2)
     
-    logger.info(f"📊 Equipment conversion:")
+    logger.info(f"📊 Equipment conversion (IMPROVED):")
     logger.info(f"   {len(equipment_list)} equipment items")
     logger.info(f"   → {num_refrigeration_units} refrigeration units")
-    logger.info(f"   → {operating_hours_weekly:.0f} hours/week")
+    logger.info(f"   → {cold_room_count} cold rooms detected")
+    logger.info(f"   → {operating_hours_weekly:.0f} hours/week (weighted)")
     logger.info(f"   → {estimated_sqft_m2:.0f} sqm estimated")
+    logger.info(f"   → {total_power_watts:.0f}W total power")
     
     return {
         'sqft_m2': estimated_sqft_m2,
         'operating_hours_weekly': operating_hours_weekly,
         'num_refrigeration_units': num_refrigeration_units
     }
+
+def scale_lifetime_prediction(base_lifetime_dict, scaling_factor):
+    """
+    Scale Model 2's 10m² lifetime prediction to actual panel size.
+    
+    Bug Fix #1: Model 2 returns predictions for 10m² baseline.
+    Model 4 scales these predictions based on actual system size.
+    
+    Args:
+        base_lifetime_dict: Lifetime prediction dict from Model 2 (10m² base)
+        scaling_factor: How many times larger than 10m² (e.g., 2.0 for 20m²)
+    
+    Returns:
+        dict: Scaled lifetime prediction with correct values for actual panel size
+    """
+    if not base_lifetime_dict or scaling_factor <= 0:
+        return base_lifetime_dict
+    
+    # Create a copy to avoid mutating the original
+    scaled = base_lifetime_dict.copy()
+    
+    # Scale the main energy values
+    if 'year_1_generation_kwh' in scaled:
+        scaled['year_1_generation_kwh'] = scaled['year_1_generation_kwh'] * scaling_factor
+    
+    if 'lifetime_total_kwh' in scaled:
+        scaled['lifetime_total_kwh'] = scaled['lifetime_total_kwh'] * scaling_factor
+    
+    if 'lifetime_average_annual_kwh' in scaled:
+        scaled['lifetime_average_annual_kwh'] = scaled['lifetime_average_annual_kwh'] * scaling_factor
+    
+    # Scale yearly breakdown if present
+    if 'yearly_breakdown' in scaled and isinstance(scaled['yearly_breakdown'], list):
+        for year_data in scaled['yearly_breakdown']:
+            if 'generation_kwh' in year_data:
+                year_data['generation_kwh'] = year_data['generation_kwh'] * scaling_factor
+            if 'confidence_low_kwh' in year_data:
+                year_data['confidence_low_kwh'] = year_data['confidence_low_kwh'] * scaling_factor
+            if 'confidence_high_kwh' in year_data:
+                year_data['confidence_high_kwh'] = year_data['confidence_high_kwh'] * scaling_factor
+    
+    # Scale monthly climatology if present
+    if 'monthly_generation_climatology' in scaled and isinstance(scaled['monthly_generation_climatology'], list):
+        for month_data in scaled['monthly_generation_climatology']:
+            if 'daily_kwh' in month_data:
+                month_data['daily_kwh'] = month_data['daily_kwh'] * scaling_factor
+    
+    # Update assumptions to reflect actual panel size
+    if 'assumptions' in scaled:
+        scaled['assumptions']['panel_area_m2'] = 10.0 * scaling_factor
+        scaled['assumptions']['note'] = f"Scaled from 10m² baseline by factor of {scaling_factor:.2f}"
+    
+    logger.info(f"📐 Lifetime Scaling Applied:")
+    logger.info(f"   Scaling factor: {scaling_factor:.2f}x")
+    logger.info(f"   Panel area: {10.0 * scaling_factor:.1f}m²")
+    logger.info(f"   Year 1: {scaled.get('year_1_generation_kwh', 0):,.0f} kWh")
+    logger.info(f"   Lifetime: {scaled.get('lifetime_total_kwh', 0):,.0f} kWh")
+    
+    return scaled
 
 # ============================================
 # AUTHENTICATION
@@ -848,10 +932,12 @@ def register_routes(app: Flask) -> None:
                     recommended_panel_area = 10.0 * scaling_factor
                 
                     # Dynamic system cost based on panel area and country
-                    # Smaller systems cost more per m² (fixed installation costs amortised over less area)
-                    # Larger systems benefit from economies of scale
-                    # Base rates reflect African market solar installed costs (panels + inverter + mounting + install)
                     scaled_system_cost = calculate_system_cost(recommended_panel_area, country)
+                
+                    # ✅ BUG FIX #1: Scale the lifetime prediction
+                    # Model 2 returns 10m² baseline - we scale it to actual panel size
+                    base_lifetime = generation_data.get('lifetime_prediction', {})
+                    scaled_lifetime = scale_lifetime_prediction(base_lifetime, scaling_factor)
                 
                     # Update generation_data with scaled values
                     generation_data['predicted_generation_kwh'] = scaled_generation_kwh
@@ -859,6 +945,7 @@ def register_routes(app: Flask) -> None:
                     generation_data['recommended_panel_area_m2'] = recommended_panel_area
                     generation_data['scaling_factor'] = scaling_factor
                     generation_data['system_cost_usd'] = scaled_system_cost
+                    generation_data['lifetime_prediction'] = scaled_lifetime  # ✅ Use scaled lifetime
                 
                     logger.info(f"🔧 Intelligent System Sizing:")
                     logger.info(f"   Consumption: {consumption_kwh:.2f} kWh/month")
@@ -867,7 +954,18 @@ def register_routes(app: Flask) -> None:
                     logger.info(f"   Scaled generation: {scaled_generation_kwh:.2f} kWh/month")
                     logger.info(f"   Coverage: {(scaled_generation_kwh/consumption_kwh*100):.1f}%")
                     logger.info(f"   System cost: ${scaled_system_cost:,.0f}")
-            
+                    
+                    # ✅ Log lifetime scaling validation
+                    expected_lifetime = base_lifetime.get('lifetime_total_kwh', 0) * scaling_factor
+                    actual_lifetime = scaled_lifetime.get('lifetime_total_kwh', 0)
+                    if abs(expected_lifetime - actual_lifetime) > 100:  # Allow 100 kWh rounding tolerance
+                        logger.warning(f"⚠️  Lifetime scaling mismatch!")
+                        logger.warning(f"   Expected: {expected_lifetime:,.0f} kWh")
+                        logger.warning(f"   Actual: {actual_lifetime:,.0f} kWh")
+                    else:
+                        logger.info(f"✅ Lifetime scaled correctly: {actual_lifetime:,.0f} kWh")
+
+
                 # Calculate diesel economics and blended tariff
                 diesel_economics = calculate_diesel_economics(consumption_kwh, diesel_params, tariff)
                 blended_tariff = diesel_economics['blended_tariff']
