@@ -1,0 +1,6 @@
+Country_Code,Country_Name,Survey_Year,kWh_Per_Capita,Indicator_Code,Source
+MNA,"Middle East, North Africa, Afghanistan & Pakistan (excluding high income)",2021,1337.50721333335,EG.USE.ELEC.KH.PC,World Bank WDI EG.USE.ELEC.KH.PC — Regional/Global Benchmarks
+OED,OECD members,2021,7743.35368496899,EG.USE.ELEC.KH.PC,World Bank WDI EG.USE.ELEC.KH.PC — Regional/Global Benchmarks
+SAS,South Asia,2021,908.169370662304,EG.USE.ELEC.KH.PC,World Bank WDI EG.USE.ELEC.KH.PC — Regional/Global Benchmarks
+SSF,Sub-Saharan Africa,2021,392.105369256119,EG.USE.ELEC.KH.PC,World Bank WDI EG.USE.ELEC.KH.PC — Regional/Global Benchmarks
+WLD,World,2021,3428.19550358735,EG.USE.ELEC.KH.PC,World Bank WDI EG.USE.ELEC.KH.PC — Regional/Global Benchmarks

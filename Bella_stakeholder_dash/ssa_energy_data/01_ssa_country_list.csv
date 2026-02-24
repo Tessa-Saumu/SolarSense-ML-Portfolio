@@ -1,0 +1,49 @@
+Country_Name,Country_Code,ISO2_Code,WB_Region,Income_Group,Capital_City,Longitude,Latitude,Lending_Type
+Angola,AGO,AO,Sub-Saharan Africa ,Lower middle income,Luanda,13.242,-8.81155,IBRD
+Burundi,BDI,BI,Sub-Saharan Africa ,Low income,Bujumbura,29.3639,-3.3784,IDA
+Benin,BEN,BJ,Sub-Saharan Africa ,Lower middle income,Porto-Novo,2.6323,6.4779,IDA
+Burkina Faso,BFA,BF,Sub-Saharan Africa ,Low income,Ouagadougou,-1.53395,12.3605,IDA
+Botswana,BWA,BW,Sub-Saharan Africa ,Upper middle income,Gaborone,25.9201,-24.6544,IBRD
+Central African Republic,CAF,CF,Sub-Saharan Africa ,Low income,Bangui,21.6407,5.63056,IDA
+Cote d'Ivoire,CIV,CI,Sub-Saharan Africa ,Lower middle income,Yamoussoukro,-4.0305,5.332,Blend
+Cameroon,CMR,CM,Sub-Saharan Africa ,Lower middle income,Yaounde,11.5174,3.8721,Blend
+"Congo, Dem. Rep.",COD,CD,Sub-Saharan Africa ,Low income,Kinshasa,15.3222,-4.325,IDA
+"Congo, Rep.",COG,CG,Sub-Saharan Africa ,Lower middle income,Brazzaville,15.2662,-4.2767,Blend
+Comoros,COM,KM,Sub-Saharan Africa ,Lower middle income,Moroni,43.2418,-11.6986,IDA
+Cabo Verde,CPV,CV,Sub-Saharan Africa ,Upper middle income,Praia,-23.5087,14.9218,Blend
+Eritrea,ERI,ER,Sub-Saharan Africa ,Low income,Asmara,38.9183,15.3315,IDA
+Ethiopia,ETH,ET,Sub-Saharan Africa ,Not classified,Addis Ababa,38.7468,9.02274,IDA
+Gabon,GAB,GA,Sub-Saharan Africa ,Upper middle income,Libreville,9.45162,0.38832,IBRD
+Ghana,GHA,GH,Sub-Saharan Africa ,Lower middle income,Accra,-0.20795,5.57045,IDA
+Guinea,GIN,GN,Sub-Saharan Africa ,Lower middle income,Conakry,-13.7,9.51667,IDA
+"Gambia, The",GMB,GM,Sub-Saharan Africa ,Low income,Banjul,-16.5885,13.4495,IDA
+Guinea-Bissau,GNB,GW,Sub-Saharan Africa ,Low income,Bissau,-15.1804,11.8037,IDA
+Equatorial Guinea,GNQ,GQ,Sub-Saharan Africa ,Upper middle income,Malabo,8.7741,3.7523,IBRD
+Kenya,KEN,KE,Sub-Saharan Africa ,Lower middle income,Nairobi,36.8126,-1.27975,Blend
+Liberia,LBR,LR,Sub-Saharan Africa ,Low income,Monrovia,-10.7957,6.30039,IDA
+Lesotho,LSO,LS,Sub-Saharan Africa ,Lower middle income,Maseru,27.7167,-29.5208,IDA
+Madagascar,MDG,MG,Sub-Saharan Africa ,Low income,Antananarivo,45.7167,-20.4667,IDA
+Mali,MLI,ML,Sub-Saharan Africa ,Low income,Bamako,-7.50034,13.5667,IDA
+Mozambique,MOZ,MZ,Sub-Saharan Africa ,Low income,Maputo,32.5713,-25.9664,IDA
+Mauritania,MRT,MR,Sub-Saharan Africa ,Lower middle income,Nouakchott,-15.9824,18.2367,IDA
+Mauritius,MUS,MU,Sub-Saharan Africa ,Upper middle income,Port Louis,57.4977,-20.1605,IBRD
+Malawi,MWI,MW,Sub-Saharan Africa ,Low income,Lilongwe,33.7703,-13.9899,IDA
+Namibia,NAM,NA,Sub-Saharan Africa ,Lower middle income,Windhoek,17.0931,-22.5648,IBRD
+Niger,NER,NE,Sub-Saharan Africa ,Low income,Niamey,2.1073,13.514,IDA
+Nigeria,NGA,NG,Sub-Saharan Africa ,Lower middle income,Abuja,7.48906,9.05804,Blend
+Rwanda,RWA,RW,Sub-Saharan Africa ,Low income,Kigali,30.0587,-1.95325,IDA
+Sudan,SDN,SD,Sub-Saharan Africa ,Low income,Khartoum,32.5363,15.5932,IDA
+Senegal,SEN,SN,Sub-Saharan Africa ,Lower middle income,Dakar,-17.4734,14.7247,IDA
+Sierra Leone,SLE,SL,Sub-Saharan Africa ,Low income,Freetown,-13.2134,8.4821,IDA
+"Somalia, Fed. Rep.",SOM,SO,Sub-Saharan Africa ,Low income,Mogadishu,45.3254,2.07515,IDA
+South Sudan,SSD,SS,Sub-Saharan Africa ,Low income,Juba,31.6,4.85,IDA
+Sao Tome and Principe,STP,ST,Sub-Saharan Africa ,Lower middle income,Sao Tome,6.6071,0.20618,IDA
+Eswatini,SWZ,SZ,Sub-Saharan Africa ,Lower middle income,Mbabane,31.4659,-26.5225,Blend
+Seychelles,SYC,SC,Sub-Saharan Africa ,High income,Victoria,55.4466,-4.6309,IBRD
+Chad,TCD,TD,Sub-Saharan Africa ,Low income,N'Djamena,15.0445,12.1048,IDA
+Togo,TGO,TG,Sub-Saharan Africa ,Low income,Lome,1.2255,6.1228,IDA
+Tanzania,TZA,TZ,Sub-Saharan Africa ,Lower middle income,Dodoma,35.7382,-6.17486,IDA
+Uganda,UGA,UG,Sub-Saharan Africa ,Low income,Kampala,32.5729,0.314269,IDA
+South Africa,ZAF,ZA,Sub-Saharan Africa ,Upper middle income,Pretoria,28.1871,-25.746,IBRD
+Zambia,ZMB,ZM,Sub-Saharan Africa ,Lower middle income,Lusaka,28.2937,-15.3982,IDA
+Zimbabwe,ZWE,ZW,Sub-Saharan Africa ,Lower middle income,Harare,31.0672,-17.8312,Blend

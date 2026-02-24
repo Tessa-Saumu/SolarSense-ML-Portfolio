@@ -1,0 +1,21 @@
+Country_Code,Country_Name,Grid_Tariff_USD_kWh,Generator_Cost_USD_kWh,Solar_LCOE_USD_kWh,Generator_Premium_vs_Grid_x,Solar_vs_Generator_Saving_Pct,Year,Source,Solar_Cheaper_Than_Grid,Solar_vs_Grid_Saving_Pct,LCOE_Source
+NGA,Nigeria,0.06,0.4,0.08,6.7,80,2023,ESMAP / IEA Africa Outlook 2022,False,-33.3,IRENA Renewable Power Generation Costs 2023 — SSA avg solar LCOE $0.07-0.09/kWh
+KEN,Kenya,0.19,0.55,0.08,2.9,85,2023,KPLC Tariff Schedule 2023 / ESMAP,True,57.9,IRENA Renewable Power Generation Costs 2023 — SSA avg solar LCOE $0.07-0.09/kWh
+GHA,Ghana,0.13,0.45,0.08,3.5,82,2023,ECG Ghana / ESMAP,True,38.5,IRENA Renewable Power Generation Costs 2023 — SSA avg solar LCOE $0.07-0.09/kWh
+TZA,Tanzania,0.1,0.4,0.08,4.0,80,2023,TANESCO / ESMAP,True,20.0,IRENA Renewable Power Generation Costs 2023 — SSA avg solar LCOE $0.07-0.09/kWh
+ZAF,South Africa,0.12,0.38,0.07,3.2,82,2023,Eskom / IRENA 2023,True,41.7,IRENA Renewable Power Generation Costs 2023 — SSA avg solar LCOE $0.07-0.09/kWh
+ETH,Ethiopia,0.05,0.35,0.08,7.0,77,2023,EEP / ESMAP,False,-60.0,IRENA Renewable Power Generation Costs 2023 — SSA avg solar LCOE $0.07-0.09/kWh
+UGA,Uganda,0.17,0.5,0.08,2.9,84,2023,UMEME / ESMAP,True,52.9,IRENA Renewable Power Generation Costs 2023 — SSA avg solar LCOE $0.07-0.09/kWh
+SEN,Senegal,0.18,0.52,0.08,2.9,85,2023,SENELEC / ESMAP,True,55.6,IRENA Renewable Power Generation Costs 2023 — SSA avg solar LCOE $0.07-0.09/kWh
+CMR,Cameroon,0.11,0.38,0.08,3.5,79,2023,AES / ESMAP,True,27.3,IRENA Renewable Power Generation Costs 2023 — SSA avg solar LCOE $0.07-0.09/kWh
+ZMB,Zambia,0.07,0.4,0.07,5.7,83,2023,ZESCO / ESMAP,False,0.0,IRENA Renewable Power Generation Costs 2023 — SSA avg solar LCOE $0.07-0.09/kWh
+ZWE,Zimbabwe,0.1,0.45,0.07,4.5,84,2023,ZESA / ESMAP,True,30.0,IRENA Renewable Power Generation Costs 2023 — SSA avg solar LCOE $0.07-0.09/kWh
+MOZ,Mozambique,0.08,0.38,0.08,4.8,79,2023,EDM / ESMAP,False,0.0,IRENA Renewable Power Generation Costs 2023 — SSA avg solar LCOE $0.07-0.09/kWh
+MWI,Malawi,0.06,0.42,0.09,7.0,79,2023,ESCOM / ESMAP,False,-50.0,IRENA Renewable Power Generation Costs 2023 — SSA avg solar LCOE $0.07-0.09/kWh
+RWA,Rwanda,0.2,0.55,0.09,2.8,84,2023,REG / ESMAP,True,55.0,IRENA Renewable Power Generation Costs 2023 — SSA avg solar LCOE $0.07-0.09/kWh
+BFA,Burkina Faso,0.15,0.48,0.08,3.2,83,2023,SONABEL / ESMAP,True,46.7,IRENA Renewable Power Generation Costs 2023 — SSA avg solar LCOE $0.07-0.09/kWh
+MLI,Mali,0.16,0.5,0.08,3.1,84,2023,EDM-SA / ESMAP,True,50.0,IRENA Renewable Power Generation Costs 2023 — SSA avg solar LCOE $0.07-0.09/kWh
+NER,Niger,0.14,0.48,0.08,3.4,83,2023,NIGELEC / ESMAP,True,42.9,IRENA Renewable Power Generation Costs 2023 — SSA avg solar LCOE $0.07-0.09/kWh
+COD,"Congo, DR",0.06,0.38,0.09,6.3,76,2023,SNEL / ESMAP,False,-50.0,IRENA Renewable Power Generation Costs 2023 — SSA avg solar LCOE $0.07-0.09/kWh
+MDG,Madagascar,0.1,0.45,0.09,4.5,80,2023,JIRAMA / ESMAP,True,10.0,IRENA Renewable Power Generation Costs 2023 — SSA avg solar LCOE $0.07-0.09/kWh
+BEN,Benin,0.14,0.46,0.08,3.3,83,2023,SBEE / ESMAP,True,42.9,IRENA Renewable Power Generation Costs 2023 — SSA avg solar LCOE $0.07-0.09/kWh

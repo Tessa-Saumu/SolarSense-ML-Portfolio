@@ -1,0 +1,46 @@
+Country_Code,Country_Name,Survey_Year,Firms_Experiencing_Outages_Pct,Indicator_Code,Indicator_Name,WB_Indicator,Source
+AGO,Angola,2024,61.41448212,IC.ELC.OUTG.ZS,Firms experiencing electrical outages (% of firms),IC.ELC.OUTG.ZS,World Bank WDI / Enterprise Surveys
+BDI,Burundi,2014,85.052742,IC.ELC.OUTG.ZS,Firms experiencing electrical outages (% of firms),IC.ELC.OUTG.ZS,World Bank WDI / Enterprise Surveys
+BEN,Benin,2024,86.14924622,IC.ELC.OUTG.ZS,Firms experiencing electrical outages (% of firms),IC.ELC.OUTG.ZS,World Bank WDI / Enterprise Surveys
+BFA,Burkina Faso,2024,92.48812103,IC.ELC.OUTG.ZS,Firms experiencing electrical outages (% of firms),IC.ELC.OUTG.ZS,World Bank WDI / Enterprise Surveys
+BWA,Botswana,2023,64.15776825,IC.ELC.OUTG.ZS,Firms experiencing electrical outages (% of firms),IC.ELC.OUTG.ZS,World Bank WDI / Enterprise Surveys
+CAF,Central African Republic,2023,89.27954865,IC.ELC.OUTG.ZS,Firms experiencing electrical outages (% of firms),IC.ELC.OUTG.ZS,World Bank WDI / Enterprise Surveys
+CIV,Cote d'Ivoire,2023,80.34918213,IC.ELC.OUTG.ZS,Firms experiencing electrical outages (% of firms),IC.ELC.OUTG.ZS,World Bank WDI / Enterprise Surveys
+CMR,Cameroon,2024,93.30515289,IC.ELC.OUTG.ZS,Firms experiencing electrical outages (% of firms),IC.ELC.OUTG.ZS,World Bank WDI / Enterprise Surveys
+COD,"Congo, Dem. Rep.",2024,77.36276245,IC.ELC.OUTG.ZS,Firms experiencing electrical outages (% of firms),IC.ELC.OUTG.ZS,World Bank WDI / Enterprise Surveys
+COG,"Congo, Rep.",2024,77.10931396,IC.ELC.OUTG.ZS,Firms experiencing electrical outages (% of firms),IC.ELC.OUTG.ZS,World Bank WDI / Enterprise Surveys
+CPV,Cabo Verde,2024,39.56323624,IC.ELC.OUTG.ZS,Firms experiencing electrical outages (% of firms),IC.ELC.OUTG.ZS,World Bank WDI / Enterprise Surveys
+ERI,Eritrea,2009,20.54837227,IC.ELC.OUTG.ZS,Firms experiencing electrical outages (% of firms),IC.ELC.OUTG.ZS,World Bank WDI / Enterprise Surveys
+ETH,Ethiopia,2015,80.03583527,IC.ELC.OUTG.ZS,Firms experiencing electrical outages (% of firms),IC.ELC.OUTG.ZS,World Bank WDI / Enterprise Surveys
+GAB,Gabon,2009,71.59854889,IC.ELC.OUTG.ZS,Firms experiencing electrical outages (% of firms),IC.ELC.OUTG.ZS,World Bank WDI / Enterprise Surveys
+GHA,Ghana,2023,73.76318359,IC.ELC.OUTG.ZS,Firms experiencing electrical outages (% of firms),IC.ELC.OUTG.ZS,World Bank WDI / Enterprise Surveys
+GIN,Guinea,2016,84.18799591,IC.ELC.OUTG.ZS,Firms experiencing electrical outages (% of firms),IC.ELC.OUTG.ZS,World Bank WDI / Enterprise Surveys
+GMB,"Gambia, The",2023,86.94114685,IC.ELC.OUTG.ZS,Firms experiencing electrical outages (% of firms),IC.ELC.OUTG.ZS,World Bank WDI / Enterprise Surveys
+GNB,Guinea-Bissau,2006,57.11346054,IC.ELC.OUTG.ZS,Firms experiencing electrical outages (% of firms),IC.ELC.OUTG.ZS,World Bank WDI / Enterprise Surveys
+GNQ,Equatorial Guinea,2024,33.32280731,IC.ELC.OUTG.ZS,Firms experiencing electrical outages (% of firms),IC.ELC.OUTG.ZS,World Bank WDI / Enterprise Surveys
+KEN,Kenya,2018,82.83781433,IC.ELC.OUTG.ZS,Firms experiencing electrical outages (% of firms),IC.ELC.OUTG.ZS,World Bank WDI / Enterprise Surveys
+LBR,Liberia,2017,44.33125687,IC.ELC.OUTG.ZS,Firms experiencing electrical outages (% of firms),IC.ELC.OUTG.ZS,World Bank WDI / Enterprise Surveys
+LSO,Lesotho,2023,64.55149841,IC.ELC.OUTG.ZS,Firms experiencing electrical outages (% of firms),IC.ELC.OUTG.ZS,World Bank WDI / Enterprise Surveys
+MDG,Madagascar,2022,52.38755417,IC.ELC.OUTG.ZS,Firms experiencing electrical outages (% of firms),IC.ELC.OUTG.ZS,World Bank WDI / Enterprise Surveys
+MLI,Mali,2024,87.10353088,IC.ELC.OUTG.ZS,Firms experiencing electrical outages (% of firms),IC.ELC.OUTG.ZS,World Bank WDI / Enterprise Surveys
+MOZ,Mozambique,2018,52.78496933,IC.ELC.OUTG.ZS,Firms experiencing electrical outages (% of firms),IC.ELC.OUTG.ZS,World Bank WDI / Enterprise Surveys
+MRT,Mauritania,2014,90.72509766,IC.ELC.OUTG.ZS,Firms experiencing electrical outages (% of firms),IC.ELC.OUTG.ZS,World Bank WDI / Enterprise Surveys
+MUS,Mauritius,2023,40.38035202,IC.ELC.OUTG.ZS,Firms experiencing electrical outages (% of firms),IC.ELC.OUTG.ZS,World Bank WDI / Enterprise Surveys
+MWI,Malawi,2014,82.93754578,IC.ELC.OUTG.ZS,Firms experiencing electrical outages (% of firms),IC.ELC.OUTG.ZS,World Bank WDI / Enterprise Surveys
+NAM,Namibia,2024,53.67754364,IC.ELC.OUTG.ZS,Firms experiencing electrical outages (% of firms),IC.ELC.OUTG.ZS,World Bank WDI / Enterprise Surveys
+NER,Niger,2017,78.02895355,IC.ELC.OUTG.ZS,Firms experiencing electrical outages (% of firms),IC.ELC.OUTG.ZS,World Bank WDI / Enterprise Surveys
+NGA,Nigeria,2014,77.61531067,IC.ELC.OUTG.ZS,Firms experiencing electrical outages (% of firms),IC.ELC.OUTG.ZS,World Bank WDI / Enterprise Surveys
+RWA,Rwanda,2023,60.58708954,IC.ELC.OUTG.ZS,Firms experiencing electrical outages (% of firms),IC.ELC.OUTG.ZS,World Bank WDI / Enterprise Surveys
+SDN,Sudan,2014,93.71907043,IC.ELC.OUTG.ZS,Firms experiencing electrical outages (% of firms),IC.ELC.OUTG.ZS,World Bank WDI / Enterprise Surveys
+SEN,Senegal,2024,55.03804779,IC.ELC.OUTG.ZS,Firms experiencing electrical outages (% of firms),IC.ELC.OUTG.ZS,World Bank WDI / Enterprise Surveys
+SLE,Sierra Leone,2023,66.22390747,IC.ELC.OUTG.ZS,Firms experiencing electrical outages (% of firms),IC.ELC.OUTG.ZS,World Bank WDI / Enterprise Surveys
+SSD,South Sudan,2024,68.36896515,IC.ELC.OUTG.ZS,Firms experiencing electrical outages (% of firms),IC.ELC.OUTG.ZS,World Bank WDI / Enterprise Surveys
+SWZ,Eswatini,2024,58.49438095,IC.ELC.OUTG.ZS,Firms experiencing electrical outages (% of firms),IC.ELC.OUTG.ZS,World Bank WDI / Enterprise Surveys
+SYC,Seychelles,2023,38.2654686,IC.ELC.OUTG.ZS,Firms experiencing electrical outages (% of firms),IC.ELC.OUTG.ZS,World Bank WDI / Enterprise Surveys
+TCD,Chad,2023,96.17499542,IC.ELC.OUTG.ZS,Firms experiencing electrical outages (% of firms),IC.ELC.OUTG.ZS,World Bank WDI / Enterprise Surveys
+TGO,Togo,2023,86.13388824,IC.ELC.OUTG.ZS,Firms experiencing electrical outages (% of firms),IC.ELC.OUTG.ZS,World Bank WDI / Enterprise Surveys
+TZA,Tanzania,2023,34.12546539,IC.ELC.OUTG.ZS,Firms experiencing electrical outages (% of firms),IC.ELC.OUTG.ZS,World Bank WDI / Enterprise Surveys
+UGA,Uganda,2013,81.5100708,IC.ELC.OUTG.ZS,Firms experiencing electrical outages (% of firms),IC.ELC.OUTG.ZS,World Bank WDI / Enterprise Surveys
+ZAF,South Africa,2020,92.02373505,IC.ELC.OUTG.ZS,Firms experiencing electrical outages (% of firms),IC.ELC.OUTG.ZS,World Bank WDI / Enterprise Surveys
+ZMB,Zambia,2019,87.13105774,IC.ELC.OUTG.ZS,Firms experiencing electrical outages (% of firms),IC.ELC.OUTG.ZS,World Bank WDI / Enterprise Surveys
+ZWE,Zimbabwe,2016,76.4516983,IC.ELC.OUTG.ZS,Firms experiencing electrical outages (% of firms),IC.ELC.OUTG.ZS,World Bank WDI / Enterprise Surveys

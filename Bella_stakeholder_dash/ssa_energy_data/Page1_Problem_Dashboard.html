@@ -1,0 +1,860 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Page 1 — The Problem | SolarSense AI</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Mono:wght@300;400;500&family=Manrope:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<style>
+  :root {
+    --bg:        #F5F0E8;
+    --surface:   #FFFCF7;
+    --border:    #E2D9C8;
+    --text:      #1A1611;
+    --muted:     #7A6E5F;
+    --accent1:   #C0392B;   /* crisis red */
+    --accent2:   #E67E22;   /* warning amber */
+    --accent3:   #2C3E50;   /* dark navy */
+    --accent4:   #8E44AD;   /* insight purple */
+    --accent5:   #16A085;   /* teal for cold chain */
+    --gold:      #D4AC0D;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--bg);
+    font-family: 'Manrope', sans-serif;
+    color: var(--text);
+    min-height: 100vh;
+    padding: 0;
+  }
+
+  /* ── TOP NAVIGATION BAR (mimics Power BI) ── */
+  .pbi-topbar {
+    background: var(--accent3);
+    color: #fff;
+    height: 44px;
+    display: flex;
+    align-items: center;
+    padding: 0 20px;
+    gap: 28px;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.3);
+  }
+  .pbi-topbar .logo {
+    font-family: 'DM Serif Display', serif;
+    font-size: 17px;
+    color: #fff;
+    letter-spacing: 0.5px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .pbi-topbar .logo span { color: var(--gold); }
+  .pbi-topbar .divider { width: 1px; height: 20px; background: rgba(255,255,255,0.2); }
+  .pbi-topbar .report-title {
+    font-size: 13px;
+    font-weight: 600;
+    color: rgba(255,255,255,0.85);
+    letter-spacing: 0.5px;
+  }
+  .pbi-topbar .spacer { flex: 1; }
+  .pbi-topbar .page-indicator {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    color: rgba(255,255,255,0.5);
+    letter-spacing: 2px;
+  }
+
+  /* ── PAGE TABS (mimics Power BI tabs) ── */
+  .pbi-tabs {
+    background: #fff;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    padding: 0 24px;
+    gap: 0;
+  }
+  .pbi-tab {
+    padding: 10px 20px;
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    cursor: pointer;
+    border-bottom: 3px solid transparent;
+    color: var(--muted);
+    white-space: nowrap;
+  }
+  .pbi-tab.active {
+    color: var(--accent1);
+    border-bottom-color: var(--accent1);
+  }
+
+  /* ── MAIN CANVAS ── */
+  .canvas {
+    padding: 20px 24px 32px;
+    display: grid;
+    gap: 16px;
+  }
+
+  /* ── PAGE HEADER ── */
+  .page-header {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    align-items: start;
+    gap: 20px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-left: 5px solid var(--accent1);
+    border-radius: 4px;
+    padding: 18px 24px;
+  }
+  .page-header h1 {
+    font-family: 'DM Serif Display', serif;
+    font-size: 26px;
+    color: var(--text);
+    line-height: 1.15;
+  }
+  .page-header h1 em {
+    font-style: italic;
+    color: var(--accent1);
+  }
+  .page-header .subtitle {
+    margin-top: 6px;
+    font-size: 13px;
+    color: var(--muted);
+    font-weight: 400;
+    line-height: 1.5;
+  }
+  .source-badge {
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: 3px;
+    padding: 8px 14px;
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    color: var(--muted);
+    text-align: right;
+    line-height: 1.8;
+    white-space: nowrap;
+  }
+  .source-badge strong { color: var(--text); }
+
+  /* ── KPI ROW ── */
+  .kpi-row {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 12px;
+  }
+  .kpi-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 14px 16px;
+    position: relative;
+    overflow: hidden;
+  }
+  .kpi-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 3px;
+    background: var(--kpi-color, var(--accent1));
+  }
+  .kpi-card .kpi-label {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 8px;
+    line-height: 1.3;
+  }
+  .kpi-card .kpi-value {
+    font-family: 'DM Serif Display', serif;
+    font-size: 32px;
+    color: var(--kpi-color, var(--accent1));
+    line-height: 1;
+  }
+  .kpi-card .kpi-unit {
+    font-size: 11px;
+    color: var(--muted);
+    margin-top: 4px;
+    font-weight: 600;
+  }
+  .kpi-card .kpi-sub {
+    font-size: 10px;
+    color: var(--muted);
+    margin-top: 6px;
+    font-weight: 400;
+    line-height: 1.4;
+  }
+
+  /* ── CHART ROW ── */
+  .chart-row-2 {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: 12px;
+  }
+  .chart-row-3 {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 12px;
+  }
+  .chart-row-equal {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+  }
+
+  .chart-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 16px 18px;
+    display: flex;
+    flex-direction: column;
+  }
+  .chart-card .card-title {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 1.2px;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 4px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .chart-card .card-title .dot {
+    width: 8px; height: 8px;
+    border-radius: 50%;
+    background: var(--dot-color, var(--accent1));
+    flex-shrink: 0;
+  }
+  .chart-card .card-desc {
+    font-size: 11px;
+    color: var(--muted);
+    margin-bottom: 12px;
+    font-weight: 400;
+  }
+  .chart-card .chart-wrap {
+    flex: 1;
+    min-height: 0;
+    position: relative;
+  }
+  .chart-card .chart-source {
+    font-family: 'DM Mono', monospace;
+    font-size: 9px;
+    color: #C0B8A8;
+    margin-top: 10px;
+    letter-spacing: 0.5px;
+  }
+
+  /* ── COLD CHAIN TABLE ── */
+  .cold-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 12px;
+  }
+  .cold-table th {
+    text-align: left;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: var(--muted);
+    padding: 6px 10px;
+    border-bottom: 1.5px solid var(--border);
+  }
+  .cold-table td {
+    padding: 7px 10px;
+    border-bottom: 1px solid var(--bg);
+    color: var(--text);
+    vertical-align: middle;
+  }
+  .cold-table tr:hover td { background: var(--bg); }
+  .cold-table .bar-cell { width: 120px; }
+  .cold-bar {
+    height: 7px;
+    border-radius: 3px;
+    background: var(--accent5);
+    opacity: 0.85;
+  }
+  .cold-table .val-cell {
+    font-family: 'DM Mono', monospace;
+    font-weight: 600;
+    color: var(--accent5);
+    font-size: 12px;
+    width: 70px;
+  }
+
+  /* ── TREND SPARKLINE ── */
+  .trend-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 16px 18px;
+  }
+
+  /* ── CRISIS HIGHLIGHT BOX ── */
+  .crisis-box {
+    background: #FDF2F0;
+    border: 1px solid #F5C6C0;
+    border-left: 4px solid var(--accent1);
+    border-radius: 4px;
+    padding: 14px 18px;
+  }
+  .crisis-box h3 {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: var(--accent1);
+    margin-bottom: 10px;
+  }
+  .crisis-facts {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+  }
+  .crisis-fact {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+  }
+  .crisis-fact .cf-val {
+    font-family: 'DM Serif Display', serif;
+    font-size: 22px;
+    color: var(--accent1);
+    line-height: 1;
+  }
+  .crisis-fact .cf-label {
+    font-size: 11px;
+    color: #7A3428;
+    font-weight: 600;
+    line-height: 1.3;
+  }
+  .crisis-fact .cf-src {
+    font-family: 'DM Mono', monospace;
+    font-size: 9px;
+    color: #B07A70;
+  }
+
+  /* ── FOOTER ── */
+  .dash-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 8px 24px 12px;
+    font-family: 'DM Mono', monospace;
+    font-size: 9px;
+    color: #C0B8A8;
+    letter-spacing: 1px;
+  }
+
+</style>
+</head>
+<body>
+
+<!-- POWER BI TOPBAR -->
+<div class="pbi-topbar">
+  <div class="logo">☀ <span>SolarSense</span> AI</div>
+  <div class="divider"></div>
+  <div class="report-title">Stakeholder Insights Dashboard · Version 1</div>
+  <div class="spacer"></div>
+  <div class="page-indicator">PAGE 1 OF 4</div>
+</div>
+
+<!-- PAGE TABS -->
+<div class="pbi-tabs">
+  <div class="pbi-tab active">The Problem</div>
+  <div class="pbi-tab">The Opportunity</div>
+  <div class="pbi-tab">The Financial Case</div>
+  <div class="pbi-tab">The Recommendation</div>
+</div>
+
+<!-- MAIN CANVAS -->
+<div class="canvas">
+
+  <!-- PAGE HEADER -->
+  <div class="page-header">
+    <div>
+      <h1>The Problem: <em>Energy Access Crisis</em> for SSA SMEs</h1>
+      <p class="subtitle">
+        Across 47 Sub-Saharan African countries, unreliable electricity is the single greatest operational constraint for small and medium enterprises —
+        driving up costs, destroying cold chain integrity, and locking SMEs out of global competitiveness.
+      </p>
+    </div>
+    <div class="source-badge">
+      <strong>Data Sources</strong><br>
+      World Bank WDI (EG.ELC.ACCS.ZS)<br>
+      World Bank Enterprise Surveys<br>
+      (IC.ELC.OUTG.ZS · IC.FRM.OUTG.ZS)<br>
+      FAO · IIR · GCCA · WHO
+    </div>
+  </div>
+
+  <!-- KPI ROW -->
+  <div class="kpi-row">
+    <div class="kpi-card" style="--kpi-color: #C0392B">
+      <div class="kpi-label">Population Without Electricity</div>
+      <div class="kpi-value">589M</div>
+      <div class="kpi-unit">people in SSA (2023)</div>
+      <div class="kpi-sub">85% of the global electricity deficit — up from 50% in 2010</div>
+    </div>
+    <div class="kpi-card" style="--kpi-color: #E67E22">
+      <div class="kpi-label">SSA Electricity Access</div>
+      <div class="kpi-value">53.3%</div>
+      <div class="kpi-unit">of population (2023)</div>
+      <div class="kpi-sub">Needs to double by 2030 to meet SDG 7 universal access target</div>
+    </div>
+    <div class="kpi-card" style="--kpi-color: #8E44AD">
+      <div class="kpi-label">Firms Experiencing Outages</div>
+      <div class="kpi-value">75%+</div>
+      <div class="kpi-unit">SSA average (Enterprise Surveys)</div>
+      <div class="kpi-sub">Chad: 96.2% · Cameroon: 93.3% · Sudan: 93.7%</div>
+    </div>
+    <div class="kpi-card" style="--kpi-color: #C0392B">
+      <div class="kpi-label">Sales Lost to Outages</div>
+      <div class="kpi-value">10%</div>
+      <div class="kpi-unit">of annual sales (Mali / CAR / Zambia)</div>
+      <div class="kpi-sub">IC.FRM.OUTG.ZS — for firms that experienced outages</div>
+    </div>
+    <div class="kpi-card" style="--kpi-color: #16A085">
+      <div class="kpi-label">Food Lost Pre-Consumer</div>
+      <div class="kpi-value">40–60%</div>
+      <div class="kpi-unit">of fresh produce (FAO 2020)</div>
+      <div class="kpi-sub">Only 3% of SSA agricultural output refrigerated at first mile (IIR 2022)</div>
+    </div>
+  </div>
+
+  <!-- ROW: Outages by Country (bar) + Access Trend (line) -->
+  <div class="chart-row-2">
+
+    <div class="chart-card">
+      <div class="card-title"><div class="dot" style="background:#8E44AD"></div>Firms Experiencing Electrical Outages by Country (%)</div>
+      <div class="card-desc">IC.ELC.OUTG.ZS — Most recent Enterprise Survey per country · Sorted descending</div>
+      <div class="chart-wrap" style="height:300px">
+        <canvas id="outagesBarChart"></canvas>
+      </div>
+      <div class="chart-source">Source: World Bank Enterprise Surveys (IC.ELC.OUTG.ZS) — survey years 2006–2024</div>
+    </div>
+
+    <div class="chart-card">
+      <div class="card-title"><div class="dot" style="background:#E67E22"></div>SSA Electricity Access Trend</div>
+      <div class="card-desc">EG.ELC.ACCS.ZS — Regional aggregate 2000–2023</div>
+      <div class="chart-wrap" style="height:260px">
+        <canvas id="trendChart"></canvas>
+      </div>
+      <div class="chart-source">Source: World Bank WDI — SSF Regional Aggregate (EG.ELC.ACCS.ZS)</div>
+    </div>
+
+  </div>
+
+  <!-- ROW: Access by Country map-style bar + Cold Chain + Crisis Box -->
+  <div class="chart-row-3">
+
+    <div class="chart-card">
+      <div class="card-title"><div class="dot" style="background:#E67E22"></div>Electricity Access by Country (2022)</div>
+      <div class="card-desc">EG.ELC.ACCS.ZS — % of population with access</div>
+      <div class="chart-wrap" style="height:280px">
+        <canvas id="accessCountryChart"></canvas>
+      </div>
+      <div class="chart-source">Source: World Bank WDI (EG.ELC.ACCS.ZS) · Year: 2022</div>
+    </div>
+
+    <div class="chart-card">
+      <div class="card-title"><div class="dot" style="background:#C0392B"></div>Value Lost to Outages (% of Annual Sales)</div>
+      <div class="card-desc">IC.FRM.OUTG.ZS — Countries with losses &gt; 0%</div>
+      <div class="chart-wrap" style="height:280px">
+        <canvas id="valueLostChart"></canvas>
+      </div>
+      <div class="chart-source">Source: World Bank Enterprise Surveys (IC.FRM.OUTG.ZS)</div>
+    </div>
+
+    <div class="chart-card" style="gap:0">
+      <div class="card-title"><div class="dot" style="background:#16A085"></div>Cold Chain Impact — Food Loss Rates</div>
+      <div class="card-desc">SSA post-harvest losses by food category · FAO / IIR 2022</div>
+      <div style="flex:1; overflow:auto; margin-top:4px">
+        <table class="cold-table">
+          <thead>
+            <tr>
+              <th>Category</th>
+              <th class="val-cell">Loss</th>
+              <th class="bar-cell">Scale</th>
+            </tr>
+          </thead>
+          <tbody id="coldChainTable"></tbody>
+        </table>
+        <div style="margin-top:16px">
+          <div style="display:grid; grid-template-columns:1fr 1fr; gap:8px">
+            <div style="background:#EBF8F5; border:1px solid #A8DFDA; border-radius:3px; padding:10px 12px">
+              <div style="font-size:9px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:#16A085;margin-bottom:4px">Refrigerated at First Mile</div>
+              <div style="font-family:'DM Serif Display',serif; font-size:28px; color:#16A085; line-height:1">3%</div>
+              <div style="font-size:10px;color:#2C7A6E;margin-top:3px">of SSA ag output · IIR 2022</div>
+            </div>
+            <div style="background:#FDF2F0; border:1px solid #F5C6C0; border-radius:3px; padding:10px 12px">
+              <div style="font-size:9px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:#C0392B;margin-bottom:4px">Generator Premium</div>
+              <div style="font-family:'DM Serif Display',serif; font-size:28px; color:#C0392B; line-height:1">3–5×</div>
+              <div style="font-size:10px;color:#7A3428;margin-top:3px">cost vs. grid electricity · IEA 2022</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="chart-source">Source: FAO (2020) · IIR (2022) · IEA Africa Energy Outlook 2022</div>
+    </div>
+
+  </div>
+
+  <!-- CRISIS FACTS ROW -->
+  <div class="crisis-box">
+    <h3>⚡ Grid Reliability Crisis — Key Facts</h3>
+    <div class="crisis-facts">
+      <div class="crisis-fact">
+        <span class="cf-val">80M+</span>
+        <span class="cf-label">Nigerians without electricity access — largest single country deficit globally</span>
+        <span class="cf-src">ESMAP SDG7 Tracking 2025</span>
+      </div>
+      <div class="crisis-fact">
+        <span class="cf-val">92%</span>
+        <span class="cf-label">of South African firms reported outages (2020 survey) — Eskom load shedding peak</span>
+        <span class="cf-src">World Bank ES IC.ELC.OUTG.ZS (2020)</span>
+      </div>
+      <div class="crisis-fact">
+        <span class="cf-val">96%</span>
+        <span class="cf-label">of Chadian firms hit by outages — highest rate of any SSA country surveyed</span>
+        <span class="cf-src">World Bank ES IC.ELC.OUTG.ZS (2023)</span>
+      </div>
+      <div class="crisis-fact">
+        <span class="cf-val">40%</span>
+        <span class="cf-label">of SSA firms cite electricity as their #1 operational constraint</span>
+        <span class="cf-src">World Bank Enterprise Surveys 2023</span>
+      </div>
+      <div class="crisis-fact">
+        <span class="cf-val">28–34%</span>
+        <span class="cf-label">of SSA health facilities have reliable power, threatening vaccine cold chains</span>
+        <span class="cf-src">WHO 2023</span>
+      </div>
+      <div class="crisis-fact">
+        <span class="cf-val">$4B+</span>
+        <span class="cf-label">annual post-harvest monetary losses from cold chain failure across SSA</span>
+        <span class="cf-src">FAO / World Bank (2020)</span>
+      </div>
+    </div>
+  </div>
+
+</div><!-- /canvas -->
+
+<div class="dash-footer">
+  <span>SOLARSENSE AI · STAKEHOLDER INSIGHTS DASHBOARD V1 · CONFIDENTIAL</span>
+  <span>DATA: WORLD BANK WDI API + ENTERPRISE SURVEYS + FAO + IIR + WHO · 2000–2024</span>
+  <span>PAGE 1 — THE PROBLEM</span>
+</div>
+
+<script>
+// ── REAL DATA from fetched CSVs ──
+
+// 03b: Firms experiencing outages — latest per country
+const outagesData = [
+  { code:"TCD", name:"Chad",              val:96.2 },
+  { code:"SDN", name:"Sudan",             val:93.7 },
+  { code:"CMR", name:"Cameroon",          val:93.3 },
+  { code:"ZAF", name:"South Africa",      val:92.0 },
+  { code:"BFA", name:"Burkina Faso",      val:92.5 },
+  { code:"MRT", name:"Mauritania",        val:90.7 },
+  { code:"CAF", name:"Central Afr. Rep.", val:89.3 },
+  { code:"ZMB", name:"Zambia",            val:87.1 },
+  { code:"MLI", name:"Mali",              val:87.1 },
+  { code:"GMB", name:"Gambia",            val:86.9 },
+  { code:"BEN", name:"Benin",             val:86.1 },
+  { code:"TGO", name:"Togo",              val:86.1 },
+  { code:"BDI", name:"Burundi",           val:85.1 },
+  { code:"GIN", name:"Guinea",            val:84.2 },
+  { code:"MWI", name:"Malawi",            val:82.9 },
+  { code:"KEN", name:"Kenya",             val:82.8 },
+  { code:"ETH", name:"Ethiopia",          val:80.0 },
+  { code:"CIV", name:"Côte d'Ivoire",     val:80.3 },
+  { code:"NER", name:"Niger",             val:78.0 },
+  { code:"NGA", name:"Nigeria",           val:77.6 },
+  { code:"COD", name:"Congo, DR",         val:77.4 },
+  { code:"COG", name:"Congo, Rep.",       val:77.1 },
+  { code:"ZWE", name:"Zimbabwe",          val:76.5 },
+  { code:"UGA", name:"Uganda",            val:81.5 },
+].sort((a,b)=>b.val-a.val);
+
+// 04b: Value lost — countries with val > 0
+const valueLostData = [
+  { code:"MLI", name:"Mali",              val:10.0 },
+  { code:"TCD", name:"Chad",              val:10.0 },
+  { code:"ZMB", name:"Zambia",            val:10.0 },
+  { code:"CAF", name:"Central Afr. Rep.", val:9.0  },
+  { code:"NGA", name:"Nigeria",           val:3.0  },
+  { code:"BFA", name:"Burkina Faso",      val:2.7  },
+  { code:"SLE", name:"Sierra Leone",      val:2.0  },
+  { code:"CIV", name:"Côte d'Ivoire",     val:2.0  },
+  { code:"CMR", name:"Cameroon",          val:2.0  },
+  { code:"COD", name:"Congo, DR",         val:2.0  },
+  { code:"KEN", name:"Kenya",             val:1.0  },
+  { code:"UGA", name:"Uganda",            val:1.0  },
+  { code:"GIN", name:"Guinea",            val:1.0  },
+  { code:"COG", name:"Congo, Rep.",       val:1.0  },
+  { code:"TGO", name:"Togo",              val:1.0  },
+  { code:"SSD", name:"South Sudan",       val:1.0  },
+  { code:"NER", name:"Niger",             val:0.22 },
+  { code:"BDI", name:"Burundi",           val:0.28 },
+  { code:"LSO", name:"Lesotho",           val:0.21 },
+  { code:"GMB", name:"Gambia",            val:0.09 },
+].sort((a,b)=>b.val-a.val);
+
+// 02: Electricity access 2022 — selected countries
+const accessData = [
+  { code:"MUS", name:"Mauritius",        val:100.0 },
+  { code:"SYC", name:"Seychelles",       val:100.0 },
+  { code:"CPV", name:"Cabo Verde",       val:97.1  },
+  { code:"GAB", name:"Gabon",            val:93.5  },
+  { code:"ZAF", name:"South Africa",     val:86.5  },
+  { code:"GHA", name:"Ghana",            val:85.1  },
+  { code:"SWZ", name:"Eswatini",         val:82.3  },
+  { code:"COM", name:"Comoros",          val:89.9  },
+  { code:"CMR", name:"Cameroon",         val:71.0  },
+  { code:"CIV", name:"Côte d'Ivoire",    val:72.0  },
+  { code:"KEN", name:"Kenya",            val:76.0  },
+  { code:"GMB", name:"Gambia",           val:65.4  },
+  { code:"SDN", name:"Sudan",            val:63.2  },
+  { code:"NGA", name:"Nigeria",          val:60.5  },
+  { code:"SEN", name:"Senegal",          val:67.9  },
+  { code:"TZA", name:"Tanzania",         val:45.8  },
+  { code:"UGA", name:"Uganda",           val:47.1  },
+  { code:"ZMB", name:"Zambia",           val:47.8  },
+  { code:"MLI", name:"Mali",             val:53.0  },
+  { code:"ETH", name:"Ethiopia",         val:55.4  },
+  { code:"MOZ", name:"Mozambique",       val:33.2  },
+  { code:"MDG", name:"Madagascar",       val:36.1  },
+  { code:"MWI", name:"Malawi",           val:14.0  },
+  { code:"COD", name:"Congo, DR",        val:21.5  },
+  { code:"NER", name:"Niger",            val:19.5  },
+  { code:"BFA", name:"Burkina Faso",     val:19.5  },
+  { code:"SSD", name:"South Sudan",      val:8.4   },
+  { code:"TCD", name:"Chad",             val:11.7  },
+  { code:"BDI", name:"Burundi",          val:10.3  },
+].sort((a,b)=>a.val-b.val);
+
+// 07: Regional trend
+const trendData = {
+  years: [2000,2001,2002,2003,2004,2005,2006,2007,2008,2009,2010,2011,2012,2013,2014,2015,2016,2017,2018,2019,2020,2021,2022,2023],
+  access:[25.7,26.2,27.3,29.6,29.4,29.4,31.2,32.5,32.4,32.6,33.3,35.9,36.8,38.0,38.4,39.2,43.8,43.8,46.4,47.2,48.5,50.7,51.6,53.3],
+  without:[506,517,522,520,536,551,551,556,572,586,596,589,597,602,615,623,591,608,595,602,602,592,595,589],
+};
+
+// 08: Cold chain data
+const coldChainRows = [
+  { metric:"Fresh produce",   low:40, high:60, display:"40–60%" },
+  { metric:"Fish / seafood",  low:30, high:50, display:"30–50%" },
+  { metric:"Dairy",           low:25, high:35, display:"25–35%" },
+  { metric:"Animal products", low:20, high:28, display:"20–28%" },
+  { metric:"Grains/staples",  low:15, high:20, display:"15–20%" },
+];
+
+// ── Build cold chain table ──
+const tbody = document.getElementById('coldChainTable');
+coldChainRows.forEach(row => {
+  const pct = row.high; // use high end for bar
+  tbody.innerHTML += `
+    <tr>
+      <td>${row.metric}</td>
+      <td class="val-cell">${row.display}</td>
+      <td class="bar-cell">
+        <div class="cold-bar" style="width:${pct*1.5}px; max-width:100%; background: hsl(${170 - pct*0.8},55%,42%)"></div>
+      </td>
+    </tr>`;
+});
+
+// ── CHART DEFAULTS ──
+Chart.defaults.font.family = "'Manrope', sans-serif";
+Chart.defaults.font.size = 11;
+Chart.defaults.color = '#7A6E5F';
+
+// ── CHART 1: Outages by country (top 20, horizontal bar) ──
+const top20 = outagesData.slice(0,20);
+new Chart(document.getElementById('outagesBarChart'), {
+  type:'bar',
+  data:{
+    labels: top20.map(d=>d.name),
+    datasets:[{
+      label:'% Firms with Outages',
+      data: top20.map(d=>d.val),
+      backgroundColor: top20.map(d => d.val>=90 ? '#C0392B' : d.val>=80 ? '#E74C3C' : d.val>=70 ? '#E67E22' : '#F39C12'),
+      borderRadius:3,
+      borderSkipped:false,
+    }]
+  },
+  options:{
+    indexAxis:'y',
+    responsive:true, maintainAspectRatio:false,
+    plugins:{
+      legend:{display:false},
+      tooltip:{ callbacks:{label: ctx=>`${ctx.raw.toFixed(1)}% of firms`} }
+    },
+    scales:{
+      x:{
+        min:0, max:100,
+        grid:{color:'rgba(0,0,0,0.06)'},
+        ticks:{callback:v=>v+'%'},
+        border:{display:false}
+      },
+      y:{
+        grid:{display:false},
+        ticks:{font:{size:10.5}},
+        border:{display:false}
+      }
+    }
+  }
+});
+
+// ── CHART 2: SSA Trend ──
+const trendCtx = document.getElementById('trendChart');
+new Chart(trendCtx, {
+  type:'line',
+  data:{
+    labels: trendData.years,
+    datasets:[
+      {
+        label:'Electricity Access (%)',
+        data: trendData.access,
+        borderColor:'#E67E22',
+        backgroundColor:'rgba(230,126,34,0.08)',
+        borderWidth:2.5,
+        pointRadius:3,
+        pointHoverRadius:5,
+        tension:0.35,
+        fill:true,
+        yAxisID:'y',
+      },
+      {
+        label:'Population Without (M)',
+        data: trendData.without,
+        borderColor:'rgba(192,57,43,0.6)',
+        borderDash:[5,3],
+        borderWidth:1.5,
+        pointRadius:0,
+        tension:0.35,
+        fill:false,
+        yAxisID:'y2',
+      }
+    ]
+  },
+  options:{
+    responsive:true, maintainAspectRatio:false,
+    plugins:{
+      legend:{
+        position:'bottom',
+        labels:{boxWidth:12, font:{size:10}, padding:12}
+      }
+    },
+    scales:{
+      x:{
+        grid:{display:false},
+        ticks:{maxTicksLimit:7, font:{size:10}},
+        border:{display:false}
+      },
+      y:{
+        min:20, max:60,
+        grid:{color:'rgba(0,0,0,0.05)'},
+        ticks:{callback:v=>v+'%', font:{size:10}},
+        border:{display:false},
+        title:{display:true, text:'Access %', font:{size:10}}
+      },
+      y2:{
+        position:'right',
+        min:450, max:650,
+        grid:{display:false},
+        ticks:{callback:v=>v+'M', font:{size:9}},
+        border:{display:false},
+        title:{display:true, text:'Without Access (M)', font:{size:9}}
+      }
+    }
+  }
+});
+
+// ── CHART 3: Access by country ──
+new Chart(document.getElementById('accessCountryChart'), {
+  type:'bar',
+  data:{
+    labels: accessData.map(d=>d.code),
+    datasets:[{
+      label:'Electricity Access %',
+      data: accessData.map(d=>d.val),
+      backgroundColor: accessData.map(d => {
+        if(d.val >= 80) return '#27AE60';
+        if(d.val >= 60) return '#F39C12';
+        if(d.val >= 40) return '#E67E22';
+        return '#C0392B';
+      }),
+      borderRadius:2,
+      borderSkipped:false,
+    }]
+  },
+  options:{
+    responsive:true, maintainAspectRatio:false,
+    plugins:{
+      legend:{display:false},
+      tooltip:{ callbacks:{ label: ctx=>`${ctx.label}: ${ctx.raw}%` } }
+    },
+    scales:{
+      x:{
+        grid:{display:false},
+        ticks:{font:{size:8.5}},
+        border:{display:false}
+      },
+      y:{
+        min:0, max:100,
+        grid:{color:'rgba(0,0,0,0.05)'},
+        ticks:{callback:v=>v+'%', font:{size:10}},
+        border:{display:false}
+      }
+    }
+  }
+});
+
+// ── CHART 4: Value lost ──
+const vlTop = valueLostData.filter(d=>d.val>=0.5).slice(0,14);
+new Chart(document.getElementById('valueLostChart'), {
+  type:'bar',
+  data:{
+    labels: vlTop.map(d=>d.name),
+    datasets:[{
+      label:'% Annual Sales Lost',
+      data: vlTop.map(d=>d.val),
+      backgroundColor: vlTop.map(d => d.val>=5 ? '#8E44AD' : d.val>=2 ? '#C0392B' : '#E74C3C'),
+      borderRadius:3,
+      borderSkipped:false,
+    }]
+  },
+  options:{
+    indexAxis:'y',
+    responsive:true, maintainAspectRatio:false,
+    plugins:{
+      legend:{display:false},
+      tooltip:{ callbacks:{ label: ctx=>`${ctx.raw.toFixed(1)}% of annual sales` } }
+    },
+    scales:{
+      x:{
+        grid:{color:'rgba(0,0,0,0.06)'},
+        ticks:{callback:v=>v+'%', font:{size:10}},
+        border:{display:false}
+      },
+      y:{
+        grid:{display:false},
+        ticks:{font:{size:10.5}},
+        border:{display:false}
+      }
+    }
+  }
+});
+</script>
+</body>
+</html>
