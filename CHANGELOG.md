@@ -4,6 +4,36 @@ All notable changes to the SolarSense AI ML Microservice project are documented 
 
   ---
 
+  ## [Unreleased] - 2026-02-24
+
+  ### Summary
+
+  Resolved critical mathematical scaling bugs in Model 4 Orchestration for lifetime predictions and heavy refrigeration equipment. Finalised comprehensive API, integration, and deployment documentation across all models. The full pipeline was verified against the production Railway environment, with all 9 Integration Test Suites passing perfectly (100% success rate).
+
+  ---
+
+  ## 🐛 Bug Fixes
+
+  ### Model 4 — Lifetime Prediction Scaling (Bug #1)
+  - **Root Cause**: Model 2 returns lifetime generation data calibrated to a 10m² baseline system. Model 4 was passing this baseline through to the final response regardless of the dynamically sized `recommended_panel_area_m2`.
+  - **Fix**: Implemented a `scale_lifetime_prediction()` helper that multiplies all lifetime metrics (`year_1_generation_kwh`, `lifetime_total_kwh`, and `yearly_breakdown` bands) by the dynamic sizing `scaling_factor`.
+  - **Result**: A 36.4m² recommended system now correctly reports ~314,000 kWh lifetime generation instead of the 10m² baseline of ~86,000 kWh. Verified in Integration Suite 8.
+
+  ### Model 4 — Cold Room Consumption Estimation (Bug #2)
+  - **Root Cause**: Model 4 converted equipment lists into "fridge units" for Model 1 via a simple 1:1 count. Because Model 1 treats a "unit" as a standard ~200W fridge, massive 1000W cold rooms were severely underestimated, adding only ~30 kWh/month to the prediction.
+  - **Fix**: Corrected the `EQUIPMENT_POWER_ESTIMATES` dictionary to rate cold rooms at 1000W. Overhauled `convert_equipment_to_business_metrics()` to apply a 10x multiplier for high-power refrigeration equipment (≥ 800W) so Model 1 receives a representative physical load.
+  - **Result**: A cold room running 10 hours/day now correctly adds ~310–330 kWh/month to the estimate. Verified in Integration Suite 9.
+
+  ---
+
+  ## 📝 Documentation
+
+  - **API Contracts & Integration Guides**: Updated `MODEL1_API_CONTRACT.md`, `INTEGRATION_GUIDE_MODEL1.md`, `MODEL2_API_CONTRACT.md`, `MODEL_2_INTEGRATION_GUIDE.md`, `ORCHESTRATION_API_CONTRACT.md`, and `ORCHESTRATION_INTEGRATION_GUIDE.md`. Reflects precise post-processing logic (Model 1 refrigeration deltas), expanded geographic bounds (Model 2 lat [-34, 16]), tiered pricing algorithms, and optional field deprecations.
+  - **Model Cards**: Updated `MODEL1_CARD.md` and `MODEL2_CARD.md` with corrected validation constraints and native JSON artifact loading details.
+  - **README**: Central `README.md` updated to document the fully implemented Model 4 `/api/v1/analyze` endpoint.
+
+  ---
+
   ## [Unreleased] - 2026-02-22 (Session 3)
 
   ### Summary
