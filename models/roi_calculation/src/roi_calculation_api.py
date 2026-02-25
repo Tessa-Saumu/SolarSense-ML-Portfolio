@@ -45,7 +45,7 @@ def calculate_roi(system_cost_usd: float,
     """
 
     # Energy offset should not exceed either consumption or generation
-    energy_offset_kwh = min(consumption_kwh, generation_kwh)
+    energy_offset_kwh = generation_kwh if generation_kwh <= consumption_kwh else consumption_kwh
 
     monthly_savings_usd = energy_offset_kwh * tariff_per_kwh
     annual_savings_usd = monthly_savings_usd * 12

@@ -111,14 +111,16 @@ Output is rounded to 2 decimal places.
 #### Health Check
 
 ```text
-GET /
+GET /api/v1/health
+X-API-KEY: <your-api-key>
 ```
 
 Response:
 
 ```json
 {
-  "message": "Model 3 ROI API running"
+  "status": "ok",
+  "service": "roi-calculation"
 }
 ```
 
@@ -127,6 +129,7 @@ Response:
 ```text
 POST /api/v1/calculate-roi
 Content-Type: application/json
+X-API-KEY: <your-api-key>
 ```
 
 Body: see inputs above.
@@ -188,7 +191,7 @@ Typical backend flow:
 
 ---
 
-### 7. Validation & Error Handling Expectations
+### 7. Validation, Authentication & Error Handling
 
 The engine performs:
 
@@ -203,6 +206,7 @@ The engine performs:
 
 - Ensure all four fields are present and non‑null.
 - Ensure numeric values are in realistic ranges before sending to the ROI API.
+- Always send a valid `X-API-KEY` header that matches the server-side `API_KEY` environment variable.
 - Handle 4xx/5xx responses gracefully (see below).
 
 **Error Responses** (JSON):
@@ -231,6 +235,12 @@ The engine performs:
 
 ```json
 { "error": "Rate limit exceeded" }
+```
+
+- 401 – Unauthorized (invalid or missing API key):
+
+```json
+{ "error": "Unauthorized" }
 ```
 
 - 500 – Internal Server Error:

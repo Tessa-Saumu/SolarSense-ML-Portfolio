@@ -734,7 +734,7 @@ curl -H "X-API-KEY: your_api_key_here" ...
 }
 ```
 - **Error Responses**:
-  - `400 Bad Request`: Missing fields, invalid types, unsupported location (coordinates outside SSA).
+  - `400 Bad Request`: Missing fields, invalid types, or unsupported location (coordinates outside the supported country list or Model 2 coverage bounds).
   - `401 Unauthorized`: Missing or invalid API key.
   - `429 Too Many Requests`: Rate limit exceeded.
   - `500 Internal Server Error`: Orchestration service error.

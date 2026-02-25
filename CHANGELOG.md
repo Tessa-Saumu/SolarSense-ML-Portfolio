@@ -4,11 +4,11 @@ All notable changes to the SolarSense AI ML Microservice project are documented 
 
   ---
 
-  ## [Unreleased] - 2026-02-24
+  ## [Unreleased] - 2026-02-25
 
   ### Summary
 
-  Resolved critical mathematical scaling bugs in Model 4 Orchestration for lifetime predictions and heavy refrigeration equipment. Finalised comprehensive API, integration, and deployment documentation across all models. The full pipeline was verified against the production Railway environment, with all 9 Integration Test Suites passing perfectly (100% success rate).
+  Documentation and contract alignment for the latest code across Models 1, 3, and 4. Model 4 orchestration docs now reflect the refined dynamic system sizing, updated cost-per-square-metre model, and expanded geographic coverage. ROI and Model 1 API contracts and integration guides are updated to match the secured, validated Flask implementations. README has been refreshed to describe the current Model 4 behaviour and error semantics.
 
   ---
 
@@ -28,9 +28,10 @@ All notable changes to the SolarSense AI ML Microservice project are documented 
 
   ## 📝 Documentation
 
-  - **API Contracts & Integration Guides**: Updated `MODEL1_API_CONTRACT.md`, `INTEGRATION_GUIDE_MODEL1.md`, `MODEL2_API_CONTRACT.md`, `MODEL_2_INTEGRATION_GUIDE.md`, `ORCHESTRATION_API_CONTRACT.md`, and `ORCHESTRATION_INTEGRATION_GUIDE.md`. Reflects precise post-processing logic (Model 1 refrigeration deltas), expanded geographic bounds (Model 2 lat [-34, 16]), tiered pricing algorithms, and optional field deprecations.
-  - **Model Cards**: Updated `MODEL1_CARD.md` and `MODEL2_CARD.md` with corrected validation constraints and native JSON artifact loading details.
-  - **README**: Central `README.md` updated to document the fully implemented Model 4 `/api/v1/analyze` endpoint.
+  - **Model 4 orchestration**: `ORCHESTRATION_API_CONTRACT.md` and `ORCHESTRATION_INTEGRATION_GUIDE.md` updated to describe the refined intelligent system sizing (up to 100m² for heavy refrigeration), the corrected cost-per-m² tiers (approximately \$80→\$40 per m² depending on size), and the expanded Model 2 coverage bounds (lat [-34, 16], lon [-18, 45]) plus Model 4 country lookup behaviour.
+  - **ROI API**: `ROI_API_CONTRACT.md` and `ROI_ENGINE_INTEGRATION_GUIDE.md` updated to match `roi_calculation_api.py`: API key authentication on all `/api/v1/*` endpoints, health endpoint at `/api/v1/health`, 100 KB payload limit, 100 req/minute rate limit, and consistent JSON error shapes (including 401).
+  - **Model 1 energy consumption**: `MODEL1_API_CONTRACT.md` and `INTEGRATION_GUIDE_MODEL1.md` aligned with `app_ml.py` by removing legacy refrigeration delta text, clarifying output validation behaviour, and documenting the current authentication and validation rules.
+  - **README**: Root `README.md` adjusted so the Model 4 section reflects the supported location handling and current error semantics for `/api/v1/analyze`.
 
   ---
 
