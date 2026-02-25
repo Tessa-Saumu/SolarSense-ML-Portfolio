@@ -478,12 +478,20 @@ def create_app(
             pba_encoded = le_pba.transform([str(pba_code)])[0]
             cendiv_encoded = le_cendiv.transform(['5'])[0]  # Default
             size_category_encoded = le_size.transform([size_category])[0]
+            # Estimate annual kWh from available variables, then derive kwh_per_sqft
+            # Refrigeration: ~1800 kWh/year per unit (150/month commercial average)
+            # Base load: sqft-driven lighting/HVAC scaled by operating hours
+            annual_kwh_estimate = (
+                (num_refrigeration_units * 1800) +
+                (sqft * 8 * (operating_hours_weekly / 60))
+            )
+            kwh_per_sqft_estimate = annual_kwh_estimate / max(sqft, 1)
 
             # Build feature vector
             feature_vector = np.array([[
                 sqft, operating_hours_weekly, num_refrigeration_units, 1,  # NFLOOR=1
                 num_workers, months_per_year, 5,  # YRCONC=5
-                0,  # kwh_per_sqft (will be predicted)
+                kwh_per_sqft_estimate,  # kwh_per_sqft (will be predicted)
                 sqft_per_worker, wkhrs_per_week_normalized, annual_operating_hours,
                 refrigeration_density, is_high_refrigeration, is_extended_hours,
                 pba_encoded, cendiv_encoded, size_category_encoded
@@ -505,9 +513,13 @@ def create_app(
             # Refrigeration scaling adjustment
             # Model was trained on commercial buildings with median ~8 units
             # This corrects for SME-scale refrigeration sensitivity the model can't learn
-            FRIDGE_KWH_PER_UNIT_MONTHLY = 29
-            BASELINE_FRIDGE_COUNT = 8
-            fridge_delta = num_refrigeration_units - BASELINE_FRIDGE_COUNT
+            # Replace the flat correction with a weighted one that accounts for equipment type
+            # These are passed from Model 4 via the metrics conversion
+            FRIDGE_KWH_PER_UNIT_MONTHLY = 150   # Commercial average across freezers/fridges
+            BASELINE_FRIDGE_COUNT = 0            # ← Change from 8 to 0
+
+            # This makes the correction always additive, never subtractive
+            fridge_delta = num_refrigeration_units  # All units add consumption
             monthly_kwh = max(0, monthly_kwh + (fridge_delta * FRIDGE_KWH_PER_UNIT_MONTHLY))
 
             # Breakdown
