@@ -1,6 +1,6 @@
 # MODEL 4 TEST SUITE - EXECUTIVE SUMMARY
 
-**Test Date:** 2026-02-25T15:29:11.344459
+**Test Date:** 2026-02-25T15:36:20.736307
 
 **API Endpoint:** https://dse-models-production.up.railway.app/api/v1/analyze
 
@@ -23,7 +23,7 @@
 | Nairobi Bread Haven Bakery | Kenya | ❌ FAIL | consumption_kwh, monthly_savings, payback_years |
 | Johannesburg ChillMart Superma | South Africa | ❌ FAIL | system_cost, monthly_savings |
 | Addis Ice Foods Frozen Retail | Ethiopia | ❌ FAIL | monthly_savings |
-| Kampala Farm Cold Storage | Uganda | ❌ FAIL | consumption_kwh, system_cost, monthly_savings, payback_years |
+| Kampala Farm Cold Storage | Uganda | ❌ FAIL | system_cost, monthly_savings, payback_years |
 | Kigali Quick Freeze Butchery | Rwanda | ❌ FAIL | consumption_kwh, monthly_savings, payback_years |
 | Dar Fresh Mart Grocery | Tanzania | ❌ FAIL | consumption_kwh, monthly_savings, payback_years |
 | Cape Meat Locker Cold Storage | South Africa | ❌ FAIL | consumption_kwh, system_cost, monthly_savings |
@@ -41,7 +41,7 @@
 ### Issues Identified:
 
 - **monthly_savings**: 10 profiles affected
-- **consumption_kwh**: 9 profiles affected
+- **consumption_kwh**: 8 profiles affected
 - **payback_years**: 7 profiles affected
 - **system_cost**: 4 profiles affected
 

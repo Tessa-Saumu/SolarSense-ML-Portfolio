@@ -1,6 +1,6 @@
 # MODEL 4 TEST SUITE - DETAILED COMPARISON
 
-**Test Date:** 2026-02-25T15:29:11.344459
+**Test Date:** 2026-02-25T15:36:20.736307
 
 
 ## 1. Lagos Fresh Cuts Butchery
@@ -23,19 +23,19 @@
 
 | Metric | Expected | Actual | Deviation | Status |
 |--------|----------|--------|-----------|--------|
-| Consumption (kWh/mo) | 3200.0 | 6088.8 | +90.3% | ❌ |
+| Consumption (kWh/mo) | 3200.0 | 5916.6 | +84.9% | ❌ |
 | System Cost (USD) | $2,555 | $2,300 | -10.0% | ✅ |
 | System Cost (₦) | ₦3,960,000 | ₦3,565,000 | -10.0% | ✅ |
-| Monthly Savings (USD) | $464.52 | $158.60 | -65.9% | ❌ |
-| Monthly Savings (₦) | ₦720,000 | ₦245,830 | -65.9% | ❌ |
-| Payback (years) | 0.5 | 1.2 | +141.7% | ❌ |
+| Monthly Savings (USD) | $464.52 | $159.45 | -65.7% | ❌ |
+| Monthly Savings (₦) | ₦720,000 | ₦247,147 | -65.7% | ❌ |
+| Payback (years) | 0.5 | 1.2 | +140.4% | ❌ |
 
 ### 🔍 API Response (Key Fields)
 
-- **Viability Score:** 57.27
+- **Viability Score:** 57.48
 - **Recommendation:** Medium
 - **Status:** MODERATELY VIABLE
-- **ROI %:** 82.75
+- **ROI %:** 83.19
 - **Energy Scenario:** diesel_replacement
 
 ---
@@ -95,16 +95,16 @@
 
 | Metric | Expected | Actual | Deviation | Status |
 |--------|----------|--------|-----------|--------|
-| Consumption (kWh/mo) | 2800.0 | 4882.3 | +74.4% | ❌ |
+| Consumption (kWh/mo) | 2800.0 | 4915.7 | +75.6% | ❌ |
 | System Cost (USD) | $2,500 | $2,160 | -13.6% | ✅ |
 | System Cost (KES) | KES350,000 | KES302,400 | -13.6% | ✅ |
-| Monthly Savings (USD) | $905.36 | $603.74 | -33.3% | ❌ |
-| Monthly Savings (KES) | KES126,750 | KES84,524 | -33.3% | ❌ |
-| Payback (years) | 0.2 | 0.3 | +49.1% | ❌ |
+| Monthly Savings (USD) | $905.36 | $603.37 | -33.4% | ❌ |
+| Monthly Savings (KES) | KES126,750 | KES84,472 | -33.4% | ❌ |
+| Payback (years) | 0.2 | 0.3 | +49.2% | ❌ |
 
 ### 🔍 API Response (Key Fields)
 
-- **Viability Score:** 60.76
+- **Viability Score:** 60.68
 - **Recommendation:** Medium
 - **Status:** MODERATELY VIABLE
 - **ROI %:** 100.0
@@ -130,7 +130,7 @@
 
 | Metric | Expected | Actual | Deviation | Status |
 |--------|----------|--------|-----------|--------|
-| Consumption (kWh/mo) | 4500.0 | 5497.2 | +22.2% | ⚠️ |
+| Consumption (kWh/mo) | 4500.0 | 4014.5 | -10.8% | ✅ |
 | System Cost (USD) | $4,832 | $1,800 | -62.8% | ❌ |
 | System Cost (R) | R89,400 | R33,300 | -62.8% | ❌ |
 | Monthly Savings (USD) | $634.86 | $235.28 | -62.9% | ❌ |
@@ -139,7 +139,7 @@
 
 ### 🔍 API Response (Key Fields)
 
-- **Viability Score:** 59.17
+- **Viability Score:** 62.56
 - **Recommendation:** Medium
 - **Status:** MODERATELY VIABLE
 - **ROI %:** 100.0
@@ -202,7 +202,7 @@
 
 | Metric | Expected | Actual | Deviation | Status |
 |--------|----------|--------|-----------|--------|
-| Consumption (kWh/mo) | 4100.0 | 8253.9 | +101.3% | ❌ |
+| Consumption (kWh/mo) | 4100.0 | 4889.8 | +19.3% | ⚠️ |
 | System Cost (USD) | $3,716 | $2,160 | -41.9% | ❌ |
 | System Cost (UGX) | UGX13,750,000 | UGX7,992,000 | -41.9% | ❌ |
 | Monthly Savings (USD) | $1195.95 | $187.00 | -84.4% | ❌ |
@@ -211,7 +211,7 @@
 
 ### 🔍 API Response (Key Fields)
 
-- **Viability Score:** 56.18
+- **Viability Score:** 60.43
 - **Recommendation:** Medium
 - **Status:** MODERATELY VIABLE
 - **ROI %:** 100.0
@@ -239,16 +239,16 @@
 
 | Metric | Expected | Actual | Deviation | Status |
 |--------|----------|--------|-----------|--------|
-| Consumption (kWh/mo) | 2600.0 | 3809.8 | +46.5% | ❌ |
+| Consumption (kWh/mo) | 2600.0 | 3581.6 | +37.8% | ❌ |
 | System Cost (USD) | $2,265 | $2,160 | -4.7% | ✅ |
 | System Cost (RWF) | RWF2,945,000 | RWF2,808,000 | -4.7% | ✅ |
-| Monthly Savings (USD) | $1125.00 | $518.10 | -53.9% | ❌ |
-| Monthly Savings (RWF) | RWF1,462,500 | RWF673,530 | -53.9% | ❌ |
-| Payback (years) | 0.2 | 0.3 | +73.7% | ❌ |
+| Monthly Savings (USD) | $1125.00 | $522.78 | -53.5% | ❌ |
+| Monthly Savings (RWF) | RWF1,462,500 | RWF679,614 | -53.5% | ❌ |
+| Payback (years) | 0.2 | 0.3 | +72.2% | ❌ |
 
 ### 🔍 API Response (Key Fields)
 
-- **Viability Score:** 62.25
+- **Viability Score:** 63.03
 - **Recommendation:** Medium
 - **Status:** MODERATELY VIABLE
 - **ROI %:** 100.0
@@ -274,7 +274,7 @@
 
 | Metric | Expected | Actual | Deviation | Status |
 |--------|----------|--------|-----------|--------|
-| Consumption (kWh/mo) | 2400.0 | 6741.2 | +180.9% | ❌ |
+| Consumption (kWh/mo) | 2400.0 | 6549.3 | +172.9% | ❌ |
 | System Cost (USD) | $1,888 | $2,160 | +14.4% | ✅ |
 | System Cost (TZS) | TZS4,436,000 | TZS5,076,000 | +14.4% | ✅ |
 | Monthly Savings (USD) | $367.02 | $212.35 | -42.1% | ❌ |
@@ -283,7 +283,7 @@
 
 ### 🔍 API Response (Key Fields)
 
-- **Viability Score:** 58.59
+- **Viability Score:** 58.84
 - **Recommendation:** Medium
 - **Status:** MODERATELY VIABLE
 - **ROI %:** 100.0
@@ -311,16 +311,16 @@
 
 | Metric | Expected | Actual | Deviation | Status |
 |--------|----------|--------|-----------|--------|
-| Consumption (kWh/mo) | 5200.0 | 6856.3 | +31.9% | ❌ |
+| Consumption (kWh/mo) | 5200.0 | 3439.4 | -33.9% | ❌ |
 | System Cost (USD) | $5,573 | $1,800 | -67.7% | ❌ |
 | System Cost (R) | R103,100 | R33,300 | -67.7% | ❌ |
-| Monthly Savings (USD) | $956.76 | $378.76 | -60.4% | ❌ |
-| Monthly Savings (R) | R17,700 | R7,007 | -60.4% | ❌ |
-| Payback (years) | 0.5 | 0.4 | -20.8% | ✅ |
+| Monthly Savings (USD) | $956.76 | $397.02 | -58.5% | ❌ |
+| Monthly Savings (R) | R17,700 | R7,345 | -58.5% | ❌ |
+| Payback (years) | 0.5 | 0.4 | -24.4% | ✅ |
 
 ### 🔍 API Response (Key Fields)
 
-- **Viability Score:** 57.35
+- **Viability Score:** 64.66
 - **Recommendation:** Medium
 - **Status:** MODERATELY VIABLE
 - **ROI %:** 100.0
@@ -346,7 +346,7 @@
 
 | Metric | Expected | Actual | Deviation | Status |
 |--------|----------|--------|-----------|--------|
-| Consumption (kWh/mo) | 3600.0 | 7343.9 | +104.0% | ❌ |
+| Consumption (kWh/mo) | 3600.0 | 6476.1 | +79.9% | ❌ |
 | System Cost (USD) | $3,543 | $2,160 | -39.0% | ❌ |
 | System Cost (KES) | KES496,000 | KES302,400 | -39.0% | ❌ |
 | Monthly Savings (USD) | $557.14 | $192.56 | -65.4% | ❌ |
@@ -355,7 +355,7 @@
 
 ### 🔍 API Response (Key Fields)
 
-- **Viability Score:** 57.15
+- **Viability Score:** 58.11
 - **Recommendation:** Medium
 - **Status:** MODERATELY VIABLE
 - **ROI %:** 100.0
