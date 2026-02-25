@@ -931,9 +931,10 @@ def register_routes(app: Flask) -> None:
                 
                     # Calculate scaling factor (how many times bigger than 10m²)
                     scaling_factor = required_generation / base_generation_kwh
-                
-                    # Constrain scaling factor: max 50m² (~$20,000) - realistic SME upper bound
-                    scaling_factor = max(1.0, min(5.0, scaling_factor))
+
+                    # Allow up to 100m² (10x base) for cold storage businesses
+                    max_scaling = 10.0 
+                    scaling_factor = max(1.0, min(max_scaling, scaling_factor))
                 
                     # Scale up the generation
                     scaled_generation_kwh = base_generation_kwh * scaling_factor

@@ -4,7 +4,7 @@
   "warnings": 0,
   "failed": 10,
   "errors": 0,
-  "timestamp": "2026-02-25T15:36:20.736307",
+  "timestamp": "2026-02-25T15:51:21.614119",
   "results": [
     {
       "profile_name": "Lagos Fresh Cuts Butchery",
@@ -42,10 +42,10 @@
         "consumption_kwh": 3200,
         "system_cost_local": 3960000,
         "system_cost_usd": 2554.8387096774195,
-        "payback_years": 0.5,
-        "annual_savings_local": 8640000,
-        "monthly_savings_local": 720000.0,
-        "monthly_savings_usd": 464.51612903225805
+        "payback_years": 1.8,
+        "annual_savings_local": 2142720.0,
+        "monthly_savings_local": 178560.0,
+        "monthly_savings_usd": 115.2
       },
       "actual": {
         "consumption_kwh": 5916.55,
@@ -58,17 +58,17 @@
       "deviations": {
         "consumption_kwh": 84.8921875,
         "system_cost": -9.97474747474748,
-        "monthly_savings": -65.67395833333333,
-        "payback_years": 140.4097418208425
+        "monthly_savings": 38.41145833333332,
+        "payback_years": -33.21951616087709
       },
       "assessment": {
         "consumption_kwh": "HIGH",
         "system_cost": "PASS",
         "monthly_savings": "HIGH",
-        "payback_years": "HIGH"
+        "payback_years": "MEDIUM"
       },
       "api_response": {
-        "analyzed_at": "2026-02-25T13:35:59.791184",
+        "analyzed_at": "2026-02-25T13:51:08.826175",
         "business_name": "Lagos Fresh Cuts Butchery",
         "business_type": "Butchery",
         "confidence": 85.0,
@@ -424,10 +424,10 @@
         "consumption_kwh": 2200,
         "system_cost_local": 26100,
         "system_cost_usd": 2088.0,
-        "payback_years": 0.5,
-        "annual_savings_local": 57024,
-        "monthly_savings_local": 4752.0,
-        "monthly_savings_usd": 380.16
+        "payback_years": 2.4,
+        "annual_savings_local": 10725.0,
+        "monthly_savings_local": 893.75,
+        "monthly_savings_usd": 71.5
       },
       "actual": {
         "consumption_kwh": 6147.18,
@@ -440,8 +440,8 @@
       "deviations": {
         "consumption_kwh": 179.41727272727275,
         "system_cost": 5.363984674329502,
-        "monthly_savings": -48.17445286195286,
-        "payback_years": 86.10631746354007
+        "monthly_savings": 175.55244755244757,
+        "payback_years": -61.22785052842915
       },
       "assessment": {
         "consumption_kwh": "HIGH",
@@ -450,7 +450,7 @@
         "payback_years": "HIGH"
       },
       "api_response": {
-        "analyzed_at": "2026-02-25T13:36:04.189561",
+        "analyzed_at": "2026-02-25T13:51:10.079642",
         "business_name": "Accra Daily Grocery",
         "business_type": "Grocery",
         "confidence": 85.0,
@@ -799,10 +799,10 @@
         "consumption_kwh": 2800,
         "system_cost_local": 350000,
         "system_cost_usd": 2500.0,
-        "payback_years": 0.2,
-        "annual_savings_local": 1521000,
-        "monthly_savings_local": 126750.0,
-        "monthly_savings_usd": 905.3571428571429
+        "payback_years": 0.8,
+        "annual_savings_local": 465695.99999999994,
+        "monthly_savings_local": 38807.99999999999,
+        "monthly_savings_usd": 277.19999999999993
       },
       "actual": {
         "consumption_kwh": 4915.68,
@@ -815,8 +815,8 @@
       "deviations": {
         "consumption_kwh": 75.56,
         "system_cost": -13.600000000000001,
-        "monthly_savings": -33.35558185404339,
-        "payback_years": 49.16220561181364
+        "monthly_savings": 117.66594516594522,
+        "payback_years": -62.70944859704659
       },
       "assessment": {
         "consumption_kwh": "HIGH",
@@ -825,7 +825,7 @@
         "payback_years": "HIGH"
       },
       "api_response": {
-        "analyzed_at": "2026-02-25T13:36:05.538939",
+        "analyzed_at": "2026-02-25T13:51:11.287302",
         "business_name": "Nairobi Bread Haven Bakery",
         "business_type": "Bakery",
         "confidence": 85.0,
@@ -1181,10 +1181,10 @@
         "consumption_kwh": 4500,
         "system_cost_local": 89400,
         "system_cost_usd": 4832.4324324324325,
-        "payback_years": 0.6,
-        "annual_savings_local": 140940,
-        "monthly_savings_local": 11745.0,
-        "monthly_savings_usd": 634.8648648648649
+        "payback_years": 2.6,
+        "annual_savings_local": 34965.00000000001,
+        "monthly_savings_local": 2913.7500000000005,
+        "monthly_savings_usd": 157.50000000000003
       },
       "actual": {
         "consumption_kwh": 4014.53,
@@ -1197,17 +1197,17 @@
       "deviations": {
         "consumption_kwh": -10.788222222222217,
         "system_cost": -62.751677852349,
-        "monthly_savings": -62.94014474244361,
-        "payback_years": 6.2563753825229576
+        "monthly_savings": 49.38412698412696,
+        "payback_years": -75.47929798864854
       },
       "assessment": {
         "consumption_kwh": "PASS",
         "system_cost": "HIGH",
         "monthly_savings": "HIGH",
-        "payback_years": "PASS"
+        "payback_years": "HIGH"
       },
       "api_response": {
-        "analyzed_at": "2026-02-25T13:36:06.993371",
+        "analyzed_at": "2026-02-25T13:51:12.490807",
         "business_name": "Johannesburg ChillMart Supermarket",
         "business_type": "Supermarket/mini mart",
         "confidence": 85.0,
@@ -1551,10 +1551,10 @@
         "consumption_kwh": 3800,
         "system_cost_local": 153000,
         "system_cost_usd": 2732.1428571428573,
-        "payback_years": 0.5,
-        "annual_savings_local": 330300,
-        "monthly_savings_local": 27525.0,
-        "monthly_savings_usd": 491.51785714285717
+        "payback_years": 2.2,
+        "annual_savings_local": 68947.19999999998,
+        "monthly_savings_local": 5745.5999999999985,
+        "monthly_savings_usd": 102.59999999999998
       },
       "actual": {
         "consumption_kwh": 3778.94,
@@ -1567,17 +1567,17 @@
       "deviations": {
         "consumption_kwh": -0.554210526315788,
         "system_cost": -18.013071895424844,
-        "monthly_savings": -32.684032697547686,
-        "payback_years": 12.833842093067771
+        "monthly_savings": 222.48538011695916,
+        "payback_years": -74.35594497884823
       },
       "assessment": {
         "consumption_kwh": "PASS",
         "system_cost": "PASS",
         "monthly_savings": "HIGH",
-        "payback_years": "PASS"
+        "payback_years": "HIGH"
       },
       "api_response": {
-        "analyzed_at": "2026-02-25T13:36:08.369241",
+        "analyzed_at": "2026-02-25T13:51:13.862514",
         "business_name": "Addis Ice Foods Frozen Retail",
         "business_type": "Frozen food retail",
         "confidence": 85.0,
@@ -1933,10 +1933,10 @@
         "consumption_kwh": 4100,
         "system_cost_local": 13750000,
         "system_cost_usd": 3716.2162162162163,
-        "payback_years": 0.3,
-        "annual_savings_local": 53100000,
-        "monthly_savings_local": 4425000.0,
-        "monthly_savings_usd": 1195.945945945946
+        "payback_years": 1.5,
+        "annual_savings_local": 9102000.0,
+        "monthly_savings_local": 758500.0,
+        "monthly_savings_usd": 205.0
       },
       "actual": {
         "consumption_kwh": 4889.75,
@@ -1949,17 +1949,17 @@
       "deviations": {
         "consumption_kwh": 19.26219512195122,
         "system_cost": -41.87636363636364,
-        "monthly_savings": -84.3638418079096,
-        "payback_years": 220.85561497326208
+        "monthly_savings": -8.780487804878048,
+        "payback_years": -35.8288770053476
       },
       "assessment": {
         "consumption_kwh": "MEDIUM",
         "system_cost": "HIGH",
-        "monthly_savings": "HIGH",
-        "payback_years": "HIGH"
+        "monthly_savings": "PASS",
+        "payback_years": "MEDIUM"
       },
       "api_response": {
-        "analyzed_at": "2026-02-25T13:36:09.843032",
+        "analyzed_at": "2026-02-25T13:51:15.183335",
         "business_name": "Kampala Farm Cold Storage",
         "business_type": "Cold storage",
         "confidence": 85.0,
@@ -2308,10 +2308,10 @@
         "consumption_kwh": 2600,
         "system_cost_local": 2945000,
         "system_cost_usd": 2265.3846153846152,
-        "payback_years": 0.2,
-        "annual_savings_local": 17550000,
-        "monthly_savings_local": 1462500.0,
-        "monthly_savings_usd": 1125.0
+        "payback_years": 0.7,
+        "annual_savings_local": 4380480.000000001,
+        "monthly_savings_local": 365040.00000000006,
+        "monthly_savings_usd": 280.80000000000007
       },
       "actual": {
         "consumption_kwh": 3581.56,
@@ -2324,8 +2324,8 @@
       "deviations": {
         "consumption_kwh": 37.75230769230769,
         "system_cost": -4.651952461799654,
-        "monthly_savings": -53.53066666666667,
-        "payback_years": 72.1565476873637
+        "monthly_savings": 86.17521367521363,
+        "payback_years": -50.81241494646751
       },
       "assessment": {
         "consumption_kwh": "HIGH",
@@ -2334,7 +2334,7 @@
         "payback_years": "HIGH"
       },
       "api_response": {
-        "analyzed_at": "2026-02-25T13:36:15.516097",
+        "analyzed_at": "2026-02-25T13:51:16.304108",
         "business_name": "Kigali Quick Freeze Butchery",
         "business_type": "Butchery",
         "confidence": 85.0,
@@ -2690,10 +2690,10 @@
         "consumption_kwh": 2400,
         "system_cost_local": 4436000,
         "system_cost_usd": 1887.659574468085,
-        "payback_years": 0.4,
-        "annual_savings_local": 10350000,
-        "monthly_savings_local": 862500.0,
-        "monthly_savings_usd": 367.02127659574467
+        "payback_years": 2.4,
+        "annual_savings_local": 1861200.0,
+        "monthly_savings_local": 155100.0,
+        "monthly_savings_usd": 66.0
       },
       "actual": {
         "consumption_kwh": 6549.29,
@@ -2706,8 +2706,8 @@
       "deviations": {
         "consumption_kwh": 172.88708333333332,
         "system_cost": 14.42741208295762,
-        "monthly_savings": -42.142318840579705,
-        "payback_years": 111.91429244172357
+        "monthly_savings": 221.74242424242422,
+        "payback_years": -64.68095125971274
       },
       "assessment": {
         "consumption_kwh": "HIGH",
@@ -2716,7 +2716,7 @@
         "payback_years": "HIGH"
       },
       "api_response": {
-        "analyzed_at": "2026-02-25T13:36:16.746485",
+        "analyzed_at": "2026-02-25T13:51:17.406182",
         "business_name": "Dar Fresh Mart Grocery",
         "business_type": "Grocery",
         "confidence": 85.0,
@@ -3060,10 +3060,10 @@
         "consumption_kwh": 5200,
         "system_cost_local": 103100,
         "system_cost_usd": 5572.972972972973,
-        "payback_years": 0.5,
-        "annual_savings_local": 212400,
-        "monthly_savings_local": 17700.0,
-        "monthly_savings_usd": 956.7567567567568
+        "payback_years": 1.4,
+        "annual_savings_local": 72727.20000000001,
+        "monthly_savings_local": 6060.600000000001,
+        "monthly_savings_usd": 327.6000000000001
       },
       "actual": {
         "consumption_kwh": 3439.37,
@@ -3076,17 +3076,17 @@
       "deviations": {
         "consumption_kwh": -33.85826923076923,
         "system_cost": -67.70126091173618,
-        "monthly_savings": -58.50355932203391,
-        "payback_years": -24.4370560677044
+        "monthly_savings": 21.190476190476158,
+        "payback_years": -73.01323430989443
       },
       "assessment": {
         "consumption_kwh": "HIGH",
         "system_cost": "HIGH",
-        "monthly_savings": "HIGH",
-        "payback_years": "PASS"
+        "monthly_savings": "MEDIUM",
+        "payback_years": "HIGH"
       },
       "api_response": {
-        "analyzed_at": "2026-02-25T13:36:17.885516",
+        "analyzed_at": "2026-02-25T13:51:18.856702",
         "business_name": "Cape Meat Locker Cold Storage",
         "business_type": "Cold storage",
         "confidence": 85.0,
@@ -3447,10 +3447,10 @@
         "consumption_kwh": 3600,
         "system_cost_local": 496000,
         "system_cost_usd": 3542.8571428571427,
-        "payback_years": 0.5,
-        "annual_savings_local": 936000,
-        "monthly_savings_local": 78000.0,
-        "monthly_savings_usd": 557.1428571428571
+        "payback_years": 1.5,
+        "annual_savings_local": 332640.0,
+        "monthly_savings_local": 27720.0,
+        "monthly_savings_usd": 198.0
       },
       "actual": {
         "consumption_kwh": 6476.09,
@@ -3463,17 +3463,17 @@
       "deviations": {
         "consumption_kwh": 79.8913888888889,
         "system_cost": -39.03225806451612,
-        "monthly_savings": -65.43794871794871,
-        "payback_years": 86.95471541337763
+        "monthly_savings": -2.7474747474747465,
+        "payback_years": -37.68176152887413
       },
       "assessment": {
         "consumption_kwh": "HIGH",
         "system_cost": "HIGH",
-        "monthly_savings": "HIGH",
+        "monthly_savings": "PASS",
         "payback_years": "HIGH"
       },
       "api_response": {
-        "analyzed_at": "2026-02-25T13:36:19.165200",
+        "analyzed_at": "2026-02-25T13:51:20.055946",
         "business_name": "Nairobi Frosty Mini Mart",
         "business_type": "Supermarket/mini mart",
         "confidence": 85.0,

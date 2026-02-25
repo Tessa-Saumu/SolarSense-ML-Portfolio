@@ -1,6 +1,6 @@
 # MODEL 4 TEST SUITE - DETAILED COMPARISON
 
-**Test Date:** 2026-02-25T15:36:20.736307
+**Test Date:** 2026-02-25T15:51:21.614119
 
 
 ## 1. Lagos Fresh Cuts Butchery
@@ -26,9 +26,9 @@
 | Consumption (kWh/mo) | 3200.0 | 5916.6 | +84.9% | ❌ |
 | System Cost (USD) | $2,555 | $2,300 | -10.0% | ✅ |
 | System Cost (₦) | ₦3,960,000 | ₦3,565,000 | -10.0% | ✅ |
-| Monthly Savings (USD) | $464.52 | $159.45 | -65.7% | ❌ |
-| Monthly Savings (₦) | ₦720,000 | ₦247,147 | -65.7% | ❌ |
-| Payback (years) | 0.5 | 1.2 | +140.4% | ❌ |
+| Monthly Savings (USD) | $115.20 | $159.45 | +38.4% | ❌ |
+| Monthly Savings (₦) | ₦178,560 | ₦247,147 | +38.4% | ❌ |
+| Payback (years) | 1.8 | 1.2 | -33.2% | ⚠️ |
 
 ### 🔍 API Response (Key Fields)
 
@@ -61,9 +61,9 @@
 | Consumption (kWh/mo) | 2200.0 | 6147.2 | +179.4% | ❌ |
 | System Cost (USD) | $2,088 | $2,200 | +5.4% | ✅ |
 | System Cost (GHS) | GHS26,100 | GHS27,500 | +5.4% | ✅ |
-| Monthly Savings (USD) | $380.16 | $197.02 | -48.2% | ❌ |
-| Monthly Savings (GHS) | GHS4,752 | GHS2,463 | -48.2% | ❌ |
-| Payback (years) | 0.5 | 0.9 | +86.1% | ❌ |
+| Monthly Savings (USD) | $71.50 | $197.02 | +175.6% | ❌ |
+| Monthly Savings (GHS) | GHS894 | GHS2,463 | +175.6% | ❌ |
+| Payback (years) | 2.4 | 0.9 | -61.2% | ❌ |
 
 ### 🔍 API Response (Key Fields)
 
@@ -98,9 +98,9 @@
 | Consumption (kWh/mo) | 2800.0 | 4915.7 | +75.6% | ❌ |
 | System Cost (USD) | $2,500 | $2,160 | -13.6% | ✅ |
 | System Cost (KES) | KES350,000 | KES302,400 | -13.6% | ✅ |
-| Monthly Savings (USD) | $905.36 | $603.37 | -33.4% | ❌ |
-| Monthly Savings (KES) | KES126,750 | KES84,472 | -33.4% | ❌ |
-| Payback (years) | 0.2 | 0.3 | +49.2% | ❌ |
+| Monthly Savings (USD) | $277.20 | $603.37 | +117.7% | ❌ |
+| Monthly Savings (KES) | KES38,808 | KES84,472 | +117.7% | ❌ |
+| Payback (years) | 0.8 | 0.3 | -62.7% | ❌ |
 
 ### 🔍 API Response (Key Fields)
 
@@ -133,9 +133,9 @@
 | Consumption (kWh/mo) | 4500.0 | 4014.5 | -10.8% | ✅ |
 | System Cost (USD) | $4,832 | $1,800 | -62.8% | ❌ |
 | System Cost (R) | R89,400 | R33,300 | -62.8% | ❌ |
-| Monthly Savings (USD) | $634.86 | $235.28 | -62.9% | ❌ |
-| Monthly Savings (R) | R11,745 | R4,353 | -62.9% | ❌ |
-| Payback (years) | 0.6 | 0.6 | +6.3% | ✅ |
+| Monthly Savings (USD) | $157.50 | $235.28 | +49.4% | ❌ |
+| Monthly Savings (R) | R2,914 | R4,353 | +49.4% | ❌ |
+| Payback (years) | 2.6 | 0.6 | -75.5% | ❌ |
 
 ### 🔍 API Response (Key Fields)
 
@@ -170,9 +170,9 @@
 | Consumption (kWh/mo) | 3800.0 | 3778.9 | -0.6% | ✅ |
 | System Cost (USD) | $2,732 | $2,240 | -18.0% | ✅ |
 | System Cost (ETB) | ETB153,000 | ETB125,440 | -18.0% | ✅ |
-| Monthly Savings (USD) | $491.52 | $330.87 | -32.7% | ❌ |
-| Monthly Savings (ETB) | ETB27,525 | ETB18,529 | -32.7% | ❌ |
-| Payback (years) | 0.5 | 0.6 | +12.8% | ✅ |
+| Monthly Savings (USD) | $102.60 | $330.87 | +222.5% | ❌ |
+| Monthly Savings (ETB) | ETB5,746 | ETB18,529 | +222.5% | ❌ |
+| Payback (years) | 2.2 | 0.6 | -74.4% | ❌ |
 
 ### 🔍 API Response (Key Fields)
 
@@ -205,9 +205,9 @@
 | Consumption (kWh/mo) | 4100.0 | 4889.8 | +19.3% | ⚠️ |
 | System Cost (USD) | $3,716 | $2,160 | -41.9% | ❌ |
 | System Cost (UGX) | UGX13,750,000 | UGX7,992,000 | -41.9% | ❌ |
-| Monthly Savings (USD) | $1195.95 | $187.00 | -84.4% | ❌ |
-| Monthly Savings (UGX) | UGX4,425,000 | UGX691,900 | -84.4% | ❌ |
-| Payback (years) | 0.3 | 1.0 | +220.9% | ❌ |
+| Monthly Savings (USD) | $205.00 | $187.00 | -8.8% | ✅ |
+| Monthly Savings (UGX) | UGX758,500 | UGX691,900 | -8.8% | ✅ |
+| Payback (years) | 1.5 | 1.0 | -35.8% | ⚠️ |
 
 ### 🔍 API Response (Key Fields)
 
@@ -242,9 +242,9 @@
 | Consumption (kWh/mo) | 2600.0 | 3581.6 | +37.8% | ❌ |
 | System Cost (USD) | $2,265 | $2,160 | -4.7% | ✅ |
 | System Cost (RWF) | RWF2,945,000 | RWF2,808,000 | -4.7% | ✅ |
-| Monthly Savings (USD) | $1125.00 | $522.78 | -53.5% | ❌ |
-| Monthly Savings (RWF) | RWF1,462,500 | RWF679,614 | -53.5% | ❌ |
-| Payback (years) | 0.2 | 0.3 | +72.2% | ❌ |
+| Monthly Savings (USD) | $280.80 | $522.78 | +86.2% | ❌ |
+| Monthly Savings (RWF) | RWF365,040 | RWF679,614 | +86.2% | ❌ |
+| Payback (years) | 0.7 | 0.3 | -50.8% | ❌ |
 
 ### 🔍 API Response (Key Fields)
 
@@ -277,9 +277,9 @@
 | Consumption (kWh/mo) | 2400.0 | 6549.3 | +172.9% | ❌ |
 | System Cost (USD) | $1,888 | $2,160 | +14.4% | ✅ |
 | System Cost (TZS) | TZS4,436,000 | TZS5,076,000 | +14.4% | ✅ |
-| Monthly Savings (USD) | $367.02 | $212.35 | -42.1% | ❌ |
-| Monthly Savings (TZS) | TZS862,500 | TZS499,022 | -42.1% | ❌ |
-| Payback (years) | 0.4 | 0.8 | +111.9% | ❌ |
+| Monthly Savings (USD) | $66.00 | $212.35 | +221.7% | ❌ |
+| Monthly Savings (TZS) | TZS155,100 | TZS499,022 | +221.7% | ❌ |
+| Payback (years) | 2.4 | 0.8 | -64.7% | ❌ |
 
 ### 🔍 API Response (Key Fields)
 
@@ -314,9 +314,9 @@
 | Consumption (kWh/mo) | 5200.0 | 3439.4 | -33.9% | ❌ |
 | System Cost (USD) | $5,573 | $1,800 | -67.7% | ❌ |
 | System Cost (R) | R103,100 | R33,300 | -67.7% | ❌ |
-| Monthly Savings (USD) | $956.76 | $397.02 | -58.5% | ❌ |
-| Monthly Savings (R) | R17,700 | R7,345 | -58.5% | ❌ |
-| Payback (years) | 0.5 | 0.4 | -24.4% | ✅ |
+| Monthly Savings (USD) | $327.60 | $397.02 | +21.2% | ⚠️ |
+| Monthly Savings (R) | R6,061 | R7,345 | +21.2% | ⚠️ |
+| Payback (years) | 1.4 | 0.4 | -73.0% | ❌ |
 
 ### 🔍 API Response (Key Fields)
 
@@ -349,9 +349,9 @@
 | Consumption (kWh/mo) | 3600.0 | 6476.1 | +79.9% | ❌ |
 | System Cost (USD) | $3,543 | $2,160 | -39.0% | ❌ |
 | System Cost (KES) | KES496,000 | KES302,400 | -39.0% | ❌ |
-| Monthly Savings (USD) | $557.14 | $192.56 | -65.4% | ❌ |
-| Monthly Savings (KES) | KES78,000 | KES26,958 | -65.4% | ❌ |
-| Payback (years) | 0.5 | 0.9 | +87.0% | ❌ |
+| Monthly Savings (USD) | $198.00 | $192.56 | -2.7% | ✅ |
+| Monthly Savings (KES) | KES27,720 | KES26,958 | -2.7% | ✅ |
+| Payback (years) | 1.5 | 0.9 | -37.7% | ❌ |
 
 ### 🔍 API Response (Key Fields)
 
