@@ -63,12 +63,14 @@ Expected response latency (local, small payloads): **< 50 ms** per request (excl
   - Max length: 200 characters.
   - Used to derive a climate adjustment factor.
 - `num_workers` (integer, optional)
-  - Defaults to 5 if missing/invalid.
-  - If ≤ 0 → reset to 5.
-  - If > 1000 → request is rejected as invalid.
+  - If missing → defaults to 5.
+  - If provided as a non-integer type → 400 INVALID_FIELD_TYPE is returned.
+  - If ≤ 0 → 400 INVALID_FIELD_VALUE.
+  - Must be ≤ 1000.
 - `months_per_year` (integer, optional)
-  - Defaults to 12 if missing/invalid.
-  - If ≤ 0 or > 12 → reset to 12.
+  - If missing → defaults to 12.
+  - If provided as a non-integer type → 400 INVALID_FIELD_TYPE is returned.
+  - If ≤ 0 or > 12 → silently reset to 12.
 
 For a detailed, authoritative schema and all validation constraints, see `API_CONTRACT.md`.
 
@@ -101,6 +103,7 @@ Notes:
     - `annual_kwh_pred = expm1(model.predict(features))` (log-transformed target)
   - Then:
     - `monthly_kwh = (annual_kwh_pred * climate_factor) / 12`
+  - **Refrigeration Scaling:** After the climate-adjusted monthly kWh is derived, a refrigeration delta is applied: `fridge_delta = num_refrigeration_units - 8`; `monthly_kwh += fridge_delta * 29` kWh (clamped to ≥ 0). This correction is applied before the breakdown split.
   - Capped at a maximum of 1,000,000 kWh/month and never negative.
 - `breakdown`
   - `refrigeration` is enforced to be 50–70% of `estimated_consumption_kwh_monthly`.

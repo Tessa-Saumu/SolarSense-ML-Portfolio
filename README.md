@@ -24,7 +24,7 @@ This repository contains three ML-powered microservices unified under a single F
 
 1. **Model 1: Energy Consumption Prediction** (`/api/v1/estimate-consumption`)
    - Predicts monthly energy consumption (kWh) for African SMEs
-   - Uses XGBoost regression trained on commercial building data
+   - Uses a scikit-learn Gradient Boosting Regressor (GBR). Note: Model 2 uses XGBoost; Model 1 does not.
    - Accounts for business type, floor area, operating hours, refrigeration units, and climate zones
 
 2. **Model 2: Solar Generation Forecasting** (`/api/v1/predict-generation`)
@@ -70,7 +70,8 @@ Model-1-branch/
 │   │   │   └── roi_calculation_api.py  # Flask API (deterministic calculation)
 │   │   ├── tests/                 # Unit tests
 │   │   └── archive/               # Archived docs, old requirements
-│   └── recommendations/           # Model 4: (Not yet implemented)
+│   ├── recommendations/          # Model 4: Orchestration engine
+│   │   ├── model4_app.py         # Flask API for orchestration engine accessing models 1-3
 ├── tests/                         # Integration tests
 ├── docs/                          # Additional documentation
 ├── requirements.txt               # Unified production dependencies
@@ -664,6 +665,82 @@ curl -H "X-API-KEY: your_api_key_here" ...
 }
 ```
 
+
+```markdown
+#### Model 4: Solar Viability Analysis (Orchestration)
+
+**POST `/api/v1/analyze`**
+- **Description**: Orchestrates Models 1–3 to return a complete solar viability assessment, including system sizing and diesel economics.
+- **Authentication**: Required (`X-API-KEY` header)
+- **Request Body**:
+```json
+{
+  // Required Base Fields
+  "business_name": "Joe's Coffee Shop",
+  "business_type": "Cafe",
+  "location": "Nairobi, Kenya",
+  "latitude": -1.2921,
+  "longitude": 36.8219,
+  
+  // Input Mode A: Equipment List (Recommended)
+  "equipment_list": [
+    { "equipment_type": "refrigerator", "quantity": 2, "hours_per_day": 24 },
+    { "equipment_type": "cold_room", "quantity": 1, "hours_per_day": 24 }
+  ],
+  
+  // OR Input Mode B: Direct Metrics
+  // "sqft_m2": 60.0,
+  // "operating_hours_weekly": 98.0,
+  // "num_refrigeration_units": 3,
+
+  // Optional: Diesel Economics
+  "uses_diesel": true,
+  "diesel_hours_per_day": 12.0,
+  "diesel_price_per_liter": 1.20
+}
+```
+- **Response** (200 OK):
+```json
+{
+  "business_name": "Joe's Coffee Shop",
+  "business_type": "Cafe",
+  "location": "Nairobi, Kenya",
+  "analyzed_at": "2026-02-24T10:30:00.000000",
+  "estimated_consumption_kwh": 335.2,
+  "predicted_generation_kwh": 301.6,
+  "recommended_panel_area_m2": 15.0,
+  "system_cost": 9750.0,
+  "roi_percentage": 28.5,
+  "monthly_savings": 235.0,
+  "recommendation": "High",
+  "viability_score": 75.0,
+  "status": "HIGHLY VIABLE",
+  "explanation": "Solar is highly viable because: Strong ROI of 28.5%; Excellent solar coverage (90%); Significant savings.",
+  "confidence": 85.0,
+  "energy_scenario": "diesel_replacement",
+  "current_energy_cost": {
+    "total_monthly": 350.0,
+    "diesel_monthly": 300.0,
+    "grid_monthly": 50.0
+  },
+  "diesel_details": {
+    "hours_per_day": 12.0,
+    "price_per_liter": 1.20,
+    "monthly_liters": 80.4,
+    "effective_tariff": 1.95,
+    "diesel_kwh_monthly": 167.6
+  },
+  "lifetime_prediction": { ... }
+}
+```
+- **Error Responses**:
+  - `400 Bad Request`: Missing fields, invalid types, unsupported location (coordinates outside SSA).
+  - `401 Unauthorized`: Missing or invalid API key.
+  - `429 Too Many Requests`: Rate limit exceeded.
+  - `500 Internal Server Error`: Orchestration service error.
+  - `503 Service Unavailable`: Upstream failure from Models 1, 2, or 3.
+```
+
 ### Error Response Format
 
 All error responses follow this structure:
@@ -797,7 +874,7 @@ ls models/solar_generation/src/models/
 ## Additional Resources
 
 - **Integration Guides**: See `models/*/archive/` folders for detailed integration documentation
-- **API Contracts**: See `models/*/archive/API_CONTRACT.md` for detailed endpoint specifications
+- **API Contracts**: See `models/*/API_CONTRACT.md` (live contracts, not archival) for detailed endpoint specifications
 - **Model Cards**: See `models/*/archive/MODEL_CARD.md` for model architecture details
 
 ---
@@ -817,4 +894,4 @@ For issues or questions:
 
 ---
 
-**Last Updated**: 2026-02-12
+**Last Updated**: 2026-02-24

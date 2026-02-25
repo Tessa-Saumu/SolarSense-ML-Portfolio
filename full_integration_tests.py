@@ -44,10 +44,10 @@ from requests.exceptions import RequestException, Timeout
 # CONFIGURATION
 # ============================================================================
 
-MODEL_1_BASE_URL = os.getenv("MODEL_1_BASE_URL", "http://localhost:8000") #live url https://dse-models-production.up.railway.app
-MODEL_2_BASE_URL = os.getenv("MODEL_2_BASE_URL", "http://localhost:8000")
-MODEL_3_BASE_URL = os.getenv("MODEL_3_BASE_URL", "http://localhost:8000")
-MODEL_4_BASE_URL = os.getenv("MODEL_4_BASE_URL", "http://localhost:8000")
+MODEL_1_BASE_URL = os.getenv("MODEL_1_BASE_URL", "https://dse-models-production.up.railway.app") #live url https://dse-models-production.up.railway.app
+MODEL_2_BASE_URL = os.getenv("MODEL_2_BASE_URL", "https://dse-models-production.up.railway.app") #local url http://localhost:8000
+MODEL_3_BASE_URL = os.getenv("MODEL_3_BASE_URL", "https://dse-models-production.up.railway.app")
+MODEL_4_BASE_URL = os.getenv("MODEL_4_BASE_URL", "https://dse-models-production.up.railway.app")
 
 MODEL_1_ENDPOINT   = f"{MODEL_1_BASE_URL}/api/v1/estimate-consumption"
 MODEL_2_ENDPOINT   = f"{MODEL_2_BASE_URL}/api/v1/predict-generation"
@@ -64,7 +64,7 @@ CURRENT_MONTH   = datetime.datetime.now().month
 # Which suites to run (default: all)
 _suite_env = os.getenv("RUN_SUITES", "")
 RUN_SUITES  = set(int(x) for x in _suite_env.split(",") if x.strip().isdigit()) \
-                  if _suite_env else set(range(8, 10))  # ✅ Changed from 8 to 10
+                  if _suite_env else set(range(1, 10))  # ✅ Changed from 8 to 10
 
 OUTPUT_DIR = os.getenv("TEST_OUTPUT_DIR", "test_results")
 
