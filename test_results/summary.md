@@ -1,6 +1,6 @@
 # MODEL 4 TEST SUITE - EXECUTIVE SUMMARY
 
-**Test Date:** 2026-02-25T15:01:11.096770
+**Test Date:** 2026-02-25T15:18:27.259030
 
 **API Endpoint:** https://dse-models-production.up.railway.app/api/v1/analyze
 
@@ -26,7 +26,7 @@
 | Kampala Farm Cold Storage | Uganda | ❌ FAIL | consumption_kwh, system_cost, monthly_savings, payback_years |
 | Kigali Quick Freeze Butchery | Rwanda | ❌ FAIL | consumption_kwh, system_cost, monthly_savings, payback_years |
 | Dar Fresh Mart Grocery | Tanzania | ❌ FAIL | consumption_kwh, system_cost, monthly_savings, payback_years |
-| Cape Meat Locker Cold Storage | South Africa | ❌ FAIL | consumption_kwh, system_cost, monthly_savings, payback_years |
+| Cape Meat Locker Cold Storage | South Africa | ❌ FAIL | consumption_kwh, monthly_savings, payback_years |
 | Nairobi Frosty Mini Mart | Kenya | ❌ FAIL | consumption_kwh, system_cost, monthly_savings, payback_years |
 
 ## 🎯 Tolerance Thresholds

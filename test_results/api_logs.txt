@@ -1,20 +1,20 @@
-2026-02-25 15:00:56,756 - INFO - 
+2026-02-25 15:18:04,974 - INFO - 
 ====================================================================================================
-2026-02-25 15:00:56,756 - INFO - ====================================================================================================
-2026-02-25 15:00:56,756 - INFO - Total Profiles: 10
-2026-02-25 15:00:56,756 - INFO - API Endpoint: https://dse-models-production.up.railway.app/api/v1/analyze
-2026-02-25 15:00:56,756 - INFO - Timestamp: 2026-02-25T15:00:56.756504
-2026-02-25 15:00:56,756 - INFO - 
+2026-02-25 15:18:04,974 - INFO - ====================================================================================================
+2026-02-25 15:18:04,974 - INFO - Total Profiles: 10
+2026-02-25 15:18:04,974 - INFO - API Endpoint: https://dse-models-production.up.railway.app/api/v1/analyze
+2026-02-25 15:18:04,974 - INFO - Timestamp: 2026-02-25T15:18:04.974695
+2026-02-25 15:18:04,974 - INFO - 
 >>> Test 1/10
-2026-02-25 15:00:56,765 - INFO - 
+2026-02-25 15:18:04,974 - INFO - 
 
 ####################################################################################################
-2026-02-25 15:00:56,766 - INFO - ####################################################################################################
-2026-02-25 15:00:56,768 - INFO - 
+2026-02-25 15:18:04,974 - INFO - ####################################################################################################
+2026-02-25 15:18:04,984 - INFO - 
 ================================================================================
-2026-02-25 15:00:56,770 - INFO - ================================================================================
-2026-02-25 15:00:56,770 - INFO - Endpoint: https://dse-models-production.up.railway.app/api/v1/analyze
-2026-02-25 15:00:56,770 - INFO - Payload:
+2026-02-25 15:18:04,985 - INFO - ================================================================================
+2026-02-25 15:18:04,985 - INFO - Endpoint: https://dse-models-production.up.railway.app/api/v1/analyze
+2026-02-25 15:18:04,985 - INFO - Payload:
 {
   "business_name": "Lagos Fresh Cuts Butchery",
   "business_type": "Butchery",
@@ -42,10 +42,10 @@
   "diesel_hours_per_day": 8.0,
   "diesel_price_per_liter": 0.25806451612903225
 }
-2026-02-25 15:00:58,602 - INFO - Status Code: 200
-2026-02-25 15:00:58,602 - INFO - Response:
+2026-02-25 15:18:15,509 - INFO - Status Code: 200
+2026-02-25 15:18:15,509 - INFO - Response:
 {
-  "analyzed_at": "2026-02-25T13:00:57.043777",
+  "analyzed_at": "2026-02-25T13:18:13.897169",
   "business_name": "Lagos Fresh Cuts Butchery",
   "business_type": "Butchery",
   "confidence": 85.0,
@@ -63,7 +63,7 @@
   },
   "energy_scenario": "diesel_replacement",
   "estimated_consumption_kwh": 6088.83,
-  "explanation": "Solar is not viable because: Moderate ROI of 5.5%; Limited solar coverage (24%).",
+  "explanation": "Solar is moderately viable because: Strong ROI of 20.7%; Limited solar coverage (24%).",
   "lifetime_prediction": {
     "assumptions": {
       "annual_degradation_pct": 0.7000000000000001,
@@ -357,24 +357,24 @@
   "location": "Lagos, Nigeria",
   "monthly_savings": 158.6,
   "predicted_generation_kwh": 1476.0509490966797,
-  "recommendation": "Low",
+  "recommendation": "Medium",
   "recommended_panel_area_m2": 50.0,
-  "roi_percentage": 5.52,
-  "status": "NOT VIABLE",
-  "system_cost": 34500.0,
-  "viability_score": 23.05
+  "roi_percentage": 20.69,
+  "status": "MODERATELY VIABLE",
+  "system_cost": 9200.0,
+  "viability_score": 45.2
 }
-2026-02-25 15:00:58,618 - INFO - 
+2026-02-25 15:18:15,522 - INFO - 
 >>> Test 2/10
-2026-02-25 15:00:58,618 - INFO - 
+2026-02-25 15:18:15,522 - INFO - 
 
 ####################################################################################################
-2026-02-25 15:00:58,620 - INFO - ####################################################################################################
-2026-02-25 15:00:58,620 - INFO - 
+2026-02-25 15:18:15,522 - INFO - ####################################################################################################
+2026-02-25 15:18:15,525 - INFO - 
 ================================================================================
-2026-02-25 15:00:58,621 - INFO - ================================================================================
-2026-02-25 15:00:58,621 - INFO - Endpoint: https://dse-models-production.up.railway.app/api/v1/analyze
-2026-02-25 15:00:58,623 - INFO - Payload:
+2026-02-25 15:18:15,527 - INFO - ================================================================================
+2026-02-25 15:18:15,527 - INFO - Endpoint: https://dse-models-production.up.railway.app/api/v1/analyze
+2026-02-25 15:18:15,527 - INFO - Payload:
 {
   "business_name": "Accra Daily Grocery",
   "business_type": "Grocery",
@@ -402,10 +402,10 @@
   "diesel_hours_per_day": 0,
   "diesel_price_per_liter": 0
 }
-2026-02-25 15:00:59,891 - INFO - Status Code: 200
-2026-02-25 15:00:59,891 - INFO - Response:
+2026-02-25 15:18:16,880 - INFO - Status Code: 200
+2026-02-25 15:18:16,880 - INFO - Response:
 {
-  "analyzed_at": "2026-02-25T13:00:58.336924",
+  "analyzed_at": "2026-02-25T13:18:15.319906",
   "business_name": "Accra Daily Grocery",
   "business_type": "Grocery",
   "confidence": 85.0,
@@ -416,7 +416,7 @@
   },
   "energy_scenario": "grid_only",
   "estimated_consumption_kwh": 6147.18,
-  "explanation": "Solar is not viable because: Moderate ROI of 7.2%; Limited solar coverage (25%).",
+  "explanation": "Solar is moderately viable because: Strong ROI of 26.9%; Limited solar coverage (25%).",
   "lifetime_prediction": {
     "assumptions": {
       "annual_degradation_pct": 0.7000000000000001,
@@ -710,24 +710,24 @@
   "location": "Accra, Ghana",
   "monthly_savings": 197.02,
   "predicted_generation_kwh": 1515.5272006988525,
-  "recommendation": "Low",
+  "recommendation": "Medium",
   "recommended_panel_area_m2": 50.0,
-  "roi_percentage": 7.16,
-  "status": "NOT VIABLE",
-  "system_cost": 33000.0,
-  "viability_score": 25.64
+  "roi_percentage": 26.87,
+  "status": "MODERATELY VIABLE",
+  "system_cost": 8800.0,
+  "viability_score": 49.19
 }
-2026-02-25 15:00:59,894 - INFO - 
+2026-02-25 15:18:16,880 - INFO - 
 >>> Test 3/10
-2026-02-25 15:00:59,894 - INFO - 
+2026-02-25 15:18:16,880 - INFO - 
 
 ####################################################################################################
-2026-02-25 15:00:59,897 - INFO - ####################################################################################################
-2026-02-25 15:00:59,898 - INFO - 
+2026-02-25 15:18:16,880 - INFO - ####################################################################################################
+2026-02-25 15:18:16,880 - INFO - 
 ================================================================================
-2026-02-25 15:00:59,901 - INFO - ================================================================================
-2026-02-25 15:00:59,901 - INFO - Endpoint: https://dse-models-production.up.railway.app/api/v1/analyze
-2026-02-25 15:00:59,901 - INFO - Payload:
+2026-02-25 15:18:16,880 - INFO - ================================================================================
+2026-02-25 15:18:16,880 - INFO - Endpoint: https://dse-models-production.up.railway.app/api/v1/analyze
+2026-02-25 15:18:16,880 - INFO - Payload:
 {
   "business_name": "Nairobi Bread Haven Bakery",
   "business_type": "Bakery",
@@ -755,10 +755,10 @@
   "diesel_hours_per_day": 10.0,
   "diesel_price_per_liter": 1.5
 }
-2026-02-25 15:01:01,039 - INFO - Status Code: 200
-2026-02-25 15:01:01,039 - INFO - Response:
+2026-02-25 15:18:18,131 - INFO - Status Code: 200
+2026-02-25 15:18:18,131 - INFO - Response:
 {
-  "analyzed_at": "2026-02-25T13:00:59.485206",
+  "analyzed_at": "2026-02-25T13:18:16.558439",
   "business_name": "Nairobi Bread Haven Bakery",
   "business_type": "Bakery",
   "confidence": 85.0,
@@ -776,7 +776,7 @@
   },
   "energy_scenario": "diesel_replacement",
   "estimated_consumption_kwh": 4882.28,
-  "explanation": "Solar is moderately viable because: Strong ROI of 22.4%; Limited solar coverage (36%).",
+  "explanation": "Solar is moderately viable because: Strong ROI of 83.8%; Limited solar coverage (36%).",
   "lifetime_prediction": {
     "assumptions": {
       "annual_degradation_pct": 0.7000000000000001,
@@ -1072,22 +1072,22 @@
   "predicted_generation_kwh": 1750.5280494689941,
   "recommendation": "Medium",
   "recommended_panel_area_m2": 50.0,
-  "roi_percentage": 22.36,
+  "roi_percentage": 83.85,
   "status": "MODERATELY VIABLE",
-  "system_cost": 32400.0,
-  "viability_score": 49.73
+  "system_cost": 8640.0,
+  "viability_score": 60.76
 }
-2026-02-25 15:01:01,055 - INFO - 
+2026-02-25 15:18:18,134 - INFO - 
 >>> Test 4/10
-2026-02-25 15:01:01,055 - INFO - 
+2026-02-25 15:18:18,134 - INFO - 
 
 ####################################################################################################
-2026-02-25 15:01:01,059 - INFO - ####################################################################################################
-2026-02-25 15:01:01,060 - INFO - 
+2026-02-25 15:18:18,134 - INFO - ####################################################################################################
+2026-02-25 15:18:18,137 - INFO - 
 ================================================================================
-2026-02-25 15:01:01,061 - INFO - ================================================================================
-2026-02-25 15:01:01,061 - INFO - Endpoint: https://dse-models-production.up.railway.app/api/v1/analyze
-2026-02-25 15:01:01,061 - INFO - Payload:
+2026-02-25 15:18:18,139 - INFO - ================================================================================
+2026-02-25 15:18:18,139 - INFO - Endpoint: https://dse-models-production.up.railway.app/api/v1/analyze
+2026-02-25 15:18:18,139 - INFO - Payload:
 {
   "business_name": "Johannesburg ChillMart Supermarket",
   "business_type": "Supermarket/mini mart",
@@ -1115,10 +1115,10 @@
   "diesel_hours_per_day": 0,
   "diesel_price_per_liter": 0
 }
-2026-02-25 15:01:02,430 - INFO - Status Code: 200
-2026-02-25 15:01:02,430 - INFO - Response:
+2026-02-25 15:18:19,301 - INFO - Status Code: 200
+2026-02-25 15:18:19,304 - INFO - Response:
 {
-  "analyzed_at": "2026-02-25T13:01:00.873949",
+  "analyzed_at": "2026-02-25T13:18:17.738421",
   "business_name": "Johannesburg ChillMart Supermarket",
   "business_type": "Supermarket/mini mart",
   "confidence": 85.0,
@@ -1129,7 +1129,7 @@
   },
   "energy_scenario": "grid_only",
   "estimated_consumption_kwh": 5497.19,
-  "explanation": "Solar is not viable because: Moderate ROI of 10.5%; Limited solar coverage (31%).",
+  "explanation": "Solar is moderately viable because: Strong ROI of 39.2%; Limited solar coverage (31%).",
   "lifetime_prediction": {
     "assumptions": {
       "annual_degradation_pct": 0.7000000000000001,
@@ -1423,24 +1423,24 @@
   "location": "Johannesburg, South Africa",
   "monthly_savings": 235.28,
   "predicted_generation_kwh": 1680.5548667907715,
-  "recommendation": "Low",
+  "recommendation": "Medium",
   "recommended_panel_area_m2": 50.0,
-  "roi_percentage": 10.46,
-  "status": "NOT VIABLE",
-  "system_cost": 27000.0,
-  "viability_score": 32.36
+  "roi_percentage": 39.21,
+  "status": "MODERATELY VIABLE",
+  "system_cost": 7200.0,
+  "viability_score": 58.68
 }
-2026-02-25 15:01:02,443 - INFO - 
+2026-02-25 15:18:19,304 - INFO - 
 >>> Test 5/10
-2026-02-25 15:01:02,443 - INFO - 
+2026-02-25 15:18:19,304 - INFO - 
 
 ####################################################################################################
-2026-02-25 15:01:02,443 - INFO - ####################################################################################################
-2026-02-25 15:01:02,443 - INFO - 
+2026-02-25 15:18:19,308 - INFO - ####################################################################################################
+2026-02-25 15:18:19,308 - INFO - 
 ================================================================================
-2026-02-25 15:01:02,443 - INFO - ================================================================================
-2026-02-25 15:01:02,443 - INFO - Endpoint: https://dse-models-production.up.railway.app/api/v1/analyze
-2026-02-25 15:01:02,443 - INFO - Payload:
+2026-02-25 15:18:19,311 - INFO - ================================================================================
+2026-02-25 15:18:19,312 - INFO - Endpoint: https://dse-models-production.up.railway.app/api/v1/analyze
+2026-02-25 15:18:19,312 - INFO - Payload:
 {
   "business_name": "Addis Ice Foods Frozen Retail",
   "business_type": "Frozen food retail",
@@ -1463,10 +1463,10 @@
   "diesel_hours_per_day": 6.0,
   "diesel_price_per_liter": 0.9821428571428571
 }
-2026-02-25 15:01:04,206 - INFO - Status Code: 200
-2026-02-25 15:01:04,206 - INFO - Response:
+2026-02-25 15:18:20,677 - INFO - Status Code: 200
+2026-02-25 15:18:20,691 - INFO - Response:
 {
-  "analyzed_at": "2026-02-25T13:01:02.650820",
+  "analyzed_at": "2026-02-25T13:18:19.122304",
   "business_name": "Addis Ice Foods Frozen Retail",
   "business_type": "Frozen food retail",
   "confidence": 85.0,
@@ -1484,7 +1484,7 @@
   },
   "energy_scenario": "diesel_replacement",
   "estimated_consumption_kwh": 3778.94,
-  "explanation": "Solar is moderately viable because: Moderate ROI of 11.8%; Good solar coverage (52%).",
+  "explanation": "Solar is highly viable because: Strong ROI of 44.3%; Good solar coverage (52%).",
   "lifetime_prediction": {
     "assumptions": {
       "annual_degradation_pct": 0.7000000000000001,
@@ -1778,24 +1778,24 @@
   "location": "Addis Ababa, Ethiopia",
   "monthly_savings": 330.87,
   "predicted_generation_kwh": 1980.885887145996,
-  "recommendation": "Medium",
+  "recommendation": "High",
   "recommended_panel_area_m2": 50.0,
-  "roi_percentage": 11.82,
-  "status": "MODERATELY VIABLE",
-  "system_cost": 33600.0,
-  "viability_score": 40.96
+  "roi_percentage": 44.31,
+  "status": "HIGHLY VIABLE",
+  "system_cost": 8960.0,
+  "viability_score": 65.73
 }
-2026-02-25 15:01:04,206 - INFO - 
+2026-02-25 15:18:20,691 - INFO - 
 >>> Test 6/10
-2026-02-25 15:01:04,212 - INFO - 
+2026-02-25 15:18:20,691 - INFO - 
 
 ####################################################################################################
-2026-02-25 15:01:04,213 - INFO - ####################################################################################################
-2026-02-25 15:01:04,213 - INFO - 
+2026-02-25 15:18:20,696 - INFO - ####################################################################################################
+2026-02-25 15:18:20,697 - INFO - 
 ================================================================================
-2026-02-25 15:01:04,215 - INFO - ================================================================================
-2026-02-25 15:01:04,215 - INFO - Endpoint: https://dse-models-production.up.railway.app/api/v1/analyze
-2026-02-25 15:01:04,216 - INFO - Payload:
+2026-02-25 15:18:20,698 - INFO - ================================================================================
+2026-02-25 15:18:20,699 - INFO - Endpoint: https://dse-models-production.up.railway.app/api/v1/analyze
+2026-02-25 15:18:20,699 - INFO - Payload:
 {
   "business_name": "Kampala Farm Cold Storage",
   "business_type": "Cold storage",
@@ -1823,10 +1823,10 @@
   "diesel_hours_per_day": 0,
   "diesel_price_per_liter": 0
 }
-2026-02-25 15:01:05,447 - INFO - Status Code: 200
-2026-02-25 15:01:05,447 - INFO - Response:
+2026-02-25 15:18:22,085 - INFO - Status Code: 200
+2026-02-25 15:18:22,085 - INFO - Response:
 {
-  "analyzed_at": "2026-02-25T13:01:03.882369",
+  "analyzed_at": "2026-02-25T13:18:20.391730",
   "business_name": "Kampala Farm Cold Storage",
   "business_type": "Cold storage",
   "confidence": 85.0,
@@ -1837,7 +1837,7 @@
   },
   "energy_scenario": "grid_only",
   "estimated_consumption_kwh": 8253.91,
-  "explanation": "Solar is not viable because: Moderate ROI of 6.9%; Limited solar coverage (21%).",
+  "explanation": "Solar is moderately viable because: Strong ROI of 26.0%; Limited solar coverage (21%).",
   "lifetime_prediction": {
     "assumptions": {
       "annual_degradation_pct": 0.7000000000000001,
@@ -2131,24 +2131,24 @@
   "location": "Kampala, Uganda",
   "monthly_savings": 187.0,
   "predicted_generation_kwh": 1699.9976634979248,
-  "recommendation": "Low",
+  "recommendation": "Medium",
   "recommended_panel_area_m2": 50.0,
-  "roi_percentage": 6.93,
-  "status": "NOT VIABLE",
-  "system_cost": 32400.0,
-  "viability_score": 24.07
+  "roi_percentage": 25.97,
+  "status": "MODERATELY VIABLE",
+  "system_cost": 8640.0,
+  "viability_score": 47.41
 }
-2026-02-25 15:01:05,447 - INFO - 
+2026-02-25 15:18:22,085 - INFO - 
 >>> Test 7/10
-2026-02-25 15:01:05,447 - INFO - 
+2026-02-25 15:18:22,085 - INFO - 
 
 ####################################################################################################
-2026-02-25 15:01:05,462 - INFO - ####################################################################################################
-2026-02-25 15:01:05,462 - INFO - 
+2026-02-25 15:18:22,093 - INFO - ####################################################################################################
+2026-02-25 15:18:22,093 - INFO - 
 ================================================================================
-2026-02-25 15:01:05,466 - INFO - ================================================================================
-2026-02-25 15:01:05,466 - INFO - Endpoint: https://dse-models-production.up.railway.app/api/v1/analyze
-2026-02-25 15:01:05,466 - INFO - Payload:
+2026-02-25 15:18:22,096 - INFO - ================================================================================
+2026-02-25 15:18:22,096 - INFO - Endpoint: https://dse-models-production.up.railway.app/api/v1/analyze
+2026-02-25 15:18:22,096 - INFO - Payload:
 {
   "business_name": "Kigali Quick Freeze Butchery",
   "business_type": "Butchery",
@@ -2176,10 +2176,10 @@
   "diesel_hours_per_day": 12.0,
   "diesel_price_per_liter": 1.1538461538461537
 }
-2026-02-25 15:01:06,965 - INFO - Status Code: 200
-2026-02-25 15:01:06,965 - INFO - Response:
+2026-02-25 15:18:23,434 - INFO - Status Code: 200
+2026-02-25 15:18:23,434 - INFO - Response:
 {
-  "analyzed_at": "2026-02-25T13:01:05.346711",
+  "analyzed_at": "2026-02-25T13:18:21.826790",
   "business_name": "Kigali Quick Freeze Butchery",
   "business_type": "Butchery",
   "confidence": 85.0,
@@ -2197,7 +2197,7 @@
   },
   "energy_scenario": "diesel_replacement",
   "estimated_consumption_kwh": 3809.81,
-  "explanation": "Solar is moderately viable because: Strong ROI of 19.2%; Limited solar coverage (41%).",
+  "explanation": "Solar is moderately viable because: Strong ROI of 72.0%; Limited solar coverage (41%).",
   "lifetime_prediction": {
     "assumptions": {
       "annual_degradation_pct": 0.7000000000000001,
@@ -2493,22 +2493,22 @@
   "predicted_generation_kwh": 1555.772066116333,
   "recommendation": "Medium",
   "recommended_panel_area_m2": 50.0,
-  "roi_percentage": 19.19,
+  "roi_percentage": 71.96,
   "status": "MODERATELY VIABLE",
-  "system_cost": 32400.0,
-  "viability_score": 48.54
+  "system_cost": 8640.0,
+  "viability_score": 62.25
 }
-2026-02-25 15:01:06,965 - INFO - 
+2026-02-25 15:18:23,434 - INFO - 
 >>> Test 8/10
-2026-02-25 15:01:06,965 - INFO - 
+2026-02-25 15:18:23,434 - INFO - 
 
 ####################################################################################################
-2026-02-25 15:01:06,970 - INFO - ####################################################################################################
-2026-02-25 15:01:06,971 - INFO - 
+2026-02-25 15:18:23,450 - INFO - ####################################################################################################
+2026-02-25 15:18:23,450 - INFO - 
 ================================================================================
-2026-02-25 15:01:06,972 - INFO - ================================================================================
-2026-02-25 15:01:06,972 - INFO - Endpoint: https://dse-models-production.up.railway.app/api/v1/analyze
-2026-02-25 15:01:06,972 - INFO - Payload:
+2026-02-25 15:18:23,453 - INFO - ================================================================================
+2026-02-25 15:18:23,453 - INFO - Endpoint: https://dse-models-production.up.railway.app/api/v1/analyze
+2026-02-25 15:18:23,453 - INFO - Payload:
 {
   "business_name": "Dar Fresh Mart Grocery",
   "business_type": "Grocery",
@@ -2536,10 +2536,10 @@
   "diesel_hours_per_day": 0,
   "diesel_price_per_liter": 0
 }
-2026-02-25 15:01:08,256 - INFO - Status Code: 200
-2026-02-25 15:01:08,256 - INFO - Response:
+2026-02-25 15:18:24,745 - INFO - Status Code: 200
+2026-02-25 15:18:24,745 - INFO - Response:
 {
-  "analyzed_at": "2026-02-25T13:01:06.707373",
+  "analyzed_at": "2026-02-25T13:18:23.180307",
   "business_name": "Dar Fresh Mart Grocery",
   "business_type": "Grocery",
   "confidence": 85.0,
@@ -2550,7 +2550,7 @@
   },
   "energy_scenario": "grid_only",
   "estimated_consumption_kwh": 6741.2,
-  "explanation": "Solar is not viable because: Moderate ROI of 7.9%; Limited solar coverage (29%).",
+  "explanation": "Solar is moderately viable because: Strong ROI of 29.5%; Limited solar coverage (29%).",
   "lifetime_prediction": {
     "assumptions": {
       "annual_degradation_pct": 0.7000000000000001,
@@ -2844,24 +2844,24 @@
   "location": "Dar es Salaam, Tanzania",
   "monthly_savings": 212.35,
   "predicted_generation_kwh": 1930.4271697998047,
-  "recommendation": "Low",
+  "recommendation": "Medium",
   "recommended_panel_area_m2": 50.0,
-  "roi_percentage": 7.86,
-  "status": "NOT VIABLE",
-  "system_cost": 32400.0,
-  "viability_score": 27.88
+  "roi_percentage": 29.49,
+  "status": "MODERATELY VIABLE",
+  "system_cost": 8640.0,
+  "viability_score": 52.02
 }
-2026-02-25 15:01:08,270 - INFO - 
+2026-02-25 15:18:24,761 - INFO - 
 >>> Test 9/10
-2026-02-25 15:01:08,270 - INFO - 
+2026-02-25 15:18:24,761 - INFO - 
 
 ####################################################################################################
-2026-02-25 15:01:08,273 - INFO - ####################################################################################################
-2026-02-25 15:01:08,273 - INFO - 
+2026-02-25 15:18:24,765 - INFO - ####################################################################################################
+2026-02-25 15:18:24,765 - INFO - 
 ================================================================================
-2026-02-25 15:01:08,274 - INFO - ================================================================================
-2026-02-25 15:01:08,274 - INFO - Endpoint: https://dse-models-production.up.railway.app/api/v1/analyze
-2026-02-25 15:01:08,274 - INFO - Payload:
+2026-02-25 15:18:24,768 - INFO - ================================================================================
+2026-02-25 15:18:24,768 - INFO - Endpoint: https://dse-models-production.up.railway.app/api/v1/analyze
+2026-02-25 15:18:24,768 - INFO - Payload:
 {
   "business_name": "Cape Meat Locker Cold Storage",
   "business_type": "Cold storage",
@@ -2884,10 +2884,10 @@
   "diesel_hours_per_day": 5.0,
   "diesel_price_per_liter": 1.2432432432432432
 }
-2026-02-25 15:01:09,832 - INFO - Status Code: 200
-2026-02-25 15:01:09,832 - INFO - Response:
+2026-02-25 15:18:26,114 - INFO - Status Code: 200
+2026-02-25 15:18:26,116 - INFO - Response:
 {
-  "analyzed_at": "2026-02-25T13:01:08.217319",
+  "analyzed_at": "2026-02-25T13:18:24.498579",
   "business_name": "Cape Meat Locker Cold Storage",
   "business_type": "Cold storage",
   "confidence": 85.0,
@@ -2905,7 +2905,7 @@
   },
   "energy_scenario": "diesel_replacement",
   "estimated_consumption_kwh": 6856.28,
-  "explanation": "Solar is moderately viable because: Strong ROI of 16.8%; Limited solar coverage (25%).",
+  "explanation": "Solar is moderately viable because: Strong ROI of 63.1%; Limited solar coverage (25%).",
   "lifetime_prediction": {
     "assumptions": {
       "annual_degradation_pct": 0.7000000000000001,
@@ -3201,22 +3201,22 @@
   "predicted_generation_kwh": 1680.5548667907715,
   "recommendation": "Medium",
   "recommended_panel_area_m2": 50.0,
-  "roi_percentage": 16.83,
+  "roi_percentage": 63.13,
   "status": "MODERATELY VIABLE",
-  "system_cost": 27000.0,
-  "viability_score": 40.1
+  "system_cost": 7200.0,
+  "viability_score": 57.35
 }
-2026-02-25 15:01:09,836 - INFO - 
+2026-02-25 15:18:26,116 - INFO - 
 >>> Test 10/10
-2026-02-25 15:01:09,837 - INFO - 
+2026-02-25 15:18:26,116 - INFO - 
 
 ####################################################################################################
-2026-02-25 15:01:09,839 - INFO - ####################################################################################################
-2026-02-25 15:01:09,839 - INFO - 
+2026-02-25 15:18:26,119 - INFO - ####################################################################################################
+2026-02-25 15:18:26,121 - INFO - 
 ================================================================================
-2026-02-25 15:01:09,843 - INFO - ================================================================================
-2026-02-25 15:01:09,843 - INFO - Endpoint: https://dse-models-production.up.railway.app/api/v1/analyze
-2026-02-25 15:01:09,843 - INFO - Payload:
+2026-02-25 15:18:26,123 - INFO - ================================================================================
+2026-02-25 15:18:26,123 - INFO - Endpoint: https://dse-models-production.up.railway.app/api/v1/analyze
+2026-02-25 15:18:26,123 - INFO - Payload:
 {
   "business_name": "Nairobi Frosty Mini Mart",
   "business_type": "Supermarket/mini mart",
@@ -3249,10 +3249,10 @@
   "diesel_hours_per_day": 0,
   "diesel_price_per_liter": 0
 }
-2026-02-25 15:01:11,096 - INFO - Status Code: 200
-2026-02-25 15:01:11,096 - INFO - Response:
+2026-02-25 15:18:27,243 - INFO - Status Code: 200
+2026-02-25 15:18:27,243 - INFO - Response:
 {
-  "analyzed_at": "2026-02-25T13:01:09.531596",
+  "analyzed_at": "2026-02-25T13:18:25.673269",
   "business_name": "Nairobi Frosty Mini Mart",
   "business_type": "Supermarket/mini mart",
   "confidence": 85.0,
@@ -3263,7 +3263,7 @@
   },
   "energy_scenario": "grid_only",
   "estimated_consumption_kwh": 7343.92,
-  "explanation": "Solar is not viable because: Moderate ROI of 7.1%; Limited solar coverage (24%).",
+  "explanation": "Solar is moderately viable because: Strong ROI of 26.7%; Limited solar coverage (24%).",
   "lifetime_prediction": {
     "assumptions": {
       "annual_degradation_pct": 0.7000000000000001,
@@ -3557,14 +3557,14 @@
   "location": "Nairobi, Kenya",
   "monthly_savings": 192.56,
   "predicted_generation_kwh": 1750.5280494689941,
-  "recommendation": "Low",
+  "recommendation": "Medium",
   "recommended_panel_area_m2": 50.0,
-  "roi_percentage": 7.13,
-  "status": "NOT VIABLE",
-  "system_cost": 32400.0,
-  "viability_score": 25.35
+  "roi_percentage": 26.74,
+  "status": "MODERATELY VIABLE",
+  "system_cost": 8640.0,
+  "viability_score": 48.86
 }
-2026-02-25 15:01:11,096 - INFO - 
+2026-02-25 15:18:27,259 - INFO - 
 ====================================================================================================
-2026-02-25 15:01:11,102 - INFO - ====================================================================================================
-2026-02-25 15:01:11,102 - INFO - Total: 10 | Passed: 0 | Warnings: 0 | Failed: 10 | Errors: 0
+2026-02-25 15:18:27,260 - INFO - ====================================================================================================
+2026-02-25 15:18:27,260 - INFO - Total: 10 | Passed: 0 | Warnings: 0 | Failed: 10 | Errors: 0
