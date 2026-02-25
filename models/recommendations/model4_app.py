@@ -169,7 +169,7 @@ def convert_equipment_to_business_metrics(equipment_list):
     operating_hours_weekly = avg_hours_per_day * 7
     
     # Estimate floor area based on equipment count and type
-    base_area = len(equipment_list) * 15
+    base_area = sum(item.get('quantity', 1) for item in equipment_list) * 15
     
     # Count cold rooms and add extra space for them
     cold_room_count = sum(
@@ -370,7 +370,7 @@ def validate_business_input(data):
         if not isinstance(_raw, (int, float)) or isinstance(_raw, bool):
             return False, "diesel_price_per_liter must be a valid number"
         diesel_price = float(_raw)
-        
+
         uses_diesel = data.get('uses_diesel', False)
         if 'diesel_price_per_liter' in data and uses_diesel:    
             if not (0 < diesel_price <= 10):
