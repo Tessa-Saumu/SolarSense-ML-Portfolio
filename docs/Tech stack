@@ -1,0 +1,32 @@
+Technology	Version	Purpose
+Python runtime	Not pinned, 3.11 recommended	Runs the ML microservices and unified gateway
+Flask	3.0.2	HTTP server and routing layer for all model APIs and the gateway
+Flask-Cors	4.0.0	CORS support for browser and cross origin clients
+Flask-Limiter	3.7.0	Rate limiting for all /api/v1/* endpoints
+Gunicorn	21.2.0	Production WSGI HTTP server for Railway and similar deployments
+numpy	2.4.1	Numerical arrays and feature calculations in Models 1 and 2
+pandas	2.2.2	Data manipulation and analysis for training and validation workflows
+scikit-learn	1.8.0	Gradient Boosting model and preprocessing pipeline for Model 1
+xgboost	3.1.3	Climatological regression model for Model 2 solar generation
+joblib	1.5.3	Persistence and loading of model artifacts and encoders
+requests	2.31.0	HTTP client used by Model 4 to call Models 1–3
+python-dotenv	1.0.0	Loading configuration and secrets from .env files
+psycopg2-binary	2.9.9	PostgreSQL driver for optional persistence layers described in the docs
+pytest	7.4.0	Unit, integration, and robustness test runner
+pytest-mock	3.12.0	Mocking utilities for isolating external dependencies in tests
+
+Technology	Version	Purpose
+Node.js runtime	Not pinned, LTS recommended	Runs the backend service and supporting scripts
+Express	4.18.2	HTTP server and routing layer
+Prisma ORM	5.7.0 (@prisma/client and CLI)	Type safe ORM, schema management, and database migrations
+PostgreSQL	Managed per environment	Relational storage for assessments and results
+pg	8.11.3	PostgreSQL driver used by Prisma
+Axios	1.13.5	HTTP client for DSE models, geocoding, and NASA POWER
+express-validator	7.3.1	Request validation middleware for incoming HTTP payloads
+Zod	3.25.76	Schema based validation inside controllers
+Helmet	7.2.0	Security headers and basic hardening for HTTP responses
+express-rate-limit	8.2.1	Rate limiting for public API endpoints
+PDFKit	0.14.0	Generation of assessment PDF reports
+dotenv	16.6.1	Loading configuration from environment variables
+Jest	30.2.0	Unit and deployment test runner
+Supertest	7.2.2	HTTP level testing of Express endpoints
