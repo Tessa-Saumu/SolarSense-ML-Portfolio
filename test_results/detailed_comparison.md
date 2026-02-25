@@ -1,6 +1,6 @@
 # MODEL 4 TEST SUITE - DETAILED COMPARISON
 
-**Test Date:** 2026-02-25T14:23:51.822572
+**Test Date:** 2026-02-25T14:48:49.841241
 
 
 ## 1. Lagos Fresh Cuts Butchery
@@ -23,19 +23,19 @@
 
 | Metric | Expected | Actual | Deviation | Status |
 |--------|----------|--------|-----------|--------|
-| Consumption (kWh/mo) | 3200.0 | 1014.6 | -68.3% | ❌ |
-| System Cost (USD) | $2,555 | $23,122 | +805.0% | ❌ |
-| System Cost (₦) | ₦3,960,000 | ₦35,839,844 | +805.0% | ❌ |
-| Monthly Savings (USD) | $464.52 | $188.12 | -59.5% | ❌ |
-| Monthly Savings (₦) | ₦720,000 | ₦291,586 | -59.5% | ❌ |
-| Payback (years) | 0.5 | 10.2 | +1948.6% | ❌ |
+| Consumption (kWh/mo) | 3200.0 | 12363.5 | +286.4% | ❌ |
+| System Cost (USD) | $2,555 | $34,500 | +1250.4% | ❌ |
+| System Cost (₦) | ₦3,960,000 | ₦53,475,000 | +1250.4% | ❌ |
+| Monthly Savings (USD) | $464.52 | $143.84 | -69.0% | ❌ |
+| Monthly Savings (₦) | ₦720,000 | ₦222,952 | -69.0% | ❌ |
+| Payback (years) | 0.5 | 20.0 | +3897.5% | ❌ |
 
 ### 🔍 API Response (Key Fields)
 
-- **Viability Score:** 49.14
-- **Recommendation:** Medium
-- **Status:** MODERATELY VIABLE
-- **ROI %:** 9.76
+- **Viability Score:** 18.58
+- **Recommendation:** Low
+- **Status:** NOT VIABLE
+- **ROI %:** 5.0
 - **Energy Scenario:** diesel_replacement
 
 ---
@@ -58,18 +58,18 @@
 
 | Metric | Expected | Actual | Deviation | Status |
 |--------|----------|--------|-----------|--------|
-| Consumption (kWh/mo) | 2200.0 | 1399.5 | -36.4% | ❌ |
-| System Cost (USD) | $2,088 | $27,425 | +1213.5% | ❌ |
-| System Cost (GHS) | GHS26,100 | GHS342,818 | +1213.5% | ❌ |
-| Monthly Savings (USD) | $380.16 | $163.74 | -56.9% | ❌ |
-| Monthly Savings (GHS) | GHS4,752 | GHS2,047 | -56.9% | ❌ |
+| Consumption (kWh/mo) | 2200.0 | 12128.2 | +451.3% | ❌ |
+| System Cost (USD) | $2,088 | $33,000 | +1480.5% | ❌ |
+| System Cost (GHS) | GHS26,100 | GHS412,500 | +1480.5% | ❌ |
+| Monthly Savings (USD) | $380.16 | $197.02 | -48.2% | ❌ |
+| Monthly Savings (GHS) | GHS4,752 | GHS2,463 | -48.2% | ❌ |
 | Payback (years) | 0.5 | 14.0 | +2691.6% | ❌ |
 
 ### 🔍 API Response (Key Fields)
 
-- **Viability Score:** 45.24
-- **Recommendation:** Medium
-- **Status:** MODERATELY VIABLE
+- **Viability Score:** 21.99
+- **Recommendation:** Low
+- **Status:** NOT VIABLE
 - **ROI %:** 7.16
 - **Energy Scenario:** grid_only
 
@@ -95,19 +95,19 @@
 
 | Metric | Expected | Actual | Deviation | Status |
 |--------|----------|--------|-----------|--------|
-| Consumption (kWh/mo) | 2800.0 | 801.9 | -71.4% | ❌ |
-| System Cost (USD) | $2,500 | $14,471 | +478.8% | ❌ |
-| System Cost (KES) | KES350,000 | KES2,025,925 | +478.8% | ❌ |
-| Monthly Savings (USD) | $905.36 | $361.73 | -60.0% | ❌ |
-| Monthly Savings (KES) | KES126,750 | KES50,642 | -60.0% | ❌ |
-| Payback (years) | 0.2 | 3.3 | +1566.9% | ❌ |
+| Consumption (kWh/mo) | 2800.0 | 6671.3 | +138.3% | ❌ |
+| System Cost (USD) | $2,500 | $32,400 | +1196.0% | ❌ |
+| System Cost (KES) | KES350,000 | KES4,536,000 | +1196.0% | ❌ |
+| Monthly Savings (USD) | $905.36 | $589.32 | -34.9% | ❌ |
+| Monthly Savings (KES) | KES126,750 | KES82,505 | -34.9% | ❌ |
+| Payback (years) | 0.2 | 4.6 | +2190.8% | ❌ |
 
 ### 🔍 API Response (Key Fields)
 
-- **Viability Score:** 70.75
-- **Recommendation:** High
-- **Status:** HIGHLY VIABLE
-- **ROI %:** 30.0
+- **Viability Score:** 46.52
+- **Recommendation:** Medium
+- **Status:** MODERATELY VIABLE
+- **ROI %:** 21.83
 - **Energy Scenario:** diesel_replacement
 
 ---
@@ -130,19 +130,19 @@
 
 | Metric | Expected | Actual | Deviation | Status |
 |--------|----------|--------|-----------|--------|
-| Consumption (kWh/mo) | 4500.0 | 644.9 | -85.7% | ❌ |
-| System Cost (USD) | $4,832 | $10,526 | +117.8% | ❌ |
-| System Cost (R) | R89,400 | R194,734 | +117.8% | ❌ |
-| Monthly Savings (USD) | $634.86 | $81.25 | -87.2% | ❌ |
-| Monthly Savings (R) | R11,745 | R1,503 | -87.2% | ❌ |
-| Payback (years) | 0.6 | 10.8 | +1699.3% | ❌ |
+| Consumption (kWh/mo) | 4500.0 | 8564.6 | +90.3% | ❌ |
+| System Cost (USD) | $4,832 | $27,000 | +458.7% | ❌ |
+| System Cost (R) | R89,400 | R499,500 | +458.7% | ❌ |
+| Monthly Savings (USD) | $634.86 | $235.28 | -62.9% | ❌ |
+| Monthly Savings (R) | R11,745 | R4,353 | -62.9% | ❌ |
+| Payback (years) | 0.6 | 9.6 | +1493.8% | ❌ |
 
 ### 🔍 API Response (Key Fields)
 
-- **Viability Score:** 48.39
-- **Recommendation:** Medium
-- **Status:** MODERATELY VIABLE
-- **ROI %:** 9.26
+- **Viability Score:** 29.08
+- **Recommendation:** Low
+- **Status:** NOT VIABLE
+- **ROI %:** 10.46
 - **Energy Scenario:** grid_only
 
 ---
@@ -167,19 +167,19 @@
 
 | Metric | Expected | Actual | Deviation | Status |
 |--------|----------|--------|-----------|--------|
-| Consumption (kWh/mo) | 3800.0 | 308.8 | -91.9% | ❌ |
-| System Cost (USD) | $2,732 | $8,400 | +207.5% | ❌ |
-| System Cost (ETB) | ETB153,000 | ETB470,400 | +207.5% | ❌ |
-| Monthly Savings (USD) | $491.52 | $134.23 | -72.7% | ❌ |
-| Monthly Savings (ETB) | ETB27,525 | ETB7,517 | -72.7% | ❌ |
-| Payback (years) | 0.5 | 5.2 | +943.0% | ❌ |
+| Consumption (kWh/mo) | 3800.0 | 5949.3 | +56.6% | ❌ |
+| System Cost (USD) | $2,732 | $33,600 | +1129.8% | ❌ |
+| System Cost (ETB) | ETB153,000 | ETB1,881,600 | +1129.8% | ❌ |
+| Monthly Savings (USD) | $491.52 | $313.66 | -36.2% | ❌ |
+| Monthly Savings (ETB) | ETB27,525 | ETB17,565 | -36.2% | ❌ |
+| Payback (years) | 0.5 | 8.9 | +1685.4% | ❌ |
 
 ### 🔍 API Response (Key Fields)
 
-- **Viability Score:** 66.27
-- **Recommendation:** High
-- **Status:** HIGHLY VIABLE
-- **ROI %:** 19.18
+- **Viability Score:** 34.29
+- **Recommendation:** Low
+- **Status:** NOT VIABLE
+- **ROI %:** 11.2
 - **Energy Scenario:** diesel_replacement
 
 ---
@@ -202,19 +202,19 @@
 
 | Metric | Expected | Actual | Deviation | Status |
 |--------|----------|--------|-----------|--------|
-| Consumption (kWh/mo) | 4100.0 | 1070.3 | -73.9% | ❌ |
-| System Cost (USD) | $3,716 | $19,889 | +435.2% | ❌ |
-| System Cost (UGX) | UGX13,750,000 | UGX73,588,264 | +435.2% | ❌ |
-| Monthly Savings (USD) | $1195.95 | $105.96 | -91.1% | ❌ |
-| Monthly Savings (UGX) | UGX4,425,000 | UGX392,052 | -91.1% | ❌ |
-| Payback (years) | 0.3 | 15.6 | +5113.9% | ❌ |
+| Consumption (kWh/mo) | 4100.0 | 13254.7 | +223.3% | ❌ |
+| System Cost (USD) | $3,716 | $32,400 | +771.9% | ❌ |
+| System Cost (UGX) | UGX13,750,000 | UGX119,880,000 | +771.9% | ❌ |
+| Monthly Savings (USD) | $1195.95 | $187.00 | -84.4% | ❌ |
+| Monthly Savings (UGX) | UGX4,425,000 | UGX691,900 | -84.4% | ❌ |
+| Payback (years) | 0.3 | 14.4 | +4712.8% | ❌ |
 
 ### 🔍 API Response (Key Fields)
 
-- **Viability Score:** 44.09
-- **Recommendation:** Medium
-- **Status:** MODERATELY VIABLE
-- **ROI %:** 6.39
+- **Viability Score:** 21.74
+- **Recommendation:** Low
+- **Status:** NOT VIABLE
+- **ROI %:** 6.93
 - **Energy Scenario:** grid_only
 
 ---
@@ -239,19 +239,19 @@
 
 | Metric | Expected | Actual | Deviation | Status |
 |--------|----------|--------|-----------|--------|
-| Consumption (kWh/mo) | 2600.0 | 277.9 | -89.3% | ❌ |
-| System Cost (USD) | $2,265 | $8,100 | +257.6% | ❌ |
-| System Cost (RWF) | RWF2,945,000 | RWF10,530,000 | +257.6% | ❌ |
-| Monthly Savings (USD) | $1125.00 | $259.42 | -76.9% | ❌ |
-| Monthly Savings (RWF) | RWF1,462,500 | RWF337,246 | -76.9% | ❌ |
-| Payback (years) | 0.2 | 2.6 | +1201.0% | ❌ |
+| Consumption (kWh/mo) | 2600.0 | 5314.6 | +104.4% | ❌ |
+| System Cost (USD) | $2,265 | $32,400 | +1330.2% | ❌ |
+| System Cost (RWF) | RWF2,945,000 | RWF42,120,000 | +1330.2% | ❌ |
+| Monthly Savings (USD) | $1125.00 | $497.28 | -55.8% | ❌ |
+| Monthly Savings (RWF) | RWF1,462,500 | RWF646,464 | -55.8% | ❌ |
+| Payback (years) | 0.2 | 5.4 | +2614.8% | ❌ |
 
 ### 🔍 API Response (Key Fields)
 
-- **Viability Score:** 79.02
-- **Recommendation:** High
-- **Status:** HIGHLY VIABLE
-- **ROI %:** 38.43
+- **Viability Score:** 43.91
+- **Recommendation:** Medium
+- **Status:** MODERATELY VIABLE
+- **ROI %:** 18.42
 - **Energy Scenario:** diesel_replacement
 
 ---
@@ -274,19 +274,19 @@
 
 | Metric | Expected | Actual | Deviation | Status |
 |--------|----------|--------|-----------|--------|
-| Consumption (kWh/mo) | 2400.0 | 1451.6 | -39.5% | ❌ |
-| System Cost (USD) | $1,888 | $23,754 | +1158.4% | ❌ |
-| System Cost (TZS) | TZS4,436,000 | TZS55,821,947 | +1158.4% | ❌ |
-| Monthly Savings (USD) | $367.02 | $143.71 | -60.8% | ❌ |
-| Monthly Savings (TZS) | TZS862,500 | TZS337,718 | -60.8% | ❌ |
-| Payback (years) | 0.4 | 13.8 | +3343.6% | ❌ |
+| Consumption (kWh/mo) | 2400.0 | 13750.4 | +472.9% | ❌ |
+| System Cost (USD) | $1,888 | $32,400 | +1616.4% | ❌ |
+| System Cost (TZS) | TZS4,436,000 | TZS76,140,000 | +1616.4% | ❌ |
+| Monthly Savings (USD) | $367.02 | $212.35 | -42.1% | ❌ |
+| Monthly Savings (TZS) | TZS862,500 | TZS499,022 | -42.1% | ❌ |
+| Payback (years) | 0.4 | 12.7 | +3078.7% | ❌ |
 
 ### 🔍 API Response (Key Fields)
 
-- **Viability Score:** 45.39
-- **Recommendation:** Medium
-- **Status:** MODERATELY VIABLE
-- **ROI %:** 7.26
+- **Viability Score:** 23.5
+- **Recommendation:** Low
+- **Status:** NOT VIABLE
+- **ROI %:** 7.86
 - **Energy Scenario:** grid_only
 
 ---
@@ -311,19 +311,19 @@
 
 | Metric | Expected | Actual | Deviation | Status |
 |--------|----------|--------|-----------|--------|
-| Consumption (kWh/mo) | 5200.0 | 824.9 | -84.1% | ❌ |
-| System Cost (USD) | $5,573 | $12,921 | +131.9% | ❌ |
-| System Cost (R) | R103,100 | R239,047 | +131.9% | ❌ |
-| Monthly Savings (USD) | $956.76 | $226.70 | -76.3% | ❌ |
-| Monthly Savings (R) | R17,700 | R4,194 | -76.3% | ❌ |
-| Payback (years) | 0.5 | 4.7 | +850.0% | ❌ |
+| Consumption (kWh/mo) | 5200.0 | 11134.6 | +114.1% | ❌ |
+| System Cost (USD) | $5,573 | $27,000 | +384.5% | ❌ |
+| System Cost (R) | R103,100 | R499,500 | +384.5% | ❌ |
+| Monthly Savings (USD) | $956.76 | $371.69 | -61.2% | ❌ |
+| Monthly Savings (R) | R17,700 | R6,876 | -61.2% | ❌ |
+| Payback (years) | 0.5 | 6.1 | +1110.7% | ❌ |
 
 ### 🔍 API Response (Key Fields)
 
-- **Viability Score:** 65.16
-- **Recommendation:** High
-- **Status:** HIGHLY VIABLE
-- **ROI %:** 21.05
+- **Viability Score:** 36.81
+- **Recommendation:** Low
+- **Status:** NOT VIABLE
+- **ROI %:** 16.52
 - **Energy Scenario:** diesel_replacement
 
 ---
@@ -346,18 +346,18 @@
 
 | Metric | Expected | Actual | Deviation | Status |
 |--------|----------|--------|-----------|--------|
-| Consumption (kWh/mo) | 3600.0 | 1628.0 | -54.8% | ❌ |
-| System Cost (USD) | $3,543 | $27,120 | +665.5% | ❌ |
-| System Cost (KES) | KES496,000 | KES3,796,769 | +665.5% | ❌ |
-| Monthly Savings (USD) | $557.14 | $161.18 | -71.1% | ❌ |
-| Monthly Savings (KES) | KES78,000 | KES22,565 | -71.1% | ❌ |
+| Consumption (kWh/mo) | 3600.0 | 14768.4 | +310.2% | ❌ |
+| System Cost (USD) | $3,543 | $32,400 | +814.5% | ❌ |
+| System Cost (KES) | KES496,000 | KES4,536,000 | +814.5% | ❌ |
+| Monthly Savings (USD) | $557.14 | $192.56 | -65.4% | ❌ |
+| Monthly Savings (KES) | KES78,000 | KES26,958 | -65.4% | ❌ |
 | Payback (years) | 0.5 | 14.0 | +2704.3% | ❌ |
 
 ### 🔍 API Response (Key Fields)
 
-- **Viability Score:** 45.19
-- **Recommendation:** Medium
-- **Status:** MODERATELY VIABLE
+- **Viability Score:** 21.75
+- **Recommendation:** Low
+- **Status:** NOT VIABLE
 - **ROI %:** 7.13
 - **Energy Scenario:** grid_only
 
