@@ -4,7 +4,7 @@
   "warnings": 0,
   "failed": 10,
   "errors": 0,
-  "timestamp": "2026-02-25T14:23:51.822572",
+  "timestamp": "2026-02-25T14:48:49.841241",
   "results": [
     {
       "profile_name": "Lagos Fresh Cuts Butchery",
@@ -48,18 +48,18 @@
         "monthly_savings_usd": 464.51612903225805
       },
       "actual": {
-        "consumption_kwh": 1014.64,
-        "system_cost_usd": 23122.48,
-        "system_cost_local": 35839844.0,
-        "payback_years": 10.24278829116167,
-        "monthly_savings_usd": 188.12,
-        "monthly_savings_local": 291586.0
+        "consumption_kwh": 12363.52,
+        "system_cost_usd": 34500.0,
+        "system_cost_local": 53475000.0,
+        "payback_years": 19.987486095661847,
+        "monthly_savings_usd": 143.84,
+        "monthly_savings_local": 222952.0
       },
       "deviations": {
-        "consumption_kwh": -68.2925,
-        "system_cost": 805.0465656565656,
-        "monthly_savings": -59.50194444444444,
-        "payback_years": 1948.557658232334
+        "consumption_kwh": 286.36,
+        "system_cost": 1250.3787878787878,
+        "monthly_savings": -69.03444444444443,
+        "payback_years": 3897.4972191323695
       },
       "assessment": {
         "consumption_kwh": "HIGH",
@@ -68,25 +68,25 @@
         "payback_years": "HIGH"
       },
       "api_response": {
-        "analyzed_at": "2026-02-25T12:23:34.096670",
+        "analyzed_at": "2026-02-25T12:48:36.945142",
         "business_name": "Lagos Fresh Cuts Butchery",
         "business_type": "Butchery",
         "confidence": 85.0,
         "current_energy_cost": {
-          "diesel_monthly": 154.9123440860215,
-          "grid_monthly": 54.11413333333334,
-          "total_monthly": 209.02647741935485
+          "diesel_monthly": 545.4114408602151,
+          "grid_monthly": 659.3877333333335,
+          "total_monthly": 1204.7991741935484
         },
         "diesel_details": {
-          "diesel_kwh_monthly": 338.2133333333333,
-          "effective_tariff": 0.458031451803659,
+          "diesel_kwh_monthly": 4121.173333333333,
+          "effective_tariff": 0.13234372756145865,
           "hours_per_day": 8.0,
-          "monthly_liters": 135.28533333333334,
+          "monthly_liters": 1648.4693333333335,
           "price_per_liter": 0.25806451612903225
         },
         "energy_scenario": "diesel_replacement",
-        "estimated_consumption_kwh": 1014.64,
-        "explanation": "Solar is moderately viable because: Moderate ROI of 9.8%; Excellent solar coverage (90%).",
+        "estimated_consumption_kwh": 12363.52,
+        "explanation": "Solar is not viable because: Low ROI of 5.0%; Limited solar coverage (12%).",
         "lifetime_prediction": {
           "assumptions": {
             "annual_degradation_pct": 0.7000000000000001,
@@ -99,8 +99,8 @@
               12
             ],
             "lifetime_years": 25,
-            "note": "Scaled from 10m\u00b2 baseline by factor of 3.09",
-            "panel_area_m2": 30.93307858237717,
+            "note": "Scaled from 10m\u00b2 baseline by factor of 5.00",
+            "panel_area_m2": 50.0,
             "panel_efficiency_pct": 20.0
           },
           "confidence": {
@@ -109,283 +109,283 @@
             "years_1_5_band_pct": 10.0,
             "years_6_15_band_pct": 15.0
           },
-          "lifetime_average_annual_kwh": 9566.92465491291,
-          "lifetime_total_kwh": 239173.11637282273,
+          "lifetime_average_annual_kwh": 15463.906428575243,
+          "lifetime_total_kwh": 386597.660714381,
           "monthly_generation_climatology": [
             {
-              "daily_kwh": 30.62341326561704,
+              "daily_kwh": 49.4994592666626,
               "is_dry_season": true,
               "month": 1
             },
             {
-              "daily_kwh": 30.4392,
+              "daily_kwh": 49.201698303222656,
               "is_dry_season": true,
               "month": 2
             },
             {
-              "daily_kwh": 31.369747654623648,
+              "daily_kwh": 50.70582866668701,
               "is_dry_season": false,
               "month": 3
             },
             {
-              "daily_kwh": 30.31357979838625,
+              "daily_kwh": 48.99864673614502,
               "is_dry_season": false,
               "month": 4
             },
             {
-              "daily_kwh": 28.98536513068376,
+              "daily_kwh": 46.85173034667969,
               "is_dry_season": false,
               "month": 5
             },
             {
-              "daily_kwh": 25.453916146079255,
+              "daily_kwh": 41.14352226257324,
               "is_dry_season": true,
               "month": 6
             },
             {
-              "daily_kwh": 23.572722430576068,
+              "daily_kwh": 38.10277462005615,
               "is_dry_season": true,
               "month": 7
             },
             {
-              "daily_kwh": 23.44929851010976,
+              "daily_kwh": 37.90327310562134,
               "is_dry_season": true,
               "month": 8
             },
             {
-              "daily_kwh": 25.597847048945063,
+              "daily_kwh": 41.37617111206055,
               "is_dry_season": false,
               "month": 9
             },
             {
-              "daily_kwh": 28.92978992512752,
+              "daily_kwh": 46.7618989944458,
               "is_dry_season": false,
               "month": 10
             },
             {
-              "daily_kwh": 31.416416785251585,
+              "daily_kwh": 50.781264305114746,
               "is_dry_season": false,
               "month": 11
             },
             {
-              "daily_kwh": 31.601995904691684,
+              "daily_kwh": 51.08123302459717,
               "is_dry_season": true,
               "month": 12
             }
           ],
-          "year_1_generation_kwh": 10394.995983252786,
+          "year_1_generation_kwh": 16802.394814292587,
           "yearly_breakdown": [
             {
               "confidence_band_pct": 10.0,
-              "confidence_high_kwh": 11434.495581578065,
-              "confidence_low_kwh": 9355.496384927508,
+              "confidence_high_kwh": 18482.634295721848,
+              "confidence_low_kwh": 15122.15533286333,
               "efficiency_pct": 100.0,
-              "generation_kwh": 10394.995983252786,
+              "generation_kwh": 16802.394814292587,
               "year": 1
             },
             {
               "confidence_band_pct": 10.0,
-              "confidence_high_kwh": 11354.454112507019,
-              "confidence_low_kwh": 9290.007910233015,
+              "confidence_high_kwh": 18353.255855651798,
+              "confidence_low_kwh": 15016.300245533286,
               "efficiency_pct": 99.3,
-              "generation_kwh": 10322.231011370017,
+              "generation_kwh": 16684.77805059254,
               "year": 2
             },
             {
               "confidence_band_pct": 10.0,
-              "confidence_high_kwh": 11274.97293371947,
-              "confidence_low_kwh": 9224.977854861383,
+              "confidence_high_kwh": 18224.78306466223,
+              "confidence_low_kwh": 14911.186143814553,
               "efficiency_pct": 98.6049,
-              "generation_kwh": 10249.975394290426,
+              "generation_kwh": 16567.98460423839,
               "year": 3
             },
             {
               "confidence_band_pct": 10.0,
-              "confidence_high_kwh": 11196.048123183433,
-              "confidence_low_kwh": 9160.403009877355,
+              "confidence_high_kwh": 18097.209583209595,
+              "confidence_low_kwh": 14806.80784080785,
               "efficiency_pct": 97.9146657,
-              "generation_kwh": 10178.225566530393,
+              "generation_kwh": 16452.008712008723,
               "year": 4
             },
             {
               "confidence_band_pct": 10.0,
-              "confidence_high_kwh": 11117.67578632115,
-              "confidence_low_kwh": 9096.280188808214,
+              "confidence_high_kwh": 17970.52911612713,
+              "confidence_low_kwh": 14703.160185922197,
               "efficiency_pct": 97.2292630401,
-              "generation_kwh": 10106.97798756468,
+              "generation_kwh": 16336.844651024661,
               "year": 5
             },
             {
               "confidence_band_pct": 15.0,
-              "confidence_high_kwh": 11541.663512899486,
-              "confidence_low_kwh": 8530.794770403969,
+              "confidence_high_kwh": 18655.85974923761,
+              "confidence_low_kwh": 13789.113727697366,
               "efficiency_pct": 96.5486581988193,
-              "generation_kwh": 10036.229141651727,
+              "generation_kwh": 16222.486738467489,
               "year": 6
             },
             {
               "confidence_band_pct": 15.0,
-              "confidence_high_kwh": 11460.87186830919,
-              "confidence_low_kwh": 8471.07920701114,
+              "confidence_high_kwh": 18525.268730992946,
+              "confidence_low_kwh": 13692.589931603485,
               "efficiency_pct": 95.87281759142756,
-              "generation_kwh": 9965.975537660164,
+              "generation_kwh": 16108.929331298215,
               "year": 7
             },
             {
               "confidence_band_pct": 15.0,
-              "confidence_high_kwh": 11380.645765231024,
-              "confidence_low_kwh": 8411.781652562062,
+              "confidence_high_kwh": 18395.591849875997,
+              "confidence_low_kwh": 13596.741802082259,
               "efficiency_pct": 95.20170786828757,
-              "generation_kwh": 9896.213708896545,
+              "generation_kwh": 15996.166825979128,
               "year": 8
             },
             {
               "confidence_band_pct": 15.0,
-              "confidence_high_kwh": 11300.981244874409,
-              "confidence_low_kwh": 8352.899180994129,
+              "confidence_high_kwh": 18266.822706926865,
+              "confidence_low_kwh": 13501.564609467685,
               "efficiency_pct": 94.53529591320955,
-              "generation_kwh": 9826.940212934269,
+              "generation_kwh": 15884.193658197275,
               "year": 9
             },
             {
               "confidence_band_pct": 15.0,
-              "confidence_high_kwh": 11221.874376160287,
-              "confidence_low_kwh": 8294.42888672717,
+              "confidence_high_kwh": 18138.95494797838,
+              "confidence_low_kwh": 13407.053657201412,
               "efficiency_pct": 93.87354884181708,
-              "generation_kwh": 9758.151631443729,
+              "generation_kwh": 15773.004302589896,
               "year": 10
             },
             {
               "confidence_band_pct": 15.0,
-              "confidence_high_kwh": 11143.321255527166,
-              "confidence_low_kwh": 8236.36788452008,
+              "confidence_high_kwh": 18011.98226334253,
+              "confidence_low_kwh": 13313.204281601,
               "efficiency_pct": 93.21643399992436,
-              "generation_kwh": 9689.844570023623,
+              "generation_kwh": 15662.593272471766,
               "year": 11
             },
             {
               "confidence_band_pct": 15.0,
-              "confidence_high_kwh": 11065.318006738475,
-              "confidence_low_kwh": 8178.713309328438,
+              "confidence_high_kwh": 17885.89838749913,
+              "confidence_low_kwh": 13220.011851629792,
               "efficiency_pct": 92.5639189619249,
-              "generation_kwh": 9622.015658033457,
+              "generation_kwh": 15552.955119564464,
               "year": 12
             },
             {
               "confidence_band_pct": 15.0,
-              "confidence_high_kwh": 10987.860780691306,
-              "confidence_low_kwh": 8121.46231616314,
+              "confidence_high_kwh": 17760.697098786637,
+              "confidence_low_kwh": 13127.471768668385,
               "efficiency_pct": 91.91597152919142,
-              "generation_kwh": 9554.661548427224,
+              "generation_kwh": 15444.084433727512,
               "year": 13
             },
             {
               "confidence_band_pct": 15.0,
-              "confidence_high_kwh": 10910.945755226467,
-              "confidence_low_kwh": 8064.612079949998,
+              "confidence_high_kwh": 17636.37221909513,
+              "confidence_low_kwh": 13035.579466287707,
               "efficiency_pct": 91.27255972848708,
-              "generation_kwh": 9487.778917588232,
+              "generation_kwh": 15335.97584269142,
               "year": 14
             },
             {
               "confidence_band_pct": 15.0,
-              "confidence_high_kwh": 10834.569134939882,
-              "confidence_low_kwh": 8008.159795390347,
+              "confidence_high_kwh": 17512.917613561465,
+              "confidence_low_kwh": 12944.330410023693,
               "efficiency_pct": 90.63365181038768,
-              "generation_kwh": 9421.364465165114,
+              "generation_kwh": 15228.624011792579,
               "year": 15
             },
             {
               "confidence_band_pct": 20.0,
-              "confidence_high_kwh": 11226.49789669075,
-              "confidence_low_kwh": 7484.331931127166,
+              "confidence_high_kwh": 18146.428372452036,
+              "confidence_low_kwh": 12097.618914968023,
               "efficiency_pct": 89.99921624771495,
-              "generation_kwh": 9355.414913908959,
+              "generation_kwh": 15122.023643710028,
               "year": 16
             },
             {
               "confidence_band_pct": 20.0,
-              "confidence_high_kwh": 11147.912411413916,
-              "confidence_low_kwh": 7431.941607609277,
+              "confidence_high_kwh": 18019.403373844874,
+              "confidence_low_kwh": 12012.935582563248,
               "efficiency_pct": 89.36922173398095,
-              "generation_kwh": 9289.927009511595,
+              "generation_kwh": 15016.169478204061,
               "year": 17
             },
             {
               "confidence_band_pct": 20.0,
-              "confidence_high_kwh": 11069.877024534018,
-              "confidence_low_kwh": 7379.918016356012,
+              "confidence_high_kwh": 17893.26755022796,
+              "confidence_low_kwh": 11928.845033485306,
               "efficiency_pct": 88.74363718184308,
-              "generation_kwh": 9224.897520445014,
+              "generation_kwh": 14911.056291856632,
               "year": 18
             },
             {
               "confidence_band_pct": 20.0,
-              "confidence_high_kwh": 10992.38788536228,
-              "confidence_low_kwh": 7328.25859024152,
+              "confidence_high_kwh": 17768.014677376363,
+              "confidence_low_kwh": 11845.34311825091,
               "efficiency_pct": 88.12243172157018,
-              "generation_kwh": 9160.3232378019,
+              "generation_kwh": 14806.678897813636,
               "year": 19
             },
             {
               "confidence_band_pct": 20.0,
-              "confidence_high_kwh": 10915.441170164742,
-              "confidence_low_kwh": 7276.960780109829,
+              "confidence_high_kwh": 17643.638574634726,
+              "confidence_low_kwh": 11762.425716423151,
               "efficiency_pct": 87.50557469951919,
-              "generation_kwh": 9096.200975137286,
+              "generation_kwh": 14703.03214552894,
               "year": 20
             },
             {
               "confidence_band_pct": 20.0,
-              "confidence_high_kwh": 10839.03308197359,
-              "confidence_low_kwh": 7226.022054649061,
+              "confidence_high_kwh": 17520.133104612283,
+              "confidence_low_kwh": 11680.08873640819,
               "efficiency_pct": 86.89303567662256,
-              "generation_kwh": 9032.527568311325,
+              "generation_kwh": 14600.110920510237,
               "year": 21
             },
             {
               "confidence_band_pct": 20.0,
-              "confidence_high_kwh": 10763.159850399776,
-              "confidence_low_kwh": 7175.439900266517,
+              "confidence_high_kwh": 17397.49217288,
+              "confidence_low_kwh": 11598.328115253333,
               "efficiency_pct": 86.28478442688619,
-              "generation_kwh": 8969.299875333147,
+              "generation_kwh": 14497.910144066665,
               "year": 22
             },
             {
               "confidence_band_pct": 20.0,
-              "confidence_high_kwh": 10687.817731446976,
-              "confidence_low_kwh": 7125.2118209646505,
+              "confidence_high_kwh": 17275.709727669837,
+              "confidence_low_kwh": 11517.139818446558,
               "efficiency_pct": 85.68079093589799,
-              "generation_kwh": 8906.514776205813,
+              "generation_kwh": 14396.424773058197,
               "year": 23
             },
             {
               "confidence_band_pct": 20.0,
-              "confidence_high_kwh": 10613.003007326848,
-              "confidence_low_kwh": 7075.335338217899,
+              "confidence_high_kwh": 17154.77975957615,
+              "confidence_low_kwh": 11436.519839717435,
               "efficiency_pct": 85.08102539934671,
-              "generation_kwh": 8844.169172772374,
+              "generation_kwh": 14295.649799646792,
               "year": 24
             },
             {
               "confidence_band_pct": 20.0,
-              "confidence_high_kwh": 10538.711986275559,
-              "confidence_low_kwh": 7025.807990850374,
+              "confidence_high_kwh": 17034.696301259115,
+              "confidence_low_kwh": 11356.464200839411,
               "efficiency_pct": 84.48545822155128,
-              "generation_kwh": 8782.259988562966,
+              "generation_kwh": 14195.580251049265,
               "year": 25
             }
           ]
         },
         "location": "Lagos, Nigeria",
-        "monthly_savings": 188.12,
-        "predicted_generation_kwh": 913.1759999999999,
-        "recommendation": "Medium",
-        "recommended_panel_area_m2": 30.93307858237717,
-        "roi_percentage": 9.76,
-        "status": "MODERATELY VIABLE",
-        "system_cost": 23122.48,
-        "viability_score": 49.14
+        "monthly_savings": 143.84,
+        "predicted_generation_kwh": 1476.0509490966797,
+        "recommendation": "Low",
+        "recommended_panel_area_m2": 50.0,
+        "roi_percentage": 5.0,
+        "status": "NOT VIABLE",
+        "system_cost": 34500.0,
+        "viability_score": 18.58
       }
     },
     {
@@ -430,18 +430,18 @@
         "monthly_savings_usd": 380.16
       },
       "actual": {
-        "consumption_kwh": 1399.46,
-        "system_cost_usd": 27425.41,
-        "system_cost_local": 342817.625,
-        "payback_years": 13.957804038923495,
-        "monthly_savings_usd": 163.74,
-        "monthly_savings_local": 2046.75
+        "consumption_kwh": 12128.16,
+        "system_cost_usd": 33000.0,
+        "system_cost_local": 412500.0,
+        "payback_years": 13.957973809765505,
+        "monthly_savings_usd": 197.02,
+        "monthly_savings_local": 2462.75
       },
       "deviations": {
-        "consumption_kwh": -36.38818181818181,
-        "system_cost": 1213.477490421456,
-        "monthly_savings": -56.92866161616161,
-        "payback_years": 2691.560807784699
+        "consumption_kwh": 451.28000000000003,
+        "system_cost": 1480.4597701149426,
+        "monthly_savings": -48.17445286195286,
+        "payback_years": 2691.594761953101
       },
       "assessment": {
         "consumption_kwh": "HIGH",
@@ -450,18 +450,18 @@
         "payback_years": "HIGH"
       },
       "api_response": {
-        "analyzed_at": "2026-02-25T12:23:35.509143",
+        "analyzed_at": "2026-02-25T12:48:38.224276",
         "business_name": "Accra Daily Grocery",
         "business_type": "Grocery",
         "confidence": 85.0,
         "current_energy_cost": {
           "diesel_monthly": 0,
-          "grid_monthly": 181.9298,
-          "total_monthly": 181.9298
+          "grid_monthly": 1576.6608,
+          "total_monthly": 1576.6608
         },
         "energy_scenario": "grid_only",
-        "estimated_consumption_kwh": 1399.46,
-        "explanation": "Solar is moderately viable because: Moderate ROI of 7.2%; Excellent solar coverage (90%).",
+        "estimated_consumption_kwh": 12128.16,
+        "explanation": "Solar is not viable because: Moderate ROI of 7.2%; Limited solar coverage (12%).",
         "lifetime_prediction": {
           "assumptions": {
             "annual_degradation_pct": 0.7000000000000001,
@@ -474,8 +474,8 @@
               12
             ],
             "lifetime_years": 25,
-            "note": "Scaled from 10m\u00b2 baseline by factor of 4.16",
-            "panel_area_m2": 41.55365866805962,
+            "note": "Scaled from 10m\u00b2 baseline by factor of 5.00",
+            "panel_area_m2": 50.0,
             "panel_efficiency_pct": 20.0
           },
           "confidence": {
@@ -484,283 +484,283 @@
             "years_1_5_band_pct": 10.0,
             "years_6_15_band_pct": 15.0
           },
-          "lifetime_average_annual_kwh": 13252.349755564548,
-          "lifetime_total_kwh": 331308.74388911366,
+          "lifetime_average_annual_kwh": 15946.068505576643,
+          "lifetime_total_kwh": 398651.7126394161,
           "monthly_generation_climatology": [
             {
-              "daily_kwh": 42.162243879715355,
+              "daily_kwh": 50.7322883605957,
               "is_dry_season": true,
               "month": 1
             },
             {
-              "daily_kwh": 41.9838,
+              "daily_kwh": 50.51757335662842,
               "is_dry_season": true,
               "month": 2
             },
             {
-              "daily_kwh": 43.90708175990436,
+              "daily_kwh": 52.831788063049316,
               "is_dry_season": false,
               "month": 3
             },
             {
-              "daily_kwh": 42.53019199732158,
+              "daily_kwh": 51.17502689361572,
               "is_dry_season": false,
               "month": 4
             },
             {
-              "daily_kwh": 40.52409823283325,
+              "daily_kwh": 48.76116752624512,
               "is_dry_season": false,
               "month": 5
             },
             {
-              "daily_kwh": 35.086265804536644,
+              "daily_kwh": 42.21802234649658,
               "is_dry_season": true,
               "month": 6
             },
             {
-              "daily_kwh": 33.85394930851044,
+              "daily_kwh": 40.73522090911865,
               "is_dry_season": true,
               "month": 7
             },
             {
-              "daily_kwh": 34.32906124044215,
+              "daily_kwh": 41.30690574645996,
               "is_dry_season": true,
               "month": 8
             },
             {
-              "daily_kwh": 37.29924493588677,
+              "daily_kwh": 44.88081932067871,
               "is_dry_season": false,
               "month": 9
             },
             {
-              "daily_kwh": 40.30573244403148,
+              "daily_kwh": 48.49841594696045,
               "is_dry_season": false,
               "month": 10
             },
             {
-              "daily_kwh": 40.80554095502083,
+              "daily_kwh": 49.09981727600098,
               "is_dry_season": false,
               "month": 11
             },
             {
-              "daily_kwh": 40.61822818186341,
+              "daily_kwh": 48.874430656433105,
               "is_dry_season": true,
               "month": 12
             }
           ],
-          "year_1_generation_kwh": 14399.415428343684,
+          "year_1_generation_kwh": 17326.290740569435,
           "yearly_breakdown": [
             {
               "confidence_band_pct": 10.0,
-              "confidence_high_kwh": 15839.356971178053,
-              "confidence_low_kwh": 12959.473885509316,
+              "confidence_high_kwh": 19058.91981462638,
+              "confidence_low_kwh": 15593.661666512491,
               "efficiency_pct": 100.0,
-              "generation_kwh": 14399.415428343684,
+              "generation_kwh": 17326.290740569435,
               "year": 1
             },
             {
               "confidence_band_pct": 10.0,
-              "confidence_high_kwh": 15728.481472379806,
-              "confidence_low_kwh": 12868.757568310748,
+              "confidence_high_kwh": 18925.507375923993,
+              "confidence_low_kwh": 15484.506034846901,
               "efficiency_pct": 99.3,
-              "generation_kwh": 14298.619520345277,
+              "generation_kwh": 17205.006705385447,
               "year": 2
             },
             {
               "confidence_band_pct": 10.0,
-              "confidence_high_kwh": 15618.382102073148,
-              "confidence_low_kwh": 12778.676265332573,
+              "confidence_high_kwh": 18793.028824292527,
+              "confidence_low_kwh": 15376.114492602974,
               "efficiency_pct": 98.6049,
-              "generation_kwh": 14198.52918370286,
+              "generation_kwh": 17084.57165844775,
               "year": 3
             },
             {
               "confidence_band_pct": 10.0,
-              "confidence_high_kwh": 15509.053427358636,
-              "confidence_low_kwh": 12689.225531475247,
+              "confidence_high_kwh": 18661.477622522478,
+              "confidence_low_kwh": 15268.481691154755,
               "efficiency_pct": 97.9146657,
-              "generation_kwh": 14099.139479416941,
+              "generation_kwh": 16964.979656838615,
               "year": 4
             },
             {
               "confidence_band_pct": 10.0,
-              "confidence_high_kwh": 15400.490053367124,
-              "confidence_low_kwh": 12600.40095275492,
+              "confidence_high_kwh": 18530.84727916482,
+              "confidence_low_kwh": 15161.602319316671,
               "efficiency_pct": 97.2292630401,
-              "generation_kwh": 14000.445503061022,
+              "generation_kwh": 16846.224799240743,
               "year": 5
             },
             {
               "confidence_band_pct": 15.0,
-              "confidence_high_kwh": 15987.808742220534,
-              "confidence_low_kwh": 11817.076026858656,
+              "confidence_high_kwh": 19237.546409492967,
+              "confidence_low_kwh": 14219.056041799151,
               "efficiency_pct": 96.5486581988193,
-              "generation_kwh": 13902.442384539594,
+              "generation_kwh": 16728.30122564606,
               "year": 6
             },
             {
               "confidence_band_pct": 15.0,
-              "confidence_high_kwh": 15875.894081024988,
-              "confidence_low_kwh": 11734.356494670643,
+              "confidence_high_kwh": 19102.883584626514,
+              "confidence_low_kwh": 14119.522649506554,
               "efficiency_pct": 95.87281759142756,
-              "generation_kwh": 13805.125287847817,
+              "generation_kwh": 16611.203117066536,
               "year": 7
             },
             {
               "confidence_band_pct": 15.0,
-              "confidence_high_kwh": 15764.762822457813,
-              "confidence_low_kwh": 11652.215999207949,
+              "confidence_high_kwh": 18969.16339953413,
+              "confidence_low_kwh": 14020.68599096001,
               "efficiency_pct": 95.20170786828757,
-              "generation_kwh": 13708.489410832883,
+              "generation_kwh": 16494.92469524707,
               "year": 8
             },
             {
               "confidence_band_pct": 15.0,
-              "confidence_high_kwh": 15654.40948270061,
-              "confidence_low_kwh": 11570.650487213496,
+              "confidence_high_kwh": 18836.379255737393,
+              "confidence_low_kwh": 13922.54118902329,
               "efficiency_pct": 94.53529591320955,
-              "generation_kwh": 13612.529984957053,
+              "generation_kwh": 16379.460222380341,
               "year": 9
             },
             {
               "confidence_band_pct": 15.0,
-              "confidence_high_kwh": 15544.828616321704,
-              "confidence_low_kwh": 11489.655933802998,
+              "confidence_high_kwh": 18704.52460094723,
+              "confidence_low_kwh": 13825.083400700125,
               "efficiency_pct": 93.87354884181708,
-              "generation_kwh": 13517.242275062352,
+              "generation_kwh": 16264.804000823679,
               "year": 10
             },
             {
               "confidence_band_pct": 15.0,
-              "confidence_high_kwh": 15436.014816007451,
-              "confidence_low_kwh": 11409.228342266379,
+              "confidence_high_kwh": 18573.592928740596,
+              "confidence_low_kwh": 13728.307816895227,
               "efficiency_pct": 93.21643399992436,
-              "generation_kwh": 13422.621579136916,
+              "generation_kwh": 16150.950372817913,
               "year": 11
             },
             {
               "confidence_band_pct": 15.0,
-              "confidence_high_kwh": 15327.9627122954,
-              "confidence_low_kwh": 11329.363743870514,
+              "confidence_high_kwh": 18443.577778239414,
+              "confidence_low_kwh": 13632.209662176958,
               "efficiency_pct": 92.5639189619249,
-              "generation_kwh": 13328.663228082958,
+              "generation_kwh": 16037.893720208187,
               "year": 12
             },
             {
               "confidence_band_pct": 15.0,
-              "confidence_high_kwh": 15220.666973309331,
-              "confidence_low_kwh": 11250.058197663418,
+              "confidence_high_kwh": 18314.47273379174,
+              "confidence_low_kwh": 13536.78419454172,
               "efficiency_pct": 91.91597152919142,
-              "generation_kwh": 13235.362585486377,
+              "generation_kwh": 15925.62846416673,
               "year": 13
             },
             {
               "confidence_band_pct": 15.0,
-              "confidence_high_kwh": 15114.122304496166,
-              "confidence_low_kwh": 11171.307790279776,
+              "confidence_high_kwh": 18186.271424655195,
+              "confidence_low_kwh": 13442.026705179927,
               "efficiency_pct": 91.27255972848708,
-              "generation_kwh": 13142.715047387972,
+              "generation_kwh": 15814.149064917563,
               "year": 14
             },
             {
               "confidence_band_pct": 15.0,
-              "confidence_high_kwh": 15008.323448364694,
-              "confidence_low_kwh": 11093.108635747818,
+              "confidence_high_kwh": 18058.96752468261,
+              "confidence_low_kwh": 13347.93251824367,
               "efficiency_pct": 90.63365181038768,
-              "generation_kwh": 13050.716042056258,
+              "generation_kwh": 15703.45002146314,
               "year": 15
             },
             {
               "confidence_band_pct": 20.0,
-              "confidence_high_kwh": 15551.233235714235,
-              "confidence_low_kwh": 10367.48882380949,
+              "confidence_high_kwh": 18712.231045575478,
+              "confidence_low_kwh": 12474.820697050318,
               "efficiency_pct": 89.99921624771495,
-              "generation_kwh": 12959.361029761862,
+              "generation_kwh": 15593.525871312897,
               "year": 16
             },
             {
               "confidence_band_pct": 20.0,
-              "confidence_high_kwh": 15442.374603064234,
-              "confidence_low_kwh": 10294.916402042825,
+              "confidence_high_kwh": 18581.245428256447,
+              "confidence_low_kwh": 12387.496952170968,
               "efficiency_pct": 89.36922173398095,
-              "generation_kwh": 12868.645502553529,
+              "generation_kwh": 15484.371190213707,
               "year": 17
             },
             {
               "confidence_band_pct": 20.0,
-              "confidence_high_kwh": 15334.277980842784,
-              "confidence_low_kwh": 10222.851987228525,
+              "confidence_high_kwh": 18451.176710258653,
+              "confidence_low_kwh": 12300.784473505772,
               "efficiency_pct": 88.74363718184308,
-              "generation_kwh": 12778.564984035655,
+              "generation_kwh": 15375.980591882213,
               "year": 18
             },
             {
               "confidence_band_pct": 20.0,
-              "confidence_high_kwh": 15226.938034976887,
-              "confidence_low_kwh": 10151.292023317925,
+              "confidence_high_kwh": 18322.018473286844,
+              "confidence_low_kwh": 12214.678982191232,
               "efficiency_pct": 88.12243172157018,
-              "generation_kwh": 12689.115029147406,
+              "generation_kwh": 15268.348727739038,
               "year": 19
             },
             {
               "confidence_band_pct": 20.0,
-              "confidence_high_kwh": 15120.349468732047,
-              "confidence_low_kwh": 10080.232979154698,
+              "confidence_high_kwh": 18193.764343973835,
+              "confidence_low_kwh": 12129.17622931589,
               "efficiency_pct": 87.50557469951919,
-              "generation_kwh": 12600.291223943374,
+              "generation_kwh": 15161.470286644862,
               "year": 20
             },
             {
               "confidence_band_pct": 20.0,
-              "confidence_high_kwh": 15014.507022450922,
-              "confidence_low_kwh": 10009.671348300615,
+              "confidence_high_kwh": 18066.40799356602,
+              "confidence_low_kwh": 12044.271995710678,
               "efficiency_pct": 86.89303567662256,
-              "generation_kwh": 12512.08918537577,
+              "generation_kwh": 15055.339994638347,
               "year": 21
             },
             {
               "confidence_band_pct": 20.0,
-              "confidence_high_kwh": 14909.405473293766,
-              "confidence_low_kwh": 9939.603648862512,
+              "confidence_high_kwh": 17939.943137611055,
+              "confidence_low_kwh": 11959.962091740706,
               "efficiency_pct": 86.28478442688619,
-              "generation_kwh": 12424.50456107814,
+              "generation_kwh": 14949.95261467588,
               "year": 22
             },
             {
               "confidence_band_pct": 20.0,
-              "confidence_high_kwh": 14805.03963498071,
-              "confidence_low_kwh": 9870.026423320474,
+              "confidence_high_kwh": 17814.36353564778,
+              "confidence_low_kwh": 11876.24235709852,
               "efficiency_pct": 85.68079093589799,
-              "generation_kwh": 12337.533029150592,
+              "generation_kwh": 14845.30294637315,
               "year": 23
             },
             {
               "confidence_band_pct": 20.0,
-              "confidence_high_kwh": 14701.404357535845,
-              "confidence_low_kwh": 9800.93623835723,
+              "confidence_high_kwh": 17689.662990898243,
+              "confidence_low_kwh": 11793.10866059883,
               "efficiency_pct": 85.08102539934671,
-              "generation_kwh": 12251.170297946537,
+              "generation_kwh": 14741.385825748537,
               "year": 24
             },
             {
               "confidence_band_pct": 20.0,
-              "confidence_high_kwh": 14598.494527033094,
-              "confidence_low_kwh": 9732.32968468873,
+              "confidence_high_kwh": 17565.835349961955,
+              "confidence_low_kwh": 11710.556899974637,
               "efficiency_pct": 84.48545822155128,
-              "generation_kwh": 12165.412105860913,
+              "generation_kwh": 14638.196124968297,
               "year": 25
             }
           ]
         },
         "location": "Accra, Ghana",
-        "monthly_savings": 163.74,
-        "predicted_generation_kwh": 1259.5140000000001,
-        "recommendation": "Medium",
-        "recommended_panel_area_m2": 41.55365866805962,
+        "monthly_savings": 197.02,
+        "predicted_generation_kwh": 1515.5272006988525,
+        "recommendation": "Low",
+        "recommended_panel_area_m2": 50.0,
         "roi_percentage": 7.16,
-        "status": "MODERATELY VIABLE",
-        "system_cost": 27425.41,
-        "viability_score": 45.24
+        "status": "NOT VIABLE",
+        "system_cost": 33000.0,
+        "viability_score": 21.99
       }
     },
     {
@@ -805,18 +805,18 @@
         "monthly_savings_usd": 905.3571428571429
       },
       "actual": {
-        "consumption_kwh": 801.89,
-        "system_cost_usd": 14470.89,
-        "system_cost_local": 2025924.5999999999,
-        "payback_years": 3.3337226660769077,
-        "monthly_savings_usd": 361.73,
-        "monthly_savings_local": 50642.200000000004
+        "consumption_kwh": 6671.34,
+        "system_cost_usd": 32400.0,
+        "system_cost_local": 4536000.0,
+        "payback_years": 4.581551618814905,
+        "monthly_savings_usd": 589.32,
+        "monthly_savings_local": 82504.8
       },
       "deviations": {
-        "consumption_kwh": -71.36107142857144,
-        "system_cost": 478.83559999999994,
-        "monthly_savings": -60.04560157790927,
-        "payback_years": 1566.8613330384537
+        "consumption_kwh": 138.26214285714286,
+        "system_cost": 1196.0,
+        "monthly_savings": -34.90745562130177,
+        "payback_years": 2190.7758094074525
       },
       "assessment": {
         "consumption_kwh": "HIGH",
@@ -825,25 +825,25 @@
         "payback_years": "HIGH"
       },
       "api_response": {
-        "analyzed_at": "2026-02-25T12:23:36.699858",
+        "analyzed_at": "2026-02-25T12:48:39.534254",
         "business_name": "Nairobi Bread Haven Bakery",
         "business_type": "Bakery",
         "confidence": 85.0,
         "current_energy_cost": {
-          "diesel_monthly": 350.4725,
-          "grid_monthly": 51.454608333333326,
-          "total_monthly": 401.92710833333336
+          "diesel_monthly": 1817.835,
+          "grid_monthly": 428.07765,
+          "total_monthly": 2245.91265
         },
         "diesel_details": {
-          "diesel_kwh_monthly": 334.12083333333334,
-          "effective_tariff": 1.0489393807130654,
+          "diesel_kwh_monthly": 2779.7250000000004,
+          "effective_tariff": 0.6539621725170655,
           "hours_per_day": 10.0,
-          "monthly_liters": 133.64833333333334,
+          "monthly_liters": 1111.89,
           "price_per_liter": 1.5
         },
         "energy_scenario": "diesel_replacement",
-        "estimated_consumption_kwh": 801.89,
-        "explanation": "Solar is highly viable because: Strong ROI of 30.0%; Excellent solar coverage (90%).",
+        "estimated_consumption_kwh": 6671.34,
+        "explanation": "Solar is moderately viable because: Strong ROI of 21.8%; Limited solar coverage (26%).",
         "lifetime_prediction": {
           "assumptions": {
             "annual_degradation_pct": 0.7000000000000001,
@@ -856,8 +856,8 @@
               12
             ],
             "lifetime_years": 25,
-            "note": "Scaled from 10m\u00b2 baseline by factor of 2.06",
-            "panel_area_m2": 20.613808508207597,
+            "note": "Scaled from 10m\u00b2 baseline by factor of 5.00",
+            "panel_area_m2": 50.0,
             "panel_efficiency_pct": 20.0
           },
           "confidence": {
@@ -866,283 +866,283 @@
             "years_1_5_band_pct": 10.0,
             "years_6_15_band_pct": 15.0
           },
-          "lifetime_average_annual_kwh": 7131.630056335128,
-          "lifetime_total_kwh": 178290.75140837822,
+          "lifetime_average_annual_kwh": 17298.186440161207,
+          "lifetime_total_kwh": 432454.6610040302,
           "monthly_generation_climatology": [
             {
-              "daily_kwh": 22.896628720998592,
+              "daily_kwh": 55.53711414337158,
               "is_dry_season": true,
               "month": 1
             },
             {
-              "daily_kwh": 24.056700000000003,
+              "daily_kwh": 58.350934982299805,
               "is_dry_season": true,
               "month": 2
             },
             {
-              "daily_kwh": 22.976359158436352,
+              "daily_kwh": 55.73050498962402,
               "is_dry_season": false,
               "month": 3
             },
             {
-              "daily_kwh": 20.686090203690785,
+              "daily_kwh": 50.175323486328125,
               "is_dry_season": false,
               "month": 4
             },
             {
-              "daily_kwh": 19.865250242435327,
+              "daily_kwh": 48.18432807922363,
               "is_dry_season": false,
               "month": 5
             },
             {
-              "daily_kwh": 19.393007079704812,
+              "daily_kwh": 47.03887462615967,
               "is_dry_season": true,
               "month": 6
             },
             {
-              "daily_kwh": 19.604237595813316,
+              "daily_kwh": 47.55122661590576,
               "is_dry_season": true,
               "month": 7
             },
             {
-              "daily_kwh": 20.560609667871695,
+              "daily_kwh": 49.87096309661865,
               "is_dry_season": true,
               "month": 8
             },
             {
-              "daily_kwh": 21.840049543199775,
+              "daily_kwh": 52.97431945800781,
               "is_dry_season": false,
               "month": 9
             },
             {
-              "daily_kwh": 22.145933537172848,
+              "daily_kwh": 53.71625900268555,
               "is_dry_season": false,
               "month": 10
             },
             {
-              "daily_kwh": 19.97090678409503,
+              "daily_kwh": 48.4406042098999,
               "is_dry_season": false,
               "month": 11
             },
             {
-              "daily_kwh": 20.763007458300095,
+              "daily_kwh": 50.36189079284668,
               "is_dry_season": true,
               "month": 12
             }
           ],
-          "year_1_generation_kwh": 7748.912891414774,
+          "year_1_generation_kwh": 18795.442114273705,
           "yearly_breakdown": [
             {
               "confidence_band_pct": 10.0,
-              "confidence_high_kwh": 8523.804180556253,
-              "confidence_low_kwh": 6974.0216022732975,
+              "confidence_high_kwh": 20674.98632570108,
+              "confidence_low_kwh": 16915.897902846336,
               "efficiency_pct": 100.0,
-              "generation_kwh": 7748.912891414774,
+              "generation_kwh": 18795.442114273705,
               "year": 1
             },
             {
               "confidence_band_pct": 10.0,
-              "confidence_high_kwh": 8464.137551292359,
-              "confidence_low_kwh": 6925.203451057384,
+              "confidence_high_kwh": 20530.261421421168,
+              "confidence_low_kwh": 16797.48661752641,
               "efficiency_pct": 99.3,
-              "generation_kwh": 7694.670501174871,
+              "generation_kwh": 18663.87401947379,
               "year": 2
             },
             {
               "confidence_band_pct": 10.0,
-              "confidence_high_kwh": 8404.888588433312,
-              "confidence_low_kwh": 6876.727026899982,
+              "confidence_high_kwh": 20386.549591471223,
+              "confidence_low_kwh": 16679.904211203724,
               "efficiency_pct": 98.6049,
-              "generation_kwh": 7640.807807666647,
+              "generation_kwh": 18533.22690133747,
               "year": 3
             },
             {
               "confidence_band_pct": 10.0,
-              "confidence_high_kwh": 8346.05436831428,
-              "confidence_low_kwh": 6828.589937711682,
+              "confidence_high_kwh": 20243.843744330923,
+              "confidence_low_kwh": 16563.1448817253,
               "efficiency_pct": 97.9146657,
-              "generation_kwh": 7587.32215301298,
+              "generation_kwh": 18403.49431302811,
               "year": 4
             },
             {
               "confidence_band_pct": 10.0,
-              "confidence_high_kwh": 8287.631987736078,
-              "confidence_low_kwh": 6780.7898081477015,
+              "confidence_high_kwh": 20102.13683812061,
+              "confidence_low_kwh": 16447.202867553224,
               "efficiency_pct": 97.2292630401,
-              "generation_kwh": 7534.21089794189,
+              "generation_kwh": 18274.669852836916,
               "year": 5
             },
             {
               "confidence_band_pct": 15.0,
-              "confidence_high_kwh": 8603.692134904739,
-              "confidence_low_kwh": 6359.250708407851,
+              "confidence_high_kwh": 20868.75923844711,
+              "confidence_low_kwh": 15424.735089286994,
               "efficiency_pct": 96.5486581988193,
-              "generation_kwh": 7481.471421656295,
+              "generation_kwh": 18146.747163867054,
               "year": 6
             },
             {
               "confidence_band_pct": 15.0,
-              "confidence_high_kwh": 8543.466289960405,
-              "confidence_low_kwh": 6314.735953448996,
+              "confidence_high_kwh": 20722.677923777977,
+              "confidence_low_kwh": 15316.761943661986,
               "efficiency_pct": 95.87281759142756,
-              "generation_kwh": 7429.101121704702,
+              "generation_kwh": 18019.719933719985,
               "year": 7
             },
             {
               "confidence_band_pct": 15.0,
-              "confidence_high_kwh": 8483.662025930684,
-              "confidence_low_kwh": 6270.532801774853,
+              "confidence_high_kwh": 20577.619178311536,
+              "confidence_low_kwh": 15209.544610056353,
               "efficiency_pct": 95.20170786828757,
-              "generation_kwh": 7377.097413852768,
+              "generation_kwh": 17893.581894183946,
               "year": 8
             },
             {
               "confidence_band_pct": 15.0,
-              "confidence_high_kwh": 8424.276391749168,
-              "confidence_low_kwh": 6226.639072162429,
+              "confidence_high_kwh": 20433.575844063354,
+              "confidence_low_kwh": 15103.077797785958,
               "efficiency_pct": 94.53529591320955,
-              "generation_kwh": 7325.457731955799,
+              "generation_kwh": 17768.32682092466,
               "year": 9
             },
             {
               "confidence_band_pct": 15.0,
-              "confidence_high_kwh": 8365.306457006925,
-              "confidence_low_kwh": 6183.052598657293,
+              "confidence_high_kwh": 20290.540813154912,
+              "confidence_low_kwh": 14997.356253201458,
               "efficiency_pct": 93.87354884181708,
-              "generation_kwh": 7274.17952783211,
+              "generation_kwh": 17643.948533178187,
               "year": 10
             },
             {
               "confidence_band_pct": 15.0,
-              "confidence_high_kwh": 8306.749311807876,
-              "confidence_low_kwh": 6139.771230466691,
+              "confidence_high_kwh": 20148.507027462827,
+              "confidence_low_kwh": 14892.374759429047,
               "efficiency_pct": 93.21643399992436,
-              "generation_kwh": 7223.260271137284,
+              "generation_kwh": 17520.440893445935,
               "year": 11
             },
             {
               "confidence_band_pct": 15.0,
-              "confidence_high_kwh": 8248.60206662522,
-              "confidence_low_kwh": 6096.792831853425,
+              "confidence_high_kwh": 20007.467478270588,
+              "confidence_low_kwh": 14788.128136113044,
               "efficiency_pct": 92.5639189619249,
-              "generation_kwh": 7172.697449239323,
+              "generation_kwh": 17397.797807191815,
               "year": 12
             },
             {
               "confidence_band_pct": 15.0,
-              "confidence_high_kwh": 8190.861852158845,
-              "confidence_low_kwh": 6054.1152820304505,
+              "confidence_high_kwh": 19867.415205922694,
+              "confidence_low_kwh": 14684.611239160251,
               "efficiency_pct": 91.91597152919142,
-              "generation_kwh": 7122.488567094648,
+              "generation_kwh": 17276.013222541475,
               "year": 13
             },
             {
               "confidence_band_pct": 15.0,
-              "confidence_high_kwh": 8133.525819193732,
-              "confidence_low_kwh": 6011.736475056237,
+              "confidence_high_kwh": 19728.343299481232,
+              "confidence_low_kwh": 14581.818960486129,
               "efficiency_pct": 91.27255972848708,
-              "generation_kwh": 7072.631147124985,
+              "generation_kwh": 17155.081129983682,
               "year": 14
             },
             {
               "confidence_band_pct": 15.0,
-              "confidence_high_kwh": 8076.591138459376,
-              "confidence_low_kwh": 5969.654319730844,
+              "confidence_high_kwh": 19590.244896384866,
+              "confidence_low_kwh": 14479.746227762727,
               "efficiency_pct": 90.63365181038768,
-              "generation_kwh": 7023.122729095111,
+              "generation_kwh": 17034.995562073796,
               "year": 15
             },
             {
               "confidence_band_pct": 20.0,
-              "confidence_high_kwh": 8368.753043989733,
-              "confidence_low_kwh": 5579.168695993156,
+              "confidence_high_kwh": 20298.900711767135,
+              "confidence_low_kwh": 13532.600474511426,
               "efficiency_pct": 89.99921624771495,
-              "generation_kwh": 6973.960869991444,
+              "generation_kwh": 16915.75059313928,
               "year": 16
             },
             {
               "confidence_band_pct": 20.0,
-              "confidence_high_kwh": 8310.171772681806,
-              "confidence_low_kwh": 5540.114515121204,
+              "confidence_high_kwh": 20156.808406784767,
+              "confidence_low_kwh": 13437.872271189844,
               "efficiency_pct": 89.36922173398095,
-              "generation_kwh": 6925.143143901504,
+              "generation_kwh": 16797.340338987306,
               "year": 17
             },
             {
               "confidence_band_pct": 20.0,
-              "confidence_high_kwh": 8252.000570273032,
-              "confidence_low_kwh": 5501.333713515355,
+              "confidence_high_kwh": 20015.71074793727,
+              "confidence_low_kwh": 13343.807165291517,
               "efficiency_pct": 88.74363718184308,
-              "generation_kwh": 6876.667141894193,
+              "generation_kwh": 16679.758956614394,
               "year": 18
             },
             {
               "confidence_band_pct": 20.0,
-              "confidence_high_kwh": 8194.23656628112,
-              "confidence_low_kwh": 5462.824377520748,
+              "confidence_high_kwh": 19875.600772701713,
+              "confidence_low_kwh": 13250.400515134477,
               "efficiency_pct": 88.12243172157018,
-              "generation_kwh": 6828.530471900935,
+              "generation_kwh": 16563.000643918094,
               "year": 19
             },
             {
               "confidence_band_pct": 20.0,
-              "confidence_high_kwh": 8136.876910317153,
-              "confidence_low_kwh": 5424.584606878103,
+              "confidence_high_kwh": 19736.471567292796,
+              "confidence_low_kwh": 13157.647711528534,
               "efficiency_pct": 87.50557469951919,
-              "generation_kwh": 6780.730758597628,
+              "generation_kwh": 16447.059639410665,
               "year": 20
             },
             {
               "confidence_band_pct": 20.0,
-              "confidence_high_kwh": 8079.918771944933,
-              "confidence_low_kwh": 5386.612514629956,
+              "confidence_high_kwh": 19598.316266321748,
+              "confidence_low_kwh": 13065.544177547836,
               "efficiency_pct": 86.89303567662256,
-              "generation_kwh": 6733.265643287445,
+              "generation_kwh": 16331.930221934792,
               "year": 21
             },
             {
               "confidence_band_pct": 20.0,
-              "confidence_high_kwh": 8023.3593405413185,
-              "confidence_low_kwh": 5348.906227027546,
+              "confidence_high_kwh": 19461.128052457498,
+              "confidence_low_kwh": 12974.085368305,
               "efficiency_pct": 86.28478442688619,
-              "generation_kwh": 6686.132783784433,
+              "generation_kwh": 16217.60671038125,
               "year": 22
             },
             {
               "confidence_band_pct": 20.0,
-              "confidence_high_kwh": 7967.195825157529,
-              "confidence_low_kwh": 5311.463883438353,
+              "confidence_high_kwh": 19324.900156090294,
+              "confidence_low_kwh": 12883.266770726863,
               "efficiency_pct": 85.68079093589799,
-              "generation_kwh": 6639.329854297941,
+              "generation_kwh": 16104.083463408579,
               "year": 23
             },
             {
               "confidence_band_pct": 20.0,
-              "confidence_high_kwh": 7911.425454381426,
-              "confidence_low_kwh": 5274.283636254285,
+              "confidence_high_kwh": 19189.625854997663,
+              "confidence_low_kwh": 12793.083903331775,
               "efficiency_pct": 85.08102539934671,
-              "generation_kwh": 6592.854545317856,
+              "generation_kwh": 15991.354879164719,
               "year": 24
             },
             {
               "confidence_band_pct": 20.0,
-              "confidence_high_kwh": 7856.045476200757,
-              "confidence_low_kwh": 5237.363650800505,
+              "confidence_high_kwh": 19055.298474012678,
+              "confidence_low_kwh": 12703.532316008455,
               "efficiency_pct": 84.48545822155128,
-              "generation_kwh": 6546.704563500631,
+              "generation_kwh": 15879.415395010566,
               "year": 25
             }
           ]
         },
         "location": "Nairobi, Kenya",
-        "monthly_savings": 361.73,
-        "predicted_generation_kwh": 721.701,
-        "recommendation": "High",
-        "recommended_panel_area_m2": 20.613808508207597,
-        "roi_percentage": 30.0,
-        "status": "HIGHLY VIABLE",
-        "system_cost": 14470.89,
-        "viability_score": 70.75
+        "monthly_savings": 589.32,
+        "predicted_generation_kwh": 1750.5280494689941,
+        "recommendation": "Medium",
+        "recommended_panel_area_m2": 50.0,
+        "roi_percentage": 21.83,
+        "status": "MODERATELY VIABLE",
+        "system_cost": 32400.0,
+        "viability_score": 46.52
       }
     },
     {
@@ -1187,18 +1187,18 @@
         "monthly_savings_usd": 634.8648648648649
       },
       "actual": {
-        "consumption_kwh": 644.87,
-        "system_cost_usd": 10526.18,
-        "system_cost_local": 194734.33000000002,
-        "payback_years": 10.79608205128205,
-        "monthly_savings_usd": 81.25,
-        "monthly_savings_local": 1503.125
+        "consumption_kwh": 8564.58,
+        "system_cost_usd": 27000.0,
+        "system_cost_local": 499500.0,
+        "payback_years": 9.563073784427065,
+        "monthly_savings_usd": 235.28,
+        "monthly_savings_local": 4352.68
       },
       "deviations": {
-        "consumption_kwh": -85.66955555555555,
-        "system_cost": 117.82363534675615,
-        "monthly_savings": -87.20200085142615,
-        "payback_years": 1699.3470085470087
+        "consumption_kwh": 90.324,
+        "system_cost": 458.72483221476506,
+        "monthly_savings": -62.94014474244361,
+        "payback_years": 1493.8456307378442
       },
       "assessment": {
         "consumption_kwh": "HIGH",
@@ -1207,18 +1207,18 @@
         "payback_years": "HIGH"
       },
       "api_response": {
-        "analyzed_at": "2026-02-25T12:23:37.983600",
+        "analyzed_at": "2026-02-25T12:48:40.784704",
         "business_name": "Johannesburg ChillMart Supermarket",
         "business_type": "Supermarket/mini mart",
         "confidence": 85.0,
         "current_energy_cost": {
           "diesel_monthly": 0,
-          "grid_monthly": 90.2818,
-          "total_monthly": 90.2818
+          "grid_monthly": 1199.0412000000001,
+          "total_monthly": 1199.0412000000001
         },
         "energy_scenario": "grid_only",
-        "estimated_consumption_kwh": 644.87,
-        "explanation": "Solar is moderately viable because: Moderate ROI of 9.3%; Excellent solar coverage (90%).",
+        "estimated_consumption_kwh": 8564.58,
+        "explanation": "Solar is not viable because: Moderate ROI of 10.5%; Limited solar coverage (20%).",
         "lifetime_prediction": {
           "assumptions": {
             "annual_degradation_pct": 0.7000000000000001,
@@ -1231,8 +1231,8 @@
               12
             ],
             "lifetime_years": 25,
-            "note": "Scaled from 10m\u00b2 baseline by factor of 1.73",
-            "panel_area_m2": 17.2676004654437,
+            "note": "Scaled from 10m\u00b2 baseline by factor of 5.00",
+            "panel_area_m2": 50.0,
             "panel_efficiency_pct": 20.0
           },
           "confidence": {
@@ -1241,283 +1241,283 @@
             "years_1_5_band_pct": 10.0,
             "years_6_15_band_pct": 15.0
           },
-          "lifetime_average_annual_kwh": 5669.6550557182845,
-          "lifetime_total_kwh": 141741.3763929571,
+          "lifetime_average_annual_kwh": 16417.032195829765,
+          "lifetime_total_kwh": 410425.8048957441,
           "monthly_generation_climatology": [
             {
-              "daily_kwh": 20.09943483807786,
+              "daily_kwh": 58.199849128723145,
               "is_dry_season": true,
               "month": 1
             },
             {
-              "daily_kwh": 19.3461,
+              "daily_kwh": 56.01849555969238,
               "is_dry_season": true,
               "month": 2
             },
             {
-              "daily_kwh": 18.357471841294593,
+              "daily_kwh": 53.15582752227783,
               "is_dry_season": false,
               "month": 3
             },
             {
-              "daily_kwh": 16.184988037237197,
+              "daily_kwh": 46.86519145965576,
               "is_dry_season": false,
               "month": 4
             },
             {
-              "daily_kwh": 14.671739528087077,
+              "daily_kwh": 42.48343467712402,
               "is_dry_season": false,
               "month": 5
             },
             {
-              "daily_kwh": 13.432803653303178,
+              "daily_kwh": 38.895976543426514,
               "is_dry_season": true,
               "month": 6
             },
             {
-              "daily_kwh": 13.620114309005928,
+              "daily_kwh": 39.43835258483887,
               "is_dry_season": true,
               "month": 7
             },
             {
-              "daily_kwh": 14.685322059886294,
+              "daily_kwh": 42.52276420593262,
               "is_dry_season": true,
               "month": 8
             },
             {
-              "daily_kwh": 16.090051936579467,
+              "daily_kwh": 46.59029483795166,
               "is_dry_season": false,
               "month": 9
             },
             {
-              "daily_kwh": 17.536097543184205,
+              "daily_kwh": 50.777459144592285,
               "is_dry_season": false,
               "month": 10
             },
             {
-              "daily_kwh": 18.921359343867387,
+              "daily_kwh": 54.788618087768555,
               "is_dry_season": false,
               "month": 11
             },
             {
-              "daily_kwh": 19.588074253157792,
+              "daily_kwh": 56.71915531158447,
               "is_dry_season": true,
               "month": 12
             }
           ],
-          "year_1_generation_kwh": 6160.395702536963,
+          "year_1_generation_kwh": 17838.01899651686,
           "yearly_breakdown": [
             {
               "confidence_band_pct": 10.0,
-              "confidence_high_kwh": 6776.435272790659,
-              "confidence_low_kwh": 5544.356132283267,
+              "confidence_high_kwh": 19621.82089616855,
+              "confidence_low_kwh": 16054.217096865177,
               "efficiency_pct": 100.0,
-              "generation_kwh": 6160.395702536963,
+              "generation_kwh": 17838.01899651686,
               "year": 1
             },
             {
               "confidence_band_pct": 10.0,
-              "confidence_high_kwh": 6729.000225881125,
-              "confidence_low_kwh": 5505.545639357283,
+              "confidence_high_kwh": 19484.46814989537,
+              "confidence_low_kwh": 15941.837577187118,
               "efficiency_pct": 99.3,
-              "generation_kwh": 6117.272932619203,
+              "generation_kwh": 17713.152863541243,
               "year": 2
             },
             {
               "confidence_band_pct": 10.0,
-              "confidence_high_kwh": 6681.897224299957,
-              "confidence_low_kwh": 5467.006819881783,
+              "confidence_high_kwh": 19348.0768728461,
+              "confidence_low_kwh": 15830.244714146811,
               "efficiency_pct": 98.6049,
-              "generation_kwh": 6074.45202209087,
+              "generation_kwh": 17589.160793496456,
               "year": 3
             },
             {
               "confidence_band_pct": 10.0,
-              "confidence_high_kwh": 6635.123943729857,
-              "confidence_low_kwh": 5428.73777214261,
+              "confidence_high_kwh": 19212.640334736177,
+              "confidence_low_kwh": 15719.433001147783,
               "efficiency_pct": 97.9146657,
-              "generation_kwh": 6031.930857936233,
+              "generation_kwh": 17466.036667941982,
               "year": 4
             },
             {
               "confidence_band_pct": 10.0,
-              "confidence_high_kwh": 6588.678076123748,
-              "confidence_low_kwh": 5390.736607737612,
+              "confidence_high_kwh": 19078.151852393024,
+              "confidence_low_kwh": 15609.39697013975,
               "efficiency_pct": 97.2292630401,
-              "generation_kwh": 5989.70734193068,
+              "generation_kwh": 17343.774411266386,
               "year": 5
             },
             {
               "confidence_band_pct": 15.0,
-              "confidence_high_kwh": 6839.946299117739,
-              "confidence_low_kwh": 5055.612481956589,
+              "confidence_high_kwh": 19805.723188945645,
+              "confidence_low_kwh": 14639.012791829391,
               "efficiency_pct": 96.5486581988193,
-              "generation_kwh": 5947.7793905371645,
+              "generation_kwh": 17222.36799038752,
               "year": 6
             },
             {
               "confidence_band_pct": 15.0,
-              "confidence_high_kwh": 6792.066675023914,
-              "confidence_low_kwh": 5020.2231945828935,
+              "confidence_high_kwh": 19667.083126623027,
+              "confidence_low_kwh": 14536.539702286587,
               "efficiency_pct": 95.87281759142756,
-              "generation_kwh": 5906.144934803404,
+              "generation_kwh": 17101.81141445481,
               "year": 7
             },
             {
               "confidence_band_pct": 15.0,
-              "confidence_high_kwh": 6744.5222082987475,
-              "confidence_low_kwh": 4985.081632220814,
+              "confidence_high_kwh": 19529.413544736668,
+              "confidence_low_kwh": 14434.783924370582,
               "efficiency_pct": 95.20170786828757,
-              "generation_kwh": 5864.801920259781,
+              "generation_kwh": 16982.098734553623,
               "year": 8
             },
             {
               "confidence_band_pct": 15.0,
-              "confidence_high_kwh": 6697.310552840656,
-              "confidence_low_kwh": 4950.186060795268,
+              "confidence_high_kwh": 19392.707649923508,
+              "confidence_low_kwh": 14333.740436899987,
               "efficiency_pct": 94.53529591320955,
-              "generation_kwh": 5823.748306817962,
+              "generation_kwh": 16863.22404341175,
               "year": 9
             },
             {
               "confidence_band_pct": 15.0,
-              "confidence_high_kwh": 6650.429378970772,
-              "confidence_low_kwh": 4915.5347583697,
+              "confidence_high_kwh": 19256.958696374048,
+              "confidence_low_kwh": 14233.404253841687,
               "efficiency_pct": 93.87354884181708,
-              "generation_kwh": 5782.982068670237,
+              "generation_kwh": 16745.181475107867,
               "year": 10
             },
             {
               "confidence_band_pct": 15.0,
-              "confidence_high_kwh": 6603.876373317975,
-              "confidence_low_kwh": 4881.126015061112,
+              "confidence_high_kwh": 19122.159985499424,
+              "confidence_low_kwh": 14133.770424064794,
               "efficiency_pct": 93.21643399992436,
-              "generation_kwh": 5742.501194189545,
+              "generation_kwh": 16627.96520478211,
               "year": 11
             },
             {
               "confidence_band_pct": 15.0,
-              "confidence_high_kwh": 6557.64923870475,
-              "confidence_low_kwh": 4846.958132955685,
+              "confidence_high_kwh": 18988.30486560093,
+              "confidence_low_kwh": 14034.834031096341,
               "efficiency_pct": 92.5639189619249,
-              "generation_kwh": 5702.303685830218,
+              "generation_kwh": 16511.569448348637,
               "year": 12
             },
             {
               "confidence_band_pct": 15.0,
-              "confidence_high_kwh": 6511.745694033816,
-              "confidence_low_kwh": 4813.029426024995,
+              "confidence_high_kwh": 18855.386731541723,
+              "confidence_low_kwh": 13936.590192878666,
               "efficiency_pct": 91.91597152919142,
-              "generation_kwh": 5662.387560029406,
+              "generation_kwh": 16395.988462210196,
               "year": 13
             },
             {
               "confidence_band_pct": 15.0,
-              "confidence_high_kwh": 6466.16347417558,
-              "confidence_low_kwh": 4779.33822004282,
+              "confidence_high_kwh": 18723.39902442093,
+              "confidence_low_kwh": 13839.034061528513,
               "efficiency_pct": 91.27255972848708,
-              "generation_kwh": 5622.7508471092,
+              "generation_kwh": 16281.216542974724,
               "year": 14
             },
             {
               "confidence_band_pct": 15.0,
-              "confidence_high_kwh": 6420.900329856352,
-              "confidence_low_kwh": 4745.882852502521,
+              "confidence_high_kwh": 18592.33523124999,
+              "confidence_low_kwh": 13742.160823097818,
               "efficiency_pct": 90.63365181038768,
-              "generation_kwh": 5583.391591179437,
+              "generation_kwh": 16167.248027173902,
               "year": 15
             },
             {
               "confidence_band_pct": 20.0,
-              "confidence_high_kwh": 6653.169420049415,
-              "confidence_low_kwh": 4435.446280032944,
+              "confidence_high_kwh": 19264.892749180417,
+              "confidence_low_kwh": 12843.261832786948,
               "efficiency_pct": 89.99921624771495,
-              "generation_kwh": 5544.307850041179,
+              "generation_kwh": 16054.077290983681,
               "year": 16
             },
             {
               "confidence_band_pct": 20.0,
-              "confidence_high_kwh": 6606.597234109069,
-              "confidence_low_kwh": 4404.398156072713,
+              "confidence_high_kwh": 19130.038499936156,
+              "confidence_low_kwh": 12753.358999957438,
               "efficiency_pct": 89.36922173398095,
-              "generation_kwh": 5505.497695090891,
+              "generation_kwh": 15941.698749946798,
               "year": 17
             },
             {
               "confidence_band_pct": 20.0,
-              "confidence_high_kwh": 6560.3510534703055,
-              "confidence_low_kwh": 4373.567368980205,
+              "confidence_high_kwh": 18996.128230436603,
+              "confidence_low_kwh": 12664.085486957738,
               "efficiency_pct": 88.74363718184308,
-              "generation_kwh": 5466.959211225255,
+              "generation_kwh": 15830.10685869717,
               "year": 18
             },
             {
               "confidence_band_pct": 20.0,
-              "confidence_high_kwh": 6514.428596096014,
-              "confidence_low_kwh": 4342.952397397344,
+              "confidence_high_kwh": 18863.15533282355,
+              "confidence_low_kwh": 12575.436888549033,
               "efficiency_pct": 88.12243172157018,
-              "generation_kwh": 5428.690496746679,
+              "generation_kwh": 15719.296110686291,
               "year": 19
             },
             {
               "confidence_band_pct": 20.0,
-              "confidence_high_kwh": 6468.8275959233415,
-              "confidence_low_kwh": 4312.551730615562,
+              "confidence_high_kwh": 18731.113245493783,
+              "confidence_low_kwh": 12487.408830329188,
               "efficiency_pct": 87.50557469951919,
-              "generation_kwh": 5390.689663269452,
+              "generation_kwh": 15609.261037911485,
               "year": 20
             },
             {
               "confidence_band_pct": 20.0,
-              "confidence_high_kwh": 6423.545802751878,
-              "confidence_low_kwh": 4282.363868501252,
+              "confidence_high_kwh": 18599.995452775325,
+              "confidence_low_kwh": 12399.996968516883,
               "efficiency_pct": 86.89303567662256,
-              "generation_kwh": 5352.954835626565,
+              "generation_kwh": 15499.996210646104,
               "year": 21
             },
             {
               "confidence_band_pct": 20.0,
-              "confidence_high_kwh": 6378.580982132615,
-              "confidence_low_kwh": 4252.387321421744,
+              "confidence_high_kwh": 18469.795484605896,
+              "confidence_low_kwh": 12313.196989737266,
               "efficiency_pct": 86.28478442688619,
-              "generation_kwh": 5315.484151777179,
+              "generation_kwh": 15391.496237171581,
               "year": 22
             },
             {
               "confidence_band_pct": 20.0,
-              "confidence_high_kwh": 6333.930915257686,
-              "confidence_low_kwh": 4222.620610171792,
+              "confidence_high_kwh": 18340.506916213657,
+              "confidence_low_kwh": 12227.004610809106,
               "efficiency_pct": 85.68079093589799,
-              "generation_kwh": 5278.275762714739,
+              "generation_kwh": 15283.75576351138,
               "year": 23
             },
             {
               "confidence_band_pct": 20.0,
-              "confidence_high_kwh": 6289.593398850884,
-              "confidence_low_kwh": 4193.062265900589,
+              "confidence_high_kwh": 18212.123367800163,
+              "confidence_low_kwh": 12141.415578533442,
               "efficiency_pct": 85.08102539934671,
-              "generation_kwh": 5241.327832375737,
+              "generation_kwh": 15176.769473166803,
               "year": 24
             },
             {
               "confidence_band_pct": 20.0,
-              "confidence_high_kwh": 6245.566245058927,
-              "confidence_low_kwh": 4163.710830039285,
+              "confidence_high_kwh": 18084.63850422556,
+              "confidence_low_kwh": 12056.425669483708,
               "efficiency_pct": 84.48545822155128,
-              "generation_kwh": 5204.638537549106,
+              "generation_kwh": 15070.532086854635,
               "year": 25
             }
           ]
         },
         "location": "Johannesburg, South Africa",
-        "monthly_savings": 81.25,
-        "predicted_generation_kwh": 580.383,
-        "recommendation": "Medium",
-        "recommended_panel_area_m2": 17.2676004654437,
-        "roi_percentage": 9.26,
-        "status": "MODERATELY VIABLE",
-        "system_cost": 10526.18,
-        "viability_score": 48.39
+        "monthly_savings": 235.28,
+        "predicted_generation_kwh": 1680.5548667907715,
+        "recommendation": "Low",
+        "recommended_panel_area_m2": 50.0,
+        "roi_percentage": 10.46,
+        "status": "NOT VIABLE",
+        "system_cost": 27000.0,
+        "viability_score": 29.08
       }
     },
     {
@@ -1557,18 +1557,18 @@
         "monthly_savings_usd": 491.51785714285717
       },
       "actual": {
-        "consumption_kwh": 308.83,
-        "system_cost_usd": 8400.0,
-        "system_cost_local": 470400.0,
-        "payback_years": 5.214929598450421,
-        "monthly_savings_usd": 134.23,
-        "monthly_savings_local": 7516.879999999999
+        "consumption_kwh": 5949.29,
+        "system_cost_usd": 33600.0,
+        "system_cost_local": 1881600.0,
+        "payback_years": 8.926863482752024,
+        "monthly_savings_usd": 313.66,
+        "monthly_savings_local": 17564.960000000003
       },
       "deviations": {
-        "consumption_kwh": -91.8728947368421,
-        "system_cost": 207.45098039215685,
-        "monthly_savings": -72.69071752951864,
-        "payback_years": 942.9859196900843
+        "consumption_kwh": 56.56026315789474,
+        "system_cost": 1129.8039215686274,
+        "monthly_savings": -36.18543142597638,
+        "payback_years": 1685.3726965504047
       },
       "assessment": {
         "consumption_kwh": "HIGH",
@@ -1577,25 +1577,25 @@
         "payback_years": "HIGH"
       },
       "api_response": {
-        "analyzed_at": "2026-02-25T12:23:43.381496",
+        "analyzed_at": "2026-02-25T12:48:42.286485",
         "business_name": "Addis Ice Foods Frozen Retail",
         "business_type": "Frozen food retail",
         "confidence": 85.0,
         "current_energy_cost": {
-          "diesel_monthly": 120.33151785714286,
-          "grid_monthly": 13.89735,
-          "total_monthly": 134.22886785714286
+          "diesel_monthly": 674.3052678571428,
+          "grid_monthly": 267.71804999999995,
+          "total_monthly": 942.0233178571427
         },
         "diesel_details": {
-          "diesel_kwh_monthly": 77.2075,
-          "effective_tariff": 1.5585470045933731,
+          "diesel_kwh_monthly": 1487.3225,
+          "effective_tariff": 0.45336856522855185,
           "hours_per_day": 6.0,
-          "monthly_liters": 30.883,
+          "monthly_liters": 594.929,
           "price_per_liter": 0.9821428571428571
         },
         "energy_scenario": "diesel_replacement",
-        "estimated_consumption_kwh": 308.83,
-        "explanation": "Solar is highly viable because: Strong ROI of 19.2%; Excellent solar coverage (128%).",
+        "estimated_consumption_kwh": 5949.29,
+        "explanation": "Solar is not viable because: Moderate ROI of 11.2%; Limited solar coverage (33%).",
         "lifetime_prediction": {
           "assumptions": {
             "annual_degradation_pct": 0.7000000000000001,
@@ -1608,8 +1608,8 @@
               12
             ],
             "lifetime_years": 25,
-            "note": "Scaled from 10m\u00b2 baseline by factor of 1.00",
-            "panel_area_m2": 10.0,
+            "note": "Scaled from 10m\u00b2 baseline by factor of 5.00",
+            "panel_area_m2": 50.0,
             "panel_efficiency_pct": 20.0
           },
           "confidence": {
@@ -1618,283 +1618,283 @@
             "years_1_5_band_pct": 10.0,
             "years_6_15_band_pct": 15.0
           },
-          "lifetime_average_annual_kwh": 3936.9541969901434,
-          "lifetime_total_kwh": 98423.85492475358,
+          "lifetime_average_annual_kwh": 19684.770984950716,
+          "lifetime_total_kwh": 492119.27462376794,
           "monthly_generation_climatology": [
             {
-              "daily_kwh": 12.629230499267578,
+              "daily_kwh": 63.14615249633789,
               "is_dry_season": true,
               "month": 1
             },
             {
-              "daily_kwh": 13.20590591430664,
+              "daily_kwh": 66.0295295715332,
               "is_dry_season": true,
               "month": 2
             },
             {
-              "daily_kwh": 12.937914848327637,
+              "daily_kwh": 64.68957424163818,
               "is_dry_season": false,
               "month": 3
             },
             {
-              "daily_kwh": 12.779426574707031,
+              "daily_kwh": 63.897132873535156,
               "is_dry_season": false,
               "month": 4
             },
             {
-              "daily_kwh": 12.463326454162598,
+              "daily_kwh": 62.31663227081299,
               "is_dry_season": false,
               "month": 5
             },
             {
-              "daily_kwh": 11.209174156188965,
+              "daily_kwh": 56.045870780944824,
               "is_dry_season": true,
               "month": 6
             },
             {
-              "daily_kwh": 9.528985977172852,
+              "daily_kwh": 47.64492988586426,
               "is_dry_season": true,
               "month": 7
             },
             {
-              "daily_kwh": 9.258785247802734,
+              "daily_kwh": 46.29392623901367,
               "is_dry_season": true,
               "month": 8
             },
             {
-              "daily_kwh": 10.8170166015625,
+              "daily_kwh": 54.0850830078125,
               "is_dry_season": false,
               "month": 9
             },
             {
-              "daily_kwh": 11.695515632629395,
+              "daily_kwh": 58.47757816314697,
               "is_dry_season": false,
               "month": 10
             },
             {
-              "daily_kwh": 12.18384075164795,
+              "daily_kwh": 60.919203758239746,
               "is_dry_season": false,
               "month": 11
             },
             {
-              "daily_kwh": 11.928240776062012,
+              "daily_kwh": 59.64120388031006,
               "is_dry_season": true,
               "month": 12
             }
           ],
-          "year_1_generation_kwh": 4277.719804445903,
+          "year_1_generation_kwh": 21388.599022229515,
           "yearly_breakdown": [
             {
               "confidence_band_pct": 10.0,
-              "confidence_high_kwh": 4705.491784890493,
-              "confidence_low_kwh": 3849.9478240013127,
+              "confidence_high_kwh": 23527.45892445247,
+              "confidence_low_kwh": 19249.739120006565,
               "efficiency_pct": 100.0,
-              "generation_kwh": 4277.719804445903,
+              "generation_kwh": 21388.599022229515,
               "year": 1
             },
             {
               "confidence_band_pct": 10.0,
-              "confidence_high_kwh": 4672.55334239626,
-              "confidence_low_kwh": 3822.998189233303,
+              "confidence_high_kwh": 23362.766711981298,
+              "confidence_low_kwh": 19114.990946166516,
               "efficiency_pct": 99.3,
-              "generation_kwh": 4247.775765814781,
+              "generation_kwh": 21238.878829073907,
               "year": 2
             },
             {
               "confidence_band_pct": 10.0,
-              "confidence_high_kwh": 4639.845468999486,
-              "confidence_low_kwh": 3796.23720190867,
+              "confidence_high_kwh": 23199.22734499743,
+              "confidence_low_kwh": 18981.18600954335,
               "efficiency_pct": 98.6049,
-              "generation_kwh": 4218.041335454078,
+              "generation_kwh": 21090.20667727039,
               "year": 3
             },
             {
               "confidence_band_pct": 10.0,
-              "confidence_high_kwh": 4607.36655071649,
-              "confidence_low_kwh": 3769.6635414953093,
+              "confidence_high_kwh": 23036.83275358245,
+              "confidence_low_kwh": 18848.317707476548,
               "efficiency_pct": 97.9146657,
-              "generation_kwh": 4188.515046105899,
+              "generation_kwh": 20942.575230529495,
               "year": 4
             },
             {
               "confidence_band_pct": 10.0,
-              "confidence_high_kwh": 4575.114984861474,
-              "confidence_low_kwh": 3743.2758967048426,
+              "confidence_high_kwh": 22875.57492430737,
+              "confidence_low_kwh": 18716.37948352421,
               "efficiency_pct": 97.2292630401,
-              "generation_kwh": 4159.195440783158,
+              "generation_kwh": 20795.97720391579,
               "year": 5
             },
             {
               "confidence_band_pct": 15.0,
-              "confidence_high_kwh": 4749.593233602327,
-              "confidence_low_kwh": 3510.5689117930247,
+              "confidence_high_kwh": 23747.966168011633,
+              "confidence_low_kwh": 17552.844558965124,
               "efficiency_pct": 96.5486581988193,
-              "generation_kwh": 4130.081072697676,
+              "generation_kwh": 20650.405363488382,
               "year": 6
             },
             {
               "confidence_band_pct": 15.0,
-              "confidence_high_kwh": 4716.3460809671105,
-              "confidence_low_kwh": 3485.994929410473,
+              "confidence_high_kwh": 23581.73040483555,
+              "confidence_low_kwh": 17429.974647052364,
               "efficiency_pct": 95.87281759142756,
-              "generation_kwh": 4101.170505188792,
+              "generation_kwh": 20505.85252594396,
               "year": 7
             },
             {
               "confidence_band_pct": 15.0,
-              "confidence_high_kwh": 4683.3316584003405,
-              "confidence_low_kwh": 3461.5929649045997,
+              "confidence_high_kwh": 23416.658292001703,
+              "confidence_low_kwh": 17307.964824523,
               "efficiency_pct": 95.20170786828757,
-              "generation_kwh": 4072.4623116524704,
+              "generation_kwh": 20362.31155826235,
               "year": 8
             },
             {
               "confidence_band_pct": 15.0,
-              "confidence_high_kwh": 4650.5483367915385,
-              "confidence_low_kwh": 3437.3618141502675,
+              "confidence_high_kwh": 23252.74168395769,
+              "confidence_low_kwh": 17186.809070751337,
               "efficiency_pct": 94.53529591320955,
-              "generation_kwh": 4043.955075470903,
+              "generation_kwh": 20219.775377354516,
               "year": 9
             },
             {
               "confidence_band_pct": 15.0,
-              "confidence_high_kwh": 4617.994498433997,
-              "confidence_low_kwh": 3413.3002814512156,
+              "confidence_high_kwh": 23089.972492169985,
+              "confidence_low_kwh": 17066.501407256077,
               "efficiency_pct": 93.87354884181708,
-              "generation_kwh": 4015.647389942607,
+              "generation_kwh": 20078.236949713035,
               "year": 10
             },
             {
               "confidence_band_pct": 15.0,
-              "confidence_high_kwh": 4585.66853694496,
-              "confidence_low_kwh": 3389.407179481057,
+              "confidence_high_kwh": 22928.342684724797,
+              "confidence_low_kwh": 16947.035897405287,
               "efficiency_pct": 93.21643399992436,
-              "generation_kwh": 3987.5378582130083,
+              "generation_kwh": 19937.689291065042,
               "year": 11
             },
             {
               "confidence_band_pct": 15.0,
-              "confidence_high_kwh": 4553.568857186345,
-              "confidence_low_kwh": 3365.6813292246898,
+              "confidence_high_kwh": 22767.844285931722,
+              "confidence_low_kwh": 16828.406646123447,
               "efficiency_pct": 92.5639189619249,
-              "generation_kwh": 3959.6250932055177,
+              "generation_kwh": 19798.125466027588,
               "year": 12
             },
             {
               "confidence_band_pct": 15.0,
-              "confidence_high_kwh": 4521.69387518604,
-              "confidence_low_kwh": 3342.121559920117,
+              "confidence_high_kwh": 22608.4693759302,
+              "confidence_low_kwh": 16710.607799600584,
               "efficiency_pct": 91.91597152919142,
-              "generation_kwh": 3931.907717553079,
+              "generation_kwh": 19659.538587765393,
               "year": 13
             },
             {
               "confidence_band_pct": 15.0,
-              "confidence_high_kwh": 4490.042018059738,
-              "confidence_low_kwh": 3318.7267090006762,
+              "confidence_high_kwh": 22450.210090298693,
+              "confidence_low_kwh": 16593.63354500338,
               "efficiency_pct": 91.27255972848708,
-              "generation_kwh": 3904.3843635302073,
+              "generation_kwh": 19521.921817651037,
               "year": 14
             },
             {
               "confidence_band_pct": 15.0,
-              "confidence_high_kwh": 4458.61172393332,
-              "confidence_low_kwh": 3295.4956220376716,
+              "confidence_high_kwh": 22293.058619666597,
+              "confidence_low_kwh": 16477.478110188356,
               "efficiency_pct": 90.63365181038768,
-              "generation_kwh": 3877.053672985496,
+              "generation_kwh": 19385.26836492748,
               "year": 15
             },
             {
               "confidence_band_pct": 20.0,
-              "confidence_high_kwh": 4619.897156729517,
-              "confidence_low_kwh": 3079.9314378196777,
+              "confidence_high_kwh": 23099.485783647582,
+              "confidence_low_kwh": 15399.657189098389,
               "efficiency_pct": 89.99921624771495,
-              "generation_kwh": 3849.914297274597,
+              "generation_kwh": 19249.571486372985,
               "year": 16
             },
             {
               "confidence_band_pct": 20.0,
-              "confidence_high_kwh": 4587.557876632411,
-              "confidence_low_kwh": 3058.3719177549406,
+              "confidence_high_kwh": 22937.789383162053,
+              "confidence_low_kwh": 15291.859588774703,
               "efficiency_pct": 89.36922173398095,
-              "generation_kwh": 3822.9648971936754,
+              "generation_kwh": 19114.824485968376,
               "year": 17
             },
             {
               "confidence_band_pct": 20.0,
-              "confidence_high_kwh": 4555.444971495984,
-              "confidence_low_kwh": 3036.963314330656,
+              "confidence_high_kwh": 22777.22485747992,
+              "confidence_low_kwh": 15184.81657165328,
               "efficiency_pct": 88.74363718184308,
-              "generation_kwh": 3796.2041429133196,
+              "generation_kwh": 18981.0207145666,
               "year": 18
             },
             {
               "confidence_band_pct": 20.0,
-              "confidence_high_kwh": 4523.556856695512,
-              "confidence_low_kwh": 3015.7045711303413,
+              "confidence_high_kwh": 22617.78428347756,
+              "confidence_low_kwh": 15078.522855651707,
               "efficiency_pct": 88.12243172157018,
-              "generation_kwh": 3769.6307139129262,
+              "generation_kwh": 18848.15356956463,
               "year": 19
             },
             {
               "confidence_band_pct": 20.0,
-              "confidence_high_kwh": 4491.891958698642,
-              "confidence_low_kwh": 2994.5946391324287,
+              "confidence_high_kwh": 22459.45979349321,
+              "confidence_low_kwh": 14972.973195662144,
               "efficiency_pct": 87.50557469951919,
-              "generation_kwh": 3743.2432989155354,
+              "generation_kwh": 18716.21649457768,
               "year": 20
             },
             {
               "confidence_band_pct": 20.0,
-              "confidence_high_kwh": 4460.448714987752,
-              "confidence_low_kwh": 2973.6324766585017,
+              "confidence_high_kwh": 22302.243574938762,
+              "confidence_low_kwh": 14868.162383292509,
               "efficiency_pct": 86.89303567662256,
-              "generation_kwh": 3717.0405958231268,
+              "generation_kwh": 18585.202979115635,
               "year": 21
             },
             {
               "confidence_band_pct": 20.0,
-              "confidence_high_kwh": 4429.225573982838,
-              "confidence_low_kwh": 2952.8170493218922,
+              "confidence_high_kwh": 22146.12786991419,
+              "confidence_low_kwh": 14764.085246609462,
               "efficiency_pct": 86.28478442688619,
-              "generation_kwh": 3691.021311652365,
+              "generation_kwh": 18455.106558261825,
               "year": 22
             },
             {
               "confidence_band_pct": 20.0,
-              "confidence_high_kwh": 4398.220994964958,
-              "confidence_low_kwh": 2932.1473299766385,
+              "confidence_high_kwh": 21991.10497482479,
+              "confidence_low_kwh": 14660.736649883193,
               "efficiency_pct": 85.68079093589799,
-              "generation_kwh": 3665.184162470798,
+              "generation_kwh": 18325.92081235399,
               "year": 23
             },
             {
               "confidence_band_pct": 20.0,
-              "confidence_high_kwh": 4367.4334480002035,
-              "confidence_low_kwh": 2911.6222986668026,
+              "confidence_high_kwh": 21837.167240001017,
+              "confidence_low_kwh": 14558.111493334014,
               "efficiency_pct": 85.08102539934671,
-              "generation_kwh": 3639.527873333503,
+              "generation_kwh": 18197.639366667514,
               "year": 24
             },
             {
               "confidence_band_pct": 20.0,
-              "confidence_high_kwh": 4336.8614138642015,
-              "confidence_low_kwh": 2891.240942576135,
+              "confidence_high_kwh": 21684.307069321007,
+              "confidence_low_kwh": 14456.204712880673,
               "efficiency_pct": 84.48545822155128,
-              "generation_kwh": 3614.0511782201684,
+              "generation_kwh": 18070.255891100842,
               "year": 25
             }
           ]
         },
         "location": "Addis Ababa, Ethiopia",
-        "monthly_savings": 134.23,
-        "predicted_generation_kwh": 396.1771774291992,
-        "recommendation": "High",
-        "recommended_panel_area_m2": 10.0,
-        "roi_percentage": 19.18,
-        "status": "HIGHLY VIABLE",
-        "system_cost": 8400.0,
-        "viability_score": 66.27
+        "monthly_savings": 313.66,
+        "predicted_generation_kwh": 1980.885887145996,
+        "recommendation": "Low",
+        "recommended_panel_area_m2": 50.0,
+        "roi_percentage": 11.2,
+        "status": "NOT VIABLE",
+        "system_cost": 33600.0,
+        "viability_score": 34.29
       }
     },
     {
@@ -1939,18 +1939,18 @@
         "monthly_savings_usd": 1195.945945945946
       },
       "actual": {
-        "consumption_kwh": 1070.3,
-        "system_cost_usd": 19888.72,
-        "system_cost_local": 73588264.0,
-        "payback_years": 15.641688687555053,
-        "monthly_savings_usd": 105.96,
-        "monthly_savings_local": 392052.0
+        "consumption_kwh": 13254.69,
+        "system_cost_usd": 32400.0,
+        "system_cost_local": 119880000.0,
+        "payback_years": 14.438502673796792,
+        "monthly_savings_usd": 187.0,
+        "monthly_savings_local": 691900.0
       },
       "deviations": {
-        "consumption_kwh": -73.89512195121951,
-        "system_cost": 435.18737454545453,
-        "monthly_savings": -91.14006779661017,
-        "payback_years": 5113.896229185018
+        "consumption_kwh": 223.28512195121954,
+        "system_cost": 771.8545454545455,
+        "monthly_savings": -84.3638418079096,
+        "payback_years": 4712.834224598931
       },
       "assessment": {
         "consumption_kwh": "HIGH",
@@ -1959,18 +1959,18 @@
         "payback_years": "HIGH"
       },
       "api_response": {
-        "analyzed_at": "2026-02-25T12:23:44.787778",
+        "analyzed_at": "2026-02-25T12:48:43.626533",
         "business_name": "Kampala Farm Cold Storage",
         "business_type": "Cold storage",
         "confidence": 85.0,
         "current_energy_cost": {
           "diesel_monthly": 0,
-          "grid_monthly": 117.73299999999999,
-          "total_monthly": 117.73299999999999
+          "grid_monthly": 1458.0159,
+          "total_monthly": 1458.0159
         },
         "energy_scenario": "grid_only",
-        "estimated_consumption_kwh": 1070.3,
-        "explanation": "Solar is moderately viable because: Moderate ROI of 6.4%; Excellent solar coverage (90%).",
+        "estimated_consumption_kwh": 13254.69,
+        "explanation": "Solar is not viable because: Moderate ROI of 6.9%; Limited solar coverage (13%).",
         "lifetime_prediction": {
           "assumptions": {
             "annual_degradation_pct": 0.7000000000000001,
@@ -1983,8 +1983,8 @@
               12
             ],
             "lifetime_years": 25,
-            "note": "Scaled from 10m\u00b2 baseline by factor of 2.83",
-            "panel_area_m2": 28.331509527429883,
+            "note": "Scaled from 10m\u00b2 baseline by factor of 5.00",
+            "panel_area_m2": 50.0,
             "panel_efficiency_pct": 20.0
           },
           "confidence": {
@@ -1993,283 +1993,283 @@
             "years_1_5_band_pct": 10.0,
             "years_6_15_band_pct": 15.0
           },
-          "lifetime_average_annual_kwh": 9744.446094184408,
-          "lifetime_total_kwh": 243611.1523546102,
+          "lifetime_average_annual_kwh": 17197.188319157634,
+          "lifetime_total_kwh": 429929.70797894086,
           "monthly_generation_climatology": [
             {
-              "daily_kwh": 31.44761460116654,
+              "daily_kwh": 55.49936294555664,
               "is_dry_season": true,
               "month": 1
             },
             {
-              "daily_kwh": 32.109,
+              "daily_kwh": 56.66658878326416,
               "is_dry_season": true,
               "month": 2
             },
             {
-              "daily_kwh": 31.523662371395787,
+              "daily_kwh": 55.63357353210449,
               "is_dry_season": false,
               "month": 3
             },
             {
-              "daily_kwh": 29.730503719040428,
+              "daily_kwh": 52.46897220611572,
               "is_dry_season": false,
               "month": 4
             },
             {
-              "daily_kwh": 28.60996497943216,
+              "daily_kwh": 50.49142360687256,
               "is_dry_season": false,
               "month": 5
             },
             {
-              "daily_kwh": 27.097844798632092,
+              "daily_kwh": 47.82280445098877,
               "is_dry_season": true,
               "month": 6
             },
             {
-              "daily_kwh": 26.211358432224586,
+              "daily_kwh": 46.25831604003906,
               "is_dry_season": true,
               "month": 7
             },
             {
-              "daily_kwh": 27.377988940195703,
+              "daily_kwh": 48.3172082901001,
               "is_dry_season": true,
               "month": 8
             },
             {
-              "daily_kwh": 29.47689496976778,
+              "daily_kwh": 52.02139854431152,
               "is_dry_season": false,
               "month": 9
             },
             {
-              "daily_kwh": 29.97174315501422,
+              "daily_kwh": 52.89471626281738,
               "is_dry_season": false,
               "month": 10
             },
             {
-              "daily_kwh": 26.697009338644182,
+              "daily_kwh": 47.11540222167969,
               "is_dry_season": false,
               "month": 11
             },
             {
-              "daily_kwh": 27.841195135917708,
+              "daily_kwh": 49.13468360900879,
               "is_dry_season": true,
               "month": 12
             }
           ],
-          "year_1_generation_kwh": 10587.882905093531,
+          "year_1_generation_kwh": 18685.702035824455,
           "yearly_breakdown": [
             {
               "confidence_band_pct": 10.0,
-              "confidence_high_kwh": 11646.671195602887,
-              "confidence_low_kwh": 9529.094614584179,
+              "confidence_high_kwh": 20554.272239406906,
+              "confidence_low_kwh": 16817.131832242012,
               "efficiency_pct": 100.0,
-              "generation_kwh": 10587.882905093531,
+              "generation_kwh": 18685.702035824455,
               "year": 1
             },
             {
               "confidence_band_pct": 10.0,
-              "confidence_high_kwh": 11565.144497233665,
-              "confidence_low_kwh": 9462.390952282089,
+              "confidence_high_kwh": 20410.392333731055,
+              "confidence_low_kwh": 16699.411909416318,
               "efficiency_pct": 99.3,
-              "generation_kwh": 10513.767724757876,
+              "generation_kwh": 18554.902121573683,
               "year": 2
             },
             {
               "confidence_band_pct": 10.0,
-              "confidence_high_kwh": 11484.18848575303,
-              "confidence_low_kwh": 9396.154215616114,
+              "confidence_high_kwh": 20267.519587394938,
+              "confidence_low_kwh": 16582.5160260504,
               "efficiency_pct": 98.6049,
-              "generation_kwh": 10440.171350684572,
+              "generation_kwh": 18425.01780672267,
               "year": 3
             },
             {
               "confidence_band_pct": 10.0,
-              "confidence_high_kwh": 11403.79916635276,
-              "confidence_low_kwh": 9330.381136106802,
+              "confidence_high_kwh": 20125.646950283175,
+              "confidence_low_kwh": 16466.43841386805,
               "efficiency_pct": 97.9146657,
-              "generation_kwh": 10367.090151229779,
+              "generation_kwh": 18296.04268207561,
               "year": 4
             },
             {
               "confidence_band_pct": 10.0,
-              "confidence_high_kwh": 11323.972572188288,
-              "confidence_low_kwh": 9265.068468154053,
+              "confidence_high_kwh": 19984.76742163119,
+              "confidence_low_kwh": 16351.173344970974,
               "efficiency_pct": 97.2292630401,
-              "generation_kwh": 10294.52052017117,
+              "generation_kwh": 18167.97038330108,
               "year": 5
             },
             {
               "confidence_band_pct": 15.0,
-              "confidence_high_kwh": 11755.827708009467,
-              "confidence_low_kwh": 8689.090045050476,
+              "confidence_high_kwh": 20746.913779210667,
+              "confidence_low_kwh": 15334.675402025276,
               "efficiency_pct": 96.5486581988193,
-              "generation_kwh": 10222.458876529972,
+              "generation_kwh": 18040.794590617974,
               "year": 6
             },
             {
               "confidence_band_pct": 15.0,
-              "confidence_high_kwh": 11673.5369140534,
-              "confidence_low_kwh": 8628.266414735122,
+              "confidence_high_kwh": 20601.68538275619,
+              "confidence_low_kwh": 15227.3326742111,
               "efficiency_pct": 95.87281759142756,
-              "generation_kwh": 10150.901664394261,
+              "generation_kwh": 17914.509028483648,
               "year": 7
             },
             {
               "confidence_band_pct": 15.0,
-              "confidence_high_kwh": 11591.822155655027,
-              "confidence_low_kwh": 8567.868549831977,
+              "confidence_high_kwh": 20457.4735850769,
+              "confidence_low_kwh": 15120.741345491622,
               "efficiency_pct": 95.20170786828757,
-              "generation_kwh": 10079.845352743503,
+              "generation_kwh": 17789.10746528426,
               "year": 8
             },
             {
               "confidence_band_pct": 15.0,
-              "confidence_high_kwh": 11510.679400565441,
-              "confidence_low_kwh": 8507.893469983153,
+              "confidence_high_kwh": 20314.27126998136,
+              "confidence_low_kwh": 15014.89615607318,
               "efficiency_pct": 94.53529591320955,
-              "generation_kwh": 10009.286435274298,
+              "generation_kwh": 17664.58371302727,
               "year": 9
             },
             {
               "confidence_band_pct": 15.0,
-              "confidence_high_kwh": 11430.104644761484,
-              "confidence_low_kwh": 8448.338215693271,
+              "confidence_high_kwh": 20172.071371091493,
+              "confidence_low_kwh": 14909.79188298067,
               "efficiency_pct": 93.87354884181708,
-              "generation_kwh": 9939.221430227379,
+              "generation_kwh": 17540.931627036083,
               "year": 10
             },
             {
               "confidence_band_pct": 15.0,
-              "confidence_high_kwh": 11350.093912248152,
-              "confidence_low_kwh": 8389.199848183416,
+              "confidence_high_kwh": 20030.86687149385,
+              "confidence_low_kwh": 14805.423339799801,
               "efficiency_pct": 93.21643399992436,
-              "generation_kwh": 9869.646880215785,
+              "generation_kwh": 17418.14510564683,
               "year": 11
             },
             {
               "confidence_band_pct": 15.0,
-              "confidence_high_kwh": 11270.643254862416,
-              "confidence_low_kwh": 8330.475449246132,
+              "confidence_high_kwh": 19890.650803393393,
+              "confidence_low_kwh": 14701.785376421203,
               "efficiency_pct": 92.5639189619249,
-              "generation_kwh": 9800.559352054275,
+              "generation_kwh": 17296.2180899073,
               "year": 12
             },
             {
               "confidence_band_pct": 15.0,
-              "confidence_high_kwh": 11191.74875207838,
-              "confidence_low_kwh": 8272.162121101412,
+              "confidence_high_kwh": 19751.41624776964,
+              "confidence_low_kwh": 14598.872878786258,
               "efficiency_pct": 91.91597152919142,
-              "generation_kwh": 9731.955436589897,
+              "generation_kwh": 17175.14456327795,
               "year": 13
             },
             {
               "confidence_band_pct": 15.0,
-              "confidence_high_kwh": 11113.406510813831,
-              "confidence_low_kwh": 8214.256986253702,
+              "confidence_high_kwh": 19613.15633403525,
+              "confidence_low_kwh": 14496.680768634753,
               "efficiency_pct": 91.27255972848708,
-              "generation_kwh": 9663.831748533767,
+              "generation_kwh": 17054.918551335002,
               "year": 14
             },
             {
               "confidence_band_pct": 15.0,
-              "confidence_high_kwh": 11035.612665238134,
-              "confidence_low_kwh": 8156.7571873499255,
+              "confidence_high_kwh": 19475.864239697006,
+              "confidence_low_kwh": 14395.20400325431,
               "efficiency_pct": 90.63365181038768,
-              "generation_kwh": 9596.18492629403,
+              "generation_kwh": 16935.53412147566,
               "year": 15
             },
             {
               "confidence_band_pct": 20.0,
-              "confidence_high_kwh": 11434.813958171964,
-              "confidence_low_kwh": 7623.209305447978,
+              "confidence_high_kwh": 20180.38245915039,
+              "confidence_low_kwh": 13453.588306100264,
               "efficiency_pct": 89.99921624771495,
-              "generation_kwh": 9529.011631809972,
+              "generation_kwh": 16816.985382625327,
               "year": 16
             },
             {
               "confidence_band_pct": 20.0,
-              "confidence_high_kwh": 11354.770260464762,
-              "confidence_low_kwh": 7569.846840309841,
+              "confidence_high_kwh": 20039.119781936344,
+              "confidence_low_kwh": 13359.413187957562,
               "efficiency_pct": 89.36922173398095,
-              "generation_kwh": 9462.308550387303,
+              "generation_kwh": 16699.26648494695,
               "year": 17
             },
             {
               "confidence_band_pct": 20.0,
-              "confidence_high_kwh": 11275.286868641508,
-              "confidence_low_kwh": 7516.857912427674,
+              "confidence_high_kwh": 19898.845943462788,
+              "confidence_low_kwh": 13265.89729564186,
               "efficiency_pct": 88.74363718184308,
-              "generation_kwh": 9396.072390534591,
+              "generation_kwh": 16582.371619552323,
               "year": 18
             },
             {
               "confidence_band_pct": 20.0,
-              "confidence_high_kwh": 11196.359860561017,
-              "confidence_low_kwh": 7464.239907040679,
+              "confidence_high_kwh": 19759.554021858545,
+              "confidence_low_kwh": 13173.036014572364,
               "efficiency_pct": 88.12243172157018,
-              "generation_kwh": 9330.299883800848,
+              "generation_kwh": 16466.295018215456,
               "year": 19
             },
             {
               "confidence_band_pct": 20.0,
-              "confidence_high_kwh": 11117.98534153709,
-              "confidence_low_kwh": 7411.9902276913945,
+              "confidence_high_kwh": 19621.237143705537,
+              "confidence_low_kwh": 13080.824762470358,
               "efficiency_pct": 87.50557469951919,
-              "generation_kwh": 9264.987784614243,
+              "generation_kwh": 16351.030953087948,
               "year": 20
             },
             {
               "confidence_band_pct": 20.0,
-              "confidence_high_kwh": 11040.159444146331,
-              "confidence_low_kwh": 7360.106296097555,
+              "confidence_high_kwh": 19483.888483699597,
+              "confidence_low_kwh": 12989.258989133068,
               "efficiency_pct": 86.89303567662256,
-              "generation_kwh": 9200.132870121943,
+              "generation_kwh": 16236.573736416332,
               "year": 21
             },
             {
               "confidence_band_pct": 20.0,
-              "confidence_high_kwh": 10962.878328037305,
-              "confidence_low_kwh": 7308.5855520248715,
+              "confidence_high_kwh": 19347.501264313698,
+              "confidence_low_kwh": 12898.334176209135,
               "efficiency_pct": 86.28478442688619,
-              "generation_kwh": 9135.731940031088,
+              "generation_kwh": 16122.917720261416,
               "year": 22
             },
             {
               "confidence_band_pct": 20.0,
-              "confidence_high_kwh": 10886.138179741043,
-              "confidence_low_kwh": 7257.4254531606975,
+              "confidence_high_kwh": 19212.0687554635,
+              "confidence_low_kwh": 12808.04583697567,
               "efficiency_pct": 85.68079093589799,
-              "generation_kwh": 9071.78181645087,
+              "generation_kwh": 16010.057296219586,
               "year": 23
             },
             {
               "confidence_band_pct": 20.0,
-              "confidence_high_kwh": 10809.935212482858,
-              "confidence_low_kwh": 7206.6234749885725,
+              "confidence_high_kwh": 19077.58427417526,
+              "confidence_low_kwh": 12718.38951611684,
               "efficiency_pct": 85.08102539934671,
-              "generation_kwh": 9008.279343735716,
+              "generation_kwh": 15897.98689514605,
               "year": 24
             },
             {
               "confidence_band_pct": 20.0,
-              "confidence_high_kwh": 10734.265665995477,
-              "confidence_low_kwh": 7156.1771106636525,
+              "confidence_high_kwh": 18944.04118425603,
+              "confidence_low_kwh": 12629.360789504024,
               "efficiency_pct": 84.48545822155128,
-              "generation_kwh": 8945.221388329564,
+              "generation_kwh": 15786.700986880027,
               "year": 25
             }
           ]
         },
         "location": "Kampala, Uganda",
-        "monthly_savings": 105.96,
-        "predicted_generation_kwh": 963.27,
-        "recommendation": "Medium",
-        "recommended_panel_area_m2": 28.331509527429883,
-        "roi_percentage": 6.39,
-        "status": "MODERATELY VIABLE",
-        "system_cost": 19888.72,
-        "viability_score": 44.09
+        "monthly_savings": 187.0,
+        "predicted_generation_kwh": 1699.9976634979248,
+        "recommendation": "Low",
+        "recommended_panel_area_m2": 50.0,
+        "roi_percentage": 6.93,
+        "status": "NOT VIABLE",
+        "system_cost": 32400.0,
+        "viability_score": 21.74
       }
     },
     {
@@ -2314,18 +2314,18 @@
         "monthly_savings_usd": 1125.0
       },
       "actual": {
-        "consumption_kwh": 277.91,
-        "system_cost_usd": 8100.0,
-        "system_cost_local": 10530000.0,
-        "payback_years": 2.601958214478452,
-        "monthly_savings_usd": 259.42,
-        "monthly_savings_local": 337246.0
+        "consumption_kwh": 5314.6,
+        "system_cost_usd": 32400.0,
+        "system_cost_local": 42120000.0,
+        "payback_years": 5.42953667953668,
+        "monthly_savings_usd": 497.28,
+        "monthly_savings_local": 646464.0
       },
       "deviations": {
-        "consumption_kwh": -89.31115384615386,
-        "system_cost": 257.55517826825127,
-        "monthly_savings": -76.94044444444444,
-        "payback_years": 1200.9791072392259
+        "consumption_kwh": 104.40769230769232,
+        "system_cost": 1330.220713073005,
+        "monthly_savings": -55.797333333333334,
+        "payback_years": 2614.76833976834
       },
       "assessment": {
         "consumption_kwh": "HIGH",
@@ -2334,25 +2334,25 @@
         "payback_years": "HIGH"
       },
       "api_response": {
-        "analyzed_at": "2026-02-25T12:23:46.329322",
+        "analyzed_at": "2026-02-25T12:48:44.719397",
         "business_name": "Kigali Quick Freeze Butchery",
         "business_type": "Butchery",
         "confidence": 85.0,
         "current_energy_cost": {
-          "diesel_monthly": 244.13307692307694,
-          "grid_monthly": 15.285050000000002,
-          "total_monthly": 259.41812692307695
+          "diesel_monthly": 1406.4461538461537,
+          "grid_monthly": 292.303,
+          "total_monthly": 1698.7491538461536
         },
         "diesel_details": {
-          "diesel_kwh_monthly": 138.955,
-          "effective_tariff": 1.75692185904125,
+          "diesel_kwh_monthly": 2657.3,
+          "effective_tariff": 0.5292763910157504,
           "hours_per_day": 12.0,
-          "monthly_liters": 55.58200000000001,
+          "monthly_liters": 1062.92,
           "price_per_liter": 1.1538461538461537
         },
         "energy_scenario": "diesel_replacement",
-        "estimated_consumption_kwh": 277.91,
-        "explanation": "Solar is highly viable because: Strong ROI of 38.4%; Excellent solar coverage (112%).",
+        "estimated_consumption_kwh": 5314.6,
+        "explanation": "Solar is moderately viable because: Strong ROI of 18.4%; Limited solar coverage (29%).",
         "lifetime_prediction": {
           "assumptions": {
             "annual_degradation_pct": 0.7000000000000001,
@@ -2365,8 +2365,8 @@
               12
             ],
             "lifetime_years": 25,
-            "note": "Scaled from 10m\u00b2 baseline by factor of 1.00",
-            "panel_area_m2": 10.0,
+            "note": "Scaled from 10m\u00b2 baseline by factor of 5.00",
+            "panel_area_m2": 50.0,
             "panel_efficiency_pct": 20.0
           },
           "confidence": {
@@ -2375,283 +2375,283 @@
             "years_1_5_band_pct": 10.0,
             "years_6_15_band_pct": 15.0
           },
-          "lifetime_average_annual_kwh": 3225.27418033618,
-          "lifetime_total_kwh": 80631.8545084045,
+          "lifetime_average_annual_kwh": 16126.3709016809,
+          "lifetime_total_kwh": 403159.2725420225,
           "monthly_generation_climatology": [
             {
-              "daily_kwh": 10.025320053100586,
+              "daily_kwh": 50.12660026550293,
               "is_dry_season": true,
               "month": 1
             },
             {
-              "daily_kwh": 10.371813774108887,
+              "daily_kwh": 51.859068870544434,
               "is_dry_season": true,
               "month": 2
             },
             {
-              "daily_kwh": 10.464469909667969,
+              "daily_kwh": 52.322349548339844,
               "is_dry_season": false,
               "month": 3
             },
             {
-              "daily_kwh": 9.774322509765625,
+              "daily_kwh": 48.871612548828125,
               "is_dry_season": false,
               "month": 4
             },
             {
-              "daily_kwh": 9.47397232055664,
+              "daily_kwh": 47.3698616027832,
               "is_dry_season": false,
               "month": 5
             },
             {
-              "daily_kwh": 9.064610481262207,
+              "daily_kwh": 45.323052406311035,
               "is_dry_season": true,
               "month": 6
             },
             {
-              "daily_kwh": 9.267733573913574,
+              "daily_kwh": 46.33866786956787,
               "is_dry_season": true,
               "month": 7
             },
             {
-              "daily_kwh": 9.418405532836914,
+              "daily_kwh": 47.09202766418457,
               "is_dry_season": true,
               "month": 8
             },
             {
-              "daily_kwh": 9.791491508483887,
+              "daily_kwh": 48.957457542419434,
               "is_dry_season": false,
               "month": 9
             },
             {
-              "daily_kwh": 9.783025741577148,
+              "daily_kwh": 48.91512870788574,
               "is_dry_season": false,
               "month": 10
             },
             {
-              "daily_kwh": 8.843819618225098,
+              "daily_kwh": 44.21909809112549,
               "is_dry_season": false,
               "month": 11
             },
             {
-              "daily_kwh": 8.935476303100586,
+              "daily_kwh": 44.67738151550293,
               "is_dry_season": true,
               "month": 12
             }
           ],
-          "year_1_generation_kwh": 3504.4398653507233,
+          "year_1_generation_kwh": 17522.199326753616,
           "yearly_breakdown": [
             {
               "confidence_band_pct": 10.0,
-              "confidence_high_kwh": 3854.883851885796,
-              "confidence_low_kwh": 3153.995878815651,
+              "confidence_high_kwh": 19274.41925942898,
+              "confidence_low_kwh": 15769.979394078255,
               "efficiency_pct": 100.0,
-              "generation_kwh": 3504.4398653507233,
+              "generation_kwh": 17522.199326753616,
               "year": 1
             },
             {
               "confidence_band_pct": 10.0,
-              "confidence_high_kwh": 3827.8996649225955,
-              "confidence_low_kwh": 3131.9179076639416,
+              "confidence_high_kwh": 19139.498324612978,
+              "confidence_low_kwh": 15659.589538319708,
               "efficiency_pct": 99.3,
-              "generation_kwh": 3479.9087862932683,
+              "generation_kwh": 17399.54393146634,
               "year": 2
             },
             {
               "confidence_band_pct": 10.0,
-              "confidence_high_kwh": 3801.104367268137,
-              "confidence_low_kwh": 3109.9944823102937,
+              "confidence_high_kwh": 19005.521836340686,
+              "confidence_low_kwh": 15549.97241155147,
               "efficiency_pct": 98.6049,
-              "generation_kwh": 3455.549424789215,
+              "generation_kwh": 17277.747123946076,
               "year": 3
             },
             {
               "confidence_band_pct": 10.0,
-              "confidence_high_kwh": 3774.4966366972603,
-              "confidence_low_kwh": 3088.224520934122,
+              "confidence_high_kwh": 18872.4831834863,
+              "confidence_low_kwh": 15441.12260467061,
               "efficiency_pct": 97.9146657,
-              "generation_kwh": 3431.360578815691,
+              "generation_kwh": 17156.802894078457,
               "year": 4
             },
             {
               "confidence_band_pct": 10.0,
-              "confidence_high_kwh": 3748.0751602403793,
-              "confidence_low_kwh": 3066.606949287583,
+              "confidence_high_kwh": 18740.375801201895,
+              "confidence_low_kwh": 15333.034746437916,
               "efficiency_pct": 97.2292630401,
-              "generation_kwh": 3407.341054763981,
+              "generation_kwh": 17036.705273819905,
               "year": 5
             },
             {
               "confidence_band_pct": 15.0,
-              "confidence_high_kwh": 3891.0131174877274,
-              "confidence_low_kwh": 2875.966217273538,
+              "confidence_high_kwh": 19455.065587438636,
+              "confidence_low_kwh": 14379.831086367689,
               "efficiency_pct": 96.5486581988193,
-              "generation_kwh": 3383.489667380633,
+              "generation_kwh": 16917.448336903166,
               "year": 6
             },
             {
               "confidence_band_pct": 15.0,
-              "confidence_high_kwh": 3863.7760256653137,
-              "confidence_low_kwh": 2855.834453752623,
+              "confidence_high_kwh": 19318.880128326568,
+              "confidence_low_kwh": 14279.172268763115,
               "efficiency_pct": 95.87281759142756,
-              "generation_kwh": 3359.8052397089687,
+              "generation_kwh": 16799.026198544845,
               "year": 7
             },
             {
               "confidence_band_pct": 15.0,
-              "confidence_high_kwh": 3836.729593485656,
-              "confidence_low_kwh": 2835.8436125763546,
+              "confidence_high_kwh": 19183.647967428282,
+              "confidence_low_kwh": 14179.218062881773,
               "efficiency_pct": 95.20170786828757,
-              "generation_kwh": 3336.2866030310056,
+              "generation_kwh": 16681.433015155028,
               "year": 8
             },
             {
               "confidence_band_pct": 15.0,
-              "confidence_high_kwh": 3809.872486331257,
-              "confidence_low_kwh": 2815.99270728832,
+              "confidence_high_kwh": 19049.362431656285,
+              "confidence_low_kwh": 14079.9635364416,
               "efficiency_pct": 94.53529591320955,
-              "generation_kwh": 3312.9325968097887,
+              "generation_kwh": 16564.662984048944,
               "year": 9
             },
             {
               "confidence_band_pct": 15.0,
-              "confidence_high_kwh": 3783.203378926938,
-              "confidence_low_kwh": 2796.280758337302,
+              "confidence_high_kwh": 18916.01689463469,
+              "confidence_low_kwh": 13981.403791686509,
               "efficiency_pct": 93.87354884181708,
-              "generation_kwh": 3289.74206863212,
+              "generation_kwh": 16448.7103431606,
               "year": 10
             },
             {
               "confidence_band_pct": 15.0,
-              "confidence_high_kwh": 3756.720955274449,
-              "confidence_low_kwh": 2776.706793028941,
+              "confidence_high_kwh": 18783.604776372245,
+              "confidence_low_kwh": 13883.533965144705,
               "efficiency_pct": 93.21643399992436,
-              "generation_kwh": 3266.713874151695,
+              "generation_kwh": 16333.569370758476,
               "year": 11
             },
             {
               "confidence_band_pct": 15.0,
-              "confidence_high_kwh": 3730.4239085875283,
-              "confidence_low_kwh": 2757.2698454777383,
+              "confidence_high_kwh": 18652.119542937642,
+              "confidence_low_kwh": 13786.349227388691,
               "efficiency_pct": 92.5639189619249,
-              "generation_kwh": 3243.8468770326335,
+              "generation_kwh": 16219.234385163167,
               "year": 12
             },
             {
               "confidence_band_pct": 15.0,
-              "confidence_high_kwh": 3704.3109412274152,
-              "confidence_low_kwh": 2737.968956559394,
+              "confidence_high_kwh": 18521.554706137074,
+              "confidence_low_kwh": 13689.84478279697,
               "efficiency_pct": 91.91597152919142,
-              "generation_kwh": 3221.139948893405,
+              "generation_kwh": 16105.699744467023,
               "year": 13
             },
             {
               "confidence_band_pct": 15.0,
-              "confidence_high_kwh": 3678.3807646388236,
-              "confidence_low_kwh": 2718.803173863478,
+              "confidence_high_kwh": 18391.90382319412,
+              "confidence_low_kwh": 13594.01586931739,
               "efficiency_pct": 91.27255972848708,
-              "generation_kwh": 3198.591969251151,
+              "generation_kwh": 15992.959846255755,
               "year": 14
             },
             {
               "confidence_band_pct": 15.0,
-              "confidence_high_kwh": 3652.6320992863516,
-              "confidence_low_kwh": 2699.771551646434,
+              "confidence_high_kwh": 18263.16049643176,
+              "confidence_low_kwh": 13498.85775823217,
               "efficiency_pct": 90.63365181038768,
-              "generation_kwh": 3176.201825466393,
+              "generation_kwh": 15881.009127331965,
               "year": 15
             },
             {
               "confidence_band_pct": 20.0,
-              "confidence_high_kwh": 3784.7620952257535,
-              "confidence_low_kwh": 2523.1747301505025,
+              "confidence_high_kwh": 18923.81047612877,
+              "confidence_low_kwh": 12615.873650752512,
               "efficiency_pct": 89.99921624771495,
-              "generation_kwh": 3153.968412688128,
+              "generation_kwh": 15769.84206344064,
               "year": 16
             },
             {
               "confidence_band_pct": 20.0,
-              "confidence_high_kwh": 3758.268760559173,
-              "confidence_low_kwh": 2505.5125070394492,
+              "confidence_high_kwh": 18791.343802795865,
+              "confidence_low_kwh": 12527.562535197247,
               "efficiency_pct": 89.36922173398095,
-              "generation_kwh": 3131.890633799311,
+              "generation_kwh": 15659.453168996555,
               "year": 17
             },
             {
               "confidence_band_pct": 20.0,
-              "confidence_high_kwh": 3731.960879235259,
-              "confidence_low_kwh": 2487.973919490173,
+              "confidence_high_kwh": 18659.804396176296,
+              "confidence_low_kwh": 12439.869597450866,
               "efficiency_pct": 88.74363718184308,
-              "generation_kwh": 3109.967399362716,
+              "generation_kwh": 15549.836996813581,
               "year": 18
             },
             {
               "confidence_band_pct": 20.0,
-              "confidence_high_kwh": 3705.8371530806126,
-              "confidence_low_kwh": 2470.558102053742,
+              "confidence_high_kwh": 18529.18576540306,
+              "confidence_low_kwh": 12352.790510268711,
               "efficiency_pct": 88.12243172157018,
-              "generation_kwh": 3088.1976275671773,
+              "generation_kwh": 15440.988137835886,
               "year": 19
             },
             {
               "confidence_band_pct": 20.0,
-              "confidence_high_kwh": 3679.896293009048,
-              "confidence_low_kwh": 2453.2641953393654,
+              "confidence_high_kwh": 18399.48146504524,
+              "confidence_low_kwh": 12266.320976696827,
               "efficiency_pct": 87.50557469951919,
-              "generation_kwh": 3066.5802441742067,
+              "generation_kwh": 15332.901220871034,
               "year": 20
             },
             {
               "confidence_band_pct": 20.0,
-              "confidence_high_kwh": 3654.1370189579843,
-              "confidence_low_kwh": 2436.09134597199,
+              "confidence_high_kwh": 18270.685094789922,
+              "confidence_low_kwh": 12180.45672985995,
               "efficiency_pct": 86.89303567662256,
-              "generation_kwh": 3045.114182464987,
+              "generation_kwh": 15225.570912324936,
               "year": 21
             },
             {
               "confidence_band_pct": 20.0,
-              "confidence_high_kwh": 3628.5580598252786,
-              "confidence_low_kwh": 2419.038706550186,
+              "confidence_high_kwh": 18142.790299126395,
+              "confidence_low_kwh": 12095.193532750929,
               "efficiency_pct": 86.28478442688619,
-              "generation_kwh": 3023.7983831877323,
+              "generation_kwh": 15118.99191593866,
               "year": 22
             },
             {
               "confidence_band_pct": 20.0,
-              "confidence_high_kwh": 3603.1581534065012,
-              "confidence_low_kwh": 2402.1054356043346,
+              "confidence_high_kwh": 18015.790767032508,
+              "confidence_low_kwh": 12010.527178021674,
               "efficiency_pct": 85.68079093589799,
-              "generation_kwh": 3002.631794505418,
+              "generation_kwh": 15013.15897252709,
               "year": 23
             },
             {
               "confidence_band_pct": 20.0,
-              "confidence_high_kwh": 3577.936046332656,
-              "confidence_low_kwh": 2385.2906975551045,
+              "confidence_high_kwh": 17889.680231663282,
+              "confidence_low_kwh": 11926.453487775523,
               "efficiency_pct": 85.08102539934671,
-              "generation_kwh": 2981.6133719438803,
+              "generation_kwh": 14908.066859719402,
               "year": 24
             },
             {
               "confidence_band_pct": 20.0,
-              "confidence_high_kwh": 3552.8904940083276,
-              "confidence_low_kwh": 2368.5936626722187,
+              "confidence_high_kwh": 17764.452470041637,
+              "confidence_low_kwh": 11842.968313361092,
               "efficiency_pct": 84.48545822155128,
-              "generation_kwh": 2960.742078340273,
+              "generation_kwh": 14803.710391701366,
               "year": 25
             }
           ]
         },
         "location": "Kigali, Rwanda",
-        "monthly_savings": 259.42,
-        "predicted_generation_kwh": 311.1544132232666,
-        "recommendation": "High",
-        "recommended_panel_area_m2": 10.0,
-        "roi_percentage": 38.43,
-        "status": "HIGHLY VIABLE",
-        "system_cost": 8100.0,
-        "viability_score": 79.02
+        "monthly_savings": 497.28,
+        "predicted_generation_kwh": 1555.772066116333,
+        "recommendation": "Medium",
+        "recommended_panel_area_m2": 50.0,
+        "roi_percentage": 18.42,
+        "status": "MODERATELY VIABLE",
+        "system_cost": 32400.0,
+        "viability_score": 43.91
       }
     },
     {
@@ -2696,18 +2696,18 @@
         "monthly_savings_usd": 367.02127659574467
       },
       "actual": {
-        "consumption_kwh": 1451.58,
-        "system_cost_usd": 23754.02,
-        "system_cost_local": 55821947.0,
-        "payback_years": 13.77427921972491,
-        "monthly_savings_usd": 143.71,
-        "monthly_savings_local": 337718.5
+        "consumption_kwh": 13750.41,
+        "system_cost_usd": 32400.0,
+        "system_cost_local": 76140000.0,
+        "payback_years": 12.714857546503415,
+        "monthly_savings_usd": 212.35,
+        "monthly_savings_local": 499022.5
       },
       "deviations": {
-        "consumption_kwh": -39.517500000000005,
-        "system_cost": 1158.384738503156,
-        "monthly_savings": -60.84423188405796,
-        "payback_years": 3343.5698049312273
+        "consumption_kwh": 472.93375,
+        "system_cost": 1616.4111812443643,
+        "monthly_savings": -42.142318840579705,
+        "payback_years": 3078.7143866258534
       },
       "assessment": {
         "consumption_kwh": "HIGH",
@@ -2716,18 +2716,18 @@
         "payback_years": "HIGH"
       },
       "api_response": {
-        "analyzed_at": "2026-02-25T12:23:47.667515",
+        "analyzed_at": "2026-02-25T12:48:46.045054",
         "business_name": "Dar Fresh Mart Grocery",
         "business_type": "Grocery",
         "confidence": 85.0,
         "current_energy_cost": {
           "diesel_monthly": 0,
-          "grid_monthly": 159.6738,
-          "total_monthly": 159.6738
+          "grid_monthly": 1512.5451,
+          "total_monthly": 1512.5451
         },
         "energy_scenario": "grid_only",
-        "estimated_consumption_kwh": 1451.58,
-        "explanation": "Solar is moderately viable because: Moderate ROI of 7.3%; Excellent solar coverage (90%).",
+        "estimated_consumption_kwh": 13750.41,
+        "explanation": "Solar is not viable because: Moderate ROI of 7.9%; Limited solar coverage (14%).",
         "lifetime_prediction": {
           "assumptions": {
             "annual_degradation_pct": 0.7000000000000001,
@@ -2740,8 +2740,8 @@
               12
             ],
             "lifetime_years": 25,
-            "note": "Scaled from 10m\u00b2 baseline by factor of 3.38",
-            "panel_area_m2": 33.83764019793305,
+            "note": "Scaled from 10m\u00b2 baseline by factor of 5.00",
+            "panel_area_m2": 50.0,
             "panel_efficiency_pct": 20.0
           },
           "confidence": {
@@ -2750,283 +2750,283 @@
             "years_1_5_band_pct": 10.0,
             "years_6_15_band_pct": 15.0
           },
-          "lifetime_average_annual_kwh": 12997.283003759652,
-          "lifetime_total_kwh": 324932.0750939913,
+          "lifetime_average_annual_kwh": 19205.362619455926,
+          "lifetime_total_kwh": 480134.0654863981,
           "monthly_generation_climatology": [
             {
-              "daily_kwh": 40.791750661550374,
+              "daily_kwh": 60.275702476501465,
               "is_dry_season": true,
               "month": 1
             },
             {
-              "daily_kwh": 43.5474,
+              "daily_kwh": 64.34757232666016,
               "is_dry_season": true,
               "month": 2
             },
             {
-              "daily_kwh": 40.09093792509395,
+              "daily_kwh": 59.240150451660156,
               "is_dry_season": false,
               "month": 3
             },
             {
-              "daily_kwh": 32.00706780217722,
+              "daily_kwh": 47.29506492614746,
               "is_dry_season": false,
               "month": 4
             },
             {
-              "daily_kwh": 33.01006410028438,
+              "daily_kwh": 48.77713680267334,
               "is_dry_season": false,
               "month": 5
             },
             {
-              "daily_kwh": 31.66892245403072,
+              "daily_kwh": 46.795406341552734,
               "is_dry_season": true,
               "month": 6
             },
             {
-              "daily_kwh": 32.22490380680838,
+              "daily_kwh": 47.6169490814209,
               "is_dry_season": true,
               "month": 7
             },
             {
-              "daily_kwh": 37.42099794139372,
+              "daily_kwh": 55.294928550720215,
               "is_dry_season": true,
               "month": 8
             },
             {
-              "daily_kwh": 43.410839439974204,
+              "daily_kwh": 64.14578437805176,
               "is_dry_season": false,
               "month": 9
             },
             {
-              "daily_kwh": 44.294375097890544,
+              "daily_kwh": 65.45133590698242,
               "is_dry_season": false,
               "month": 10
             },
             {
-              "daily_kwh": 42.37378529058597,
+              "daily_kwh": 62.61338710784912,
               "is_dry_season": false,
               "month": 11
             },
             {
-              "daily_kwh": 43.452803462909486,
+              "daily_kwh": 64.20779228210449,
               "is_dry_season": true,
               "month": 12
             }
           ],
-          "year_1_generation_kwh": 14122.271209473758,
+          "year_1_generation_kwh": 20867.695156733193,
           "yearly_breakdown": [
             {
               "confidence_band_pct": 10.0,
-              "confidence_high_kwh": 15534.498330421136,
-              "confidence_low_kwh": 12710.044088526383,
+              "confidence_high_kwh": 22954.464672406517,
+              "confidence_low_kwh": 18780.925641059875,
               "efficiency_pct": 100.0,
-              "generation_kwh": 14122.271209473758,
+              "generation_kwh": 20867.695156733193,
               "year": 1
             },
             {
               "confidence_band_pct": 10.0,
-              "confidence_high_kwh": 15425.756842108189,
-              "confidence_low_kwh": 12621.0737799067,
+              "confidence_high_kwh": 22793.78341969967,
+              "confidence_low_kwh": 18649.459161572457,
               "efficiency_pct": 99.3,
-              "generation_kwh": 14023.415311007444,
+              "generation_kwh": 20721.621290636063,
               "year": 2
             },
             {
               "confidence_band_pct": 10.0,
-              "confidence_high_kwh": 15317.776544213428,
-              "confidence_low_kwh": 12532.726263447348,
+              "confidence_high_kwh": 22634.226935761766,
+              "confidence_low_kwh": 18518.912947441444,
               "efficiency_pct": 98.6049,
-              "generation_kwh": 13925.251403830389,
+              "generation_kwh": 20576.569941601607,
               "year": 3
             },
             {
               "confidence_band_pct": 10.0,
-              "confidence_high_kwh": 15210.552108403937,
-              "confidence_low_kwh": 12444.997179603222,
+              "confidence_high_kwh": 22475.78734721144,
+              "confidence_low_kwh": 18389.28055680936,
               "efficiency_pct": 97.9146657,
-              "generation_kwh": 13827.774644003579,
+              "generation_kwh": 20432.5339520104,
               "year": 4
             },
             {
               "confidence_band_pct": 10.0,
-              "confidence_high_kwh": 15104.078243645108,
-              "confidence_low_kwh": 12357.882199345997,
+              "confidence_high_kwh": 22318.45683578096,
+              "confidence_low_kwh": 18260.555592911693,
               "efficiency_pct": 97.2292630401,
-              "generation_kwh": 13730.980221495553,
+              "generation_kwh": 20289.506214346326,
               "year": 5
             },
             {
               "confidence_band_pct": 15.0,
-              "confidence_high_kwh": 15680.092863936841,
-              "confidence_low_kwh": 11589.63385595332,
+              "confidence_high_kwh": 23169.60162147278,
+              "confidence_low_kwh": 17125.357720219014,
               "efficiency_pct": 96.5486581988193,
-              "generation_kwh": 13634.863359945082,
+              "generation_kwh": 20147.4796708459,
               "year": 6
             },
             {
               "confidence_band_pct": 15.0,
-              "confidence_high_kwh": 15570.332213889287,
-              "confidence_low_kwh": 11508.506418961648,
+              "confidence_high_kwh": 23007.414410122474,
+              "confidence_low_kwh": 17005.480216177482,
               "efficiency_pct": 95.87281759142756,
-              "generation_kwh": 13539.419316425468,
+              "generation_kwh": 20006.44731314998,
               "year": 7
             },
             {
               "confidence_band_pct": 15.0,
-              "confidence_high_kwh": 15461.339888392062,
-              "confidence_low_kwh": 11427.946874028914,
+              "confidence_high_kwh": 22846.362509251616,
+              "confidence_low_kwh": 16886.441854664237,
               "efficiency_pct": 95.20170786828757,
-              "generation_kwh": 13444.64338121049,
+              "generation_kwh": 19866.40218195793,
               "year": 8
             },
             {
               "confidence_band_pct": 15.0,
-              "confidence_high_kwh": 15353.110509173313,
-              "confidence_low_kwh": 11347.951245910712,
+              "confidence_high_kwh": 22686.43797168685,
+              "confidence_low_kwh": 16768.236761681586,
               "efficiency_pct": 94.53529591320955,
-              "generation_kwh": 13350.530877542014,
+              "generation_kwh": 19727.33736668422,
               "year": 9
             },
             {
               "confidence_band_pct": 15.0,
-              "confidence_high_kwh": 15245.638735609104,
-              "confidence_low_kwh": 11268.515587189338,
+              "confidence_high_kwh": 22527.632905885046,
+              "confidence_low_kwh": 16650.859104349816,
               "efficiency_pct": 93.87354884181708,
-              "generation_kwh": 13257.077161399222,
+              "generation_kwh": 19589.246005117435,
               "year": 10
             },
             {
               "confidence_band_pct": 15.0,
-              "confidence_high_kwh": 15138.91926445984,
-              "confidence_low_kwh": 11189.635978079012,
+              "confidence_high_kwh": 22369.93947554385,
+              "confidence_low_kwh": 16534.303090619367,
               "efficiency_pct": 93.21643399992436,
-              "generation_kwh": 13164.277621269426,
+              "generation_kwh": 19452.12128308161,
               "year": 11
             },
             {
               "confidence_band_pct": 15.0,
-              "confidence_high_kwh": 15032.946829608622,
-              "confidence_low_kwh": 11111.30852623246,
+              "confidence_high_kwh": 22213.349899215045,
+              "confidence_low_kwh": 16418.562968985032,
               "efficiency_pct": 92.5639189619249,
-              "generation_kwh": 13072.12767792054,
+              "generation_kwh": 19315.95643410004,
               "year": 12
             },
             {
               "confidence_band_pct": 15.0,
-              "confidence_high_kwh": 14927.716201801362,
-              "confidence_low_kwh": 11033.529366548833,
+              "confidence_high_kwh": 22057.856449920542,
+              "confidence_low_kwh": 16303.633028202139,
               "efficiency_pct": 91.91597152919142,
-              "generation_kwh": 12980.622784175097,
+              "generation_kwh": 19180.74473906134,
               "year": 13
             },
             {
               "confidence_band_pct": 15.0,
-              "confidence_high_kwh": 14823.22218838875,
-              "confidence_low_kwh": 10956.294660982989,
+              "confidence_high_kwh": 21903.451454771093,
+              "confidence_low_kwh": 16189.507597004722,
               "efficiency_pct": 91.27255972848708,
-              "generation_kwh": 12889.758424685871,
+              "generation_kwh": 19046.47952588791,
               "year": 14
             },
             {
               "confidence_band_pct": 15.0,
-              "confidence_high_kwh": 14719.45963307003,
-              "confidence_low_kwh": 10879.600598356108,
+              "confidence_high_kwh": 21750.127294587695,
+              "confidence_low_kwh": 16076.181043825689,
               "efficiency_pct": 90.63365181038768,
-              "generation_kwh": 12799.530115713069,
+              "generation_kwh": 18913.154169206693,
               "year": 15
             },
             {
               "confidence_band_pct": 20.0,
-              "confidence_high_kwh": 15251.920085883692,
-              "confidence_low_kwh": 10167.946723922463,
+              "confidence_high_kwh": 22536.914508026694,
+              "confidence_low_kwh": 15024.609672017797,
               "efficiency_pct": 89.99921624771495,
-              "generation_kwh": 12709.933404903079,
+              "generation_kwh": 18780.762090022246,
               "year": 16
             },
             {
               "confidence_band_pct": 20.0,
-              "confidence_high_kwh": 15145.156645282508,
-              "confidence_low_kwh": 10096.771096855007,
+              "confidence_high_kwh": 22379.15610647051,
+              "confidence_low_kwh": 14919.437404313676,
               "efficiency_pct": 89.36922173398095,
-              "generation_kwh": 12620.963871068758,
+              "generation_kwh": 18649.296755392093,
               "year": 17
             },
             {
               "confidence_band_pct": 20.0,
-              "confidence_high_kwh": 15039.14054876553,
-              "confidence_low_kwh": 10026.093699177021,
+              "confidence_high_kwh": 22222.502013725214,
+              "confidence_low_kwh": 14815.00134248348,
               "efficiency_pct": 88.74363718184308,
-              "generation_kwh": 12532.617123971275,
+              "generation_kwh": 18518.75167810435,
               "year": 18
             },
             {
               "confidence_band_pct": 20.0,
-              "confidence_high_kwh": 14933.866564924172,
-              "confidence_low_kwh": 9955.911043282782,
+              "confidence_high_kwh": 22066.94449962914,
+              "confidence_low_kwh": 14711.296333086093,
               "efficiency_pct": 88.12243172157018,
-              "generation_kwh": 12444.888804103477,
+              "generation_kwh": 18389.120416357615,
               "year": 19
             },
             {
               "confidence_band_pct": 20.0,
-              "confidence_high_kwh": 14829.329498969699,
-              "confidence_low_kwh": 9886.219665979801,
+              "confidence_high_kwh": 21912.475888131732,
+              "confidence_low_kwh": 14608.317258754489,
               "efficiency_pct": 87.50557469951919,
-              "generation_kwh": 12357.77458247475,
+              "generation_kwh": 18260.39657344311,
               "year": 20
             },
             {
               "confidence_band_pct": 20.0,
-              "confidence_high_kwh": 14725.524192476914,
-              "confidence_low_kwh": 9817.016128317944,
+              "confidence_high_kwh": 21759.088556914812,
+              "confidence_low_kwh": 14506.05903794321,
               "efficiency_pct": 86.89303567662256,
-              "generation_kwh": 12271.27016039743,
+              "generation_kwh": 18132.57379742901,
               "year": 21
             },
             {
               "confidence_band_pct": 20.0,
-              "confidence_high_kwh": 14622.445523129574,
-              "confidence_low_kwh": 9748.29701541972,
+              "confidence_high_kwh": 21606.77493701641,
+              "confidence_low_kwh": 14404.516624677608,
               "efficiency_pct": 86.28478442688619,
-              "generation_kwh": 12185.371269274647,
+              "generation_kwh": 18005.645780847008,
               "year": 22
             },
             {
               "confidence_band_pct": 20.0,
-              "confidence_high_kwh": 14520.088404467668,
-              "confidence_low_kwh": 9680.05893631178,
+              "confidence_high_kwh": 21455.527512457295,
+              "confidence_low_kwh": 14303.685008304863,
               "efficiency_pct": 85.68079093589799,
-              "generation_kwh": 12100.073670389722,
+              "generation_kwh": 17879.606260381075,
               "year": 23
             },
             {
               "confidence_band_pct": 20.0,
-              "confidence_high_kwh": 14418.447785636396,
-              "confidence_low_kwh": 9612.298523757598,
+              "confidence_high_kwh": 21305.338819870092,
+              "confidence_low_kwh": 14203.559213246732,
               "efficiency_pct": 85.08102539934671,
-              "generation_kwh": 12015.373154696998,
+              "generation_kwh": 17754.449016558414,
               "year": 24
             },
             {
               "confidence_band_pct": 20.0,
-              "confidence_high_kwh": 14317.51865113694,
-              "confidence_low_kwh": 9545.012434091293,
+              "confidence_high_kwh": 21156.201448131,
+              "confidence_low_kwh": 14104.134298754001,
               "efficiency_pct": 84.48545822155128,
-              "generation_kwh": 11931.265542614115,
+              "generation_kwh": 17630.1678734425,
               "year": 25
             }
           ]
         },
         "location": "Dar es Salaam, Tanzania",
-        "monthly_savings": 143.71,
-        "predicted_generation_kwh": 1306.422,
-        "recommendation": "Medium",
-        "recommended_panel_area_m2": 33.83764019793305,
-        "roi_percentage": 7.26,
-        "status": "MODERATELY VIABLE",
-        "system_cost": 23754.02,
-        "viability_score": 45.39
+        "monthly_savings": 212.35,
+        "predicted_generation_kwh": 1930.4271697998047,
+        "recommendation": "Low",
+        "recommended_panel_area_m2": 50.0,
+        "roi_percentage": 7.86,
+        "status": "NOT VIABLE",
+        "system_cost": 32400.0,
+        "viability_score": 23.5
       }
     },
     {
@@ -3066,18 +3066,18 @@
         "monthly_savings_usd": 956.7567567567568
       },
       "actual": {
-        "consumption_kwh": 824.89,
-        "system_cost_usd": 12921.46,
-        "system_cost_local": 239047.00999999998,
-        "payback_years": 4.749838259079548,
-        "monthly_savings_usd": 226.7,
-        "monthly_savings_local": 4193.95
+        "consumption_kwh": 11134.65,
+        "system_cost_usd": 27000.0,
+        "system_cost_local": 499500.0,
+        "payback_years": 6.0534316231268,
+        "monthly_savings_usd": 371.69,
+        "monthly_savings_local": 6876.265
       },
       "deviations": {
-        "consumption_kwh": -84.13673076923077,
-        "system_cost": 131.85936954413188,
-        "monthly_savings": -76.30536723163843,
-        "payback_years": 849.9676518159096
+        "consumption_kwh": 114.12788461538462,
+        "system_cost": 384.4810863239573,
+        "monthly_savings": -61.15104519774012,
+        "payback_years": 1110.68632462536
       },
       "assessment": {
         "consumption_kwh": "HIGH",
@@ -3086,25 +3086,25 @@
         "payback_years": "HIGH"
       },
       "api_response": {
-        "analyzed_at": "2026-02-25T12:23:48.926227",
+        "analyzed_at": "2026-02-25T12:48:47.214653",
         "business_name": "Cape Meat Locker Cold Storage",
         "business_type": "Cold storage",
         "confidence": 85.0,
         "current_energy_cost": {
-          "diesel_monthly": 160.46157657657656,
-          "grid_monthly": 91.42530833333335,
-          "total_monthly": 251.8868849099099
+          "diesel_monthly": 1228.589864864865,
+          "grid_monthly": 1234.090375,
+          "total_monthly": 2462.680239864865
         },
         "diesel_details": {
-          "diesel_kwh_monthly": 171.85208333333333,
-          "effective_tariff": 0.9337191232377257,
+          "diesel_kwh_monthly": 2319.71875,
+          "effective_tariff": 0.529628803002461,
           "hours_per_day": 5.0,
-          "monthly_liters": 68.74083333333333,
+          "monthly_liters": 927.8875,
           "price_per_liter": 1.2432432432432432
         },
         "energy_scenario": "diesel_replacement",
-        "estimated_consumption_kwh": 824.89,
-        "explanation": "Solar is highly viable because: Strong ROI of 21.1%; Excellent solar coverage (90%).",
+        "estimated_consumption_kwh": 11134.65,
+        "explanation": "Solar is not viable because: Strong ROI of 16.5%; Limited solar coverage (15%).",
         "lifetime_prediction": {
           "assumptions": {
             "annual_degradation_pct": 0.7000000000000001,
@@ -3117,8 +3117,8 @@
               12
             ],
             "lifetime_years": 25,
-            "note": "Scaled from 10m\u00b2 baseline by factor of 2.21",
-            "panel_area_m2": 22.087972688975842,
+            "note": "Scaled from 10m\u00b2 baseline by factor of 5.00",
+            "panel_area_m2": 50.0,
             "panel_efficiency_pct": 20.0
           },
           "confidence": {
@@ -3127,283 +3127,283 @@
             "years_1_5_band_pct": 10.0,
             "years_6_15_band_pct": 15.0
           },
-          "lifetime_average_annual_kwh": 7252.3791755104985,
-          "lifetime_total_kwh": 181309.47938776246,
+          "lifetime_average_annual_kwh": 16417.032195829765,
+          "lifetime_total_kwh": 410425.8048957441,
           "monthly_generation_climatology": [
             {
-              "daily_kwh": 25.71033356115503,
+              "daily_kwh": 58.199849128723145,
               "is_dry_season": true,
               "month": 1
             },
             {
-              "daily_kwh": 24.746699999999997,
+              "daily_kwh": 56.01849555969238,
               "is_dry_season": true,
               "month": 2
             },
             {
-              "daily_kwh": 23.482089331439663,
+              "daily_kwh": 53.15582752227783,
               "is_dry_season": false,
               "month": 3
             },
             {
-              "daily_kwh": 20.703141380490006,
+              "daily_kwh": 46.86519145965576,
               "is_dry_season": false,
               "month": 4
             },
             {
-              "daily_kwh": 18.767458897644094,
+              "daily_kwh": 42.48343467712402,
               "is_dry_season": false,
               "month": 5
             },
             {
-              "daily_kwh": 17.182665352044996,
+              "daily_kwh": 38.895976543426514,
               "is_dry_season": true,
               "month": 6
             },
             {
-              "daily_kwh": 17.422265095842416,
+              "daily_kwh": 39.43835258483887,
               "is_dry_season": true,
               "month": 7
             },
             {
-              "daily_kwh": 18.784833088807986,
+              "daily_kwh": 42.52276420593262,
               "is_dry_season": true,
               "month": 8
             },
             {
-              "daily_kwh": 20.58170319904017,
+              "daily_kwh": 46.59029483795166,
               "is_dry_season": false,
               "month": 9
             },
             {
-              "daily_kwh": 22.431422616026822,
+              "daily_kwh": 50.777459144592285,
               "is_dry_season": false,
               "month": 10
             },
             {
-              "daily_kwh": 24.203389999787195,
+              "daily_kwh": 54.788618087768555,
               "is_dry_season": false,
               "month": 11
             },
             {
-              "daily_kwh": 25.05622306928114,
+              "daily_kwh": 56.71915531158447,
               "is_dry_season": true,
               "month": 12
             }
           ],
-          "year_1_generation_kwh": 7880.113528409935,
+          "year_1_generation_kwh": 17838.01899651686,
           "yearly_breakdown": [
             {
               "confidence_band_pct": 10.0,
-              "confidence_high_kwh": 8668.124881250928,
-              "confidence_low_kwh": 7092.102175568942,
+              "confidence_high_kwh": 19621.82089616855,
+              "confidence_low_kwh": 16054.217096865177,
               "efficiency_pct": 100.0,
-              "generation_kwh": 7880.113528409935,
+              "generation_kwh": 17838.01899651686,
               "year": 1
             },
             {
               "confidence_band_pct": 10.0,
-              "confidence_high_kwh": 8607.448007082172,
-              "confidence_low_kwh": 7042.457460339958,
+              "confidence_high_kwh": 19484.46814989537,
+              "confidence_low_kwh": 15941.837577187118,
               "efficiency_pct": 99.3,
-              "generation_kwh": 7824.952733711065,
+              "generation_kwh": 17713.152863541243,
               "year": 2
             },
             {
               "confidence_band_pct": 10.0,
-              "confidence_high_kwh": 8547.195871032596,
-              "confidence_low_kwh": 6993.160258117579,
+              "confidence_high_kwh": 19348.0768728461,
+              "confidence_low_kwh": 15830.244714146811,
               "efficiency_pct": 98.6049,
-              "generation_kwh": 7770.178064575088,
+              "generation_kwh": 17589.160793496456,
               "year": 3
             },
             {
               "confidence_band_pct": 10.0,
-              "confidence_high_kwh": 8487.36549993537,
-              "confidence_low_kwh": 6944.208136310756,
+              "confidence_high_kwh": 19212.640334736177,
+              "confidence_low_kwh": 15719.433001147783,
               "efficiency_pct": 97.9146657,
-              "generation_kwh": 7715.786818123062,
+              "generation_kwh": 17466.036667941982,
               "year": 4
             },
             {
               "confidence_band_pct": 10.0,
-              "confidence_high_kwh": 8427.95394143582,
-              "confidence_low_kwh": 6895.598679356581,
+              "confidence_high_kwh": 19078.151852393024,
+              "confidence_low_kwh": 15609.39697013975,
               "efficiency_pct": 97.2292630401,
-              "generation_kwh": 7661.776310396201,
+              "generation_kwh": 17343.774411266386,
               "year": 5
             },
             {
               "confidence_band_pct": 15.0,
-              "confidence_high_kwh": 8749.365457656939,
-              "confidence_low_kwh": 6466.922294789912,
+              "confidence_high_kwh": 19805.723188945645,
+              "confidence_low_kwh": 14639.012791829391,
               "efficiency_pct": 96.5486581988193,
-              "generation_kwh": 7608.143876223427,
+              "generation_kwh": 17222.36799038752,
               "year": 6
             },
             {
               "confidence_band_pct": 15.0,
-              "confidence_high_kwh": 8688.11989945334,
-              "confidence_low_kwh": 6421.653838726383,
+              "confidence_high_kwh": 19667.083126623027,
+              "confidence_low_kwh": 14536.539702286587,
               "efficiency_pct": 95.87281759142756,
-              "generation_kwh": 7554.886869089863,
+              "generation_kwh": 17101.81141445481,
               "year": 7
             },
             {
               "confidence_band_pct": 15.0,
-              "confidence_high_kwh": 8627.303060157168,
-              "confidence_low_kwh": 6376.702261855299,
+              "confidence_high_kwh": 19529.413544736668,
+              "confidence_low_kwh": 14434.783924370582,
               "efficiency_pct": 95.20170786828757,
-              "generation_kwh": 7502.002661006233,
+              "generation_kwh": 16982.098734553623,
               "year": 8
             },
             {
               "confidence_band_pct": 15.0,
-              "confidence_high_kwh": 8566.911938736068,
-              "confidence_low_kwh": 6332.065346022311,
+              "confidence_high_kwh": 19392.707649923508,
+              "confidence_low_kwh": 14333.740436899987,
               "efficiency_pct": 94.53529591320955,
-              "generation_kwh": 7449.4886423791895,
+              "generation_kwh": 16863.22404341175,
               "year": 9
             },
             {
               "confidence_band_pct": 15.0,
-              "confidence_high_kwh": 8506.943555164917,
-              "confidence_low_kwh": 6287.740888600155,
+              "confidence_high_kwh": 19256.958696374048,
+              "confidence_low_kwh": 14233.404253841687,
               "efficiency_pct": 93.87354884181708,
-              "generation_kwh": 7397.342221882536,
+              "generation_kwh": 16745.181475107867,
               "year": 10
             },
             {
               "confidence_band_pct": 15.0,
-              "confidence_high_kwh": 8447.39495027876,
-              "confidence_low_kwh": 6243.726702379954,
+              "confidence_high_kwh": 19122.159985499424,
+              "confidence_low_kwh": 14133.770424064794,
               "efficiency_pct": 93.21643399992436,
-              "generation_kwh": 7345.560826329357,
+              "generation_kwh": 16627.96520478211,
               "year": 11
             },
             {
               "confidence_band_pct": 15.0,
-              "confidence_high_kwh": 8388.263185626809,
-              "confidence_low_kwh": 6200.020615463294,
+              "confidence_high_kwh": 18988.30486560093,
+              "confidence_low_kwh": 14034.834031096341,
               "efficiency_pct": 92.5639189619249,
-              "generation_kwh": 7294.1419005450525,
+              "generation_kwh": 16511.569448348637,
               "year": 12
             },
             {
               "confidence_band_pct": 15.0,
-              "confidence_high_kwh": 8329.545343327422,
-              "confidence_low_kwh": 6156.620471155051,
+              "confidence_high_kwh": 18855.386731541723,
+              "confidence_low_kwh": 13936.590192878666,
               "efficiency_pct": 91.91597152919142,
-              "generation_kwh": 7243.082907241237,
+              "generation_kwh": 16395.988462210196,
               "year": 13
             },
             {
               "confidence_band_pct": 15.0,
-              "confidence_high_kwh": 8271.23852592413,
-              "confidence_low_kwh": 6113.524127856965,
+              "confidence_high_kwh": 18723.39902442093,
+              "confidence_low_kwh": 13839.034061528513,
               "efficiency_pct": 91.27255972848708,
-              "generation_kwh": 7192.381326890548,
+              "generation_kwh": 16281.216542974724,
               "year": 14
             },
             {
               "confidence_band_pct": 15.0,
-              "confidence_high_kwh": 8213.339856242663,
-              "confidence_low_kwh": 6070.729458961968,
+              "confidence_high_kwh": 18592.33523124999,
+              "confidence_low_kwh": 13742.160823097818,
               "efficiency_pct": 90.63365181038768,
-              "generation_kwh": 7142.034657602315,
+              "generation_kwh": 16167.248027173902,
               "year": 15
             },
             {
               "confidence_band_pct": 20.0,
-              "confidence_high_kwh": 8510.448497998916,
-              "confidence_low_kwh": 5673.632331999279,
+              "confidence_high_kwh": 19264.892749180417,
+              "confidence_low_kwh": 12843.261832786948,
               "efficiency_pct": 89.99921624771495,
-              "generation_kwh": 7092.040414999097,
+              "generation_kwh": 16054.077290983681,
               "year": 16
             },
             {
               "confidence_band_pct": 20.0,
-              "confidence_high_kwh": 8450.875358512925,
-              "confidence_low_kwh": 5633.9169056752835,
+              "confidence_high_kwh": 19130.038499936156,
+              "confidence_low_kwh": 12753.358999957438,
               "efficiency_pct": 89.36922173398095,
-              "generation_kwh": 7042.396132094104,
+              "generation_kwh": 15941.698749946798,
               "year": 17
             },
             {
               "confidence_band_pct": 20.0,
-              "confidence_high_kwh": 8391.719231003333,
-              "confidence_low_kwh": 5594.479487335557,
+              "confidence_high_kwh": 18996.128230436603,
+              "confidence_low_kwh": 12664.085486957738,
               "efficiency_pct": 88.74363718184308,
-              "generation_kwh": 6993.099359169445,
+              "generation_kwh": 15830.10685869717,
               "year": 18
             },
             {
               "confidence_band_pct": 20.0,
-              "confidence_high_kwh": 8332.977196386311,
-              "confidence_low_kwh": 5555.318130924208,
+              "confidence_high_kwh": 18863.15533282355,
+              "confidence_low_kwh": 12575.436888549033,
               "efficiency_pct": 88.12243172157018,
-              "generation_kwh": 6944.14766365526,
+              "generation_kwh": 15719.296110686291,
               "year": 19
             },
             {
               "confidence_band_pct": 20.0,
-              "confidence_high_kwh": 8274.646356011606,
-              "confidence_low_kwh": 5516.430904007738,
+              "confidence_high_kwh": 18731.113245493783,
+              "confidence_low_kwh": 12487.408830329188,
               "efficiency_pct": 87.50557469951919,
-              "generation_kwh": 6895.5386300096725,
+              "generation_kwh": 15609.261037911485,
               "year": 20
             },
             {
               "confidence_band_pct": 20.0,
-              "confidence_high_kwh": 8216.723831519525,
-              "confidence_low_kwh": 5477.815887679684,
+              "confidence_high_kwh": 18599.995452775325,
+              "confidence_low_kwh": 12399.996968516883,
               "efficiency_pct": 86.89303567662256,
-              "generation_kwh": 6847.269859599604,
+              "generation_kwh": 15499.996210646104,
               "year": 21
             },
             {
               "confidence_band_pct": 20.0,
-              "confidence_high_kwh": 8159.206764698888,
-              "confidence_low_kwh": 5439.471176465926,
+              "confidence_high_kwh": 18469.795484605896,
+              "confidence_low_kwh": 12313.196989737266,
               "efficiency_pct": 86.28478442688619,
-              "generation_kwh": 6799.3389705824075,
+              "generation_kwh": 15391.496237171581,
               "year": 22
             },
             {
               "confidence_band_pct": 20.0,
-              "confidence_high_kwh": 8102.092317345996,
-              "confidence_low_kwh": 5401.394878230665,
+              "confidence_high_kwh": 18340.506916213657,
+              "confidence_low_kwh": 12227.004610809106,
               "efficiency_pct": 85.68079093589799,
-              "generation_kwh": 6751.743597788331,
+              "generation_kwh": 15283.75576351138,
               "year": 23
             },
             {
               "confidence_band_pct": 20.0,
-              "confidence_high_kwh": 8045.3776711245755,
-              "confidence_low_kwh": 5363.58511408305,
+              "confidence_high_kwh": 18212.123367800163,
+              "confidence_low_kwh": 12141.415578533442,
               "efficiency_pct": 85.08102539934671,
-              "generation_kwh": 6704.481392603813,
+              "generation_kwh": 15176.769473166803,
               "year": 24
             },
             {
               "confidence_band_pct": 20.0,
-              "confidence_high_kwh": 7989.060027426703,
-              "confidence_low_kwh": 5326.040018284469,
+              "confidence_high_kwh": 18084.63850422556,
+              "confidence_low_kwh": 12056.425669483708,
               "efficiency_pct": 84.48545822155128,
-              "generation_kwh": 6657.550022855586,
+              "generation_kwh": 15070.532086854635,
               "year": 25
             }
           ]
         },
         "location": "Cape Town, South Africa",
-        "monthly_savings": 226.7,
-        "predicted_generation_kwh": 742.401,
-        "recommendation": "High",
-        "recommended_panel_area_m2": 22.087972688975842,
-        "roi_percentage": 21.05,
-        "status": "HIGHLY VIABLE",
-        "system_cost": 12921.46,
-        "viability_score": 65.16
+        "monthly_savings": 371.69,
+        "predicted_generation_kwh": 1680.5548667907715,
+        "recommendation": "Low",
+        "recommended_panel_area_m2": 50.0,
+        "roi_percentage": 16.52,
+        "status": "NOT VIABLE",
+        "system_cost": 27000.0,
+        "viability_score": 36.81
       }
     },
     {
@@ -3453,18 +3453,18 @@
         "monthly_savings_usd": 557.1428571428571
       },
       "actual": {
-        "consumption_kwh": 1628.05,
-        "system_cost_usd": 27119.78,
-        "system_cost_local": 3796769.1999999997,
-        "payback_years": 14.021477023617486,
-        "monthly_savings_usd": 161.18,
-        "monthly_savings_local": 22565.2
+        "consumption_kwh": 14768.39,
+        "system_cost_usd": 32400.0,
+        "system_cost_local": 4536000.0,
+        "payback_years": 14.021603656003322,
+        "monthly_savings_usd": 192.56,
+        "monthly_savings_local": 26958.4
       },
       "deviations": {
-        "consumption_kwh": -54.776388888888896,
-        "system_cost": 665.4776612903225,
-        "monthly_savings": -71.0702564102564,
-        "payback_years": 2704.295404723497
+        "consumption_kwh": 310.23305555555555,
+        "system_cost": 814.5161290322582,
+        "monthly_savings": -65.43794871794871,
+        "payback_years": 2704.3207312006643
       },
       "assessment": {
         "consumption_kwh": "HIGH",
@@ -3473,18 +3473,18 @@
         "payback_years": "HIGH"
       },
       "api_response": {
-        "analyzed_at": "2026-02-25T12:23:50.260987",
+        "analyzed_at": "2026-02-25T12:48:48.287006",
         "business_name": "Nairobi Frosty Mini Mart",
         "business_type": "Supermarket/mini mart",
         "confidence": 85.0,
         "current_energy_cost": {
           "diesel_monthly": 0,
-          "grid_monthly": 179.0855,
-          "total_monthly": 179.0855
+          "grid_monthly": 1624.5229,
+          "total_monthly": 1624.5229
         },
         "energy_scenario": "grid_only",
-        "estimated_consumption_kwh": 1628.05,
-        "explanation": "Solar is moderately viable because: Moderate ROI of 7.1%; Excellent solar coverage (90%).",
+        "estimated_consumption_kwh": 14768.39,
+        "explanation": "Solar is not viable because: Moderate ROI of 7.1%; Limited solar coverage (12%).",
         "lifetime_prediction": {
           "assumptions": {
             "annual_degradation_pct": 0.7000000000000001,
@@ -3497,8 +3497,8 @@
               12
             ],
             "lifetime_years": 25,
-            "note": "Scaled from 10m\u00b2 baseline by factor of 4.19",
-            "panel_area_m2": 41.85151447428871,
+            "note": "Scaled from 10m\u00b2 baseline by factor of 5.00",
+            "panel_area_m2": 50.0,
             "panel_efficiency_pct": 20.0
           },
           "confidence": {
@@ -3507,283 +3507,283 @@
             "years_1_5_band_pct": 10.0,
             "years_6_15_band_pct": 15.0
           },
-          "lifetime_average_annual_kwh": 14479.10600358703,
-          "lifetime_total_kwh": 361977.65008967574,
+          "lifetime_average_annual_kwh": 17298.186440161207,
+          "lifetime_total_kwh": 432454.6610040302,
           "monthly_generation_climatology": [
             {
-              "daily_kwh": 46.4862467286308,
+              "daily_kwh": 55.53711414337158,
               "is_dry_season": true,
               "month": 1
             },
             {
-              "daily_kwh": 48.841499999999996,
+              "daily_kwh": 58.350934982299805,
               "is_dry_season": true,
               "month": 2
             },
             {
-              "daily_kwh": 46.64812072465338,
+              "daily_kwh": 55.73050498962402,
               "is_dry_season": false,
               "month": 3
             },
             {
-              "daily_kwh": 41.998265542803594,
+              "daily_kwh": 50.175323486328125,
               "is_dry_season": false,
               "month": 4
             },
             {
-              "daily_kwh": 40.331742080830075,
+              "daily_kwh": 48.18432807922363,
               "is_dry_season": false,
               "month": 5
             },
             {
-              "daily_kwh": 39.372962845419465,
+              "daily_kwh": 47.03887462615967,
               "is_dry_season": true,
               "month": 6
             },
             {
-              "daily_kwh": 39.801816979715255,
+              "daily_kwh": 47.55122661590576,
               "is_dry_season": true,
               "month": 7
             },
             {
-              "daily_kwh": 41.74350667769708,
+              "daily_kwh": 49.87096309661865,
               "is_dry_season": true,
               "month": 8
             },
             {
-              "daily_kwh": 44.341109951248164,
+              "daily_kwh": 52.97431945800781,
               "is_dry_season": false,
               "month": 9
             },
             {
-              "daily_kwh": 44.96213582311071,
+              "daily_kwh": 53.71625900268555,
               "is_dry_season": false,
               "month": 10
             },
             {
-              "daily_kwh": 40.54625296467833,
+              "daily_kwh": 48.4406042098999,
               "is_dry_season": false,
               "month": 11
             },
             {
-              "daily_kwh": 42.154428029387404,
+              "daily_kwh": 50.36189079284668,
               "is_dry_season": true,
               "month": 12
             }
           ],
-          "year_1_generation_kwh": 15732.354353923633,
+          "year_1_generation_kwh": 18795.442114273705,
           "yearly_breakdown": [
             {
               "confidence_band_pct": 10.0,
-              "confidence_high_kwh": 17305.589789315996,
-              "confidence_low_kwh": 14159.11891853127,
+              "confidence_high_kwh": 20674.98632570108,
+              "confidence_low_kwh": 16915.897902846336,
               "efficiency_pct": 100.0,
-              "generation_kwh": 15732.354353923633,
+              "generation_kwh": 18795.442114273705,
               "year": 1
             },
             {
               "confidence_band_pct": 10.0,
-              "confidence_high_kwh": 17184.450660790782,
-              "confidence_low_kwh": 14060.00508610155,
+              "confidence_high_kwh": 20530.261421421168,
+              "confidence_low_kwh": 16797.48661752641,
               "efficiency_pct": 99.3,
-              "generation_kwh": 15622.227873446167,
+              "generation_kwh": 18663.87401947379,
               "year": 2
             },
             {
               "confidence_band_pct": 10.0,
-              "confidence_high_kwh": 17064.159506165248,
-              "confidence_low_kwh": 13961.58505049884,
+              "confidence_high_kwh": 20386.549591471223,
+              "confidence_low_kwh": 16679.904211203724,
               "efficiency_pct": 98.6049,
-              "generation_kwh": 15512.872278332043,
+              "generation_kwh": 18533.22690133747,
               "year": 3
             },
             {
               "confidence_band_pct": 10.0,
-              "confidence_high_kwh": 16944.710389622094,
-              "confidence_low_kwh": 13863.853955145347,
+              "confidence_high_kwh": 20243.843744330923,
+              "confidence_low_kwh": 16563.1448817253,
               "efficiency_pct": 97.9146657,
-              "generation_kwh": 15404.28217238372,
+              "generation_kwh": 18403.49431302811,
               "year": 4
             },
             {
               "confidence_band_pct": 10.0,
-              "confidence_high_kwh": 16826.09741689474,
-              "confidence_low_kwh": 13766.806977459331,
+              "confidence_high_kwh": 20102.13683812061,
+              "confidence_low_kwh": 16447.202867553224,
               "efficiency_pct": 97.2292630401,
-              "generation_kwh": 15296.452197177034,
+              "generation_kwh": 18274.669852836916,
               "year": 5
             },
             {
               "confidence_band_pct": 15.0,
-              "confidence_high_kwh": 17467.78358656631,
-              "confidence_low_kwh": 12910.970477027273,
+              "confidence_high_kwh": 20868.75923844711,
+              "confidence_low_kwh": 15424.735089286994,
               "efficiency_pct": 96.5486581988193,
-              "generation_kwh": 15189.377031796792,
+              "generation_kwh": 18146.747163867054,
               "year": 6
             },
             {
               "confidence_band_pct": 15.0,
-              "confidence_high_kwh": 17345.509101460342,
-              "confidence_low_kwh": 12820.593683688083,
+              "confidence_high_kwh": 20722.677923777977,
+              "confidence_low_kwh": 15316.761943661986,
               "efficiency_pct": 95.87281759142756,
-              "generation_kwh": 15083.051392574214,
+              "generation_kwh": 18019.719933719985,
               "year": 7
             },
             {
               "confidence_band_pct": 15.0,
-              "confidence_high_kwh": 17224.090537750122,
-              "confidence_low_kwh": 12730.849527902266,
+              "confidence_high_kwh": 20577.619178311536,
+              "confidence_low_kwh": 15209.544610056353,
               "efficiency_pct": 95.20170786828757,
-              "generation_kwh": 14977.470032826195,
+              "generation_kwh": 17893.581894183946,
               "year": 8
             },
             {
               "confidence_band_pct": 15.0,
-              "confidence_high_kwh": 17103.521903985875,
-              "confidence_low_kwh": 12641.73358120695,
+              "confidence_high_kwh": 20433.575844063354,
+              "confidence_low_kwh": 15103.077797785958,
               "efficiency_pct": 94.53529591320955,
-              "generation_kwh": 14872.627742596413,
+              "generation_kwh": 17768.32682092466,
               "year": 9
             },
             {
               "confidence_band_pct": 15.0,
-              "confidence_high_kwh": 16983.79725065797,
-              "confidence_low_kwh": 12553.241446138503,
+              "confidence_high_kwh": 20290.540813154912,
+              "confidence_low_kwh": 14997.356253201458,
               "efficiency_pct": 93.87354884181708,
-              "generation_kwh": 14768.519348398238,
+              "generation_kwh": 17643.948533178187,
               "year": 10
             },
             {
               "confidence_band_pct": 15.0,
-              "confidence_high_kwh": 16864.910669903365,
-              "confidence_low_kwh": 12465.368756015532,
+              "confidence_high_kwh": 20148.507027462827,
+              "confidence_low_kwh": 14892.374759429047,
               "efficiency_pct": 93.21643399992436,
-              "generation_kwh": 14665.13971295945,
+              "generation_kwh": 17520.440893445935,
               "year": 11
             },
             {
               "confidence_band_pct": 15.0,
-              "confidence_high_kwh": 16746.856295214042,
-              "confidence_low_kwh": 12378.111174723424,
+              "confidence_high_kwh": 20007.467478270588,
+              "confidence_low_kwh": 14788.128136113044,
               "efficiency_pct": 92.5639189619249,
-              "generation_kwh": 14562.483734968735,
+              "generation_kwh": 17397.797807191815,
               "year": 12
             },
             {
               "confidence_band_pct": 15.0,
-              "confidence_high_kwh": 16629.628301147546,
-              "confidence_low_kwh": 12291.46439650036,
+              "confidence_high_kwh": 19867.415205922694,
+              "confidence_low_kwh": 14684.611239160251,
               "efficiency_pct": 91.91597152919142,
-              "generation_kwh": 14460.546348823953,
+              "generation_kwh": 17276.013222541475,
               "year": 13
             },
             {
               "confidence_band_pct": 15.0,
-              "confidence_high_kwh": 16513.22090303951,
-              "confidence_low_kwh": 12205.424145724857,
+              "confidence_high_kwh": 19728.343299481232,
+              "confidence_low_kwh": 14581.818960486129,
               "efficiency_pct": 91.27255972848708,
-              "generation_kwh": 14359.322524382185,
+              "generation_kwh": 17155.081129983682,
               "year": 14
             },
             {
               "confidence_band_pct": 15.0,
-              "confidence_high_kwh": 16397.628356718236,
-              "confidence_low_kwh": 12119.986176704784,
+              "confidence_high_kwh": 19590.244896384866,
+              "confidence_low_kwh": 14479.746227762727,
               "efficiency_pct": 90.63365181038768,
-              "generation_kwh": 14258.80726671151,
+              "generation_kwh": 17034.995562073796,
               "year": 15
             },
             {
               "confidence_band_pct": 20.0,
-              "confidence_high_kwh": 16990.794739013432,
-              "confidence_low_kwh": 11327.196492675625,
+              "confidence_high_kwh": 20298.900711767135,
+              "confidence_low_kwh": 13532.600474511426,
               "efficiency_pct": 89.99921624771495,
-              "generation_kwh": 14158.99561584453,
+              "generation_kwh": 16915.75059313928,
               "year": 16
             },
             {
               "confidence_band_pct": 20.0,
-              "confidence_high_kwh": 16871.85917584034,
-              "confidence_low_kwh": 11247.906117226894,
+              "confidence_high_kwh": 20156.808406784767,
+              "confidence_low_kwh": 13437.872271189844,
               "efficiency_pct": 89.36922173398095,
-              "generation_kwh": 14059.882646533617,
+              "generation_kwh": 16797.340338987306,
               "year": 17
             },
             {
               "confidence_band_pct": 20.0,
-              "confidence_high_kwh": 16753.756161609457,
-              "confidence_low_kwh": 11169.170774406306,
+              "confidence_high_kwh": 20015.71074793727,
+              "confidence_low_kwh": 13343.807165291517,
               "efficiency_pct": 88.74363718184308,
-              "generation_kwh": 13961.463468007882,
+              "generation_kwh": 16679.758956614394,
               "year": 18
             },
             {
               "confidence_band_pct": 20.0,
-              "confidence_high_kwh": 16636.479868478193,
-              "confidence_low_kwh": 11090.986578985463,
+              "confidence_high_kwh": 19875.600772701713,
+              "confidence_low_kwh": 13250.400515134477,
               "efficiency_pct": 88.12243172157018,
-              "generation_kwh": 13863.733223731828,
+              "generation_kwh": 16563.000643918094,
               "year": 19
             },
             {
               "confidence_band_pct": 20.0,
-              "confidence_high_kwh": 16520.02450939884,
-              "confidence_low_kwh": 11013.349672932563,
+              "confidence_high_kwh": 19736.471567292796,
+              "confidence_low_kwh": 13157.647711528534,
               "efficiency_pct": 87.50557469951919,
-              "generation_kwh": 13766.687091165702,
+              "generation_kwh": 16447.059639410665,
               "year": 20
             },
             {
               "confidence_band_pct": 20.0,
-              "confidence_high_kwh": 16404.384337833053,
-              "confidence_low_kwh": 10936.256225222038,
+              "confidence_high_kwh": 19598.316266321748,
+              "confidence_low_kwh": 13065.544177547836,
               "efficiency_pct": 86.89303567662256,
-              "generation_kwh": 13670.320281527544,
+              "generation_kwh": 16331.930221934792,
               "year": 21
             },
             {
               "confidence_band_pct": 20.0,
-              "confidence_high_kwh": 16289.553647468221,
-              "confidence_low_kwh": 10859.702431645483,
+              "confidence_high_kwh": 19461.128052457498,
+              "confidence_low_kwh": 12974.085368305,
               "efficiency_pct": 86.28478442688619,
-              "generation_kwh": 13574.628039556852,
+              "generation_kwh": 16217.60671038125,
               "year": 22
             },
             {
               "confidence_band_pct": 20.0,
-              "confidence_high_kwh": 16175.526771935942,
-              "confidence_low_kwh": 10783.684514623963,
+              "confidence_high_kwh": 19324.900156090294,
+              "confidence_low_kwh": 12883.266770726863,
               "efficiency_pct": 85.68079093589799,
-              "generation_kwh": 13479.605643279952,
+              "generation_kwh": 16104.083463408579,
               "year": 23
             },
             {
               "confidence_band_pct": 20.0,
-              "confidence_high_kwh": 16062.298084532391,
-              "confidence_low_kwh": 10708.198723021595,
+              "confidence_high_kwh": 19189.625854997663,
+              "confidence_low_kwh": 12793.083903331775,
               "efficiency_pct": 85.08102539934671,
-              "generation_kwh": 13385.248403776994,
+              "generation_kwh": 15991.354879164719,
               "year": 24
             },
             {
               "confidence_band_pct": 20.0,
-              "confidence_high_kwh": 15949.861997940665,
-              "confidence_low_kwh": 10633.241331960444,
+              "confidence_high_kwh": 19055.298474012678,
+              "confidence_low_kwh": 12703.532316008455,
               "efficiency_pct": 84.48545822155128,
-              "generation_kwh": 13291.551664950555,
+              "generation_kwh": 15879.415395010566,
               "year": 25
             }
           ]
         },
         "location": "Nairobi, Kenya",
-        "monthly_savings": 161.18,
-        "predicted_generation_kwh": 1465.245,
-        "recommendation": "Medium",
-        "recommended_panel_area_m2": 41.85151447428871,
+        "monthly_savings": 192.56,
+        "predicted_generation_kwh": 1750.5280494689941,
+        "recommendation": "Low",
+        "recommended_panel_area_m2": 50.0,
         "roi_percentage": 7.13,
-        "status": "MODERATELY VIABLE",
-        "system_cost": 27119.78,
-        "viability_score": 45.19
+        "status": "NOT VIABLE",
+        "system_cost": 32400.0,
+        "viability_score": 21.75
       }
     }
   ]

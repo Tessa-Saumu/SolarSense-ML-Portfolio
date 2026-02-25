@@ -483,7 +483,7 @@ def create_app(
             # Base load: sqft-driven lighting/HVAC scaled by operating hours
             annual_kwh_estimate = (
                 (num_refrigeration_units * 1800) +
-                (sqft * 8 * (operating_hours_weekly / 60))
+                (sqft * 8)
             )
             kwh_per_sqft_estimate = annual_kwh_estimate / max(sqft, 1)
 
@@ -515,7 +515,7 @@ def create_app(
             # This corrects for SME-scale refrigeration sensitivity the model can't learn
             # Replace the flat correction with a weighted one that accounts for equipment type
             # These are passed from Model 4 via the metrics conversion
-            FRIDGE_KWH_PER_UNIT_MONTHLY = 150   # Commercial average across freezers/fridges
+            FRIDGE_KWH_PER_UNIT_MONTHLY = 60   # Commercial average across freezers/fridges
             BASELINE_FRIDGE_COUNT = 0            # ← Change from 8 to 0
 
             # This makes the correction always additive, never subtractive
