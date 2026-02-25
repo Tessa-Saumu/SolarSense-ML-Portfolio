@@ -4,7 +4,7 @@
   "warnings": 0,
   "failed": 10,
   "errors": 0,
-  "timestamp": "2026-02-25T14:48:49.841241",
+  "timestamp": "2026-02-25T15:01:11.096770",
   "results": [
     {
       "profile_name": "Lagos Fresh Cuts Butchery",
@@ -48,18 +48,18 @@
         "monthly_savings_usd": 464.51612903225805
       },
       "actual": {
-        "consumption_kwh": 12363.52,
+        "consumption_kwh": 6088.83,
         "system_cost_usd": 34500.0,
         "system_cost_local": 53475000.0,
-        "payback_years": 19.987486095661847,
-        "monthly_savings_usd": 143.84,
-        "monthly_savings_local": 222952.0
+        "payback_years": 18.12736443883985,
+        "monthly_savings_usd": 158.6,
+        "monthly_savings_local": 245830.0
       },
       "deviations": {
-        "consumption_kwh": 286.36,
+        "consumption_kwh": 90.2759375,
         "system_cost": 1250.3787878787878,
-        "monthly_savings": -69.03444444444443,
-        "payback_years": 3897.4972191323695
+        "monthly_savings": -65.85694444444444,
+        "payback_years": 3525.4728877679704
       },
       "assessment": {
         "consumption_kwh": "HIGH",
@@ -68,25 +68,25 @@
         "payback_years": "HIGH"
       },
       "api_response": {
-        "analyzed_at": "2026-02-25T12:48:36.945142",
+        "analyzed_at": "2026-02-25T13:00:57.043777",
         "business_name": "Lagos Fresh Cuts Butchery",
         "business_type": "Butchery",
         "confidence": 85.0,
         "current_energy_cost": {
-          "diesel_monthly": 545.4114408602151,
-          "grid_monthly": 659.3877333333335,
-          "total_monthly": 1204.7991741935484
+          "diesel_monthly": 329.50812903225807,
+          "grid_monthly": 324.73760000000004,
+          "total_monthly": 654.2457290322582
         },
         "diesel_details": {
-          "diesel_kwh_monthly": 4121.173333333333,
-          "effective_tariff": 0.13234372756145865,
+          "diesel_kwh_monthly": 2029.61,
+          "effective_tariff": 0.1623504658689394,
           "hours_per_day": 8.0,
-          "monthly_liters": 1648.4693333333335,
+          "monthly_liters": 811.844,
           "price_per_liter": 0.25806451612903225
         },
         "energy_scenario": "diesel_replacement",
-        "estimated_consumption_kwh": 12363.52,
-        "explanation": "Solar is not viable because: Low ROI of 5.0%; Limited solar coverage (12%).",
+        "estimated_consumption_kwh": 6088.83,
+        "explanation": "Solar is not viable because: Moderate ROI of 5.5%; Limited solar coverage (24%).",
         "lifetime_prediction": {
           "assumptions": {
             "annual_degradation_pct": 0.7000000000000001,
@@ -378,14 +378,14 @@
           ]
         },
         "location": "Lagos, Nigeria",
-        "monthly_savings": 143.84,
+        "monthly_savings": 158.6,
         "predicted_generation_kwh": 1476.0509490966797,
         "recommendation": "Low",
         "recommended_panel_area_m2": 50.0,
-        "roi_percentage": 5.0,
+        "roi_percentage": 5.52,
         "status": "NOT VIABLE",
         "system_cost": 34500.0,
-        "viability_score": 18.58
+        "viability_score": 23.05
       }
     },
     {
@@ -430,7 +430,7 @@
         "monthly_savings_usd": 380.16
       },
       "actual": {
-        "consumption_kwh": 12128.16,
+        "consumption_kwh": 6147.18,
         "system_cost_usd": 33000.0,
         "system_cost_local": 412500.0,
         "payback_years": 13.957973809765505,
@@ -438,7 +438,7 @@
         "monthly_savings_local": 2462.75
       },
       "deviations": {
-        "consumption_kwh": 451.28000000000003,
+        "consumption_kwh": 179.41727272727275,
         "system_cost": 1480.4597701149426,
         "monthly_savings": -48.17445286195286,
         "payback_years": 2691.594761953101
@@ -450,18 +450,18 @@
         "payback_years": "HIGH"
       },
       "api_response": {
-        "analyzed_at": "2026-02-25T12:48:38.224276",
+        "analyzed_at": "2026-02-25T13:00:58.336924",
         "business_name": "Accra Daily Grocery",
         "business_type": "Grocery",
         "confidence": 85.0,
         "current_energy_cost": {
           "diesel_monthly": 0,
-          "grid_monthly": 1576.6608,
-          "total_monthly": 1576.6608
+          "grid_monthly": 799.1334,
+          "total_monthly": 799.1334
         },
         "energy_scenario": "grid_only",
-        "estimated_consumption_kwh": 12128.16,
-        "explanation": "Solar is not viable because: Moderate ROI of 7.2%; Limited solar coverage (12%).",
+        "estimated_consumption_kwh": 6147.18,
+        "explanation": "Solar is not viable because: Moderate ROI of 7.2%; Limited solar coverage (25%).",
         "lifetime_prediction": {
           "assumptions": {
             "annual_degradation_pct": 0.7000000000000001,
@@ -760,7 +760,7 @@
         "roi_percentage": 7.16,
         "status": "NOT VIABLE",
         "system_cost": 33000.0,
-        "viability_score": 21.99
+        "viability_score": 25.64
       }
     },
     {
@@ -805,18 +805,18 @@
         "monthly_savings_usd": 905.3571428571429
       },
       "actual": {
-        "consumption_kwh": 6671.34,
+        "consumption_kwh": 4882.28,
         "system_cost_usd": 32400.0,
         "system_cost_local": 4536000.0,
-        "payback_years": 4.581551618814905,
-        "monthly_savings_usd": 589.32,
-        "monthly_savings_local": 82504.8
+        "payback_years": 4.472123761884255,
+        "monthly_savings_usd": 603.74,
+        "monthly_savings_local": 84523.6
       },
       "deviations": {
-        "consumption_kwh": 138.26214285714286,
+        "consumption_kwh": 74.36714285714284,
         "system_cost": 1196.0,
-        "monthly_savings": -34.90745562130177,
-        "payback_years": 2190.7758094074525
+        "monthly_savings": -33.31471400394477,
+        "payback_years": 2136.061880942127
       },
       "assessment": {
         "consumption_kwh": "HIGH",
@@ -825,25 +825,25 @@
         "payback_years": "HIGH"
       },
       "api_response": {
-        "analyzed_at": "2026-02-25T12:48:39.534254",
+        "analyzed_at": "2026-02-25T13:00:59.485206",
         "business_name": "Nairobi Bread Haven Bakery",
         "business_type": "Bakery",
         "confidence": 85.0,
         "current_energy_cost": {
-          "diesel_monthly": 1817.835,
-          "grid_monthly": 428.07765,
-          "total_monthly": 2245.91265
+          "diesel_monthly": 1370.5700000000002,
+          "grid_monthly": 313.27963333333327,
+          "total_monthly": 1683.8496333333335
         },
         "diesel_details": {
-          "diesel_kwh_monthly": 2779.7250000000004,
-          "effective_tariff": 0.6539621725170655,
+          "diesel_kwh_monthly": 2034.2833333333333,
+          "effective_tariff": 0.6737360413577264,
           "hours_per_day": 10.0,
-          "monthly_liters": 1111.89,
+          "monthly_liters": 813.7133333333334,
           "price_per_liter": 1.5
         },
         "energy_scenario": "diesel_replacement",
-        "estimated_consumption_kwh": 6671.34,
-        "explanation": "Solar is moderately viable because: Strong ROI of 21.8%; Limited solar coverage (26%).",
+        "estimated_consumption_kwh": 4882.28,
+        "explanation": "Solar is moderately viable because: Strong ROI of 22.4%; Limited solar coverage (36%).",
         "lifetime_prediction": {
           "assumptions": {
             "annual_degradation_pct": 0.7000000000000001,
@@ -1135,14 +1135,14 @@
           ]
         },
         "location": "Nairobi, Kenya",
-        "monthly_savings": 589.32,
+        "monthly_savings": 603.74,
         "predicted_generation_kwh": 1750.5280494689941,
         "recommendation": "Medium",
         "recommended_panel_area_m2": 50.0,
-        "roi_percentage": 21.83,
+        "roi_percentage": 22.36,
         "status": "MODERATELY VIABLE",
         "system_cost": 32400.0,
-        "viability_score": 46.52
+        "viability_score": 49.73
       }
     },
     {
@@ -1187,7 +1187,7 @@
         "monthly_savings_usd": 634.8648648648649
       },
       "actual": {
-        "consumption_kwh": 8564.58,
+        "consumption_kwh": 5497.19,
         "system_cost_usd": 27000.0,
         "system_cost_local": 499500.0,
         "payback_years": 9.563073784427065,
@@ -1195,30 +1195,30 @@
         "monthly_savings_local": 4352.68
       },
       "deviations": {
-        "consumption_kwh": 90.324,
+        "consumption_kwh": 22.15977777777777,
         "system_cost": 458.72483221476506,
         "monthly_savings": -62.94014474244361,
         "payback_years": 1493.8456307378442
       },
       "assessment": {
-        "consumption_kwh": "HIGH",
+        "consumption_kwh": "MEDIUM",
         "system_cost": "HIGH",
         "monthly_savings": "HIGH",
         "payback_years": "HIGH"
       },
       "api_response": {
-        "analyzed_at": "2026-02-25T12:48:40.784704",
+        "analyzed_at": "2026-02-25T13:01:00.873949",
         "business_name": "Johannesburg ChillMart Supermarket",
         "business_type": "Supermarket/mini mart",
         "confidence": 85.0,
         "current_energy_cost": {
           "diesel_monthly": 0,
-          "grid_monthly": 1199.0412000000001,
-          "total_monthly": 1199.0412000000001
+          "grid_monthly": 769.6066000000001,
+          "total_monthly": 769.6066000000001
         },
         "energy_scenario": "grid_only",
-        "estimated_consumption_kwh": 8564.58,
-        "explanation": "Solar is not viable because: Moderate ROI of 10.5%; Limited solar coverage (20%).",
+        "estimated_consumption_kwh": 5497.19,
+        "explanation": "Solar is not viable because: Moderate ROI of 10.5%; Limited solar coverage (31%).",
         "lifetime_prediction": {
           "assumptions": {
             "annual_degradation_pct": 0.7000000000000001,
@@ -1517,7 +1517,7 @@
         "roi_percentage": 10.46,
         "status": "NOT VIABLE",
         "system_cost": 27000.0,
-        "viability_score": 29.08
+        "viability_score": 32.36
       }
     },
     {
@@ -1557,45 +1557,45 @@
         "monthly_savings_usd": 491.51785714285717
       },
       "actual": {
-        "consumption_kwh": 5949.29,
+        "consumption_kwh": 3778.94,
         "system_cost_usd": 33600.0,
         "system_cost_local": 1881600.0,
-        "payback_years": 8.926863482752024,
-        "monthly_savings_usd": 313.66,
-        "monthly_savings_local": 17564.960000000003
+        "payback_years": 8.462538156980083,
+        "monthly_savings_usd": 330.87,
+        "monthly_savings_local": 18528.72
       },
       "deviations": {
-        "consumption_kwh": 56.56026315789474,
+        "consumption_kwh": -0.554210526315788,
         "system_cost": 1129.8039215686274,
-        "monthly_savings": -36.18543142597638,
-        "payback_years": 1685.3726965504047
+        "monthly_savings": -32.684032697547686,
+        "payback_years": 1592.5076313960164
       },
       "assessment": {
-        "consumption_kwh": "HIGH",
+        "consumption_kwh": "PASS",
         "system_cost": "HIGH",
         "monthly_savings": "HIGH",
         "payback_years": "HIGH"
       },
       "api_response": {
-        "analyzed_at": "2026-02-25T12:48:42.286485",
+        "analyzed_at": "2026-02-25T13:01:02.650820",
         "business_name": "Addis Ice Foods Frozen Retail",
         "business_type": "Frozen food retail",
         "confidence": 85.0,
         "current_energy_cost": {
-          "diesel_monthly": 674.3052678571428,
-          "grid_monthly": 267.71804999999995,
-          "total_monthly": 942.0233178571427
+          "diesel_monthly": 461.1458928571428,
+          "grid_monthly": 170.0523,
+          "total_monthly": 631.1981928571429
         },
         "diesel_details": {
-          "diesel_kwh_monthly": 1487.3225,
-          "effective_tariff": 0.45336856522855185,
+          "diesel_kwh_monthly": 944.735,
+          "effective_tariff": 0.4881219525656854,
           "hours_per_day": 6.0,
-          "monthly_liters": 594.929,
+          "monthly_liters": 377.894,
           "price_per_liter": 0.9821428571428571
         },
         "energy_scenario": "diesel_replacement",
-        "estimated_consumption_kwh": 5949.29,
-        "explanation": "Solar is not viable because: Moderate ROI of 11.2%; Limited solar coverage (33%).",
+        "estimated_consumption_kwh": 3778.94,
+        "explanation": "Solar is moderately viable because: Moderate ROI of 11.8%; Good solar coverage (52%).",
         "lifetime_prediction": {
           "assumptions": {
             "annual_degradation_pct": 0.7000000000000001,
@@ -1887,14 +1887,14 @@
           ]
         },
         "location": "Addis Ababa, Ethiopia",
-        "monthly_savings": 313.66,
+        "monthly_savings": 330.87,
         "predicted_generation_kwh": 1980.885887145996,
-        "recommendation": "Low",
+        "recommendation": "Medium",
         "recommended_panel_area_m2": 50.0,
-        "roi_percentage": 11.2,
-        "status": "NOT VIABLE",
+        "roi_percentage": 11.82,
+        "status": "MODERATELY VIABLE",
         "system_cost": 33600.0,
-        "viability_score": 34.29
+        "viability_score": 40.96
       }
     },
     {
@@ -1939,7 +1939,7 @@
         "monthly_savings_usd": 1195.945945945946
       },
       "actual": {
-        "consumption_kwh": 13254.69,
+        "consumption_kwh": 8253.91,
         "system_cost_usd": 32400.0,
         "system_cost_local": 119880000.0,
         "payback_years": 14.438502673796792,
@@ -1947,7 +1947,7 @@
         "monthly_savings_local": 691900.0
       },
       "deviations": {
-        "consumption_kwh": 223.28512195121954,
+        "consumption_kwh": 101.31487804878047,
         "system_cost": 771.8545454545455,
         "monthly_savings": -84.3638418079096,
         "payback_years": 4712.834224598931
@@ -1959,18 +1959,18 @@
         "payback_years": "HIGH"
       },
       "api_response": {
-        "analyzed_at": "2026-02-25T12:48:43.626533",
+        "analyzed_at": "2026-02-25T13:01:03.882369",
         "business_name": "Kampala Farm Cold Storage",
         "business_type": "Cold storage",
         "confidence": 85.0,
         "current_energy_cost": {
           "diesel_monthly": 0,
-          "grid_monthly": 1458.0159,
-          "total_monthly": 1458.0159
+          "grid_monthly": 907.9301,
+          "total_monthly": 907.9301
         },
         "energy_scenario": "grid_only",
-        "estimated_consumption_kwh": 13254.69,
-        "explanation": "Solar is not viable because: Moderate ROI of 6.9%; Limited solar coverage (13%).",
+        "estimated_consumption_kwh": 8253.91,
+        "explanation": "Solar is not viable because: Moderate ROI of 6.9%; Limited solar coverage (21%).",
         "lifetime_prediction": {
           "assumptions": {
             "annual_degradation_pct": 0.7000000000000001,
@@ -2269,7 +2269,7 @@
         "roi_percentage": 6.93,
         "status": "NOT VIABLE",
         "system_cost": 32400.0,
-        "viability_score": 21.74
+        "viability_score": 24.07
       }
     },
     {
@@ -2314,18 +2314,18 @@
         "monthly_savings_usd": 1125.0
       },
       "actual": {
-        "consumption_kwh": 5314.6,
+        "consumption_kwh": 3809.81,
         "system_cost_usd": 32400.0,
         "system_cost_local": 42120000.0,
-        "payback_years": 5.42953667953668,
-        "monthly_savings_usd": 497.28,
-        "monthly_savings_local": 646464.0
+        "payback_years": 5.211349160393746,
+        "monthly_savings_usd": 518.1,
+        "monthly_savings_local": 673530.0
       },
       "deviations": {
-        "consumption_kwh": 104.40769230769232,
+        "consumption_kwh": 46.53115384615384,
         "system_cost": 1330.220713073005,
-        "monthly_savings": -55.797333333333334,
-        "payback_years": 2614.76833976834
+        "monthly_savings": -53.946666666666665,
+        "payback_years": 2505.6745801968727
       },
       "assessment": {
         "consumption_kwh": "HIGH",
@@ -2334,25 +2334,25 @@
         "payback_years": "HIGH"
       },
       "api_response": {
-        "analyzed_at": "2026-02-25T12:48:44.719397",
+        "analyzed_at": "2026-02-25T13:01:05.346711",
         "business_name": "Kigali Quick Freeze Butchery",
         "business_type": "Butchery",
         "confidence": 85.0,
         "current_energy_cost": {
-          "diesel_monthly": 1406.4461538461537,
-          "grid_monthly": 292.303,
-          "total_monthly": 1698.7491538461536
+          "diesel_monthly": 1059.186923076923,
+          "grid_monthly": 209.53955,
+          "total_monthly": 1268.726473076923
         },
         "diesel_details": {
-          "diesel_kwh_monthly": 2657.3,
-          "effective_tariff": 0.5292763910157504,
+          "diesel_kwh_monthly": 1904.905,
+          "effective_tariff": 0.5560313627592572,
           "hours_per_day": 12.0,
-          "monthly_liters": 1062.92,
+          "monthly_liters": 761.962,
           "price_per_liter": 1.1538461538461537
         },
         "energy_scenario": "diesel_replacement",
-        "estimated_consumption_kwh": 5314.6,
-        "explanation": "Solar is moderately viable because: Strong ROI of 18.4%; Limited solar coverage (29%).",
+        "estimated_consumption_kwh": 3809.81,
+        "explanation": "Solar is moderately viable because: Strong ROI of 19.2%; Limited solar coverage (41%).",
         "lifetime_prediction": {
           "assumptions": {
             "annual_degradation_pct": 0.7000000000000001,
@@ -2644,14 +2644,14 @@
           ]
         },
         "location": "Kigali, Rwanda",
-        "monthly_savings": 497.28,
+        "monthly_savings": 518.1,
         "predicted_generation_kwh": 1555.772066116333,
         "recommendation": "Medium",
         "recommended_panel_area_m2": 50.0,
-        "roi_percentage": 18.42,
+        "roi_percentage": 19.19,
         "status": "MODERATELY VIABLE",
         "system_cost": 32400.0,
-        "viability_score": 43.91
+        "viability_score": 48.54
       }
     },
     {
@@ -2696,7 +2696,7 @@
         "monthly_savings_usd": 367.02127659574467
       },
       "actual": {
-        "consumption_kwh": 13750.41,
+        "consumption_kwh": 6741.2,
         "system_cost_usd": 32400.0,
         "system_cost_local": 76140000.0,
         "payback_years": 12.714857546503415,
@@ -2704,7 +2704,7 @@
         "monthly_savings_local": 499022.5
       },
       "deviations": {
-        "consumption_kwh": 472.93375,
+        "consumption_kwh": 180.88333333333333,
         "system_cost": 1616.4111812443643,
         "monthly_savings": -42.142318840579705,
         "payback_years": 3078.7143866258534
@@ -2716,18 +2716,18 @@
         "payback_years": "HIGH"
       },
       "api_response": {
-        "analyzed_at": "2026-02-25T12:48:46.045054",
+        "analyzed_at": "2026-02-25T13:01:06.707373",
         "business_name": "Dar Fresh Mart Grocery",
         "business_type": "Grocery",
         "confidence": 85.0,
         "current_energy_cost": {
           "diesel_monthly": 0,
-          "grid_monthly": 1512.5451,
-          "total_monthly": 1512.5451
+          "grid_monthly": 741.532,
+          "total_monthly": 741.532
         },
         "energy_scenario": "grid_only",
-        "estimated_consumption_kwh": 13750.41,
-        "explanation": "Solar is not viable because: Moderate ROI of 7.9%; Limited solar coverage (14%).",
+        "estimated_consumption_kwh": 6741.2,
+        "explanation": "Solar is not viable because: Moderate ROI of 7.9%; Limited solar coverage (29%).",
         "lifetime_prediction": {
           "assumptions": {
             "annual_degradation_pct": 0.7000000000000001,
@@ -3026,7 +3026,7 @@
         "roi_percentage": 7.86,
         "status": "NOT VIABLE",
         "system_cost": 32400.0,
-        "viability_score": 23.5
+        "viability_score": 27.88
       }
     },
     {
@@ -3066,18 +3066,18 @@
         "monthly_savings_usd": 956.7567567567568
       },
       "actual": {
-        "consumption_kwh": 11134.65,
+        "consumption_kwh": 6856.28,
         "system_cost_usd": 27000.0,
         "system_cost_local": 499500.0,
-        "payback_years": 6.0534316231268,
-        "monthly_savings_usd": 371.69,
-        "monthly_savings_local": 6876.265
+        "payback_years": 5.940437216179111,
+        "monthly_savings_usd": 378.76,
+        "monthly_savings_local": 7007.0599999999995
       },
       "deviations": {
-        "consumption_kwh": 114.12788461538462,
+        "consumption_kwh": 31.85153846153846,
         "system_cost": 384.4810863239573,
-        "monthly_savings": -61.15104519774012,
-        "payback_years": 1110.68632462536
+        "monthly_savings": -60.41209039548022,
+        "payback_years": 1088.0874432358223
       },
       "assessment": {
         "consumption_kwh": "HIGH",
@@ -3086,25 +3086,25 @@
         "payback_years": "HIGH"
       },
       "api_response": {
-        "analyzed_at": "2026-02-25T12:48:47.214653",
+        "analyzed_at": "2026-02-25T13:01:08.217319",
         "business_name": "Cape Meat Locker Cold Storage",
         "business_type": "Cold storage",
         "confidence": 85.0,
         "current_energy_cost": {
-          "diesel_monthly": 1228.589864864865,
-          "grid_monthly": 1234.090375,
-          "total_monthly": 2462.680239864865
+          "diesel_monthly": 785.3353153153153,
+          "grid_monthly": 759.9043666666668,
+          "total_monthly": 1545.239681981982
         },
         "diesel_details": {
-          "diesel_kwh_monthly": 2319.71875,
-          "effective_tariff": 0.529628803002461,
+          "diesel_kwh_monthly": 1428.3916666666667,
+          "effective_tariff": 0.5498039043786883,
           "hours_per_day": 5.0,
-          "monthly_liters": 927.8875,
+          "monthly_liters": 571.3566666666667,
           "price_per_liter": 1.2432432432432432
         },
         "energy_scenario": "diesel_replacement",
-        "estimated_consumption_kwh": 11134.65,
-        "explanation": "Solar is not viable because: Strong ROI of 16.5%; Limited solar coverage (15%).",
+        "estimated_consumption_kwh": 6856.28,
+        "explanation": "Solar is moderately viable because: Strong ROI of 16.8%; Limited solar coverage (25%).",
         "lifetime_prediction": {
           "assumptions": {
             "annual_degradation_pct": 0.7000000000000001,
@@ -3396,14 +3396,14 @@
           ]
         },
         "location": "Cape Town, South Africa",
-        "monthly_savings": 371.69,
+        "monthly_savings": 378.76,
         "predicted_generation_kwh": 1680.5548667907715,
-        "recommendation": "Low",
+        "recommendation": "Medium",
         "recommended_panel_area_m2": 50.0,
-        "roi_percentage": 16.52,
-        "status": "NOT VIABLE",
+        "roi_percentage": 16.83,
+        "status": "MODERATELY VIABLE",
         "system_cost": 27000.0,
-        "viability_score": 36.81
+        "viability_score": 40.1
       }
     },
     {
@@ -3453,7 +3453,7 @@
         "monthly_savings_usd": 557.1428571428571
       },
       "actual": {
-        "consumption_kwh": 14768.39,
+        "consumption_kwh": 7343.92,
         "system_cost_usd": 32400.0,
         "system_cost_local": 4536000.0,
         "payback_years": 14.021603656003322,
@@ -3461,7 +3461,7 @@
         "monthly_savings_local": 26958.4
       },
       "deviations": {
-        "consumption_kwh": 310.23305555555555,
+        "consumption_kwh": 103.99777777777778,
         "system_cost": 814.5161290322582,
         "monthly_savings": -65.43794871794871,
         "payback_years": 2704.3207312006643
@@ -3473,18 +3473,18 @@
         "payback_years": "HIGH"
       },
       "api_response": {
-        "analyzed_at": "2026-02-25T12:48:48.287006",
+        "analyzed_at": "2026-02-25T13:01:09.531596",
         "business_name": "Nairobi Frosty Mini Mart",
         "business_type": "Supermarket/mini mart",
         "confidence": 85.0,
         "current_energy_cost": {
           "diesel_monthly": 0,
-          "grid_monthly": 1624.5229,
-          "total_monthly": 1624.5229
+          "grid_monthly": 807.8312,
+          "total_monthly": 807.8312
         },
         "energy_scenario": "grid_only",
-        "estimated_consumption_kwh": 14768.39,
-        "explanation": "Solar is not viable because: Moderate ROI of 7.1%; Limited solar coverage (12%).",
+        "estimated_consumption_kwh": 7343.92,
+        "explanation": "Solar is not viable because: Moderate ROI of 7.1%; Limited solar coverage (24%).",
         "lifetime_prediction": {
           "assumptions": {
             "annual_degradation_pct": 0.7000000000000001,
@@ -3783,7 +3783,7 @@
         "roi_percentage": 7.13,
         "status": "NOT VIABLE",
         "system_cost": 32400.0,
-        "viability_score": 21.75
+        "viability_score": 25.35
       }
     }
   ]

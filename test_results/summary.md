@@ -1,6 +1,6 @@
 # MODEL 4 TEST SUITE - EXECUTIVE SUMMARY
 
-**Test Date:** 2026-02-25T14:48:49.841241
+**Test Date:** 2026-02-25T15:01:11.096770
 
 **API Endpoint:** https://dse-models-production.up.railway.app/api/v1/analyze
 
@@ -21,8 +21,8 @@
 | Lagos Fresh Cuts Butchery | Nigeria | ❌ FAIL | consumption_kwh, system_cost, monthly_savings, payback_years |
 | Accra Daily Grocery | Ghana | ❌ FAIL | consumption_kwh, system_cost, monthly_savings, payback_years |
 | Nairobi Bread Haven Bakery | Kenya | ❌ FAIL | consumption_kwh, system_cost, monthly_savings, payback_years |
-| Johannesburg ChillMart Superma | South Africa | ❌ FAIL | consumption_kwh, system_cost, monthly_savings, payback_years |
-| Addis Ice Foods Frozen Retail | Ethiopia | ❌ FAIL | consumption_kwh, system_cost, monthly_savings, payback_years |
+| Johannesburg ChillMart Superma | South Africa | ❌ FAIL | system_cost, monthly_savings, payback_years |
+| Addis Ice Foods Frozen Retail | Ethiopia | ❌ FAIL | system_cost, monthly_savings, payback_years |
 | Kampala Farm Cold Storage | Uganda | ❌ FAIL | consumption_kwh, system_cost, monthly_savings, payback_years |
 | Kigali Quick Freeze Butchery | Rwanda | ❌ FAIL | consumption_kwh, system_cost, monthly_savings, payback_years |
 | Dar Fresh Mart Grocery | Tanzania | ❌ FAIL | consumption_kwh, system_cost, monthly_savings, payback_years |
@@ -40,10 +40,10 @@
 
 ### Issues Identified:
 
-- **consumption_kwh**: 10 profiles affected
 - **system_cost**: 10 profiles affected
 - **monthly_savings**: 10 profiles affected
 - **payback_years**: 10 profiles affected
+- **consumption_kwh**: 9 profiles affected
 
 ---
 
