@@ -742,18 +742,24 @@ def calculate_system_cost(panel_area_m2, country=None):
     """
 
     # Tiered cost per m² based on system size
+    # CORRECTED: African SME market rates (realistic 2024-2026 values)
+    # Basis: $1.50-2.50/W installed × 200W/m² = $300-500/m² depending on size
     if panel_area_m2 <= 10:
         # Small system: high fixed cost amortised over small area
-        cost_per_m2 = 750
+        # Target: ~$3,500-4,500 for 10m² system
+        cost_per_m2 = 400
     elif panel_area_m2 <= 20:
-        # Transition zone: linear ramp from 750 to 650
-        cost_per_m2 = 750 - (panel_area_m2 - 10) * 10
+        # Transition zone: economies start kicking in
+        # Linear decrease from 400 to 250 over 10-20m² range
+        cost_per_m2 = 400 - (panel_area_m2 - 10) * 15
     elif panel_area_m2 <= 35:
         # Mid-size: typical SME market rate
-        cost_per_m2 = 650
+        # Target: ~$6,000-8,000 for 30m² system
+        cost_per_m2 = 200
     else:
         # Large system: economies of scale kick in
-        cost_per_m2 = 600
+        # Target: ~$8,000-10,000 for 50m² system
+        cost_per_m2 = 160
 
     # Country-level adjustment factor
     COUNTRY_COST_FACTORS = {
