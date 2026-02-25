@@ -72,13 +72,13 @@ def create_app() -> Flask:
 # ============================================
 
 EQUIPMENT_POWER_ESTIMATES = {
-    # Refrigeration - UPDATED ESTIMATES (Bug Fix #2)
-    'refrigerator': 150,           # Unchanged
-    'freezer': 250,                # ✅ CHANGED: 200 → 250 (more realistic)
-    'fridge': 150,                 # Unchanged
-    'cold_room': 1000,             # ✅ CRITICAL FIX: 500 → 1000 (was severely underestimated)
-    'display_cooler': 250,         # Unchanged
-    'ice_maker': 300,              # Unchanged
+    # CRITICAL FIXES - Reduce by 40-50%
+    'refrigerator': 100,      # Was 150
+    'freezer': 150,           # Was 250
+    'fridge': 100,            # Was 150
+    'cold_room': 600,         # Was 1000
+    'display_cooler': 150,    # Was 250
+    'ice_maker': 200,         # Was 300
     
     # Kitchen
     'oven': 2500,
@@ -155,8 +155,13 @@ def convert_equipment_to_business_metrics(equipment_list):
                 # Standard fridge/freezer
                 num_refrigeration_units += quantity
         
-        # Weight hours by power consumption
-        total_power_watts += power_watts * quantity
+        # Refrigeration has 40-60% duty cycle
+        if any(keyword in equipment_type for keyword in refrigeration_keywords):
+            duty_cycle = 0.5  # 50% duty cycle
+        else:
+            duty_cycle = 1.0
+            
+        total_power_watts += power_watts * quantity * duty_cycle
         total_weighted_hours += (power_watts * quantity * hours_per_day)
         equipment_count += 1
     
