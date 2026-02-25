@@ -168,15 +168,7 @@ These are computed internally and **not** part of the public request schema:
 | `equipment_summary.total_refrigeration_units` | integer | Echo of `num_refrigeration_units` from request.                                                           |
 | `equipment_summary.total_other_equipment`     | integer | Always `0` in current implementation (not tracked).                                                       |
 
-#### 6.3 Post-Processing Logic
-
-**Refrigeration Scaling Delta**: After the climate-adjusted monthly kWh is computed, the following correction is applied:
-- `fridge_delta = num_refrigeration_units - 8`
-- `monthly_kwh = max(0, monthly_kwh + fridge_delta * 29)`
-
-This adds or subtracts 29 kWh per refrigeration unit relative to an 8-unit baseline, before the breakdown split is calculated.
-
-#### 6.4 Output Validation Rules
+#### 6.3 Output Validation Rules
 
 From the current implementation:
 

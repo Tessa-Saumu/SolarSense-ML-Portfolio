@@ -67,7 +67,7 @@ PORT=5000
 | Model 2 | `{MODELS_BASE_URL}/predict-generation` | 30s | Yes |
 | Model 3 | `{MODELS_BASE_URL}/calculate-roi` | 30s | Yes |
 
-**Geographic constraint:** Model 2 only covers Sub-Saharan Africa (lat: -26 to 6, lon: -18 to 44). Requests outside this range cause Model 2 to return 400, which triggers a 503 from Model 4.
+**Geographic constraint:** Model 2 only covers Sub-Saharan Africa (lat: -34 to 16, lon: -18 to 45). Requests outside this range are rejected by Model 2 with a 400 response. In addition, Model 4 performs its own country lookup and returns 400 Unsupported Location when coordinates do not map to a supported country.
 
 ---
 
@@ -261,16 +261,17 @@ interface ErrorResponse {
 Model 4 automatically scales the recommended solar system based on consumption:
 
 ```
-target_generation = consumption_kwh * 0.90          # 90% coverage target
+target_generation = consumption_kwh * 0.90              # 90% coverage target
 scaling_factor    = target_generation / base_10m2_generation
-scaling_factor    = clamp(scaling_factor, 1.0, 5.0) # max 50m² for SME realism
+scaling_factor    = clamp(scaling_factor, 1.0, 10.0)    # max 100m² for cold-storage-heavy SMEs
 recommended_m2    = 10 * scaling_factor
-system_cost_usd   = tiered_rate * panel_area * country_adjustment
-# Tiered rate: $750/m² (≤10m²), linearly interpolated $750→$650/m² (10–20m²), $650/m² (20–35m²), $600/m² (>35m²).
-# country_adjustment: 0.90–1.15 based on coordinates.
+system_cost_usd   = cost_per_m2(panel_area) * country_adjustment
+# cost_per_m2: ~\$80/m² for ≤10m², linearly interpolated down to ~\$50/m² between 10–20m²,
+#              \$50/m² for 20–35m², and \$40/m² for >35m².
+# country_adjustment: 0.90–1.15 based on resolved country.
 ```
 
-**Cap rationale:** 50m² (~$20,000) is the realistic upper bound for African SME solar deployment. Beyond this, financing becomes the limiting factor, not ROI.
+**Cap rationale:** 100m² is reserved for the heaviest cold-storage use cases. Typical African SME systems stay in the 10–50m² band; larger projects should be modelled with a dedicated design tool.
 
 ---
 

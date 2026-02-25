@@ -16,9 +16,9 @@ All versioned endpoints are prefixed with `/api/v1`.
 
 ### 2. Endpoints Overview
 
-- `/`  
+- `/api/v1/health`  
   - **Method**: `GET`  
-  - **Description**: Health check / simple status message.
+  - **Description**: Health check endpoint.
 
 - `/api/v1/calculate-roi`  
   - **Method**: `POST`  
@@ -28,22 +28,37 @@ All versioned endpoints are prefixed with `/api/v1`.
 
 ### 3. Required Headers
 
-For `POST /api/v1/calculate-roi`:
+For all `/api/v1/*` endpoints:
 
-- **Content-Type**: `application/json`
+- **Content-Type**: `application/json` (for JSON requests)
+- **X-API-KEY**: your API key
 
-No other headers are strictly required by the current implementation.
+The API key value is read from the `API_KEY` environment variable.
 
 ---
 
 ### 4. Authentication & Security
 
-- **Authentication**:  
-  - None. The current implementation does **not** require authentication or authorization.
+- **Authentication mechanism**:  
+  - API key header enforced via `@app.before_request` on all paths starting with `/api/`.
+
+- **Behavior when API key is missing or invalid**:  
+  - Returns **401 Unauthorized** with JSON body:
+
+```json
+{ "error": "Unauthorized" }
+```
+
+- **Behavior when `API_KEY` is not configured on the server**:  
+  - Returns **500 Internal Server Error** with JSON body:
+
+```json
+{ "error": "Internal server error" }
+```
 
 - **Transport security**:  
   - Local development uses HTTP (`http://localhost:5000`).  
-  - For production deployments, it is recommended to front the service with an HTTPS‑terminating proxy/load balancer.
+  - For production deployments, front the service with an HTTPS-terminating proxy or load balancer.
 
 ---
 
@@ -197,7 +212,17 @@ When the configured rate limits are exceeded:
 
 HTTP status **429**.
 
-#### 8.4 500 – Internal Server Error
+#### 8.4 401 – Unauthorized
+
+When the `X-API-KEY` header is missing or does not match the configured `API_KEY`:
+
+```json
+{ "error": "Unauthorized" }
+```
+
+HTTP status **401**.
+
+#### 8.5 500 – Internal Server Error
 
 For unexpected server errors (including exceptions inside the ROI calculation),
 the API returns:
@@ -250,13 +275,14 @@ Example response:
 
 ### 11. Error Codes Summary
 
-| HTTP Status | When Returned                                             | Example Body                                      |
-|-------------|-----------------------------------------------------------|---------------------------------------------------|
-| 200         | Successful ROI calculation                                | `{ "monthly_savings_usd": ..., "roi_percentage": ..., "system_cost_usd": ... }` |
-| 400         | Invalid/missing JSON, missing fields, type/validation errors | `{ "error": "Request body must be a JSON object" }` |
-| 413         | Request payload exceeds 100 KB                            | `{ "error": "Request payload too large" }`        |
-| 429         | Rate limit exceeded                                       | `{ "error": "Rate limit exceeded" }`              |
-| 500         | Unexpected server error                                   | `{ "error": "Internal server error" }`            |
+| HTTP Status | When Returned                                                 | Example Body                                      |
+|-------------|---------------------------------------------------------------|---------------------------------------------------|
+| 200         | Successful ROI calculation                                    | `{ "monthly_savings_usd": ..., "roi_percentage": ..., "system_cost_usd": ... }` |
+| 400         | Invalid/missing JSON, missing fields, type/validation errors  | `{ "error": "Request body must be a JSON object" }` |
+| 401         | Missing or invalid `X-API-KEY`                                | `{ "error": "Unauthorized" }`                     |
+| 413         | Request payload exceeds 100 KB                                | `{ "error": "Request payload too large" }`        |
+| 429         | Rate limit exceeded                                           | `{ "error": "Rate limit exceeded" }`              |
+| 500         | Unexpected server error or missing `API_KEY` configuration    | `{ "error": "Internal server error" }`            |
 
 ---
 

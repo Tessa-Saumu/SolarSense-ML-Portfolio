@@ -64,8 +64,8 @@ This is the primary endpoint. It orchestrates Models 1–3 and returns a complet
 | `business_name` | string | 1–200 chars | Business display name |
 | `business_type` | string | See enum | Type of business |
 | `location` | string | Non-empty | Human-readable location (e.g. "Nairobi, Kenya") |
-| `latitude` | float | -90 to 90 | Decimal degrees. **Model 2 only covers -26 to 6 (SSA)** |
-| `longitude` | float | -180 to 180 | Decimal degrees. **Model 2 only covers -18 to 44 (SSA)** |
+| `latitude` | float | -90 to 90 | Decimal degrees. **Model 2 only covers Sub-Saharan Africa: lat -34 to 16** |
+| `longitude` | float | -180 to 180 | Decimal degrees. **Model 2 only covers Sub-Saharan Africa: lon -18 to 45** |
 
 **Plus one of these two input modes:**
 
@@ -177,8 +177,8 @@ All successful responses include the following fields.
 | `analyzed_at` | string | ISO 8601 timestamp |
 | `estimated_consumption_kwh` | float | Monthly energy consumption (kWh) from Model 1 |
 | `predicted_generation_kwh` | float | Monthly solar generation (kWh) scaled to recommended system size |
-| `recommended_panel_area_m2` | float | Recommended solar panel area. Capped at 50m² (~$20,000) for SME realism |
-| `system_cost` | float | Estimated system cost in USD. Uses tiered pricing: $750/m² for ≤10m², linearly ramped to $650/m² for ≤20m², $650/m² for ≤35m², $600/m² for >35m². A country-level adjustment factor (0.90–1.15) is then applied. The max is not a fixed $20,000. |
+| `recommended_panel_area_m2` | float | Recommended solar panel area. Typically 10–50m² for SMEs and capped at 100m² for heavy cold-storage use cases |
+| `system_cost` | float | Estimated system cost in USD. Uses a tiered cost-per-m² schedule that decreases with system size (approximately $80/m² for very small systems down to $40/m² for larger systems) multiplied by a country adjustment factor (0.90–1.15). Do not hard-code these constants on the client; treat `system_cost` as an opaque model output. |
 | `roi_percentage` | float | Annual ROI percentage |
 | `monthly_savings` | float | Monthly savings in USD |
 | `recommendation` | string | `"High"`, `"Medium"`, or `"Low"` |
@@ -327,7 +327,7 @@ The most common cause of 503 is coordinates outside Model 2's geographic coverag
 | Constraint | Detail |
 |------------|--------|
 | Geographic coverage | Model 2 only covers Sub-Saharan Africa: lat -34 to 16, lon -18 to 45. Note that Model 4's own country lookup may reject coordinates before Model 2 is reached. |
-| Max system size | 50m² (~$20,000). Larger systems not modelled for SME context |
+| Max system size | 100m². Larger systems not modelled for SME context |
 | Diesel fuel efficiency | Model uses 0.40 L/kWh (partial load). Full-load rated efficiency is 0.25 L/kWh |
 | Generation month | Uses current calendar month for solar prediction (not annual average) |
 | No battery storage | Battery/storage scenarios not yet modelled (v1.3.0 planned) |
