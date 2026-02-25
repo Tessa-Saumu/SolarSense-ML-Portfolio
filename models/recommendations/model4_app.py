@@ -370,8 +370,11 @@ def validate_business_input(data):
         if not isinstance(_raw, (int, float)) or isinstance(_raw, bool):
             return False, "diesel_price_per_liter must be a valid number"
         diesel_price = float(_raw)
-        if not (0 < diesel_price <= 10):
-            return False, "diesel_price_per_liter must be between 0 and 10"
+        
+        uses_diesel = data.get('uses_diesel', False)
+        if 'diesel_price_per_liter' in data and uses_diesel:    
+            if not (0 < diesel_price <= 10):
+                return False, "diesel_price_per_liter must be between 0 and 10"
     
     return True, None
 
