@@ -44,10 +44,10 @@ from requests.exceptions import RequestException, Timeout
 # CONFIGURATION
 # ============================================================================
 
-MODEL_1_BASE_URL = os.getenv("MODEL_1_BASE_URL", "http://localhost:8000") #live url https://dse-models-production.up.railway.app
-MODEL_2_BASE_URL = os.getenv("MODEL_2_BASE_URL", "http://localhost:8000") #local url http://localhost:8000
-MODEL_3_BASE_URL = os.getenv("MODEL_3_BASE_URL", "http://localhost:8000")
-MODEL_4_BASE_URL = os.getenv("MODEL_4_BASE_URL", "http://localhost:8000")
+MODEL_1_BASE_URL = os.getenv("MODEL_1_BASE_URL", "live url https://dse-models-production.up.railway.app") #live url https://dse-models-production.up.railway.app
+MODEL_2_BASE_URL = os.getenv("MODEL_2_BASE_URL", "live url https://dse-models-production.up.railway.app") #local url http://localhost:8000
+MODEL_3_BASE_URL = os.getenv("MODEL_3_BASE_URL", "live url https://dse-models-production.up.railway.app")
+MODEL_4_BASE_URL = os.getenv("MODEL_4_BASE_URL", "live url https://dse-models-production.up.railway.app")
 
 MODEL_1_ENDPOINT   = f"{MODEL_1_BASE_URL}/api/v1/estimate-consumption"
 MODEL_2_ENDPOINT   = f"{MODEL_2_BASE_URL}/api/v1/predict-generation"
