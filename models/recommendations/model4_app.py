@@ -71,145 +71,130 @@ def create_app() -> Flask:
 # EQUIPMENT TO BUSINESS METRICS CONVERTER
 # ============================================
 
-EQUIPMENT_POWER_ESTIMATES = {
-    # CRITICAL FIXES - Reduce by 40-50%
-    'refrigerator': 100,      # Was 150
-    'freezer': 150,           # Was 250
-    'fridge': 100,            # Was 150
-    'cold_room': 600,         # Was 1000
-    'display_cooler': 150,    # Was 250
-    'ice_maker': 200,         # Was 300
+# EQUIPMENT_POWER_ESTIMATES = {
+#     # CRITICAL FIXES - Reduce by 40-50%
+#     'refrigerator': 100,      # Was 150
+#     'freezer': 150,           # Was 250
+#     'fridge': 100,            # Was 150
+#     'cold_room': 600,         # Was 1000
+#     'display_cooler': 150,    # Was 250
+#     'ice_maker': 200,         # Was 300
     
-    # Kitchen
-    'oven': 2500,
-    'stove': 1500,
-    'microwave': 1000,
-    'grill': 2000,
-    'fryer': 2500,
-    'espresso_machine': 1500,
-    'coffee_maker': 800,
+#     # Kitchen
+#     'oven': 2500,
+#     'stove': 1500,
+#     'microwave': 1000,
+#     'grill': 2000,
+#     'fryer': 2500,
+#     'espresso_machine': 1500,
+#     'coffee_maker': 800,
     
-    # HVAC
-    'air_conditioner': 1500,
-    'ac': 1500,
-    'fan': 75,
-    'heater': 1500,
+#     # HVAC
+#     'air_conditioner': 1500,
+#     'ac': 1500,
+#     'fan': 75,
+#     'heater': 1500,
     
-    # Lighting
-    'lights': 60,
-    'led_lights': 20,
-    'fluorescent': 40,
+#     # Lighting
+#     'lights': 60,
+#     'led_lights': 20,
+#     'fluorescent': 40,
     
-    # Office
-    'computer': 200,
-    'printer': 100,
-    'monitor': 50,
+#     # Office
+#     'computer': 200,
+#     'printer': 100,
+#     'monitor': 50,
     
-    # Fitness
-    'treadmill': 700,
+#     # Fitness
+#     'treadmill': 700,
     
-    # Other
-    'water_cooler': 500,
-    'water_heater': 3000,
-    'dishwasher': 1800,
-    'washing_machine': 500,
-}
+#     # Other
+#     'water_cooler': 500,
+#     'water_heater': 3000,
+#     'dishwasher': 1800,
+#     'washing_machine': 500,
+# }
+
+# FIXED: Equipment to Business Metrics Converter
+# This version eliminates double-counting and power-based calculations
 
 def convert_equipment_to_business_metrics(equipment_list):
     """
     Convert equipment list to business metrics for Model 1.
     
-    FIXED VERSION - Simplified refrigeration counting:
-    - Removed complex power-based weighting
-    - Model 1 now handles consumption calculation directly
-    - Cold rooms tracked separately for area estimation only
+    FIXED VERSION - Critical Changes:
+    1. NO power calculations - Model 1 handles all consumption
+    2. NO power-based floor area estimation - use minimal defaults
+    3. ONLY count equipment and extract operating hours
+    4. Let Model 1 do its job with accurate refrigeration units count
+    
+    Model 1 already includes:
+    - Base load: 10 kWh/sqm/month (lighting, HVAC, misc)
+    - Refrigeration: 250 kWh/month per unit (with climate adjustment)
+    
+    Args:
+        equipment_list: List of dicts with equipment_type, quantity, hours_per_day
     
     Returns:
-        dict with sqft_m2, operating_hours_weekly, num_refrigeration_units
+        dict with sqft_m2, operating_hours_weekly, num_refrigeration_units, num_workers
     """
-    # Count refrigeration units
+    
+    # Count refrigeration equipment
     refrigeration_keywords = ['refrigerat', 'freezer', 'fridge', 'cold', 'cooler', 'ice']
     num_refrigeration_units = 0
-    cold_room_count = 0
-    
-    total_power_watts = 0
-    total_weighted_hours = 0  # Weighted by power consumption
-    equipment_count = 0
+    max_hours_per_day = 0
     
     for item in equipment_list:
         equipment_type = item.get('equipment_type', '').lower()
         quantity = item.get('quantity', 1)
-        hours_per_day = item.get('hours_per_day', 12)  # Default 12 hrs/day
+        hours_per_day = item.get('hours_per_day', 12)
         
-        # Get power estimate
-        power_watts = EQUIPMENT_POWER_ESTIMATES.get(equipment_type, 100)  # Default 100W
-        
-        # ========================================================================
-        # CRITICAL FIX: Simplified refrigeration counting
-        # Just count units directly - Model 1 handles consumption calculation
-        # ========================================================================
+        # Count refrigeration units (Model 1 will calculate their consumption)
         if any(keyword in equipment_type for keyword in refrigeration_keywords):
-            # Track cold rooms separately for area estimation
-            if 'cold' in equipment_type and 'room' in equipment_type:
-                cold_room_count += quantity
-            
-            # Count all refrigeration equipment equally
-            # Model 1 will apply correct consumption values per unit type
             num_refrigeration_units += quantity
         
-        # Refrigeration has 40-60% duty cycle
-        if any(keyword in equipment_type for keyword in refrigeration_keywords):
-            duty_cycle = 0.5  # 50% duty cycle
-        else:
-            duty_cycle = 1.0
-            
-        total_power_watts += power_watts * quantity * duty_cycle
-        total_weighted_hours += (power_watts * quantity * hours_per_day)
-        equipment_count += 1
+        # Track maximum operating hours across all equipment
+        max_hours_per_day = max(max_hours_per_day, hours_per_day)
     
-    # Calculate weighted average operating hours
-    if total_power_watts > 0:
-        avg_hours_per_day = total_weighted_hours / total_power_watts
-    else:
-        avg_hours_per_day = 12  # fallback
-    
-    # Cap at 16h/day max — refrigeration runs 24h but that's already
-    # captured in Model 1's per-unit marginal consumption.
-    # This hours value represents BASE LOAD (lighting/fans/misc) only.
-    operating_hours_weekly = min(avg_hours_per_day, 16.0) * 7
-    
-    # Estimate floor area based on refrigeration unit count only.
-    # Lights, fans, and other small equipment do NOT dictate floor area —
-    # the old formula counted every light bulb as 15 sqm, massively inflating sqft.
-    if num_refrigeration_units <= 2:
-        estimated_sqft_m2 = 50
+    # ========================================================================
+    # FIXED: Use minimal floor area estimates based on business size
+    # These are ONLY for calculating base load (lighting, HVAC, misc)
+    # Model 1 will add refrigeration consumption separately
+    # ========================================================================
+    if num_refrigeration_units == 0:
+        # No refrigeration - small kiosk/office
+        sqft_m2 = 30
+    elif num_refrigeration_units <= 2:
+        # 1-2 units - small shop (butchery, salon)
+        sqft_m2 = 40
     elif num_refrigeration_units <= 5:
-        estimated_sqft_m2 = 85
+        # 3-5 units - medium shop
+        sqft_m2 = 60
     elif num_refrigeration_units <= 10:
-        estimated_sqft_m2 = 130
+        # 6-10 units - large shop/small supermarket
+        sqft_m2 = 100
+    elif num_refrigeration_units <= 15:
+        # 11-15 units - supermarket
+        sqft_m2 = 150
     else:
-        estimated_sqft_m2 = min(250, 130 + (num_refrigeration_units - 10) * 12)
-
-    # Add extra space for cold rooms (20 sqm each)
-    cold_room_bonus = cold_room_count * 20
-    estimated_sqft_m2 = estimated_sqft_m2 + cold_room_bonus
+        # 16+ units - large supermarket/industrial
+        sqft_m2 = 200
     
-    # Cap at reasonable maximums
-    operating_hours_weekly = min(168, operating_hours_weekly)
-    num_refrigeration_units = min(500, num_refrigeration_units)
-    estimated_sqft_m2 = min(10000, estimated_sqft_m2)
+    # Convert hours per day to weekly
+    if max_hours_per_day > 0:
+        operating_hours_weekly = max_hours_per_day * 7
+    else:
+        operating_hours_weekly = 84  # Default: 12 hrs/day × 7 days
     
-    logger.info(f"📊 Equipment conversion (FIXED):")
-    logger.info(f"   {len(equipment_list)} equipment items")
-    logger.info(f"   → {num_refrigeration_units} refrigeration units")
-    logger.info(f"   → {cold_room_count} cold rooms detected")
-    logger.info(f"   → {operating_hours_weekly:.0f} hours/week")
-    logger.info(f"   → {estimated_sqft_m2:.0f} sqm estimated")
+    # Cap at reasonable maximum (24 hrs/day = 168 hrs/week)
+    operating_hours_weekly = min(operating_hours_weekly, 168)
     
     return {
-        'sqft_m2': estimated_sqft_m2,
+        'sqft_m2': sqft_m2,
         'operating_hours_weekly': operating_hours_weekly,
-        'num_refrigeration_units': num_refrigeration_units
+        'num_refrigeration_units': num_refrigeration_units,
+        'num_workers': 3,  # Default estimate
+        'months_per_year': 12
     }
     
 def scale_lifetime_prediction(base_lifetime_dict, scaling_factor):
