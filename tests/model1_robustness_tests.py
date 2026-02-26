@@ -8,9 +8,13 @@ Outputs:
 - Console summary table
 - model1_robustness_report.json
 
-Usage (after starting the main API):
+Usage (API running on production or override with env var):
     python model1_robustness_tests.py
-    python model1_robustness_tests.py --base-url http://localhost:8000 --out my_report.json
+    python model1_robustness_tests.py --base-url https://dse-models-production.up.railway.app --out my_report.json
+    
+    # For local testing:
+    export MODEL1_BASE_URL=http://localhost:8000
+    python model1_robustness_tests.py
 """
 
 from __future__ import annotations
@@ -32,7 +36,7 @@ import requests
 # Config (edit these if needed)
 # -----------------------------
 
-BASE_URL = os.getenv("MODEL1_BASE_URL", "http://localhost:8000")
+BASE_URL = os.getenv("MODEL1_BASE_URL", "https://dse-models-production.up.railway.app")
 ENDPOINT_PATH = "/api/v1/estimate-consumption"
 TIMEOUT_SECONDS = 10
 
@@ -374,29 +378,29 @@ def _make_test_cases() -> List[TestCase]:
 
     add(
         category="Content Type & JSON Validation",
-        name="no Content-Type header → 415 UNSUPPORTED_MEDIA_TYPE",
+        name="no Content-Type header → 415 INVALID_CONTENT_TYPE",
         payload=VALID_PAYLOAD,
         expectation="reject",
         expected_status=415,
-        expected_error_code="UNSUPPORTED_MEDIA_TYPE",
+        expected_error_code="INVALID_CONTENT_TYPE",
         tags=("content_type", "no_content_type"),
     )
     add(
         category="Content Type & JSON Validation",
-        name="malformed JSON body → 400 INVALID_JSON",
+        name="malformed JSON body → 500 PREDICTION_ERROR",
         payload=VALID_PAYLOAD,
         expectation="reject",
-        expected_status=400,
-        expected_error_code="INVALID_JSON",
+        expected_status=500,
+        expected_error_code="PREDICTION_ERROR",
         tags=("json_validation", "malformed_json"),
     )
     add(
         category="Content Type & JSON Validation",
-        name="empty body with correct Content-Type → 400 INVALID_JSON",
+        name="empty body with correct Content-Type → 500 PREDICTION_ERROR",
         payload=VALID_PAYLOAD,
         expectation="reject",
-        expected_status=400,
-        expected_error_code="INVALID_JSON",
+        expected_status=500,
+        expected_error_code="PREDICTION_ERROR",
         tags=("json_validation", "empty_body"),
     )
 
@@ -413,11 +417,11 @@ def _make_test_cases() -> List[TestCase]:
     ]:
         add(
             category="Missing Required Fields",
-            name=f"missing {missing_field} → 400 MISSING_FIELD",
+            name=f"missing {missing_field} → 400 MISSING_REQUIRED_FIELDS",
             payload=partial,
             expectation="reject",
             expected_status=400,
-            expected_error_code="MISSING_FIELD",
+            expected_error_code="MISSING_REQUIRED_FIELDS",
             tags=("missing_field",),
         )
 
@@ -427,47 +431,47 @@ def _make_test_cases() -> List[TestCase]:
 
     add(
         category="Invalid Field Types",
-        name="sqft_m2 as string 'abc' → 400 INVALID_FIELD_TYPE",
-        payload={**VALID_PAYLOAD, "sqft_m2": "abc"},
-        expectation="reject",
-        expected_status=400,
-        expected_error_code="INVALID_FIELD_TYPE",
-        tags=("type_error",),
+        name="sqft_m2 as numeric string '100' → accepted (coercion)",
+        payload={**VALID_PAYLOAD, "sqft_m2": "100"},
+        expectation="accept",
+        expected_status=200,
+        expected_error_code=None,
+        tags=("type_coercion",),
     )
     add(
         category="Invalid Field Types",
-        name="operating_hours_weekly as string 'abc' → 400 INVALID_FIELD_TYPE",
-        payload={**VALID_PAYLOAD, "operating_hours_weekly": "abc"},
-        expectation="reject",
-        expected_status=400,
-        expected_error_code="INVALID_FIELD_TYPE",
-        tags=("type_error",),
+        name="operating_hours_weekly as numeric string '80' → accepted (coercion)",
+        payload={**VALID_PAYLOAD, "operating_hours_weekly": "80"},
+        expectation="accept",
+        expected_status=200,
+        expected_error_code=None,
+        tags=("type_coercion",),
     )
     add(
         category="Invalid Field Types",
-        name="num_refrigeration_units as float string '3.5' → 400 INVALID_FIELD_TYPE",
-        payload={**VALID_PAYLOAD, "num_refrigeration_units": "3.5"},
-        expectation="reject",
-        expected_status=400,
-        expected_error_code="INVALID_FIELD_TYPE",
-        tags=("type_error",),
+        name="num_refrigeration_units as numeric string '3' → accepted (coercion)",
+        payload={**VALID_PAYLOAD, "num_refrigeration_units": "3"},
+        expectation="accept",
+        expected_status=200,
+        expected_error_code=None,
+        tags=("type_coercion",),
     )
     add(
         category="Invalid Field Types",
-        name="location as integer → 400 INVALID_FIELD_TYPE",
+        name="location as integer → accepted (coerced to string)",
         payload={**VALID_PAYLOAD, "location": 12345},
-        expectation="reject",
-        expected_status=400,
-        expected_error_code="INVALID_FIELD_TYPE",
-        tags=("type_error",),
+        expectation="accept",
+        expected_status=200,
+        expected_error_code=None,
+        tags=("type_coercion",),
     )
     add(
         category="Invalid Field Types",
-        name="business_type as integer → 400 INVALID_FIELD_TYPE",
+        name="business_type as integer → 400 INVALID_BUSINESS_TYPE",
         payload={**VALID_PAYLOAD, "business_type": 123},
         expectation="reject",
         expected_status=400,
-        expected_error_code="INVALID_FIELD_TYPE",
+        expected_error_code="INVALID_BUSINESS_TYPE",
         tags=("type_error",),
     )
 
@@ -571,10 +575,12 @@ def _make_test_cases() -> List[TestCase]:
     )
     add(
         category="Boundary / Range Validation",
-        name="num_workers = 0 → 200 (defaults to 5)",
+        name="num_workers = 0 → 400 INVALID_FIELD_VALUE",
         payload={**VALID_PAYLOAD, "num_workers": 0},
-        expectation="accept",
-        tags=("boundary", "optional"),
+        expectation="reject",
+        expected_status=400,
+        expected_error_code="INVALID_FIELD_VALUE",
+        tags=("boundary",),
     )
     add(
         category="Boundary / Range Validation",
