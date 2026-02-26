@@ -42,7 +42,7 @@ logger = logging.getLogger(__name__)
 # CONFIGURATION
 # ============================================
 
-MODEL_4_BASE_URL = os.getenv("MODEL_4_BASE_URL", "https://dse-models-production.up.railway.app")
+MODEL_4_BASE_URL = os.getenv("MODEL_4_BASE_URL", "http://localhost:8000")
 MODEL_4_ENDPOINT = f"{MODEL_4_BASE_URL}/api/v1/analyze"
 API_KEY = os.getenv("API_KEY")
 
