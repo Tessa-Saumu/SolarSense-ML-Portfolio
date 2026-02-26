@@ -173,7 +173,10 @@ def convert_equipment_to_business_metrics(equipment_list):
     else:
         avg_hours_per_day = 12  # fallback
     
-    operating_hours_weekly = avg_hours_per_day * 7
+    # Cap at 16h/day max — refrigeration runs 24h but that's already
+    # captured in Model 1's per-unit marginal consumption.
+    # This hours value represents BASE LOAD (lighting/fans/misc) only.
+    operating_hours_weekly = min(avg_hours_per_day, 16.0) * 7
     
     # Estimate floor area based on refrigeration unit count only.
     # Lights, fans, and other small equipment do NOT dictate floor area —
@@ -186,7 +189,7 @@ def convert_equipment_to_business_metrics(equipment_list):
         estimated_sqft_m2 = 130
     else:
         estimated_sqft_m2 = min(250, 130 + (num_refrigeration_units - 10) * 12)
-        
+
     # Add extra space for cold rooms (20 sqm each)
     cold_room_bonus = cold_room_count * 20
     estimated_sqft_m2 = estimated_sqft_m2 + cold_room_bonus
