@@ -23,7 +23,7 @@ echo.
 REM ── 1. Model 1 - Single Freezer ─────────────────────────────
 echo [1/3] Model 1 - Single Freezer (Butchery, Lagos)...
 curl.exe -s -w "\nHTTP Status: %%{http_code}\n" ^
-  -X POST "%BASE_URL%/estimate-consumption" ^
+  -X POST "%BASE_URL%/analyze" ^
   -H "Content-Type: application/json" ^
   -H "X-API-KEY: %API_KEY%" ^
   -d "{\"business_type\": \"butchery\", \"sqft_m2\": 60, \"operating_hours_weekly\": 98, \"num_refrigeration_units\": 1, \"location\": \"Lagos, Nigeria\", \"num_workers\": 3, \"months_per_year\": 12}"

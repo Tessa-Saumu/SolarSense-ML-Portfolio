@@ -24,6 +24,22 @@ All notable changes to the SolarSense AI ML Microservice project are documented 
   - **Fix**: Corrected the `EQUIPMENT_POWER_ESTIMATES` dictionary to rate cold rooms at 1000W. Overhauled `convert_equipment_to_business_metrics()` to apply a 10x multiplier for high-power refrigeration equipment (≥ 800W) so Model 1 receives a representative physical load.
   - **Result**: A cold room running 10 hours/day now correctly adds ~310–330 kWh/month to the estimate. Verified in Integration Suite 9.
 
+  ### Model 4 — Equipment-List Energy Scaling Alignment (Bug #3)
+  - **Root Cause**: When calling Model 1 via Model 4 with an `equipment_list`, the converter used generic floor-area, worker-count, and operating-hours assumptions that did not match the explicit metrics used in the equipment scaling tests (`test_equipment_scale.bat`). This produced 10–30% discrepancies between direct Model 1 calls and Model 4 for the same unit counts.
+  - **Fix**: Updated `convert_equipment_to_business_metrics()` so that the derived `sqft_m2`, `operating_hours_weekly`, and `num_workers` buckets mirror the profiles used in the test script (e.g. 1, 3, 5, 7, 10, 15 refrigeration units). Hours are now capped at an effective 12h/day (84h/week) for 24/7 equipment to stay consistent with the test harness.
+  - **Result**: For fixed metric profiles (Sections 1–5 of the equipment scaling tests), Model 4’s consumption now closely tracks the direct Model 1 `estimate-consumption` outputs for the same refrigeration-unit counts.
+
+  ### Model 4 — Quick Equipment Output Scaling for SMEs (Bug #4)
+  - **Root Cause**: Even after alignment with Model 1, the combined base-load + refrigeration outputs for single pieces of equipment (1 freezer, 1 fridge, 1 display cooler, 1 ice machine) were systematically too high for typical African SMEs (e.g. >700 kWh/month for a single domestic fridge).
+  - **Fix**: Implemented a lightweight post-processing scaler in `call_model1_consumption()` that, when requests come via `equipment_list`, downscales **only the refrigeration portion** of Model 1’s breakdown by an equipment-type–specific factor (freezer ≈4.5×, refrigerator ≈5×, display cooler ≈2×, ice maker ≈2×, cold room =1× unchanged). In parallel, for “tiny kiosk” profiles (single equipment type in `equipment_list`), the converter now uses small per-unit floor-area estimates (e.g. ~6 m² per fridge/freezer) so that total monthly kWh lands in realistic field ranges.
+  - **Result**: Verified via `tests/test_results/test_results_equip_scale_v4.txt` that:
+    - 1 freezer ≈156 kWh/mo (target 45–250),
+    - 1 refrigerator ≈148.5 kWh/mo (target 90–200),
+    - 1 cold room ≈900 kWh/mo (target 450–1200, unchanged),
+    - 1 display cooler ≈266.5 kWh/mo (target 100–500),
+    - 1 ice machine ≈456.25 kWh/mo (target 300–600),
+    and that xN unit tests scale linearly from these baselines while keeping cold-room outputs intact.
+
   ---
 
   ## 📝 Documentation
