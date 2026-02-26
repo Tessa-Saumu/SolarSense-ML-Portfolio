@@ -119,11 +119,10 @@ def convert_equipment_to_business_metrics(equipment_list):
     """
     Convert equipment list to business metrics for Model 1.
     
-    IMPROVED in Bug Fix #2:
-    - Better power consumption estimates (cold_room: 500W → 1000W)
-    - Weighted hours calculation based on actual power consumption
-    - More accurate floor area estimation
-    - ✅ REFINED: Weighted refrigeration counts (Cold Room = 5 units)
+    FIXED VERSION - Simplified refrigeration counting:
+    - Removed complex power-based weighting
+    - Model 1 now handles consumption calculation directly
+    - Cold rooms tracked separately for area estimation only
     
     Returns:
         dict with sqft_m2, operating_hours_weekly, num_refrigeration_units
@@ -131,6 +130,7 @@ def convert_equipment_to_business_metrics(equipment_list):
     # Count refrigeration units
     refrigeration_keywords = ['refrigerat', 'freezer', 'fridge', 'cold', 'cooler', 'ice']
     num_refrigeration_units = 0
+    cold_room_count = 0
     
     total_power_watts = 0
     total_weighted_hours = 0  # Weighted by power consumption
@@ -141,19 +141,21 @@ def convert_equipment_to_business_metrics(equipment_list):
         quantity = item.get('quantity', 1)
         hours_per_day = item.get('hours_per_day', 12)  # Default 12 hrs/day
         
-        # Get power estimate (now includes improved cold_room estimate)
+        # Get power estimate
         power_watts = EQUIPMENT_POWER_ESTIMATES.get(equipment_type, 100)  # Default 100W
         
-        # Count refrigeration (Weighted by power impact)
+        # ========================================================================
+        # CRITICAL FIX: Simplified refrigeration counting
+        # Just count units directly - Model 1 handles consumption calculation
+        # ========================================================================
         if any(keyword in equipment_type for keyword in refrigeration_keywords):
-            # Model 1 expects "standard fridge units" (~200W). 
-            # We must normalize high-power items like Cold Rooms (1000W).
-            if power_watts >= 800:
-                # 1 Cold Room (1000W) ≈ 10 Standard Fridges (to match ~300kWh/mo load)
-                num_refrigeration_units += (quantity * 10)
-            else:
-                # Standard fridge/freezer
-                num_refrigeration_units += quantity
+            # Track cold rooms separately for area estimation
+            if 'cold' in equipment_type and 'room' in equipment_type:
+                cold_room_count += quantity
+            
+            # Count all refrigeration equipment equally
+            # Model 1 will apply correct consumption values per unit type
+            num_refrigeration_units += quantity
         
         # Refrigeration has 40-60% duty cycle
         if any(keyword in equipment_type for keyword in refrigeration_keywords):
@@ -173,29 +175,32 @@ def convert_equipment_to_business_metrics(equipment_list):
     
     operating_hours_weekly = avg_hours_per_day * 7
     
-    # Estimate floor area based on equipment count and type
-    base_area = sum(item.get('quantity', 1) for item in equipment_list) * 15
-    
-    # Count cold rooms and add extra space for them
-    cold_room_count = sum(
-        item.get('quantity', 1) 
-        for item in equipment_list 
-        if 'cold' in item.get('equipment_type', '').lower() and 'room' in item.get('equipment_type', '').lower()
-    )
-    cold_room_bonus = cold_room_count * 20  # Each cold room adds 20 sqm
-    
-    estimated_sqft_m2 = max(50, base_area + cold_room_bonus)  # Minimum 50 sqm
+    # Estimate floor area based on refrigeration unit count only.
+    # Lights, fans, and other small equipment do NOT dictate floor area —
+    # the old formula counted every light bulb as 15 sqm, massively inflating sqft.
+    if num_refrigeration_units <= 2:
+        estimated_sqft_m2 = 50
+    elif num_refrigeration_units <= 5:
+        estimated_sqft_m2 = 85
+    elif num_refrigeration_units <= 10:
+        estimated_sqft_m2 = 130
+    else:
+        estimated_sqft_m2 = min(250, 130 + (num_refrigeration_units - 10) * 12)
+        
+    # Add extra space for cold rooms (20 sqm each)
+    cold_room_bonus = cold_room_count * 20
+    estimated_sqft_m2 = estimated_sqft_m2 + cold_room_bonus
     
     # Cap at reasonable maximums
     operating_hours_weekly = min(168, operating_hours_weekly)
     num_refrigeration_units = min(500, num_refrigeration_units)
     estimated_sqft_m2 = min(10000, estimated_sqft_m2)
     
-    logger.info(f"📊 Equipment conversion (REFINED):")
+    logger.info(f"📊 Equipment conversion (FIXED):")
     logger.info(f"   {len(equipment_list)} equipment items")
-    logger.info(f"   → {num_refrigeration_units} refrigeration units (weighted)")
+    logger.info(f"   → {num_refrigeration_units} refrigeration units")
     logger.info(f"   → {cold_room_count} cold rooms detected")
-    logger.info(f"   → {operating_hours_weekly:.0f} hours/week (weighted)")
+    logger.info(f"   → {operating_hours_weekly:.0f} hours/week")
     logger.info(f"   → {estimated_sqft_m2:.0f} sqm estimated")
     
     return {

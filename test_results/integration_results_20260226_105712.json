@@ -1,7 +1,7 @@
 {
-  "timestamp": "2026-02-22T06:29:22.619986",
+  "timestamp": "2026-02-26T10:57:12.020486",
   "month": 2,
-  "model_base_url": "http://localhost:8000",
+  "model_base_url": "https://dse-models-production.up.railway.app",
   "suites_run": [
     1,
     2,
@@ -9,19 +9,21 @@
     4,
     5,
     6,
-    7
+    7,
+    8,
+    9
   ],
   "results": [
     {
       "number": 1,
       "name": "On-Grid Chain (M1\u2192M2\u2192M3 + M4 smoke)",
-      "passed": true,
+      "passed": false,
       "skipped": false
     },
     {
       "number": 2,
       "name": "Diesel Scenario (M4 blended tariff)",
-      "passed": true,
+      "passed": false,
       "skipped": false
     },
     {
@@ -33,7 +35,7 @@
     {
       "number": 4,
       "name": "Input Variability \u2192 Output Diversity",
-      "passed": true,
+      "passed": false,
       "skipped": false
     },
     {
@@ -53,9 +55,21 @@
       "name": "Model 2 Location Sensitivity",
       "passed": true,
       "skipped": false
+    },
+    {
+      "number": 8,
+      "name": "Lifetime Scaling Validation",
+      "passed": false,
+      "skipped": false
+    },
+    {
+      "number": 9,
+      "name": "Cold Room Consumption Validation",
+      "passed": false,
+      "skipped": false
     }
   ],
-  "passed": 6,
-  "total": 7,
+  "passed": 3,
+  "total": 9,
   "any_fail": true
 }

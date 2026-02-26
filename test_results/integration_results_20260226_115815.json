@@ -1,5 +1,5 @@
 {
-  "timestamp": "2026-02-22T06:34:52.501275",
+  "timestamp": "2026-02-26T11:58:15.739396",
   "month": 2,
   "model_base_url": "http://localhost:8000",
   "suites_run": [
@@ -9,19 +9,21 @@
     4,
     5,
     6,
-    7
+    7,
+    8,
+    9
   ],
   "results": [
     {
       "number": 1,
       "name": "On-Grid Chain (M1\u2192M2\u2192M3 + M4 smoke)",
-      "passed": true,
+      "passed": false,
       "skipped": false
     },
     {
       "number": 2,
       "name": "Diesel Scenario (M4 blended tariff)",
-      "passed": true,
+      "passed": false,
       "skipped": false
     },
     {
@@ -33,7 +35,7 @@
     {
       "number": 4,
       "name": "Input Variability \u2192 Output Diversity",
-      "passed": true,
+      "passed": false,
       "skipped": false
     },
     {
@@ -45,7 +47,7 @@
     {
       "number": 6,
       "name": "Caching / Default-Value Detection",
-      "passed": true,
+      "passed": false,
       "skipped": false
     },
     {
@@ -53,9 +55,21 @@
       "name": "Model 2 Location Sensitivity",
       "passed": true,
       "skipped": false
+    },
+    {
+      "number": 8,
+      "name": "Lifetime Scaling Validation",
+      "passed": false,
+      "skipped": false
+    },
+    {
+      "number": 9,
+      "name": "Cold Room Consumption Validation",
+      "passed": false,
+      "skipped": false
     }
   ],
-  "passed": 7,
-  "total": 7,
-  "any_fail": false
+  "passed": 3,
+  "total": 9,
+  "any_fail": true
 }
