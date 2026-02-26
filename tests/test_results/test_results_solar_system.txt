@@ -1,0 +1,61 @@
+./test_solar_sizing.bat
+
+ Where do you want to run tests?
+   [1] LOCAL   (http://127.0.0.1:8000)
+   [2] REMOTE  (https://dse-models-production.up.railway.app)
+
+Enter 1 or 2: 1
+
+ Running against: LOCAL (http://127.0.0.1:8000/api/v1)
+============================================================
+
+============================================================
+ SECTION 1: CONSUMPTION ÔåÆ PANEL AREA / SOLAR (NAIROBI)
+ Expectation: higher load ÔåÆ higher generation, larger panel area, higher cost      
+============================================================
+
+--- S1-A: Tiny kiosk (1 fridge, Nairobi) ---
+  consumption: 120.0 kWh/mo | generation: 350.1056098937988 kWh/mo | area: 10.0 m2 | cost: $864.0 | MODERATELY VIABLE
+
+--- S1-B: Small shop (2 fridges + 1 freezer, Nairobi) ---
+  consumption: 1206.21 kWh/mo | generation: 1085.5890000000002 kWh/mo | area: 31.00747229755339 m2 | cost: $1674.4 | HIGHLY VIABLE
+
+--- S1-C: Mid supermarket (4 fridges + 3 freezers + lights, Nairobi) ---
+  consumption: 1998.81 kWh/mo | generation: 1798.9289999999999 kWh/mo | area: 51.3824671517171 m2 | cost: $2219.72 | HIGHLY VIABLE
+
+--- S1-D: Cold storage (3 cold rooms + 5 freezers, Nairobi) ---
+  consumption: 2312.94 kWh/mo | generation: 2081.646 kWh/mo | area: 59.45765909410728 m2 | cost: $2568.57 | HIGHLY VIABLE
+
+============================================================
+ SECTION 2: SAME LOAD, DIFFERENT CITIES
+ Expectation: similar consumption, but different solar yield/panel size/cost by location
+============================================================
+
+--- S2-A: Mid grocery (Accra) ---
+  consumption: 1532.63 kWh/mo | generation: 1379.3670000000002 kWh/mo | area: 45.50782722223445 m2 | cost: $2002.34 | HIGHLY VIABLE
+
+--- S2-B: Mid grocery (Nairobi) ---
+  consumption: 1414.74 kWh/mo | generation: 1273.266 kWh/mo | area: 36.36805478170524 m2 | cost: $1571.1 | HIGHLY VIABLE
+
+--- S2-C: Mid grocery (Lagos) ---
+  consumption: 1591.58 kWh/mo | generation: 1432.422 kWh/mo | area: 48.52210558438447 m2 | cost: $2232.02 | HIGHLY VIABLE
+
+--- S2-D: Mid grocery (Johannesburg) ---
+  consumption: 1391.16 kWh/mo | generation: 1252.044 kWh/mo | area: 37.25091113481269 m2 | cost: $1341.03 | HIGHLY VIABLE
+
+============================================================
+ SECTION 3: DIESEL VS GRID (SAME EQUIPMENT)
+ Expectation: diesel changes ROI/tariff, but panel area/generation stay similar      
+============================================================
+
+--- S3-A: Large supermarket (grid only, Lagos) ---
+  consumption: 3402.93 kWh/mo | generation: 2952.1018981933594 kWh/mo | area: 100.0 m2 | cost: $4600.0 | HIGHLY VIABLE
+
+--- S3-B: Large supermarket (18h diesel, Lagos) ---
+  consumption: 3402.93 kWh/mo | generation: 2952.1018981933594 kWh/mo | area: 100.0 m2 | cost: $4600.0 | HIGHLY VIABLE
+
+============================================================
+ ALL DONE  -  Key checks:
+   S3: Diesel toggles ROI/tariff but area/generation stay similar
+============================================================
+Press any key to continue . . .

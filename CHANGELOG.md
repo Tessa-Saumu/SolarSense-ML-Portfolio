@@ -40,11 +40,21 @@ All notable changes to the SolarSense AI ML Microservice project are documented 
     - 1 ice machine ≈456.25 kWh/mo (target 300–600),
     and that xN unit tests scale linearly from these baselines while keeping cold-room outputs intact.
 
+  ### Model 4 — Solar Baseline & System Cost Alignment (Bug #5)
+  - **Root Cause**: Model 2’s 10m² baseline monthly generation exposed via Model 4 was systematically above the target ranges in `tests/Test Benchmarks.md` (e.g. Nairobi and Johannesburg ~10–30% high), and Model 4’s system cost tiers produced 10m² systems that were ~3–5× cheaper than the benchmark ranges for each country.
+  - **Fix**: Added a lightweight per-country baseline adjustment inside `analyze()` so that `base_generation_10m2_kwh` for Kenya, Ghana, Nigeria, and South Africa is scaled down into each country’s benchmark monthly kWh range for a 10m² system. Updated `calculate_system_cost()` to use higher, tiered cost-per-m² rates (200→160 $/m²) combined with revised country cost factors so that a 10m² system now lands inside the benchmark USD ranges (e.g. Kenya ≈$2,000, Nigeria ≈$2,400). Increased the intelligent sizing cap from 100m² (10×) to 200m² (20×) so high-consumption supermarkets and cold-storage profiles can still target ~90% coverage.
+  - **Result**: Verified via `tests/test_results/test_results_solar_system_v2.txt` that (1) recovered 10m² baselines per country now fall inside the expected ranges; (2) `predicted_generation_kwh` is ~90% of consumption for all but the tiniest loads (which hit the 10m² floor); (3) panel area grows monotonically with consumption up to the 200m² cap; and (4) system costs now sit within the benchmark USD ranges and maintain the intended relative ordering across countries.
+
+  ### Model 4 — Country Grid Tariffs Aligned to Benchmarks (Bug #6)
+  - **Root Cause**: `resolve_country_and_tariff()` in `model4_app.py` used hard-coded grid tariffs that no longer matched the updated benchmark ranges in `tests/Test Benchmarks.md` for each supported country.
+  - **Fix**: Updated all country tariffs in `resolve_country_and_tariff()` to use the midpoint of the documented 2025–2026 national SME tariff ranges: Ghana 0.085, Nigeria 0.175, Kenya 0.17, South Africa 0.13, Ethiopia 0.065, Uganda 0.45, Tanzania 0.10, Rwanda 0.115 USD/kWh.
+  - **Result**: Model 4’s ROI and diesel-blended tariff calculations now use grid prices that are numerically consistent with the benchmark documentation and test expectations, avoiding silent drift between code and test data.
+
   ---
 
   ## 📝 Documentation
-
-  - **Model 4 orchestration**: `ORCHESTRATION_API_CONTRACT.md` and `ORCHESTRATION_INTEGRATION_GUIDE.md` updated to describe the refined intelligent system sizing (up to 100m² for heavy refrigeration), the corrected cost-per-m² tiers (approximately \$80→\$40 per m² depending on size), and the expanded Model 2 coverage bounds (lat [-34, 16], lon [-18, 45]) plus Model 4 country lookup behaviour.
+  
+  - **Model 4 orchestration**: `ORCHESTRATION_API_CONTRACT.md` and `ORCHESTRATION_INTEGRATION_GUIDE.md` updated to describe the refined intelligent system sizing (now up to 200m² for heavy refrigeration and cold storage), the updated cost-per-m² tiers (approximately \$200→\$160 per m² depending on size, multiplied by country factors calibrated to `tests/Test Benchmarks.md`), and the expanded Model 2 coverage bounds (lat [-34, 16], lon [-18, 45]) plus Model 4 country lookup behaviour and per-country solar baseline adjustment.
   - **ROI API**: `ROI_API_CONTRACT.md` and `ROI_ENGINE_INTEGRATION_GUIDE.md` updated to match `roi_calculation_api.py`: API key authentication on all `/api/v1/*` endpoints, health endpoint at `/api/v1/health`, 100 KB payload limit, 100 req/minute rate limit, and consistent JSON error shapes (including 401).
   - **Model 1 energy consumption**: `MODEL1_API_CONTRACT.md` and `INTEGRATION_GUIDE_MODEL1.md` aligned with `app_ml.py` by removing legacy refrigeration delta text, clarifying output validation behaviour, and documenting the current authentication and validation rules.
   - **README**: Root `README.md` adjusted so the Model 4 section reflects the supported location handling and current error semantics for `/api/v1/analyze`.

@@ -20,3 +20,10 @@ elif args.mode == 'blend':
     s = d.get('status', '?')
     cost = d.get('system_cost', '?')
     print(f"  consumption: {c} kWh/mo | ROI: {r}% | cost: ${cost} | {s}")
+elif args.mode == 'solar':
+    c = d.get('estimated_consumption_kwh', 'ERR')
+    g = d.get('predicted_generation_kwh', d.get('error', 'ERR'))
+    area = d.get('recommended_panel_area_m2', '?')
+    cost = d.get('system_cost', '?')
+    s = d.get('status', '?')
+    print(f"  consumption: {c} kWh/mo | generation: {g} kWh/mo | area: {area} m2 | cost: ${cost} | {s}")
