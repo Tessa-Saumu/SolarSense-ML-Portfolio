@@ -261,7 +261,7 @@ def test_estimate_consumption_missing_business_type(client, app_with_mocked_mode
     assert resp.status_code == 400
     body = resp.get_json()
     assert "error" in body
-    assert body["error"]["code"] == "MISSING_FIELD"
+    assert body["error"]["code"] == "MISSING_REQUIRED_FIELDS"
     assert "business_type" in body["error"]["message"]
 
 
@@ -277,7 +277,7 @@ def test_estimate_consumption_missing_sqft_m2(client, app_with_mocked_model):
     resp = client.post("/api/v1/estimate-consumption", json=payload)
     assert resp.status_code == 400
     body = resp.get_json()
-    assert body["error"]["code"] == "MISSING_FIELD"
+    assert body["error"]["code"] == "MISSING_REQUIRED_FIELDS"
     assert "sqft_m2" in body["error"]["message"]
 
 
@@ -292,7 +292,7 @@ def test_estimate_consumption_missing_operating_hours(client, app_with_mocked_mo
     
     resp = client.post("/api/v1/estimate-consumption", json=payload)
     assert resp.status_code == 400
-    assert resp.get_json()["error"]["code"] == "MISSING_FIELD"
+    assert resp.get_json()["error"]["code"] == "MISSING_REQUIRED_FIELDS"
 
 
 def test_estimate_consumption_missing_refrigeration_units(client, app_with_mocked_model):
@@ -306,7 +306,7 @@ def test_estimate_consumption_missing_refrigeration_units(client, app_with_mocke
     
     resp = client.post("/api/v1/estimate-consumption", json=payload)
     assert resp.status_code == 400
-    assert resp.get_json()["error"]["code"] == "MISSING_FIELD"
+    assert resp.get_json()["error"]["code"] == "MISSING_REQUIRED_FIELDS"
 
 
 def test_estimate_consumption_missing_location(client, app_with_mocked_model):
@@ -320,7 +320,7 @@ def test_estimate_consumption_missing_location(client, app_with_mocked_model):
     
     resp = client.post("/api/v1/estimate-consumption", json=payload)
     assert resp.status_code == 400
-    assert resp.get_json()["error"]["code"] == "MISSING_FIELD"
+    assert resp.get_json()["error"]["code"] == "MISSING_REQUIRED_FIELDS"
 
 
 # ============================================================================
@@ -569,7 +569,7 @@ def test_estimate_consumption_not_json(client, app_with_mocked_model):
     )
     assert resp.status_code == 415
     body = resp.get_json()
-    assert body["error"]["code"] == "UNSUPPORTED_MEDIA_TYPE"
+    assert body["error"]["code"] == "INVALID_CONTENT_TYPE"
 
 
 def test_estimate_consumption_null_body(client, app_with_mocked_model):
@@ -638,7 +638,7 @@ def test_estimate_consumption_exceeds_max_sqft(client, app_with_mocked_model):
     assert resp.status_code == 400
     body = resp.get_json()
     assert body["error"]["code"] == "INVALID_FIELD_VALUE"
-    assert "exceeds maximum" in body["error"]["message"].lower()
+    assert '10000' in body["error"]["message"].lower()
 
 
 def test_estimate_consumption_very_small_sqft(client, app_with_mocked_model):
@@ -719,7 +719,7 @@ def test_estimate_consumption_exceeds_max_refrigeration_units(client, app_with_m
     assert resp.status_code == 400
     body = resp.get_json()
     assert body["error"]["code"] == "INVALID_FIELD_VALUE"
-    assert "exceeds maximum" in body["error"]["message"].lower()
+    assert '500' in body["error"]["message"].lower()
 
 
 def test_estimate_consumption_exceeds_max_workers(client, app_with_mocked_model):
@@ -737,7 +737,7 @@ def test_estimate_consumption_exceeds_max_workers(client, app_with_mocked_model)
     assert resp.status_code == 400
     body = resp.get_json()
     assert body["error"]["code"] == "INVALID_FIELD_VALUE"
-    assert "exceeds maximum" in body["error"]["message"].lower()
+    assert '1000' in body["error"]["message"].lower()
 
 
 def test_estimate_consumption_location_too_long(client, app_with_mocked_model):
@@ -806,7 +806,7 @@ def test_estimate_consumption_model_not_loaded(client, app):
 
 
 def test_estimate_consumption_model_prediction_exception(client, app_with_mocked_model, mock_model_components):
-    """Test when model.predict() raises an exception."""
+    """Formula output bypasses the loaded model, even if prediction would fail."""
     mock_model_components['model'].predict.side_effect = Exception("Model prediction failed")
     
     app_with_mocked_model.config['best_model'] = mock_model_components['model']
@@ -821,13 +821,14 @@ def test_estimate_consumption_model_prediction_exception(client, app_with_mocked
     }
     
     resp = client.post("/api/v1/estimate-consumption", json=payload)
-    assert resp.status_code == 500
+    assert resp.status_code == 200
     body = resp.get_json()
-    assert body["error"]["code"] == "PREDICTION_ERROR"
+    assert body['estimated_consumption_kwh_monthly'] == pytest.approx(1957.5)
+    mock_model_components['model'].predict.assert_not_called()
 
 
 def test_estimate_consumption_scaler_transform_exception(client, app_with_mocked_model, mock_model_components):
-    """Test when scaler.transform() raises an exception."""
+    """Formula output bypasses scaling, even if transform would fail."""
     mock_model_components['scaler'].transform.side_effect = Exception("Scaler transform failed")
     
     app_with_mocked_model.config['scaler'] = mock_model_components['scaler']
@@ -842,8 +843,9 @@ def test_estimate_consumption_scaler_transform_exception(client, app_with_mocked
     }
     
     resp = client.post("/api/v1/estimate-consumption", json=payload)
-    assert resp.status_code == 500
-    assert resp.get_json()["error"]["code"] == "PREDICTION_ERROR"
+    assert resp.status_code == 200
+    assert resp.get_json()['estimated_consumption_kwh_monthly'] == pytest.approx(1957.5)
+    mock_model_components['scaler'].transform.assert_not_called()
 
 
 def test_estimate_consumption_encoder_transform_exception(client, app_with_mocked_model, mock_model_components):
