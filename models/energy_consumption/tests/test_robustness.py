@@ -83,7 +83,7 @@ class TestContentTypeAndJsonValidation:
     def test_no_content_type_header_returns_415_unsupported_media_type(
         self, robustness_client, auth_headers
     ):
-        """No Content-Type header → 415, code UNSUPPORTED_MEDIA_TYPE."""
+        """No Content-Type header → 415, code INVALID_CONTENT_TYPE."""
         resp = robustness_client.post(
             "/api/v1/estimate-consumption",
             data=json.dumps(
@@ -99,7 +99,7 @@ class TestContentTypeAndJsonValidation:
         )
         assert resp.status_code == 415
         body = resp.get_json()
-        assert body["error"]["code"] == "UNSUPPORTED_MEDIA_TYPE"
+        assert body["error"]["code"] == "INVALID_CONTENT_TYPE"
 
     def test_malformed_json_body_returns_400_invalid_json(
         self, robustness_client, auth_headers
@@ -134,12 +134,12 @@ class TestContentTypeAndJsonValidation:
 
 
 class TestMissingRequiredFields:
-    """Each required field missing individually → 400, MISSING_FIELD."""
+    """Each required field missing individually → 400, MISSING_REQUIRED_FIELDS."""
 
     def test_missing_business_type_returns_400_missing_field(
         self, robustness_client, auth_headers
     ):
-        """Missing business_type → 400, MISSING_FIELD."""
+        """Missing business_type → 400, MISSING_REQUIRED_FIELDS."""
         payload = {
             "sqft_m2": 60,
             "operating_hours_weekly": 98,
@@ -150,13 +150,13 @@ class TestMissingRequiredFields:
             "/api/v1/estimate-consumption", json=payload, headers=auth_headers
         )
         assert resp.status_code == 400
-        assert resp.get_json()["error"]["code"] == "MISSING_FIELD"
+        assert resp.get_json()["error"]["code"] == "MISSING_REQUIRED_FIELDS"
         assert "business_type" in resp.get_json()["error"]["message"]
 
     def test_missing_sqft_m2_returns_400_missing_field(
         self, robustness_client, auth_headers
     ):
-        """Missing sqft_m2 → 400, MISSING_FIELD."""
+        """Missing sqft_m2 → 400, MISSING_REQUIRED_FIELDS."""
         payload = {
             "business_type": "butchery",
             "operating_hours_weekly": 98,
@@ -167,12 +167,12 @@ class TestMissingRequiredFields:
             "/api/v1/estimate-consumption", json=payload, headers=auth_headers
         )
         assert resp.status_code == 400
-        assert resp.get_json()["error"]["code"] == "MISSING_FIELD"
+        assert resp.get_json()["error"]["code"] == "MISSING_REQUIRED_FIELDS"
 
     def test_missing_operating_hours_weekly_returns_400_missing_field(
         self, robustness_client, auth_headers
     ):
-        """Missing operating_hours_weekly → 400, MISSING_FIELD."""
+        """Missing operating_hours_weekly → 400, MISSING_REQUIRED_FIELDS."""
         payload = {
             "business_type": "butchery",
             "sqft_m2": 60,
@@ -183,12 +183,12 @@ class TestMissingRequiredFields:
             "/api/v1/estimate-consumption", json=payload, headers=auth_headers
         )
         assert resp.status_code == 400
-        assert resp.get_json()["error"]["code"] == "MISSING_FIELD"
+        assert resp.get_json()["error"]["code"] == "MISSING_REQUIRED_FIELDS"
 
     def test_missing_num_refrigeration_units_returns_400_missing_field(
         self, robustness_client, auth_headers
     ):
-        """Missing num_refrigeration_units → 400, MISSING_FIELD."""
+        """Missing num_refrigeration_units → 400, MISSING_REQUIRED_FIELDS."""
         payload = {
             "business_type": "butchery",
             "sqft_m2": 60,
@@ -199,12 +199,12 @@ class TestMissingRequiredFields:
             "/api/v1/estimate-consumption", json=payload, headers=auth_headers
         )
         assert resp.status_code == 400
-        assert resp.get_json()["error"]["code"] == "MISSING_FIELD"
+        assert resp.get_json()["error"]["code"] == "MISSING_REQUIRED_FIELDS"
 
     def test_missing_location_returns_400_missing_field(
         self, robustness_client, auth_headers
     ):
-        """Missing location → 400, MISSING_FIELD."""
+        """Missing location → 400, MISSING_REQUIRED_FIELDS."""
         payload = {
             "business_type": "butchery",
             "sqft_m2": 60,
@@ -215,7 +215,7 @@ class TestMissingRequiredFields:
             "/api/v1/estimate-consumption", json=payload, headers=auth_headers
         )
         assert resp.status_code == 400
-        assert resp.get_json()["error"]["code"] == "MISSING_FIELD"
+        assert resp.get_json()["error"]["code"] == "MISSING_REQUIRED_FIELDS"
 
 
 # =============================================================================
@@ -516,7 +516,7 @@ class TestBoundaryRangeValidation:
         )
         assert resp.status_code == 400
 
-    def test_num_workers_zero_defaults_to_five_returns_200(
+    def test_num_workers_zero_rejected_returns_400(
         self, robustness_client, auth_headers
     ):
         """num_workers = 0 → 200 (should default to 5)."""
@@ -531,7 +531,8 @@ class TestBoundaryRangeValidation:
         resp = robustness_client.post(
             "/api/v1/estimate-consumption", json=payload, headers=auth_headers
         )
-        assert resp.status_code == 200
+        assert resp.status_code == 400
+        assert resp.get_json()["error"]["code"] == "INVALID_FIELD_VALUE"
 
     def test_num_workers_at_max_1000_is_accepted(
         self, robustness_client, auth_headers
@@ -904,7 +905,7 @@ class TestInputSensitivityBehavioral:
                 f"operating_hours_weekly sweep not monotonic: {results}"
             )
 
-    def test_num_refrigeration_units_sweep_refrigeration_share_50_to_70_percent(
+    def test_num_refrigeration_units_sweep_formula_breakdown(
         self, robustness_client, auth_headers, baseline_payload
     ):
         """num_refrigeration_units sweep [0, 1, 3, 10, 50]: refrigeration share 50–70%, increases with units."""
@@ -919,11 +920,10 @@ class TestInputSensitivityBehavioral:
             body = resp.get_json()
             total = body["estimated_consumption_kwh_monthly"]
             refrigeration = body["breakdown"]["refrigeration"]
-            if total > 0:
-                share = refrigeration / total
-                assert 0.50 <= share <= 0.70, (
-                    f"refrigeration share {share} not in [0.5, 0.7] for units={v}"
-                )
+            # Formula refrigeration is zero at zero units and linear otherwise;
+            # it is not constrained to a 50-70% allocation heuristic.
+            assert refrigeration == pytest.approx(v * 250 * body['climate_adjustment_factor'])
+            assert refrigeration + body['breakdown']['other'] == pytest.approx(total, abs=0.02)
             results_refrigeration.append(refrigeration)
         # At high unit count, refrigeration share is higher than at low (formula caps at 0.7)
         assert results_refrigeration[-1] >= results_refrigeration[0]
@@ -1048,9 +1048,10 @@ class TestOutputCappingAndSafetyRails:
         )
         assert resp.status_code == 200
         body = resp.get_json()
-        assert body["estimated_consumption_kwh_monthly"] == 1_000_000.0
+        assert body["estimated_consumption_kwh_monthly"] == pytest.approx(1957.5)
         assert body["breakdown"]["refrigeration"] >= 0
         assert body["breakdown"]["other"] >= 0
+        robustness_app.config["best_model"].predict.assert_not_called()
 
     def test_very_negative_prediction_reset_to_zero(
         self, robustness_app, robustness_client, auth_headers, robustness_valid_payload
@@ -1064,7 +1065,8 @@ class TestOutputCappingAndSafetyRails:
         )
         assert resp.status_code == 200
         body = resp.get_json()
-        assert body["estimated_consumption_kwh_monthly"] == 0.0
+        assert body["estimated_consumption_kwh_monthly"] == pytest.approx(1957.5)
+        robustness_app.config["best_model"].predict.assert_not_called()
 
 
 # =============================================================================

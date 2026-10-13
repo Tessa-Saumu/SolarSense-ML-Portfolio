@@ -1,3 +1,5 @@
+> October 2026 personal-fork clarification: this is a historical training card. Its rows/metrics differ from the later changelog and have not been reconciled to a final training run. The current consumption API uses a direct formula rather than `best_model.predict`; the scores below do not evaluate served consumption estimates. Do not use them as current public performance claims.
+
 
 ================================================================================
 MODEL CARD: Energy Consumption Prediction for African Food Retail SMEs

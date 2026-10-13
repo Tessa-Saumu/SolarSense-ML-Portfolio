@@ -143,7 +143,7 @@ def test_exceeds_max_sqft_m2(app_with_mocked_model_auth, valid_payload):
     assert resp.status_code == 400
     body = resp.get_json()
     assert body["error"]["code"] == "INVALID_FIELD_VALUE"
-    assert "exceeds maximum" in body["error"]["message"].lower()
+    assert '10000' in body["error"]["message"].lower()
 
 
 def test_exceeds_max_refrigeration_units(app_with_mocked_model_auth, valid_payload):
@@ -160,7 +160,7 @@ def test_exceeds_max_refrigeration_units(app_with_mocked_model_auth, valid_paylo
     assert resp.status_code == 400
     body = resp.get_json()
     assert body["error"]["code"] == "INVALID_FIELD_VALUE"
-    assert "exceeds maximum" in body["error"]["message"].lower()
+    assert '500' in body["error"]["message"].lower()
 
 
 def test_exceeds_max_workers(app_with_mocked_model_auth, valid_payload):
@@ -177,7 +177,7 @@ def test_exceeds_max_workers(app_with_mocked_model_auth, valid_payload):
     assert resp.status_code == 400
     body = resp.get_json()
     assert body["error"]["code"] == "INVALID_FIELD_VALUE"
-    assert "exceeds maximum" in body["error"]["message"].lower()
+    assert '1000' in body["error"]["message"].lower()
 
 
 def test_location_too_long(app_with_mocked_model_auth, valid_payload):
@@ -251,7 +251,7 @@ def test_error_hides_internal_details(app_with_mocked_model_auth, valid_payload)
     mock_model = MagicMock()
     mock_model.predict.side_effect = Exception("Internal model error")
     
-    app_with_mocked_model_auth.config['best_model'] = mock_model
+    app_with_mocked_model_auth.config['le_pba'].transform.side_effect = Exception('Internal model error')
     client = app_with_mocked_model_auth.test_client()
     
     resp = client.post(

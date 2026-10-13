@@ -924,47 +924,32 @@ def calculate_system_cost(panel_area_m2, country=None):
 # COUNTRY + TARIFF RESOLUTION (MVP)
 # ============================================
 
-def resolve_country_and_tariff(lat, lon):
+def resolve_country_and_tariff(lat: float, lon: float, country_hint=None):
+    """Resolve coarse box candidates, rejecting ambiguity without an explicit hint.
+
+    A hint selects assumptions only if that supported country's existing box
+    contains the coordinate. Boxes are not sovereign boundaries: this does not
+    geospatially validate the asserted country or establish tariff accuracy.
     """
-    Resolve supported country and return national average tariff (USD/kWh)
-    Returns:
-        dict with { country, tariff }
-        or None if not supported
-    """
-
-    # GHANA
-    if 4 <= lat <= 12 and -4 <= lon <= 2:
-        return {"country": "Ghana", "tariff": 0.085}
-
-    # NIGERIA
-    if 4 <= lat <= 15 and 2 <= lon <= 15:
-        return {"country": "Nigeria", "tariff": 0.175}
-
-    # SOUTH AFRICA
-    if -35 <= lat <= -21 and 16 <= lon <= 33:
-        return {"country": "South Africa", "tariff": 0.13}
-
-    # TANZANIA
-    if -12 <= lat <= 2 and 29 <= lon <= 41:
-        return {"country": "Tanzania", "tariff": 0.10}
-
-    # KENYA
-    if -5 <= lat <= 6 and 33 <= lon <= 42:
-        return {"country": "Kenya", "tariff": 0.17}
-
-    # RWANDA
-    if -3 <= lat <= -1 and 28 <= lon <= 31:
-        return {"country": "Rwanda", "tariff": 0.115}
-
-    # UGANDA
-    if -2 <= lat <= 5 and 29 <= lon <= 36:
-        return {"country": "Uganda", "tariff": 0.45}
-
-    # ETHIOPIA
-    if 3 <= lat <= 15 and 32 <= lon <= 48:
-        return {"country": "Ethiopia", "tariff": 0.065}
-
-    return None
+    countries = [
+        ("Ghana", 0.085, (4, 12, -4, 2)),
+        ("Nigeria", 0.175, (4, 15, 2, 15)),
+        ("South Africa", 0.13, (-35, -21, 16, 33)),
+        ("Tanzania", 0.10, (-12, 2, 29, 41)),
+        ("Kenya", 0.17, (-5, 6, 33, 42)),
+        ("Rwanda", 0.115, (-3, -1, 28, 31)),
+        ("Uganda", 0.45, (-2, 5, 29, 36)),
+        ("Ethiopia", 0.065, (3, 15, 32, 48)),
+    ]
+    matches = [{"country": name, "tariff": tariff}
+               for name, tariff, (south, north, west, east) in countries
+               if south <= lat <= north and west <= lon <= east]
+    if country_hint is not None:
+        if not isinstance(country_hint, str):
+            return None
+        matches = [item for item in matches
+                   if item["country"].casefold() == country_hint.strip().casefold()]
+    return matches[0] if len(matches) == 1 else None
 
 # ============================================
 # ENDPOINTS
@@ -1029,13 +1014,13 @@ def register_routes(app: Flask) -> None:
             longitude = float(data['longitude'])
 
             # --- AUTO RESOLVE TARIFF FROM COORDINATES ---
-            location_data = resolve_country_and_tariff(latitude, longitude)
+            location_data = resolve_country_and_tariff(latitude, longitude, data.get("country"))
 
             if not location_data:
                 logger.warning(f"❌ Unsupported coordinates: {latitude}, {longitude}")
                 return jsonify({
                     'error': 'Unsupported Location',
-                    'message': 'Coordinates not within supported countries'
+                    'message': 'Coordinates are unsupported or ambiguous; supply a supported country matching its coarse bounds. Country is an explicit assumption, not geospatial validation.'
                 }), 400
 
             country = location_data['country']
