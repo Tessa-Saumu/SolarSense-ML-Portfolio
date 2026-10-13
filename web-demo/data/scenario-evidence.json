@@ -1,0 +1,1724 @@
+{
+  "contract_version": "solarsense-scenario-v1",
+  "location": {
+    "country": "Kenya",
+    "city": "Nairobi",
+    "latitude": -1.2921,
+    "longitude": 36.8219
+  },
+  "reference_system": {
+    "panel_area_m2": 10.0,
+    "efficiency": 0.2
+  },
+  "monthly_reference_generation_kwh_day": [
+    10.681462287902832,
+    10.96521282196045,
+    10.786179542541504,
+    9.96187973022461,
+    9.87138557434082,
+    9.733133316040039,
+    9.607674598693848,
+    9.86123275756836,
+    10.423614501953125,
+    10.517823219299316,
+    9.360698699951172,
+    9.56750774383545
+  ],
+  "solar_profiles": {
+    "xgboost": [
+      10.681462287902832,
+      10.96521282196045,
+      10.786179542541504,
+      9.96187973022461,
+      9.87138557434082,
+      9.733133316040039,
+      9.607674598693848,
+      9.86123275756836,
+      10.423614501953125,
+      10.517823219299316,
+      9.360698699951172,
+      9.56750774383545
+    ],
+    "baseline": [
+      11.108392258064518,
+      11.430759501557635,
+      11.421554838709678,
+      10.707311222222222,
+      10.390275268817204,
+      9.641347333333334,
+      9.185602150537635,
+      9.437978279569894,
+      10.360237666666668,
+      10.919225268817204,
+      10.82112477777778,
+      10.835868924731184
+    ]
+  },
+  "model_sha256": "78f2724743520e63498266df24315c81f608dabc6e0e1d87f8318dc4b7772f1d",
+  "metadata_sha256": "05cc2fb1e609880c568d06aa52027b247401284f5e734dd39ce22d0ced36ef85",
+  "evaluation": {
+    "model_type": "XGBoost fixed-city holdout regression",
+    "feature_columns": [
+      "latitude",
+      "longitude",
+      "abs_latitude",
+      "month",
+      "is_dry_season"
+    ],
+    "reference_panel_area_m2": 10.0,
+    "reference_efficiency": 0.2,
+    "target": "Monthly mean GHI * 10 m\u00b2 * 0.20; theoretical kWh/day, not observed PV output",
+    "model_sha256": "78f2724743520e63498266df24315c81f608dabc6e0e1d87f8318dc4b7772f1d",
+    "dataset_sha256": "832f08dac4592b768bef50d8b91ca2e5a800f7d3d17ed42f56e1a4902995a0f9",
+    "dataset_hash_scope": "SHA-256 with CSV CRLF normalized to LF; content unchanged across Git checkouts",
+    "dataset_path": "models/solar_generation/models/solar_data_20cities_4yr.csv",
+    "raw_rows": 29200,
+    "usable_rows": 29100,
+    "missing_ghi_rows": 100,
+    "monthly_rows": 240,
+    "date_start": "2022-02-22",
+    "date_end": "2026-02-20",
+    "training_locations": [
+      "Abuja_Nigeria",
+      "Accra_Ghana",
+      "Addis_Ababa_Ethiopia",
+      "Bamako_Mali",
+      "Dakar_Senegal",
+      "Dar_es_Salaam_Tanzania",
+      "Garissa_Kenya",
+      "Harare_Zimbabwe",
+      "Kampala_Uganda",
+      "Kigali_Rwanda",
+      "Kinshasa_DRC",
+      "Kumasi_Ghana",
+      "Lagos_Nigeria",
+      "Maputo_Mozambique",
+      "Mombasa_Kenya"
+    ],
+    "held_out_locations": [
+      "Abidjan_Ivory_Coast",
+      "Cape_Town_SA",
+      "Johannesburg_SA",
+      "Lusaka_Zambia",
+      "Nairobi_Kenya"
+    ],
+    "training_rows": 180,
+    "test_rows": 60,
+    "parameters": {
+      "n_estimators": 400,
+      "max_depth": 4,
+      "learning_rate": 0.05,
+      "subsample": 0.9,
+      "colsample_bytree": 0.9,
+      "objective": "reg:squarederror",
+      "random_state": 42,
+      "n_jobs": 1,
+      "tree_method": "hist"
+    },
+    "versions": {
+      "xgboost": "3.1.3",
+      "sklearn": "1.8.0",
+      "pandas": "2.2.2",
+      "numpy": "2.4.1"
+    },
+    "validation_mape": 0.1120557816741968,
+    "evaluation": {
+      "model": {
+        "mae_kwh_day": 1.244177589034234,
+        "rmse_kwh_day": 1.7606527156415346,
+        "mape_percent": 11.20557816741968,
+        "r2": 0.47999246026189557
+      },
+      "baseline": {
+        "mae_kwh_day": 1.6305843927528219,
+        "rmse_kwh_day": 2.1182138550922165,
+        "mape_percent": 16.05443863024097,
+        "r2": 0.24733478088284422
+      }
+    },
+    "per_city": {
+      "Abidjan_Ivory_Coast": {
+        "model": {
+          "mae_kwh_day": 0.5059941072990821,
+          "rmse_kwh_day": 0.628679855444083,
+          "mape_percent": 6.070241168604858,
+          "r2": 0.6097803284721356
+        },
+        "baseline": {
+          "mae_kwh_day": 1.4107745410930228,
+          "rmse_kwh_day": 1.5108155624714412,
+          "mape_percent": 16.20919251435324,
+          "r2": -1.2535799452431595
+        }
+      },
+      "Cape_Town_SA": {
+        "model": {
+          "mae_kwh_day": 2.6314491782604614,
+          "rmse_kwh_day": 3.1483907645239766,
+          "mape_percent": 24.038449810339056,
+          "r2": 0.45600874363100696
+        },
+        "baseline": {
+          "mae_kwh_day": 3.2894321637160977,
+          "rmse_kwh_day": 3.78522373756708,
+          "mape_percent": 34.07776554109747,
+          "r2": 0.2136828107762473
+        }
+      },
+      "Johannesburg_SA": {
+        "model": {
+          "mae_kwh_day": 1.0067524001939878,
+          "rmse_kwh_day": 1.2277861087457271,
+          "mape_percent": 8.8014390793408,
+          "r2": 0.5567985699912983
+        },
+        "baseline": {
+          "mae_kwh_day": 1.3621328131734378,
+          "rmse_kwh_day": 1.474642585148851,
+          "mape_percent": 12.950911084495322,
+          "r2": 0.3606638448088433
+        }
+      },
+      "Lusaka_Zambia": {
+        "model": {
+          "mae_kwh_day": 0.5411634157433026,
+          "rmse_kwh_day": 0.6794967110008461,
+          "mape_percent": 4.590918110242726,
+          "r2": 0.5901177909009833
+        },
+        "baseline": {
+          "mae_kwh_day": 1.038964509736599,
+          "rmse_kwh_day": 1.3846138114926334,
+          "mape_percent": 8.600157378818734,
+          "r2": -0.7019299036159521
+        }
+      },
+      "Nairobi_Kenya": {
+        "model": {
+          "mae_kwh_day": 1.5355288436743368,
+          "rmse_kwh_day": 1.7951915356330501,
+          "mape_percent": 12.526842668570962,
+          "r2": -0.558635373375518
+        },
+        "baseline": {
+          "mae_kwh_day": 1.0516179360449536,
+          "rmse_kwh_day": 1.3160323367475857,
+          "mape_percent": 8.434166632440075,
+          "r2": 0.16236258882554244
+        }
+      }
+    },
+    "baseline_monthly_kwh_day": {
+      "1": 11.108392258064518,
+      "2": 11.430759501557635,
+      "3": 11.421554838709678,
+      "4": 10.707311222222222,
+      "5": 10.390275268817204,
+      "6": 9.641347333333334,
+      "7": 9.185602150537635,
+      "8": 9.437978279569894,
+      "9": 10.360237666666668,
+      "10": 10.919225268817204,
+      "11": 10.82112477777778,
+      "12": 10.835868924731184
+    },
+    "training_coordinate_bounds": {
+      "latitude": [
+        -25.969,
+        14.693
+      ],
+      "longitude": [
+        -17.047,
+        39.668
+      ]
+    },
+    "target_bounds_kwh_day": [
+      5.0457133333333335,
+      17.039374193548387
+    ],
+    "provenance": "Inherited NASA POWER-labelled bundled CSV; original upstream API receipt/raw responses not independently verified. Whitespace normalized; no new data fetched.",
+    "qualification": "No future-year holdout, no observed installation data; five cities were predeclared, no tuning or all-city refit. Nairobi is held out."
+  },
+  "business_profiles": {
+    "bakery": {
+      "average_load_kw": 6,
+      "hours_per_day": 12
+    },
+    "grocery": {
+      "average_load_kw": 3,
+      "hours_per_day": 16
+    },
+    "butchery": {
+      "average_load_kw": 4,
+      "hours_per_day": 18
+    }
+  },
+  "defaults": {
+    "country": "Kenya",
+    "city": "Nairobi",
+    "business_type": "bakery",
+    "consumption_mode": "formula",
+    "solar_profile": "baseline",
+    "days_per_month": 30,
+    "average_load_kw": 6,
+    "hours_per_day": 12,
+    "monthly_consumption_kwh": 2160,
+    "panel_area_m2": 30,
+    "efficiency": 0.2,
+    "tariff_kes_per_kwh": 25,
+    "self_consumption_fraction": 0.8,
+    "installed_cost_kes": 300000,
+    "annual_maintenance_kes": 3000
+  },
+  "assumptions": [
+    "Tariff default KES 25/kWh is a fictional demo assumption created 2026-10-13, not a verified Kenyan tariff. Enter your own variable electricity rate; fixed charges and tax are excluded.",
+    "Business load, operating hours, installation cost and maintenance defaults are fictional examples, not observed SME measurements.",
+    "Formula consumption is average load in kW \u00d7 operating hours/day \u00d7 representative days/month; measured mode uses your supplied monthly kWh. Annual consumption assumes twelve identical months.",
+    "Self-consumption fraction is a user assumption. Usable solar is capped against consumption each month; export revenue is zero.",
+    "Panel-area and efficiency changes scale the model reference target linearly, not a separately learned model."
+  ],
+  "limitations": [
+    "Nairobi XGBoost MAPE is 12.5268%, worse than the training-city monthly baseline at 8.4342%; default baseline is a transparent comparison-driven choice, not an independent new validation result.",
+    "Nairobi only; no automatic geography inference. No verified local installation output or customer savings evidence.",
+    "Solar target is derived from bundled irradiance with fixed panel area and efficiency, not measured installation generation. Baseline and held-out metrics describe that derived target only.",
+    "Climatological monthly estimates omit shading, roof orientation, inverter losses, batteries, degradation and weather extremes.",
+    "Simple payback omits financing, discounting, replacement costs and tax; this is scenario arithmetic, not financial advice or validated ROI."
+  ],
+  "input_limits": {
+    "days_per_month": [
+      1,
+      31
+    ],
+    "average_load_kw": [
+      0,
+      1000
+    ],
+    "hours_per_day": [
+      0,
+      24
+    ],
+    "monthly_consumption_kwh": [
+      0,
+      1000000
+    ],
+    "panel_area_m2": [
+      0,
+      10000
+    ],
+    "efficiency": [
+      0.01,
+      0.4
+    ],
+    "tariff_kes_per_kwh": [
+      0,
+      1000
+    ],
+    "self_consumption_fraction": [
+      0,
+      1
+    ],
+    "installed_cost_kes": [
+      0,
+      100000000
+    ],
+    "annual_maintenance_kes": [
+      0,
+      10000000
+    ]
+  },
+  "parity_vectors": [
+    {
+      "input": {},
+      "result": {
+        "contract_version": "solarsense-scenario-v1",
+        "input": {
+          "country": "Kenya",
+          "city": "Nairobi",
+          "business_type": "bakery",
+          "consumption_mode": "formula",
+          "solar_profile": "baseline",
+          "days_per_month": 30,
+          "average_load_kw": 6,
+          "hours_per_day": 12,
+          "monthly_consumption_kwh": 2160,
+          "panel_area_m2": 30,
+          "efficiency": 0.2,
+          "tariff_kes_per_kwh": 25,
+          "self_consumption_fraction": 0.8,
+          "installed_cost_kes": 300000,
+          "annual_maintenance_kes": 3000
+        },
+        "location": {
+          "country": "Kenya",
+          "city": "Nairobi",
+          "latitude": -1.2921,
+          "longitude": 36.8219
+        },
+        "consumption": {
+          "method": "formula",
+          "monthly_kwh": 2160,
+          "annual_kwh": 25920
+        },
+        "solar": {
+          "method": "training-city monthly mean baseline",
+          "selected_profile": "baseline",
+          "reference_profiles_kwh_day": {
+            "xgboost": [
+              10.681462287902832,
+              10.96521282196045,
+              10.786179542541504,
+              9.96187973022461,
+              9.87138557434082,
+              9.733133316040039,
+              9.607674598693848,
+              9.86123275756836,
+              10.423614501953125,
+              10.517823219299316,
+              9.360698699951172,
+              9.56750774383545
+            ],
+            "baseline": [
+              11.108392258064518,
+              11.430759501557635,
+              11.421554838709678,
+              10.707311222222222,
+              10.390275268817204,
+              9.641347333333334,
+              9.185602150537635,
+              9.437978279569894,
+              10.360237666666668,
+              10.919225268817204,
+              10.82112477777778,
+              10.835868924731184
+            ]
+          },
+          "model_sha256": "78f2724743520e63498266df24315c81f608dabc6e0e1d87f8318dc4b7772f1d",
+          "monthly": [
+            {
+              "month": 1,
+              "days": 31,
+              "reference_kwh_day": 11.108392258064518,
+              "generation_kwh": 1033.0804800000003,
+              "offset_kwh": 826.4643840000003
+            },
+            {
+              "month": 2,
+              "days": 28,
+              "reference_kwh_day": 11.430759501557635,
+              "generation_kwh": 960.1837981308414,
+              "offset_kwh": 768.1470385046732
+            },
+            {
+              "month": 3,
+              "days": 31,
+              "reference_kwh_day": 11.421554838709678,
+              "generation_kwh": 1062.2046000000003,
+              "offset_kwh": 849.7636800000002
+            },
+            {
+              "month": 4,
+              "days": 30,
+              "reference_kwh_day": 10.707311222222222,
+              "generation_kwh": 963.6580100000001,
+              "offset_kwh": 770.9264080000002
+            },
+            {
+              "month": 5,
+              "days": 31,
+              "reference_kwh_day": 10.390275268817204,
+              "generation_kwh": 966.2956000000001,
+              "offset_kwh": 773.0364800000002
+            },
+            {
+              "month": 6,
+              "days": 30,
+              "reference_kwh_day": 9.641347333333334,
+              "generation_kwh": 867.7212600000003,
+              "offset_kwh": 694.1770080000002
+            },
+            {
+              "month": 7,
+              "days": 31,
+              "reference_kwh_day": 9.185602150537635,
+              "generation_kwh": 854.2610000000002,
+              "offset_kwh": 683.4088000000002
+            },
+            {
+              "month": 8,
+              "days": 31,
+              "reference_kwh_day": 9.437978279569894,
+              "generation_kwh": 877.7319800000002,
+              "offset_kwh": 702.1855840000003
+            },
+            {
+              "month": 9,
+              "days": 30,
+              "reference_kwh_day": 10.360237666666668,
+              "generation_kwh": 932.4213900000003,
+              "offset_kwh": 745.9371120000003
+            },
+            {
+              "month": 10,
+              "days": 31,
+              "reference_kwh_day": 10.919225268817204,
+              "generation_kwh": 1015.4879500000001,
+              "offset_kwh": 812.3903600000001
+            },
+            {
+              "month": 11,
+              "days": 30,
+              "reference_kwh_day": 10.82112477777778,
+              "generation_kwh": 973.9012300000003,
+              "offset_kwh": 779.1209840000002
+            },
+            {
+              "month": 12,
+              "days": 31,
+              "reference_kwh_day": 10.835868924731184,
+              "generation_kwh": 1007.7358100000002,
+              "offset_kwh": 806.1886480000003
+            }
+          ],
+          "annual_generation_kwh": 11514.683108130845,
+          "annual_offset_kwh": 9211.746486504675,
+          "coverage_percent": 35.53914539546557
+        },
+        "comparison": {
+          "grid_only_annual_cost_kes": 648000,
+          "pv_annual_grid_cost_kes": 417706.33783738315,
+          "pv_annual_operating_cost_kes": 420706.33783738315,
+          "annual_avoided_grid_cost_kes": 230293.66216261688,
+          "net_annual_saving_kes": 227293.66216261688,
+          "simple_payback_years": 1.3198784213585573
+        },
+        "sensitivity": [
+          {
+            "tariff_kes_per_kwh": 20.0,
+            "annual_avoided_grid_cost_kes": 184234.9297300935,
+            "net_annual_saving_kes": 181234.9297300935
+          },
+          {
+            "tariff_kes_per_kwh": 25,
+            "annual_avoided_grid_cost_kes": 230293.66216261688,
+            "net_annual_saving_kes": 227293.66216261688
+          },
+          {
+            "tariff_kes_per_kwh": 30.0,
+            "annual_avoided_grid_cost_kes": 276352.39459514024,
+            "net_annual_saving_kes": 273352.39459514024
+          }
+        ],
+        "assumptions": [
+          "Tariff default KES 25/kWh is a fictional demo assumption created 2026-10-13, not a verified Kenyan tariff. Enter your own variable electricity rate; fixed charges and tax are excluded.",
+          "Business load, operating hours, installation cost and maintenance defaults are fictional examples, not observed SME measurements.",
+          "Formula consumption is average load in kW \u00d7 operating hours/day \u00d7 representative days/month; measured mode uses your supplied monthly kWh. Annual consumption assumes twelve identical months.",
+          "Self-consumption fraction is a user assumption. Usable solar is capped against consumption each month; export revenue is zero.",
+          "Panel-area and efficiency changes scale the model reference target linearly, not a separately learned model."
+        ],
+        "limitations": [
+          "Nairobi XGBoost MAPE is 12.5268%, worse than the training-city monthly baseline at 8.4342%; default baseline is a transparent comparison-driven choice, not an independent new validation result.",
+          "Nairobi only; no automatic geography inference. No verified local installation output or customer savings evidence.",
+          "Solar target is derived from bundled irradiance with fixed panel area and efficiency, not measured installation generation. Baseline and held-out metrics describe that derived target only.",
+          "Climatological monthly estimates omit shading, roof orientation, inverter losses, batteries, degradation and weather extremes.",
+          "Simple payback omits financing, discounting, replacement costs and tax; this is scenario arithmetic, not financial advice or validated ROI."
+        ]
+      }
+    },
+    {
+      "input": {
+        "solar_profile": "xgboost"
+      },
+      "result": {
+        "contract_version": "solarsense-scenario-v1",
+        "input": {
+          "country": "Kenya",
+          "city": "Nairobi",
+          "business_type": "bakery",
+          "consumption_mode": "formula",
+          "solar_profile": "xgboost",
+          "days_per_month": 30,
+          "average_load_kw": 6,
+          "hours_per_day": 12,
+          "monthly_consumption_kwh": 2160,
+          "panel_area_m2": 30,
+          "efficiency": 0.2,
+          "tariff_kes_per_kwh": 25,
+          "self_consumption_fraction": 0.8,
+          "installed_cost_kes": 300000,
+          "annual_maintenance_kes": 3000
+        },
+        "location": {
+          "country": "Kenya",
+          "city": "Nairobi",
+          "latitude": -1.2921,
+          "longitude": 36.8219
+        },
+        "consumption": {
+          "method": "formula",
+          "monthly_kwh": 2160,
+          "annual_kwh": 25920
+        },
+        "solar": {
+          "method": "held-out evaluated XGBoost artifact, derived solar target",
+          "selected_profile": "xgboost",
+          "reference_profiles_kwh_day": {
+            "xgboost": [
+              10.681462287902832,
+              10.96521282196045,
+              10.786179542541504,
+              9.96187973022461,
+              9.87138557434082,
+              9.733133316040039,
+              9.607674598693848,
+              9.86123275756836,
+              10.423614501953125,
+              10.517823219299316,
+              9.360698699951172,
+              9.56750774383545
+            ],
+            "baseline": [
+              11.108392258064518,
+              11.430759501557635,
+              11.421554838709678,
+              10.707311222222222,
+              10.390275268817204,
+              9.641347333333334,
+              9.185602150537635,
+              9.437978279569894,
+              10.360237666666668,
+              10.919225268817204,
+              10.82112477777778,
+              10.835868924731184
+            ]
+          },
+          "model_sha256": "78f2724743520e63498266df24315c81f608dabc6e0e1d87f8318dc4b7772f1d",
+          "monthly": [
+            {
+              "month": 1,
+              "days": 31,
+              "reference_kwh_day": 10.681462287902832,
+              "generation_kwh": 993.3759927749636,
+              "offset_kwh": 794.7007942199709
+            },
+            {
+              "month": 2,
+              "days": 28,
+              "reference_kwh_day": 10.96521282196045,
+              "generation_kwh": 921.077877044678,
+              "offset_kwh": 736.8623016357424
+            },
+            {
+              "month": 3,
+              "days": 31,
+              "reference_kwh_day": 10.786179542541504,
+              "generation_kwh": 1003.1146974563601,
+              "offset_kwh": 802.4917579650881
+            },
+            {
+              "month": 4,
+              "days": 30,
+              "reference_kwh_day": 9.96187973022461,
+              "generation_kwh": 896.569175720215,
+              "offset_kwh": 717.255340576172
+            },
+            {
+              "month": 5,
+              "days": 31,
+              "reference_kwh_day": 9.87138557434082,
+              "generation_kwh": 918.0388584136964,
+              "offset_kwh": 734.4310867309572
+            },
+            {
+              "month": 6,
+              "days": 30,
+              "reference_kwh_day": 9.733133316040039,
+              "generation_kwh": 875.9819984436036,
+              "offset_kwh": 700.7855987548829
+            },
+            {
+              "month": 7,
+              "days": 31,
+              "reference_kwh_day": 9.607674598693848,
+              "generation_kwh": 893.513737678528,
+              "offset_kwh": 714.8109901428224
+            },
+            {
+              "month": 8,
+              "days": 31,
+              "reference_kwh_day": 9.86123275756836,
+              "generation_kwh": 917.0946464538575,
+              "offset_kwh": 733.6757171630861
+            },
+            {
+              "month": 9,
+              "days": 30,
+              "reference_kwh_day": 10.423614501953125,
+              "generation_kwh": 938.1253051757814,
+              "offset_kwh": 750.5002441406251
+            },
+            {
+              "month": 10,
+              "days": 31,
+              "reference_kwh_day": 10.517823219299316,
+              "generation_kwh": 978.1575593948365,
+              "offset_kwh": 782.5260475158693
+            },
+            {
+              "month": 11,
+              "days": 30,
+              "reference_kwh_day": 9.360698699951172,
+              "generation_kwh": 842.4628829956056,
+              "offset_kwh": 673.9703063964845
+            },
+            {
+              "month": 12,
+              "days": 31,
+              "reference_kwh_day": 9.56750774383545,
+              "generation_kwh": 889.7782201766969,
+              "offset_kwh": 711.8225761413576
+            }
+          ],
+          "annual_generation_kwh": 11067.290951728823,
+          "annual_offset_kwh": 8853.832761383059,
+          "coverage_percent": 34.15830540657044
+        },
+        "comparison": {
+          "grid_only_annual_cost_kes": 648000,
+          "pv_annual_grid_cost_kes": 426654.1809654235,
+          "pv_annual_operating_cost_kes": 429654.1809654235,
+          "annual_avoided_grid_cost_kes": 221345.81903457647,
+          "net_annual_saving_kes": 218345.81903457647,
+          "simple_payback_years": 1.3739672292625538
+        },
+        "sensitivity": [
+          {
+            "tariff_kes_per_kwh": 20.0,
+            "annual_avoided_grid_cost_kes": 177076.6552276612,
+            "net_annual_saving_kes": 174076.6552276612
+          },
+          {
+            "tariff_kes_per_kwh": 25,
+            "annual_avoided_grid_cost_kes": 221345.81903457647,
+            "net_annual_saving_kes": 218345.81903457647
+          },
+          {
+            "tariff_kes_per_kwh": 30.0,
+            "annual_avoided_grid_cost_kes": 265614.98284149176,
+            "net_annual_saving_kes": 262614.98284149176
+          }
+        ],
+        "assumptions": [
+          "Tariff default KES 25/kWh is a fictional demo assumption created 2026-10-13, not a verified Kenyan tariff. Enter your own variable electricity rate; fixed charges and tax are excluded.",
+          "Business load, operating hours, installation cost and maintenance defaults are fictional examples, not observed SME measurements.",
+          "Formula consumption is average load in kW \u00d7 operating hours/day \u00d7 representative days/month; measured mode uses your supplied monthly kWh. Annual consumption assumes twelve identical months.",
+          "Self-consumption fraction is a user assumption. Usable solar is capped against consumption each month; export revenue is zero.",
+          "Panel-area and efficiency changes scale the model reference target linearly, not a separately learned model."
+        ],
+        "limitations": [
+          "Nairobi XGBoost MAPE is 12.5268%, worse than the training-city monthly baseline at 8.4342%; default baseline is a transparent comparison-driven choice, not an independent new validation result.",
+          "Nairobi only; no automatic geography inference. No verified local installation output or customer savings evidence.",
+          "Solar target is derived from bundled irradiance with fixed panel area and efficiency, not measured installation generation. Baseline and held-out metrics describe that derived target only.",
+          "Climatological monthly estimates omit shading, roof orientation, inverter losses, batteries, degradation and weather extremes.",
+          "Simple payback omits financing, discounting, replacement costs and tax; this is scenario arithmetic, not financial advice or validated ROI."
+        ]
+      }
+    },
+    {
+      "input": {
+        "business_type": "grocery"
+      },
+      "result": {
+        "contract_version": "solarsense-scenario-v1",
+        "input": {
+          "country": "Kenya",
+          "city": "Nairobi",
+          "business_type": "grocery",
+          "consumption_mode": "formula",
+          "solar_profile": "baseline",
+          "days_per_month": 30,
+          "average_load_kw": 3,
+          "hours_per_day": 16,
+          "monthly_consumption_kwh": 2160,
+          "panel_area_m2": 30,
+          "efficiency": 0.2,
+          "tariff_kes_per_kwh": 25,
+          "self_consumption_fraction": 0.8,
+          "installed_cost_kes": 300000,
+          "annual_maintenance_kes": 3000
+        },
+        "location": {
+          "country": "Kenya",
+          "city": "Nairobi",
+          "latitude": -1.2921,
+          "longitude": 36.8219
+        },
+        "consumption": {
+          "method": "formula",
+          "monthly_kwh": 1440,
+          "annual_kwh": 17280
+        },
+        "solar": {
+          "method": "training-city monthly mean baseline",
+          "selected_profile": "baseline",
+          "reference_profiles_kwh_day": {
+            "xgboost": [
+              10.681462287902832,
+              10.96521282196045,
+              10.786179542541504,
+              9.96187973022461,
+              9.87138557434082,
+              9.733133316040039,
+              9.607674598693848,
+              9.86123275756836,
+              10.423614501953125,
+              10.517823219299316,
+              9.360698699951172,
+              9.56750774383545
+            ],
+            "baseline": [
+              11.108392258064518,
+              11.430759501557635,
+              11.421554838709678,
+              10.707311222222222,
+              10.390275268817204,
+              9.641347333333334,
+              9.185602150537635,
+              9.437978279569894,
+              10.360237666666668,
+              10.919225268817204,
+              10.82112477777778,
+              10.835868924731184
+            ]
+          },
+          "model_sha256": "78f2724743520e63498266df24315c81f608dabc6e0e1d87f8318dc4b7772f1d",
+          "monthly": [
+            {
+              "month": 1,
+              "days": 31,
+              "reference_kwh_day": 11.108392258064518,
+              "generation_kwh": 1033.0804800000003,
+              "offset_kwh": 826.4643840000003
+            },
+            {
+              "month": 2,
+              "days": 28,
+              "reference_kwh_day": 11.430759501557635,
+              "generation_kwh": 960.1837981308414,
+              "offset_kwh": 768.1470385046732
+            },
+            {
+              "month": 3,
+              "days": 31,
+              "reference_kwh_day": 11.421554838709678,
+              "generation_kwh": 1062.2046000000003,
+              "offset_kwh": 849.7636800000002
+            },
+            {
+              "month": 4,
+              "days": 30,
+              "reference_kwh_day": 10.707311222222222,
+              "generation_kwh": 963.6580100000001,
+              "offset_kwh": 770.9264080000002
+            },
+            {
+              "month": 5,
+              "days": 31,
+              "reference_kwh_day": 10.390275268817204,
+              "generation_kwh": 966.2956000000001,
+              "offset_kwh": 773.0364800000002
+            },
+            {
+              "month": 6,
+              "days": 30,
+              "reference_kwh_day": 9.641347333333334,
+              "generation_kwh": 867.7212600000003,
+              "offset_kwh": 694.1770080000002
+            },
+            {
+              "month": 7,
+              "days": 31,
+              "reference_kwh_day": 9.185602150537635,
+              "generation_kwh": 854.2610000000002,
+              "offset_kwh": 683.4088000000002
+            },
+            {
+              "month": 8,
+              "days": 31,
+              "reference_kwh_day": 9.437978279569894,
+              "generation_kwh": 877.7319800000002,
+              "offset_kwh": 702.1855840000003
+            },
+            {
+              "month": 9,
+              "days": 30,
+              "reference_kwh_day": 10.360237666666668,
+              "generation_kwh": 932.4213900000003,
+              "offset_kwh": 745.9371120000003
+            },
+            {
+              "month": 10,
+              "days": 31,
+              "reference_kwh_day": 10.919225268817204,
+              "generation_kwh": 1015.4879500000001,
+              "offset_kwh": 812.3903600000001
+            },
+            {
+              "month": 11,
+              "days": 30,
+              "reference_kwh_day": 10.82112477777778,
+              "generation_kwh": 973.9012300000003,
+              "offset_kwh": 779.1209840000002
+            },
+            {
+              "month": 12,
+              "days": 31,
+              "reference_kwh_day": 10.835868924731184,
+              "generation_kwh": 1007.7358100000002,
+              "offset_kwh": 806.1886480000003
+            }
+          ],
+          "annual_generation_kwh": 11514.683108130845,
+          "annual_offset_kwh": 9211.746486504675,
+          "coverage_percent": 53.30871809319835
+        },
+        "comparison": {
+          "grid_only_annual_cost_kes": 432000,
+          "pv_annual_grid_cost_kes": 201706.33783738312,
+          "pv_annual_operating_cost_kes": 204706.33783738312,
+          "annual_avoided_grid_cost_kes": 230293.66216261688,
+          "net_annual_saving_kes": 227293.66216261688,
+          "simple_payback_years": 1.3198784213585573
+        },
+        "sensitivity": [
+          {
+            "tariff_kes_per_kwh": 20.0,
+            "annual_avoided_grid_cost_kes": 184234.9297300935,
+            "net_annual_saving_kes": 181234.9297300935
+          },
+          {
+            "tariff_kes_per_kwh": 25,
+            "annual_avoided_grid_cost_kes": 230293.66216261688,
+            "net_annual_saving_kes": 227293.66216261688
+          },
+          {
+            "tariff_kes_per_kwh": 30.0,
+            "annual_avoided_grid_cost_kes": 276352.39459514024,
+            "net_annual_saving_kes": 273352.39459514024
+          }
+        ],
+        "assumptions": [
+          "Tariff default KES 25/kWh is a fictional demo assumption created 2026-10-13, not a verified Kenyan tariff. Enter your own variable electricity rate; fixed charges and tax are excluded.",
+          "Business load, operating hours, installation cost and maintenance defaults are fictional examples, not observed SME measurements.",
+          "Formula consumption is average load in kW \u00d7 operating hours/day \u00d7 representative days/month; measured mode uses your supplied monthly kWh. Annual consumption assumes twelve identical months.",
+          "Self-consumption fraction is a user assumption. Usable solar is capped against consumption each month; export revenue is zero.",
+          "Panel-area and efficiency changes scale the model reference target linearly, not a separately learned model."
+        ],
+        "limitations": [
+          "Nairobi XGBoost MAPE is 12.5268%, worse than the training-city monthly baseline at 8.4342%; default baseline is a transparent comparison-driven choice, not an independent new validation result.",
+          "Nairobi only; no automatic geography inference. No verified local installation output or customer savings evidence.",
+          "Solar target is derived from bundled irradiance with fixed panel area and efficiency, not measured installation generation. Baseline and held-out metrics describe that derived target only.",
+          "Climatological monthly estimates omit shading, roof orientation, inverter losses, batteries, degradation and weather extremes.",
+          "Simple payback omits financing, discounting, replacement costs and tax; this is scenario arithmetic, not financial advice or validated ROI."
+        ]
+      }
+    },
+    {
+      "input": {
+        "consumption_mode": "measured",
+        "monthly_consumption_kwh": 300,
+        "panel_area_m2": 100
+      },
+      "result": {
+        "contract_version": "solarsense-scenario-v1",
+        "input": {
+          "country": "Kenya",
+          "city": "Nairobi",
+          "business_type": "bakery",
+          "consumption_mode": "measured",
+          "solar_profile": "baseline",
+          "days_per_month": 30,
+          "average_load_kw": 6,
+          "hours_per_day": 12,
+          "monthly_consumption_kwh": 300,
+          "panel_area_m2": 100,
+          "efficiency": 0.2,
+          "tariff_kes_per_kwh": 25,
+          "self_consumption_fraction": 0.8,
+          "installed_cost_kes": 300000,
+          "annual_maintenance_kes": 3000
+        },
+        "location": {
+          "country": "Kenya",
+          "city": "Nairobi",
+          "latitude": -1.2921,
+          "longitude": 36.8219
+        },
+        "consumption": {
+          "method": "measured",
+          "monthly_kwh": 300,
+          "annual_kwh": 3600
+        },
+        "solar": {
+          "method": "training-city monthly mean baseline",
+          "selected_profile": "baseline",
+          "reference_profiles_kwh_day": {
+            "xgboost": [
+              10.681462287902832,
+              10.96521282196045,
+              10.786179542541504,
+              9.96187973022461,
+              9.87138557434082,
+              9.733133316040039,
+              9.607674598693848,
+              9.86123275756836,
+              10.423614501953125,
+              10.517823219299316,
+              9.360698699951172,
+              9.56750774383545
+            ],
+            "baseline": [
+              11.108392258064518,
+              11.430759501557635,
+              11.421554838709678,
+              10.707311222222222,
+              10.390275268817204,
+              9.641347333333334,
+              9.185602150537635,
+              9.437978279569894,
+              10.360237666666668,
+              10.919225268817204,
+              10.82112477777778,
+              10.835868924731184
+            ]
+          },
+          "model_sha256": "78f2724743520e63498266df24315c81f608dabc6e0e1d87f8318dc4b7772f1d",
+          "monthly": [
+            {
+              "month": 1,
+              "days": 31,
+              "reference_kwh_day": 11.108392258064518,
+              "generation_kwh": 3443.6016000000004,
+              "offset_kwh": 300
+            },
+            {
+              "month": 2,
+              "days": 28,
+              "reference_kwh_day": 11.430759501557635,
+              "generation_kwh": 3200.6126604361375,
+              "offset_kwh": 300
+            },
+            {
+              "month": 3,
+              "days": 31,
+              "reference_kwh_day": 11.421554838709678,
+              "generation_kwh": 3540.6820000000002,
+              "offset_kwh": 300
+            },
+            {
+              "month": 4,
+              "days": 30,
+              "reference_kwh_day": 10.707311222222222,
+              "generation_kwh": 3212.1933666666664,
+              "offset_kwh": 300
+            },
+            {
+              "month": 5,
+              "days": 31,
+              "reference_kwh_day": 10.390275268817204,
+              "generation_kwh": 3220.9853333333335,
+              "offset_kwh": 300
+            },
+            {
+              "month": 6,
+              "days": 30,
+              "reference_kwh_day": 9.641347333333334,
+              "generation_kwh": 2892.4042000000004,
+              "offset_kwh": 300
+            },
+            {
+              "month": 7,
+              "days": 31,
+              "reference_kwh_day": 9.185602150537635,
+              "generation_kwh": 2847.536666666667,
+              "offset_kwh": 300
+            },
+            {
+              "month": 8,
+              "days": 31,
+              "reference_kwh_day": 9.437978279569894,
+              "generation_kwh": 2925.773266666667,
+              "offset_kwh": 300
+            },
+            {
+              "month": 9,
+              "days": 30,
+              "reference_kwh_day": 10.360237666666668,
+              "generation_kwh": 3108.0713000000005,
+              "offset_kwh": 300
+            },
+            {
+              "month": 10,
+              "days": 31,
+              "reference_kwh_day": 10.919225268817204,
+              "generation_kwh": 3384.959833333333,
+              "offset_kwh": 300
+            },
+            {
+              "month": 11,
+              "days": 30,
+              "reference_kwh_day": 10.82112477777778,
+              "generation_kwh": 3246.337433333334,
+              "offset_kwh": 300
+            },
+            {
+              "month": 12,
+              "days": 31,
+              "reference_kwh_day": 10.835868924731184,
+              "generation_kwh": 3359.1193666666672,
+              "offset_kwh": 300
+            }
+          ],
+          "annual_generation_kwh": 38382.277027102806,
+          "annual_offset_kwh": 3600,
+          "coverage_percent": 100.0
+        },
+        "comparison": {
+          "grid_only_annual_cost_kes": 90000,
+          "pv_annual_grid_cost_kes": 0,
+          "pv_annual_operating_cost_kes": 3000,
+          "annual_avoided_grid_cost_kes": 90000,
+          "net_annual_saving_kes": 87000,
+          "simple_payback_years": 3.4482758620689653
+        },
+        "sensitivity": [
+          {
+            "tariff_kes_per_kwh": 20.0,
+            "annual_avoided_grid_cost_kes": 72000.0,
+            "net_annual_saving_kes": 69000.0
+          },
+          {
+            "tariff_kes_per_kwh": 25,
+            "annual_avoided_grid_cost_kes": 90000,
+            "net_annual_saving_kes": 87000
+          },
+          {
+            "tariff_kes_per_kwh": 30.0,
+            "annual_avoided_grid_cost_kes": 108000.0,
+            "net_annual_saving_kes": 105000.0
+          }
+        ],
+        "assumptions": [
+          "Tariff default KES 25/kWh is a fictional demo assumption created 2026-10-13, not a verified Kenyan tariff. Enter your own variable electricity rate; fixed charges and tax are excluded.",
+          "Business load, operating hours, installation cost and maintenance defaults are fictional examples, not observed SME measurements.",
+          "Formula consumption is average load in kW \u00d7 operating hours/day \u00d7 representative days/month; measured mode uses your supplied monthly kWh. Annual consumption assumes twelve identical months.",
+          "Self-consumption fraction is a user assumption. Usable solar is capped against consumption each month; export revenue is zero.",
+          "Panel-area and efficiency changes scale the model reference target linearly, not a separately learned model."
+        ],
+        "limitations": [
+          "Nairobi XGBoost MAPE is 12.5268%, worse than the training-city monthly baseline at 8.4342%; default baseline is a transparent comparison-driven choice, not an independent new validation result.",
+          "Nairobi only; no automatic geography inference. No verified local installation output or customer savings evidence.",
+          "Solar target is derived from bundled irradiance with fixed panel area and efficiency, not measured installation generation. Baseline and held-out metrics describe that derived target only.",
+          "Climatological monthly estimates omit shading, roof orientation, inverter losses, batteries, degradation and weather extremes.",
+          "Simple payback omits financing, discounting, replacement costs and tax; this is scenario arithmetic, not financial advice or validated ROI."
+        ]
+      }
+    },
+    {
+      "input": {
+        "panel_area_m2": 0
+      },
+      "result": {
+        "contract_version": "solarsense-scenario-v1",
+        "input": {
+          "country": "Kenya",
+          "city": "Nairobi",
+          "business_type": "bakery",
+          "consumption_mode": "formula",
+          "solar_profile": "baseline",
+          "days_per_month": 30,
+          "average_load_kw": 6,
+          "hours_per_day": 12,
+          "monthly_consumption_kwh": 2160,
+          "panel_area_m2": 0,
+          "efficiency": 0.2,
+          "tariff_kes_per_kwh": 25,
+          "self_consumption_fraction": 0.8,
+          "installed_cost_kes": 300000,
+          "annual_maintenance_kes": 3000
+        },
+        "location": {
+          "country": "Kenya",
+          "city": "Nairobi",
+          "latitude": -1.2921,
+          "longitude": 36.8219
+        },
+        "consumption": {
+          "method": "formula",
+          "monthly_kwh": 2160,
+          "annual_kwh": 25920
+        },
+        "solar": {
+          "method": "training-city monthly mean baseline",
+          "selected_profile": "baseline",
+          "reference_profiles_kwh_day": {
+            "xgboost": [
+              10.681462287902832,
+              10.96521282196045,
+              10.786179542541504,
+              9.96187973022461,
+              9.87138557434082,
+              9.733133316040039,
+              9.607674598693848,
+              9.86123275756836,
+              10.423614501953125,
+              10.517823219299316,
+              9.360698699951172,
+              9.56750774383545
+            ],
+            "baseline": [
+              11.108392258064518,
+              11.430759501557635,
+              11.421554838709678,
+              10.707311222222222,
+              10.390275268817204,
+              9.641347333333334,
+              9.185602150537635,
+              9.437978279569894,
+              10.360237666666668,
+              10.919225268817204,
+              10.82112477777778,
+              10.835868924731184
+            ]
+          },
+          "model_sha256": "78f2724743520e63498266df24315c81f608dabc6e0e1d87f8318dc4b7772f1d",
+          "monthly": [
+            {
+              "month": 1,
+              "days": 31,
+              "reference_kwh_day": 11.108392258064518,
+              "generation_kwh": 0.0,
+              "offset_kwh": 0.0
+            },
+            {
+              "month": 2,
+              "days": 28,
+              "reference_kwh_day": 11.430759501557635,
+              "generation_kwh": 0.0,
+              "offset_kwh": 0.0
+            },
+            {
+              "month": 3,
+              "days": 31,
+              "reference_kwh_day": 11.421554838709678,
+              "generation_kwh": 0.0,
+              "offset_kwh": 0.0
+            },
+            {
+              "month": 4,
+              "days": 30,
+              "reference_kwh_day": 10.707311222222222,
+              "generation_kwh": 0.0,
+              "offset_kwh": 0.0
+            },
+            {
+              "month": 5,
+              "days": 31,
+              "reference_kwh_day": 10.390275268817204,
+              "generation_kwh": 0.0,
+              "offset_kwh": 0.0
+            },
+            {
+              "month": 6,
+              "days": 30,
+              "reference_kwh_day": 9.641347333333334,
+              "generation_kwh": 0.0,
+              "offset_kwh": 0.0
+            },
+            {
+              "month": 7,
+              "days": 31,
+              "reference_kwh_day": 9.185602150537635,
+              "generation_kwh": 0.0,
+              "offset_kwh": 0.0
+            },
+            {
+              "month": 8,
+              "days": 31,
+              "reference_kwh_day": 9.437978279569894,
+              "generation_kwh": 0.0,
+              "offset_kwh": 0.0
+            },
+            {
+              "month": 9,
+              "days": 30,
+              "reference_kwh_day": 10.360237666666668,
+              "generation_kwh": 0.0,
+              "offset_kwh": 0.0
+            },
+            {
+              "month": 10,
+              "days": 31,
+              "reference_kwh_day": 10.919225268817204,
+              "generation_kwh": 0.0,
+              "offset_kwh": 0.0
+            },
+            {
+              "month": 11,
+              "days": 30,
+              "reference_kwh_day": 10.82112477777778,
+              "generation_kwh": 0.0,
+              "offset_kwh": 0.0
+            },
+            {
+              "month": 12,
+              "days": 31,
+              "reference_kwh_day": 10.835868924731184,
+              "generation_kwh": 0.0,
+              "offset_kwh": 0.0
+            }
+          ],
+          "annual_generation_kwh": 0.0,
+          "annual_offset_kwh": 0.0,
+          "coverage_percent": 0.0
+        },
+        "comparison": {
+          "grid_only_annual_cost_kes": 648000,
+          "pv_annual_grid_cost_kes": 648000.0,
+          "pv_annual_operating_cost_kes": 651000.0,
+          "annual_avoided_grid_cost_kes": 0.0,
+          "net_annual_saving_kes": -3000.0,
+          "simple_payback_years": null
+        },
+        "sensitivity": [
+          {
+            "tariff_kes_per_kwh": 20.0,
+            "annual_avoided_grid_cost_kes": 0.0,
+            "net_annual_saving_kes": -3000.0
+          },
+          {
+            "tariff_kes_per_kwh": 25,
+            "annual_avoided_grid_cost_kes": 0.0,
+            "net_annual_saving_kes": -3000.0
+          },
+          {
+            "tariff_kes_per_kwh": 30.0,
+            "annual_avoided_grid_cost_kes": 0.0,
+            "net_annual_saving_kes": -3000.0
+          }
+        ],
+        "assumptions": [
+          "Tariff default KES 25/kWh is a fictional demo assumption created 2026-10-13, not a verified Kenyan tariff. Enter your own variable electricity rate; fixed charges and tax are excluded.",
+          "Business load, operating hours, installation cost and maintenance defaults are fictional examples, not observed SME measurements.",
+          "Formula consumption is average load in kW \u00d7 operating hours/day \u00d7 representative days/month; measured mode uses your supplied monthly kWh. Annual consumption assumes twelve identical months.",
+          "Self-consumption fraction is a user assumption. Usable solar is capped against consumption each month; export revenue is zero.",
+          "Panel-area and efficiency changes scale the model reference target linearly, not a separately learned model."
+        ],
+        "limitations": [
+          "Nairobi XGBoost MAPE is 12.5268%, worse than the training-city monthly baseline at 8.4342%; default baseline is a transparent comparison-driven choice, not an independent new validation result.",
+          "Nairobi only; no automatic geography inference. No verified local installation output or customer savings evidence.",
+          "Solar target is derived from bundled irradiance with fixed panel area and efficiency, not measured installation generation. Baseline and held-out metrics describe that derived target only.",
+          "Climatological monthly estimates omit shading, roof orientation, inverter losses, batteries, degradation and weather extremes.",
+          "Simple payback omits financing, discounting, replacement costs and tax; this is scenario arithmetic, not financial advice or validated ROI."
+        ]
+      }
+    },
+    {
+      "input": {
+        "self_consumption_fraction": 0
+      },
+      "result": {
+        "contract_version": "solarsense-scenario-v1",
+        "input": {
+          "country": "Kenya",
+          "city": "Nairobi",
+          "business_type": "bakery",
+          "consumption_mode": "formula",
+          "solar_profile": "baseline",
+          "days_per_month": 30,
+          "average_load_kw": 6,
+          "hours_per_day": 12,
+          "monthly_consumption_kwh": 2160,
+          "panel_area_m2": 30,
+          "efficiency": 0.2,
+          "tariff_kes_per_kwh": 25,
+          "self_consumption_fraction": 0,
+          "installed_cost_kes": 300000,
+          "annual_maintenance_kes": 3000
+        },
+        "location": {
+          "country": "Kenya",
+          "city": "Nairobi",
+          "latitude": -1.2921,
+          "longitude": 36.8219
+        },
+        "consumption": {
+          "method": "formula",
+          "monthly_kwh": 2160,
+          "annual_kwh": 25920
+        },
+        "solar": {
+          "method": "training-city monthly mean baseline",
+          "selected_profile": "baseline",
+          "reference_profiles_kwh_day": {
+            "xgboost": [
+              10.681462287902832,
+              10.96521282196045,
+              10.786179542541504,
+              9.96187973022461,
+              9.87138557434082,
+              9.733133316040039,
+              9.607674598693848,
+              9.86123275756836,
+              10.423614501953125,
+              10.517823219299316,
+              9.360698699951172,
+              9.56750774383545
+            ],
+            "baseline": [
+              11.108392258064518,
+              11.430759501557635,
+              11.421554838709678,
+              10.707311222222222,
+              10.390275268817204,
+              9.641347333333334,
+              9.185602150537635,
+              9.437978279569894,
+              10.360237666666668,
+              10.919225268817204,
+              10.82112477777778,
+              10.835868924731184
+            ]
+          },
+          "model_sha256": "78f2724743520e63498266df24315c81f608dabc6e0e1d87f8318dc4b7772f1d",
+          "monthly": [
+            {
+              "month": 1,
+              "days": 31,
+              "reference_kwh_day": 11.108392258064518,
+              "generation_kwh": 1033.0804800000003,
+              "offset_kwh": 0.0
+            },
+            {
+              "month": 2,
+              "days": 28,
+              "reference_kwh_day": 11.430759501557635,
+              "generation_kwh": 960.1837981308414,
+              "offset_kwh": 0.0
+            },
+            {
+              "month": 3,
+              "days": 31,
+              "reference_kwh_day": 11.421554838709678,
+              "generation_kwh": 1062.2046000000003,
+              "offset_kwh": 0.0
+            },
+            {
+              "month": 4,
+              "days": 30,
+              "reference_kwh_day": 10.707311222222222,
+              "generation_kwh": 963.6580100000001,
+              "offset_kwh": 0.0
+            },
+            {
+              "month": 5,
+              "days": 31,
+              "reference_kwh_day": 10.390275268817204,
+              "generation_kwh": 966.2956000000001,
+              "offset_kwh": 0.0
+            },
+            {
+              "month": 6,
+              "days": 30,
+              "reference_kwh_day": 9.641347333333334,
+              "generation_kwh": 867.7212600000003,
+              "offset_kwh": 0.0
+            },
+            {
+              "month": 7,
+              "days": 31,
+              "reference_kwh_day": 9.185602150537635,
+              "generation_kwh": 854.2610000000002,
+              "offset_kwh": 0.0
+            },
+            {
+              "month": 8,
+              "days": 31,
+              "reference_kwh_day": 9.437978279569894,
+              "generation_kwh": 877.7319800000002,
+              "offset_kwh": 0.0
+            },
+            {
+              "month": 9,
+              "days": 30,
+              "reference_kwh_day": 10.360237666666668,
+              "generation_kwh": 932.4213900000003,
+              "offset_kwh": 0.0
+            },
+            {
+              "month": 10,
+              "days": 31,
+              "reference_kwh_day": 10.919225268817204,
+              "generation_kwh": 1015.4879500000001,
+              "offset_kwh": 0.0
+            },
+            {
+              "month": 11,
+              "days": 30,
+              "reference_kwh_day": 10.82112477777778,
+              "generation_kwh": 973.9012300000003,
+              "offset_kwh": 0.0
+            },
+            {
+              "month": 12,
+              "days": 31,
+              "reference_kwh_day": 10.835868924731184,
+              "generation_kwh": 1007.7358100000002,
+              "offset_kwh": 0.0
+            }
+          ],
+          "annual_generation_kwh": 11514.683108130845,
+          "annual_offset_kwh": 0.0,
+          "coverage_percent": 0.0
+        },
+        "comparison": {
+          "grid_only_annual_cost_kes": 648000,
+          "pv_annual_grid_cost_kes": 648000.0,
+          "pv_annual_operating_cost_kes": 651000.0,
+          "annual_avoided_grid_cost_kes": 0.0,
+          "net_annual_saving_kes": -3000.0,
+          "simple_payback_years": null
+        },
+        "sensitivity": [
+          {
+            "tariff_kes_per_kwh": 20.0,
+            "annual_avoided_grid_cost_kes": 0.0,
+            "net_annual_saving_kes": -3000.0
+          },
+          {
+            "tariff_kes_per_kwh": 25,
+            "annual_avoided_grid_cost_kes": 0.0,
+            "net_annual_saving_kes": -3000.0
+          },
+          {
+            "tariff_kes_per_kwh": 30.0,
+            "annual_avoided_grid_cost_kes": 0.0,
+            "net_annual_saving_kes": -3000.0
+          }
+        ],
+        "assumptions": [
+          "Tariff default KES 25/kWh is a fictional demo assumption created 2026-10-13, not a verified Kenyan tariff. Enter your own variable electricity rate; fixed charges and tax are excluded.",
+          "Business load, operating hours, installation cost and maintenance defaults are fictional examples, not observed SME measurements.",
+          "Formula consumption is average load in kW \u00d7 operating hours/day \u00d7 representative days/month; measured mode uses your supplied monthly kWh. Annual consumption assumes twelve identical months.",
+          "Self-consumption fraction is a user assumption. Usable solar is capped against consumption each month; export revenue is zero.",
+          "Panel-area and efficiency changes scale the model reference target linearly, not a separately learned model."
+        ],
+        "limitations": [
+          "Nairobi XGBoost MAPE is 12.5268%, worse than the training-city monthly baseline at 8.4342%; default baseline is a transparent comparison-driven choice, not an independent new validation result.",
+          "Nairobi only; no automatic geography inference. No verified local installation output or customer savings evidence.",
+          "Solar target is derived from bundled irradiance with fixed panel area and efficiency, not measured installation generation. Baseline and held-out metrics describe that derived target only.",
+          "Climatological monthly estimates omit shading, roof orientation, inverter losses, batteries, degradation and weather extremes.",
+          "Simple payback omits financing, discounting, replacement costs and tax; this is scenario arithmetic, not financial advice or validated ROI."
+        ]
+      }
+    },
+    {
+      "input": {
+        "tariff_kes_per_kwh": 0
+      },
+      "result": {
+        "contract_version": "solarsense-scenario-v1",
+        "input": {
+          "country": "Kenya",
+          "city": "Nairobi",
+          "business_type": "bakery",
+          "consumption_mode": "formula",
+          "solar_profile": "baseline",
+          "days_per_month": 30,
+          "average_load_kw": 6,
+          "hours_per_day": 12,
+          "monthly_consumption_kwh": 2160,
+          "panel_area_m2": 30,
+          "efficiency": 0.2,
+          "tariff_kes_per_kwh": 0,
+          "self_consumption_fraction": 0.8,
+          "installed_cost_kes": 300000,
+          "annual_maintenance_kes": 3000
+        },
+        "location": {
+          "country": "Kenya",
+          "city": "Nairobi",
+          "latitude": -1.2921,
+          "longitude": 36.8219
+        },
+        "consumption": {
+          "method": "formula",
+          "monthly_kwh": 2160,
+          "annual_kwh": 25920
+        },
+        "solar": {
+          "method": "training-city monthly mean baseline",
+          "selected_profile": "baseline",
+          "reference_profiles_kwh_day": {
+            "xgboost": [
+              10.681462287902832,
+              10.96521282196045,
+              10.786179542541504,
+              9.96187973022461,
+              9.87138557434082,
+              9.733133316040039,
+              9.607674598693848,
+              9.86123275756836,
+              10.423614501953125,
+              10.517823219299316,
+              9.360698699951172,
+              9.56750774383545
+            ],
+            "baseline": [
+              11.108392258064518,
+              11.430759501557635,
+              11.421554838709678,
+              10.707311222222222,
+              10.390275268817204,
+              9.641347333333334,
+              9.185602150537635,
+              9.437978279569894,
+              10.360237666666668,
+              10.919225268817204,
+              10.82112477777778,
+              10.835868924731184
+            ]
+          },
+          "model_sha256": "78f2724743520e63498266df24315c81f608dabc6e0e1d87f8318dc4b7772f1d",
+          "monthly": [
+            {
+              "month": 1,
+              "days": 31,
+              "reference_kwh_day": 11.108392258064518,
+              "generation_kwh": 1033.0804800000003,
+              "offset_kwh": 826.4643840000003
+            },
+            {
+              "month": 2,
+              "days": 28,
+              "reference_kwh_day": 11.430759501557635,
+              "generation_kwh": 960.1837981308414,
+              "offset_kwh": 768.1470385046732
+            },
+            {
+              "month": 3,
+              "days": 31,
+              "reference_kwh_day": 11.421554838709678,
+              "generation_kwh": 1062.2046000000003,
+              "offset_kwh": 849.7636800000002
+            },
+            {
+              "month": 4,
+              "days": 30,
+              "reference_kwh_day": 10.707311222222222,
+              "generation_kwh": 963.6580100000001,
+              "offset_kwh": 770.9264080000002
+            },
+            {
+              "month": 5,
+              "days": 31,
+              "reference_kwh_day": 10.390275268817204,
+              "generation_kwh": 966.2956000000001,
+              "offset_kwh": 773.0364800000002
+            },
+            {
+              "month": 6,
+              "days": 30,
+              "reference_kwh_day": 9.641347333333334,
+              "generation_kwh": 867.7212600000003,
+              "offset_kwh": 694.1770080000002
+            },
+            {
+              "month": 7,
+              "days": 31,
+              "reference_kwh_day": 9.185602150537635,
+              "generation_kwh": 854.2610000000002,
+              "offset_kwh": 683.4088000000002
+            },
+            {
+              "month": 8,
+              "days": 31,
+              "reference_kwh_day": 9.437978279569894,
+              "generation_kwh": 877.7319800000002,
+              "offset_kwh": 702.1855840000003
+            },
+            {
+              "month": 9,
+              "days": 30,
+              "reference_kwh_day": 10.360237666666668,
+              "generation_kwh": 932.4213900000003,
+              "offset_kwh": 745.9371120000003
+            },
+            {
+              "month": 10,
+              "days": 31,
+              "reference_kwh_day": 10.919225268817204,
+              "generation_kwh": 1015.4879500000001,
+              "offset_kwh": 812.3903600000001
+            },
+            {
+              "month": 11,
+              "days": 30,
+              "reference_kwh_day": 10.82112477777778,
+              "generation_kwh": 973.9012300000003,
+              "offset_kwh": 779.1209840000002
+            },
+            {
+              "month": 12,
+              "days": 31,
+              "reference_kwh_day": 10.835868924731184,
+              "generation_kwh": 1007.7358100000002,
+              "offset_kwh": 806.1886480000003
+            }
+          ],
+          "annual_generation_kwh": 11514.683108130845,
+          "annual_offset_kwh": 9211.746486504675,
+          "coverage_percent": 35.53914539546557
+        },
+        "comparison": {
+          "grid_only_annual_cost_kes": 0,
+          "pv_annual_grid_cost_kes": 0.0,
+          "pv_annual_operating_cost_kes": 3000.0,
+          "annual_avoided_grid_cost_kes": 0.0,
+          "net_annual_saving_kes": -3000.0,
+          "simple_payback_years": null
+        },
+        "sensitivity": [
+          {
+            "tariff_kes_per_kwh": 0.0,
+            "annual_avoided_grid_cost_kes": 0.0,
+            "net_annual_saving_kes": -3000.0
+          },
+          {
+            "tariff_kes_per_kwh": 0,
+            "annual_avoided_grid_cost_kes": 0.0,
+            "net_annual_saving_kes": -3000.0
+          },
+          {
+            "tariff_kes_per_kwh": 0.0,
+            "annual_avoided_grid_cost_kes": 0.0,
+            "net_annual_saving_kes": -3000.0
+          }
+        ],
+        "assumptions": [
+          "Tariff default KES 25/kWh is a fictional demo assumption created 2026-10-13, not a verified Kenyan tariff. Enter your own variable electricity rate; fixed charges and tax are excluded.",
+          "Business load, operating hours, installation cost and maintenance defaults are fictional examples, not observed SME measurements.",
+          "Formula consumption is average load in kW \u00d7 operating hours/day \u00d7 representative days/month; measured mode uses your supplied monthly kWh. Annual consumption assumes twelve identical months.",
+          "Self-consumption fraction is a user assumption. Usable solar is capped against consumption each month; export revenue is zero.",
+          "Panel-area and efficiency changes scale the model reference target linearly, not a separately learned model."
+        ],
+        "limitations": [
+          "Nairobi XGBoost MAPE is 12.5268%, worse than the training-city monthly baseline at 8.4342%; default baseline is a transparent comparison-driven choice, not an independent new validation result.",
+          "Nairobi only; no automatic geography inference. No verified local installation output or customer savings evidence.",
+          "Solar target is derived from bundled irradiance with fixed panel area and efficiency, not measured installation generation. Baseline and held-out metrics describe that derived target only.",
+          "Climatological monthly estimates omit shading, roof orientation, inverter losses, batteries, degradation and weather extremes.",
+          "Simple payback omits financing, discounting, replacement costs and tax; this is scenario arithmetic, not financial advice or validated ROI."
+        ]
+      }
+    }
+  ]
+}

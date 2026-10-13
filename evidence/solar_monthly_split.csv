@@ -1,0 +1,241 @@
+location_name,country,latitude,longitude,month,ghi_kwh_m2,abs_latitude,is_dry_season,target_kwh_day,split
+Abidjan_Ivory_Coast,Ivory Coast,5.36,-4.008,1,4.933932258,5.36,1,9.867864516,test
+Abidjan_Ivory_Coast,Ivory Coast,5.36,-4.008,2,4.777728972,5.36,1,9.555457944,test
+Abidjan_Ivory_Coast,Ivory Coast,5.36,-4.008,3,5.187079032,5.36,0,10.37415806,test
+Abidjan_Ivory_Coast,Ivory Coast,5.36,-4.008,4,5.067671667,5.36,0,10.13534333,test
+Abidjan_Ivory_Coast,Ivory Coast,5.36,-4.008,5,4.822571774,5.36,0,9.645143548,test
+Abidjan_Ivory_Coast,Ivory Coast,5.36,-4.008,6,3.951978333,5.36,1,7.903956667,test
+Abidjan_Ivory_Coast,Ivory Coast,5.36,-4.008,7,3.972933065,5.36,1,7.945866129,test
+Abidjan_Ivory_Coast,Ivory Coast,5.36,-4.008,8,3.602837097,5.36,1,7.205674194,test
+Abidjan_Ivory_Coast,Ivory Coast,5.36,-4.008,9,4.003484167,5.36,0,8.006968333,test
+Abidjan_Ivory_Coast,Ivory Coast,5.36,-4.008,10,4.612325806,5.36,0,9.224651613,test
+Abidjan_Ivory_Coast,Ivory Coast,5.36,-4.008,11,4.889604167,5.36,0,9.779208333,test
+Abidjan_Ivory_Coast,Ivory Coast,5.36,-4.008,12,4.843045161,5.36,1,9.686090323,test
+Abuja_Nigeria,Nigeria,9.076,7.399,1,5.720208871,9.076,1,11.44041774,train
+Abuja_Nigeria,Nigeria,9.076,7.399,2,5.677471963,9.076,1,11.35494393,train
+Abuja_Nigeria,Nigeria,9.076,7.399,3,5.856304032,9.076,0,11.71260806,train
+Abuja_Nigeria,Nigeria,9.076,7.399,4,5.72361,9.076,0,11.44722,train
+Abuja_Nigeria,Nigeria,9.076,7.399,5,5.427557258,9.076,0,10.85511452,train
+Abuja_Nigeria,Nigeria,9.076,7.399,6,4.792866667,9.076,1,9.585733333,train
+Abuja_Nigeria,Nigeria,9.076,7.399,7,4.300609677,9.076,1,8.601219355,train
+Abuja_Nigeria,Nigeria,9.076,7.399,8,3.820058871,9.076,1,7.640117742,train
+Abuja_Nigeria,Nigeria,9.076,7.399,9,4.7314075,9.076,0,9.462815,train
+Abuja_Nigeria,Nigeria,9.076,7.399,10,5.391698387,9.076,0,10.78339677,train
+Abuja_Nigeria,Nigeria,9.076,7.399,11,5.834401667,9.076,0,11.66880333,train
+Abuja_Nigeria,Nigeria,9.076,7.399,12,5.653679839,9.076,1,11.30735968,train
+Accra_Ghana,Ghana,5.604,-0.187,1,5.098148387,5.604,1,10.19629677,train
+Accra_Ghana,Ghana,5.604,-0.187,2,5.010979439,5.604,1,10.02195888,train
+Accra_Ghana,Ghana,5.604,-0.187,3,5.291227419,5.604,0,10.58245484,train
+Accra_Ghana,Ghana,5.604,-0.187,4,5.0532725,5.604,0,10.106545,train
+Accra_Ghana,Ghana,5.604,-0.187,5,4.922147581,5.604,0,9.844295161,train
+Accra_Ghana,Ghana,5.604,-0.187,6,4.209193333,5.604,1,8.418386667,train
+Accra_Ghana,Ghana,5.604,-0.187,7,4.106231452,5.604,1,8.212462903,train
+Accra_Ghana,Ghana,5.604,-0.187,8,4.033696774,5.604,1,8.067393548,train
+Accra_Ghana,Ghana,5.604,-0.187,9,4.464826667,5.604,0,8.929653333,train
+Accra_Ghana,Ghana,5.604,-0.187,10,4.973693548,5.604,0,9.947387097,train
+Accra_Ghana,Ghana,5.604,-0.187,11,5.247709167,5.604,0,10.49541833,train
+Accra_Ghana,Ghana,5.604,-0.187,12,5.060739516,5.604,1,10.12147903,train
+Addis_Ababa_Ethiopia,Ethiopia,9.032,38.747,1,6.222395968,9.032,1,12.44479194,train
+Addis_Ababa_Ethiopia,Ethiopia,9.032,38.747,2,6.579224299,9.032,1,13.1584486,train
+Addis_Ababa_Ethiopia,Ethiopia,9.032,38.747,3,6.269272581,9.032,0,12.53854516,train
+Addis_Ababa_Ethiopia,Ethiopia,9.032,38.747,4,6.436951667,9.032,0,12.87390333,train
+Addis_Ababa_Ethiopia,Ethiopia,9.032,38.747,5,6.514868548,9.032,0,13.0297371,train
+Addis_Ababa_Ethiopia,Ethiopia,9.032,38.747,6,5.954665833,9.032,1,11.90933167,train
+Addis_Ababa_Ethiopia,Ethiopia,9.032,38.747,7,4.726814516,9.032,1,9.453629032,train
+Addis_Ababa_Ethiopia,Ethiopia,9.032,38.747,8,4.64493871,9.032,1,9.289877419,train
+Addis_Ababa_Ethiopia,Ethiopia,9.032,38.747,9,5.327059167,9.032,0,10.65411833,train
+Addis_Ababa_Ethiopia,Ethiopia,9.032,38.747,10,5.880320968,9.032,0,11.76064194,train
+Addis_Ababa_Ethiopia,Ethiopia,9.032,38.747,11,6.151313333,9.032,0,12.30262667,train
+Addis_Ababa_Ethiopia,Ethiopia,9.032,38.747,12,5.863056452,9.032,1,11.7261129,train
+Bamako_Mali,Mali,12.639,-8.003,1,5.590929032,12.639,1,11.18185806,train
+Bamako_Mali,Mali,12.639,-8.003,2,6.016288785,12.639,1,12.03257757,train
+Bamako_Mali,Mali,12.639,-8.003,3,6.225256452,12.639,0,12.4505129,train
+Bamako_Mali,Mali,12.639,-8.003,4,6.659686667,12.639,0,13.31937333,train
+Bamako_Mali,Mali,12.639,-8.003,5,5.959609677,12.639,0,11.91921935,train
+Bamako_Mali,Mali,12.639,-8.003,6,5.86634,12.639,1,11.73268,train
+Bamako_Mali,Mali,12.639,-8.003,7,5.228618548,12.639,1,10.4572371,train
+Bamako_Mali,Mali,12.639,-8.003,8,4.922581452,12.639,1,9.845162903,train
+Bamako_Mali,Mali,12.639,-8.003,9,5.416526667,12.639,0,10.83305333,train
+Bamako_Mali,Mali,12.639,-8.003,10,5.67796371,12.639,0,11.35592742,train
+Bamako_Mali,Mali,12.639,-8.003,11,5.6620325,12.639,0,11.324065,train
+Bamako_Mali,Mali,12.639,-8.003,12,5.327906452,12.639,1,10.6558129,train
+Cape_Town_SA,South Africa,-33.925,18.424,1,8.519687097,33.925,1,17.03937419,test
+Cape_Town_SA,South Africa,-33.925,18.424,2,7.545188785,33.925,1,15.09037757,test
+Cape_Town_SA,South Africa,-33.925,18.424,3,5.851487097,33.925,0,11.70297419,test
+Cape_Town_SA,South Africa,-33.925,18.424,4,4.489986667,33.925,0,8.979973333,test
+Cape_Town_SA,South Africa,-33.925,18.424,5,3.309149194,33.925,0,6.618298387,test
+Cape_Town_SA,South Africa,-33.925,18.424,6,2.522856667,33.925,1,5.045713333,test
+Cape_Town_SA,South Africa,-33.925,18.424,7,2.789283871,33.925,1,5.578567742,test
+Cape_Town_SA,South Africa,-33.925,18.424,8,3.769128226,33.925,1,7.538256452,test
+Cape_Town_SA,South Africa,-33.925,18.424,9,4.991213333,33.925,0,9.982426667,test
+Cape_Town_SA,South Africa,-33.925,18.424,10,6.763504839,33.925,0,13.52700968,test
+Cape_Town_SA,South Africa,-33.925,18.424,11,7.859978333,33.925,0,15.71995667,test
+Cape_Town_SA,South Africa,-33.925,18.424,12,8.475451613,33.925,1,16.95090323,test
+Dakar_Senegal,Senegal,14.693,-17.047,1,5.078987903,14.693,1,10.15797581,train
+Dakar_Senegal,Senegal,14.693,-17.047,2,5.733033645,14.693,1,11.46606729,train
+Dakar_Senegal,Senegal,14.693,-17.047,3,6.593741935,14.693,0,13.18748387,train
+Dakar_Senegal,Senegal,14.693,-17.047,4,6.85061,14.693,0,13.70122,train
+Dakar_Senegal,Senegal,14.693,-17.047,5,6.566197581,14.693,0,13.13239516,train
+Dakar_Senegal,Senegal,14.693,-17.047,6,6.319494167,14.693,1,12.63898833,train
+Dakar_Senegal,Senegal,14.693,-17.047,7,5.680568548,14.693,1,11.3611371,train
+Dakar_Senegal,Senegal,14.693,-17.047,8,5.375129839,14.693,1,10.75025968,train
+Dakar_Senegal,Senegal,14.693,-17.047,9,5.284085,14.693,0,10.56817,train
+Dakar_Senegal,Senegal,14.693,-17.047,10,5.501779839,14.693,0,11.00355968,train
+Dakar_Senegal,Senegal,14.693,-17.047,11,5.131993333,14.693,0,10.26398667,train
+Dakar_Senegal,Senegal,14.693,-17.047,12,4.821521774,14.693,1,9.643043548,train
+Dar_es_Salaam_Tanzania,Tanzania,-6.792,39.208,1,5.899414516,6.792,1,11.79882903,train
+Dar_es_Salaam_Tanzania,Tanzania,-6.792,39.208,2,6.431956075,6.792,1,12.86391215,train
+Dar_es_Salaam_Tanzania,Tanzania,-6.792,39.208,3,5.991903226,6.792,0,11.98380645,train
+Dar_es_Salaam_Tanzania,Tanzania,-6.792,39.208,4,4.4356525,6.792,0,8.871305,train
+Dar_es_Salaam_Tanzania,Tanzania,-6.792,39.208,5,4.912425,6.792,0,9.82485,train
+Dar_es_Salaam_Tanzania,Tanzania,-6.792,39.208,6,4.760819167,6.792,1,9.521638333,train
+Dar_es_Salaam_Tanzania,Tanzania,-6.792,39.208,7,4.875373387,6.792,1,9.750746774,train
+Dar_es_Salaam_Tanzania,Tanzania,-6.792,39.208,8,5.517862903,6.792,1,11.03572581,train
+Dar_es_Salaam_Tanzania,Tanzania,-6.792,39.208,9,6.281360833,6.792,0,12.56272167,train
+Dar_es_Salaam_Tanzania,Tanzania,-6.792,39.208,10,6.451625806,6.792,0,12.90325161,train
+Dar_es_Salaam_Tanzania,Tanzania,-6.792,39.208,11,6.262100833,6.792,0,12.52420167,train
+Dar_es_Salaam_Tanzania,Tanzania,-6.792,39.208,12,6.269437097,6.792,1,12.53887419,train
+Garissa_Kenya,Kenya,-0.453,39.646,1,6.276721774,0.453,1,12.55344355,train
+Garissa_Kenya,Kenya,-0.453,39.646,2,6.323596262,0.453,1,12.64719252,train
+Garissa_Kenya,Kenya,-0.453,39.646,3,6.210720161,0.453,0,12.42144032,train
+Garissa_Kenya,Kenya,-0.453,39.646,4,5.737945833,0.453,0,11.47589167,train
+Garissa_Kenya,Kenya,-0.453,39.646,5,5.748325806,0.453,0,11.49665161,train
+Garissa_Kenya,Kenya,-0.453,39.646,6,5.445155,0.453,1,10.89031,train
+Garissa_Kenya,Kenya,-0.453,39.646,7,5.120420161,0.453,1,10.24084032,train
+Garissa_Kenya,Kenya,-0.453,39.646,8,5.424620161,0.453,1,10.84924032,train
+Garissa_Kenya,Kenya,-0.453,39.646,9,6.105345833,0.453,0,12.21069167,train
+Garissa_Kenya,Kenya,-0.453,39.646,10,6.286956452,0.453,0,12.5739129,train
+Garissa_Kenya,Kenya,-0.453,39.646,11,5.3350875,0.453,0,10.670175,train
+Garissa_Kenya,Kenya,-0.453,39.646,12,5.614657258,0.453,1,11.22931452,train
+Harare_Zimbabwe,Zimbabwe,-17.825,31.034,1,5.790769355,17.825,1,11.58153871,train
+Harare_Zimbabwe,Zimbabwe,-17.825,31.034,2,6.344346729,17.825,1,12.68869346,train
+Harare_Zimbabwe,Zimbabwe,-17.825,31.034,3,5.94566129,17.825,0,11.89132258,train
+Harare_Zimbabwe,Zimbabwe,-17.825,31.034,4,5.321135,17.825,0,10.64227,train
+Harare_Zimbabwe,Zimbabwe,-17.825,31.034,5,5.260493548,17.825,0,10.5209871,train
+Harare_Zimbabwe,Zimbabwe,-17.825,31.034,6,4.59244,17.825,1,9.18488,train
+Harare_Zimbabwe,Zimbabwe,-17.825,31.034,7,4.792104032,17.825,1,9.584208065,train
+Harare_Zimbabwe,Zimbabwe,-17.825,31.034,8,5.820271774,17.825,1,11.64054355,train
+Harare_Zimbabwe,Zimbabwe,-17.825,31.034,9,6.541581667,17.825,0,13.08316333,train
+Harare_Zimbabwe,Zimbabwe,-17.825,31.034,10,6.632982258,17.825,0,13.26596452,train
+Harare_Zimbabwe,Zimbabwe,-17.825,31.034,11,6.005398333,17.825,0,12.01079667,train
+Harare_Zimbabwe,Zimbabwe,-17.825,31.034,12,6.416645161,17.825,1,12.83329032,train
+Johannesburg_SA,South Africa,-26.204,28.047,1,6.810401613,26.204,1,13.62080323,test
+Johannesburg_SA,South Africa,-26.204,28.047,2,6.03431215,26.204,1,12.0686243,test
+Johannesburg_SA,South Africa,-26.204,28.047,3,5.456597581,26.204,0,10.91319516,test
+Johannesburg_SA,South Africa,-26.204,28.047,4,4.49055,26.204,0,8.9811,test
+Johannesburg_SA,South Africa,-26.204,28.047,5,4.277334677,26.204,0,8.554669355,test
+Johannesburg_SA,South Africa,-26.204,28.047,6,4.0013375,26.204,1,8.002675,test
+Johannesburg_SA,South Africa,-26.204,28.047,7,4.149248387,26.204,1,8.298496774,test
+Johannesburg_SA,South Africa,-26.204,28.047,8,5.133368548,26.204,1,10.2667371,test
+Johannesburg_SA,South Africa,-26.204,28.047,9,5.677190833,26.204,0,11.35438167,test
+Johannesburg_SA,South Africa,-26.204,28.047,10,6.299691129,26.204,0,12.59938226,test
+Johannesburg_SA,South Africa,-26.204,28.047,11,6.161609167,26.204,0,12.32321833,test
+Johannesburg_SA,South Africa,-26.204,28.047,12,6.215039516,26.204,1,12.43007903,test
+Kampala_Uganda,Uganda,0.348,32.583,1,5.43736129,0.348,1,10.87472258,train
+Kampala_Uganda,Uganda,0.348,32.583,2,5.569861682,0.348,1,11.13972336,train
+Kampala_Uganda,Uganda,0.348,32.583,3,5.479253226,0.348,0,10.95850645,train
+Kampala_Uganda,Uganda,0.348,32.583,4,5.149661667,0.348,0,10.29932333,train
+Kampala_Uganda,Uganda,0.348,32.583,5,5.045271774,0.348,0,10.09054355,train
+Kampala_Uganda,Uganda,0.348,32.583,6,4.785004167,0.348,1,9.570008333,train
+Kampala_Uganda,Uganda,0.348,32.583,7,4.602885484,0.348,1,9.205770968,train
+Kampala_Uganda,Uganda,0.348,32.583,8,4.760294355,0.348,1,9.52058871,train
+Kampala_Uganda,Uganda,0.348,32.583,9,5.222704167,0.348,0,10.44540833,train
+Kampala_Uganda,Uganda,0.348,32.583,10,5.159492742,0.348,0,10.31898548,train
+Kampala_Uganda,Uganda,0.348,32.583,11,4.711784167,0.348,0,9.423568333,train
+Kampala_Uganda,Uganda,0.348,32.583,12,4.895848387,0.348,1,9.791696774,train
+Kigali_Rwanda,Rwanda,-1.971,30.104,1,4.751830645,1.971,1,9.50366129,train
+Kigali_Rwanda,Rwanda,-1.971,30.104,2,4.822945794,1.971,1,9.645891589,train
+Kigali_Rwanda,Rwanda,-1.971,30.104,3,5.034345968,1.971,0,10.06869194,train
+Kigali_Rwanda,Rwanda,-1.971,30.104,4,4.633111667,1.971,0,9.266223333,train
+Kigali_Rwanda,Rwanda,-1.971,30.104,5,4.770437903,1.971,0,9.540875806,train
+Kigali_Rwanda,Rwanda,-1.971,30.104,6,5.023189167,1.971,1,10.04637833,train
+Kigali_Rwanda,Rwanda,-1.971,30.104,7,5.308192742,1.971,1,10.61638548,train
+Kigali_Rwanda,Rwanda,-1.971,30.104,8,5.047117742,1.971,1,10.09423548,train
+Kigali_Rwanda,Rwanda,-1.971,30.104,9,5.098990833,1.971,0,10.19798167,train
+Kigali_Rwanda,Rwanda,-1.971,30.104,10,5.006464516,1.971,0,10.01292903,train
+Kigali_Rwanda,Rwanda,-1.971,30.104,11,4.452900833,1.971,0,8.905801667,train
+Kigali_Rwanda,Rwanda,-1.971,30.104,12,4.359610484,1.971,1,8.719220968,train
+Kinshasa_DRC,DRC,-4.322,15.322,1,4.780723387,4.322,1,9.561446774,train
+Kinshasa_DRC,DRC,-4.322,15.322,2,4.952650467,4.322,1,9.905300935,train
+Kinshasa_DRC,DRC,-4.322,15.322,3,4.970079839,4.322,0,9.940159677,train
+Kinshasa_DRC,DRC,-4.322,15.322,4,4.686939167,4.322,0,9.373878333,train
+Kinshasa_DRC,DRC,-4.322,15.322,5,4.314033065,4.322,0,8.628066129,train
+Kinshasa_DRC,DRC,-4.322,15.322,6,3.91842,4.322,1,7.83684,train
+Kinshasa_DRC,DRC,-4.322,15.322,7,4.068028226,4.322,1,8.136056452,train
+Kinshasa_DRC,DRC,-4.322,15.322,8,4.285434677,4.322,1,8.570869355,train
+Kinshasa_DRC,DRC,-4.322,15.322,9,4.2685675,4.322,0,8.537135,train
+Kinshasa_DRC,DRC,-4.322,15.322,10,4.30623871,4.322,0,8.612477419,train
+Kinshasa_DRC,DRC,-4.322,15.322,11,4.232381667,4.322,0,8.464763333,train
+Kinshasa_DRC,DRC,-4.322,15.322,12,4.488651613,4.322,1,8.977303226,train
+Kumasi_Ghana,Ghana,6.689,-1.624,1,5.002904032,6.689,1,10.00580806,train
+Kumasi_Ghana,Ghana,6.689,-1.624,2,5.00858785,6.689,1,10.0171757,train
+Kumasi_Ghana,Ghana,6.689,-1.624,3,5.178887097,6.689,0,10.35777419,train
+Kumasi_Ghana,Ghana,6.689,-1.624,4,5.16377,6.689,0,10.32754,train
+Kumasi_Ghana,Ghana,6.689,-1.624,5,5.010766935,6.689,0,10.02153387,train
+Kumasi_Ghana,Ghana,6.689,-1.624,6,4.344735833,6.689,1,8.689471667,train
+Kumasi_Ghana,Ghana,6.689,-1.624,7,3.964950806,6.689,1,7.929901613,train
+Kumasi_Ghana,Ghana,6.689,-1.624,8,3.548358871,6.689,1,7.096717742,train
+Kumasi_Ghana,Ghana,6.689,-1.624,9,3.954120833,6.689,0,7.908241667,train
+Kumasi_Ghana,Ghana,6.689,-1.624,10,4.619993548,6.689,0,9.239987097,train
+Kumasi_Ghana,Ghana,6.689,-1.624,11,5.058420833,6.689,0,10.11684167,train
+Kumasi_Ghana,Ghana,6.689,-1.624,12,5.006307258,6.689,1,10.01261452,train
+Lagos_Nigeria,Nigeria,6.524,3.379,1,4.989269355,6.524,1,9.97853871,train
+Lagos_Nigeria,Nigeria,6.524,3.379,2,4.842815888,6.524,1,9.685631776,train
+Lagos_Nigeria,Nigeria,6.524,3.379,3,5.132154839,6.524,0,10.26430968,train
+Lagos_Nigeria,Nigeria,6.524,3.379,4,4.888926667,6.524,0,9.777853333,train
+Lagos_Nigeria,Nigeria,6.524,3.379,5,4.730530645,6.524,0,9.46106129,train
+Lagos_Nigeria,Nigeria,6.524,3.379,6,4.04191,6.524,1,8.08382,train
+Lagos_Nigeria,Nigeria,6.524,3.379,7,3.663162903,6.524,1,7.326325806,train
+Lagos_Nigeria,Nigeria,6.524,3.379,8,3.963892742,6.524,1,7.927785484,train
+Lagos_Nigeria,Nigeria,6.524,3.379,9,4.149800833,6.524,0,8.299601667,train
+Lagos_Nigeria,Nigeria,6.524,3.379,10,4.58356371,6.524,0,9.167127419,train
+Lagos_Nigeria,Nigeria,6.524,3.379,11,5.0563275,6.524,0,10.112655,train
+Lagos_Nigeria,Nigeria,6.524,3.379,12,5.173369355,6.524,1,10.34673871,train
+Lusaka_Zambia,Zambia,-15.417,28.283,1,5.365129032,15.417,1,10.73025806,test
+Lusaka_Zambia,Zambia,-15.417,28.283,2,5.828893458,15.417,1,11.65778692,test
+Lusaka_Zambia,Zambia,-15.417,28.283,3,5.898962097,15.417,0,11.79792419,test
+Lusaka_Zambia,Zambia,-15.417,28.283,4,5.276964167,15.417,0,10.55392833,test
+Lusaka_Zambia,Zambia,-15.417,28.283,5,5.436975806,15.417,0,10.87395161,test
+Lusaka_Zambia,Zambia,-15.417,28.283,6,4.769885833,15.417,1,9.539771667,test
+Lusaka_Zambia,Zambia,-15.417,28.283,7,5.051843548,15.417,1,10.1036871,test
+Lusaka_Zambia,Zambia,-15.417,28.283,8,6.042979839,15.417,1,12.08595968,test
+Lusaka_Zambia,Zambia,-15.417,28.283,9,6.481374167,15.417,0,12.96274833,test
+Lusaka_Zambia,Zambia,-15.417,28.283,10,6.578262903,15.417,0,13.15652581,test
+Lusaka_Zambia,Zambia,-15.417,28.283,11,5.937578333,15.417,0,11.87515667,test
+Lusaka_Zambia,Zambia,-15.417,28.283,12,6.061683871,15.417,1,12.12336774,test
+Maputo_Mozambique,Mozambique,-25.969,32.573,1,6.354937097,25.969,1,12.70987419,train
+Maputo_Mozambique,Mozambique,-25.969,32.573,2,5.919241121,25.969,1,11.83848224,train
+Maputo_Mozambique,Mozambique,-25.969,32.573,3,5.196432258,25.969,0,10.39286452,train
+Maputo_Mozambique,Mozambique,-25.969,32.573,4,4.410625833,25.969,0,8.821251667,train
+Maputo_Mozambique,Mozambique,-25.969,32.573,5,3.858429839,25.969,0,7.716859677,train
+Maputo_Mozambique,Mozambique,-25.969,32.573,6,3.6413875,25.969,1,7.282775,train
+Maputo_Mozambique,Mozambique,-25.969,32.573,7,3.779249194,25.969,1,7.558498387,train
+Maputo_Mozambique,Mozambique,-25.969,32.573,8,4.244012903,25.969,1,8.488025806,train
+Maputo_Mozambique,Mozambique,-25.969,32.573,9,4.7618375,25.969,0,9.523675,train
+Maputo_Mozambique,Mozambique,-25.969,32.573,10,5.223470968,25.969,0,10.44694194,train
+Maputo_Mozambique,Mozambique,-25.969,32.573,11,5.9198075,25.969,0,11.839615,train
+Maputo_Mozambique,Mozambique,-25.969,32.573,12,6.056278226,25.969,1,12.11255645,train
+Mombasa_Kenya,Kenya,-4.043,39.668,1,6.318340323,4.043,1,12.63668065,train
+Mombasa_Kenya,Kenya,-4.043,39.668,2,6.497696262,4.043,1,12.99539252,train
+Mombasa_Kenya,Kenya,-4.043,39.668,3,6.286420968,4.043,0,12.57284194,train
+Mombasa_Kenya,Kenya,-4.043,39.668,4,5.152935,4.043,0,10.30587,train
+Mombasa_Kenya,Kenya,-4.043,39.668,5,4.885969355,4.043,0,9.77193871,train
+Mombasa_Kenya,Kenya,-4.043,39.668,6,4.614484167,4.043,1,9.228968333,train
+Mombasa_Kenya,Kenya,-4.043,39.668,7,4.674806452,4.043,1,9.349612903,train
+Mombasa_Kenya,Kenya,-4.043,39.668,8,5.376565323,4.043,1,10.75313065,train
+Mombasa_Kenya,Kenya,-4.043,39.668,9,6.0935675,4.043,0,12.187135,train
+Mombasa_Kenya,Kenya,-4.043,39.668,10,6.197944355,4.043,0,12.39588871,train
+Mombasa_Kenya,Kenya,-4.043,39.668,11,6.096776667,4.043,0,12.19355333,train
+Mombasa_Kenya,Kenya,-4.043,39.668,12,6.261308065,4.043,1,12.52261613,train
+Nairobi_Kenya,Kenya,-1.292,36.822,1,6.401166129,1.292,1,12.80233226,test
+Nairobi_Kenya,Kenya,-1.292,36.822,2,7.010137383,1.292,1,14.02027477,test
+Nairobi_Kenya,Kenya,-1.292,36.822,3,6.644291129,1.292,0,13.28858226,test
+Nairobi_Kenya,Kenya,-1.292,36.822,4,5.688859167,1.292,0,11.37771833,test
+Nairobi_Kenya,Kenya,-1.292,36.822,5,5.395410484,1.292,0,10.79082097,test
+Nairobi_Kenya,Kenya,-1.292,36.822,6,4.856338333,1.292,1,9.712676667,test
+Nairobi_Kenya,Kenya,-1.292,36.822,7,4.545004032,1.292,1,9.090008065,test
+Nairobi_Kenya,Kenya,-1.292,36.822,8,4.975839516,1.292,1,9.951679032,test
+Nairobi_Kenya,Kenya,-1.292,36.822,9,6.058085833,1.292,0,12.11617167,test
+Nairobi_Kenya,Kenya,-1.292,36.822,10,6.234825806,1.292,0,12.46965161,test
+Nairobi_Kenya,Kenya,-1.292,36.822,11,5.553578333,1.292,0,11.10715667,test
+Nairobi_Kenya,Kenya,-1.292,36.822,12,5.980416129,1.292,1,11.96083226,test

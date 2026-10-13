@@ -1,168 +1,65 @@
-### Model Card: Climatological Solar Generation – XGBoost
+# Solar component: current evaluated model
 
-**Model name**: XGBoost Climatological Solar Generation Regressor  
-**Version**: 1.0  
-**Owner**: SolarSense DSE Team – Model 2 (Solar Generation)
+The personal portfolio scenario uses `flagship_solar_xgb.json`: a fixed XGBoost regression model evaluated on five complete held-out cities. The target is **irradiance-derived theoretical output**, not measured electricity from real installations.
 
----
+## Data and target
 
-### 1. Purpose and Scope
+The inherited `solar_data_20cities_4yr.csv` contains **29,200 daily records for 20 cities**, dated **2022-02-22 to 2026-02-20**. This corrects the earlier card's two-year description. The repository labels it NASA POWER data; original upstream responses and extraction receipts were not independently verified in this release.
 
-- **Goal**: Estimate **typical daily solar energy generation** (kWh/day) for small solar systems in Sub-Saharan Africa, not short-term weather forecasts.
-- **Primary use case**: Support solar viability assessment for SMEs and households by:
-  - Quantifying expected daily output for given coordinates.
-  - Feeding downstream financial and sizing models.
-- **Out of scope**:
-  - Hour-by-hour or day-by-day forecasting.
-  - Cloud-resolving weather prediction.
+The script strips whitespace from headers and city labels, excludes **100 missing GHI values** despite their `good` quality flags, checks duplicate city/date records and positive finite irradiance, and aggregates **29,100 usable observations into 240 city/month means**. GHI means global horizontal irradiance, measured here in kWh/m²/day.
 
----
+Target = monthly mean GHI × **10 m²** reference panel area × **0.20** efficiency. These fixed assumptions are not installation measurements. There is no tilt, shade, weather forecasting or inverter-loss model.
 
-### 2. Inputs
+## Features and frozen split
 
-- **Features (all numeric):**
-  - `latitude` – decimal degrees.
-  - `longitude` – decimal degrees.
-  - `abs_latitude` – absolute latitude (|latitude|).
-  - `month` – integer (1–12).
-  - `is_dry_season` – binary (1 if month in {12,1,2,6,7,8}, else 0).
+Features: latitude, longitude, absolute latitude, month, and a fixed dry-season indicator for months 12, 1, 2, 6, 7 and 8. This flag is a broad inherited assumption, not a local climate classification.
 
-- **Coordinate validity:**
-  - Hard error: lat [-34, 16], lon [-18, 45].
-  - Warning zone: lat < -26 or lat > 12 (predictions returned with a warning flag).
+The holdout list was declared before fitting: **Abidjan, Cape Town, Johannesburg, Lusaka and Nairobi**. All 12 monthly rows from each are excluded from training: **15 training cities / 180 rows; 5 test cities / 60 rows**. Nairobi was included so the demo exercises an unseen city. Historical Nairobi observations are evaluation labels, not model inputs. No future-time holdout is claimed.
 
----
+XGBoost uses 400 trees, depth 4, learning rate 0.05, row/column subsampling 0.9, seed 42, histogram trees and one worker. Parameters were fixed from the inherited script; no search, early stopping or all-city refit. The baseline predicts each calendar month's average target **using training cities only**, without coordinates.
 
-### 3. Outputs
+## Fresh evaluation
 
-- **Core prediction**:
-  - `generation_kwh` – typical daily generation (kWh/day) for:
-    - 10 m² of panels.
-    - 20% panel efficiency.
+| Metric | XGBoost | Month-only baseline |
+|---|---:|---:|
+| Mean absolute error, kWh/day | 1.2442 | 1.6306 |
+| Root mean squared error, kWh/day | 1.7607 | 2.1182 |
+| Mean absolute percentage error | 11.2056% | 16.0544% |
+| R² | 0.4800 | 0.2473 |
 
-- **Lifetime projection (via helper)**:
-  - `year_1_generation_kwh`
-  - `lifetime_total_kwh`
-  - `lifetime_average_annual_kwh`
-  - `yearly_breakdown` (per-year generation, efficiency %, and confidence band).
+These measure prediction of the derived reference-system target, not observed solar yield. R² compares error with a mean-target predictor; negative R² means worse than that reference for the evaluated city.
 
----
+| Held-out city | Model percentage error | Baseline percentage error |
+|---|---:|---:|
+| Abidjan | 6.07% | 16.21% |
+| Cape Town | 24.04% | 34.08% |
+| Johannesburg | 8.80% | 12.95% |
+| Lusaka | 4.59% | 8.60% |
+| Nairobi | **12.53%** | **8.43%** |
 
-### 4. Data and Training
+The model improves aggregate error but **loses to the baseline in Nairobi**, the demo city. Nairobi R² is -0.5586. Cape Town's error is substantial; its latitude also lies outside the training-city range, without establishing that as the cause. Neither failure is hidden and the model was not tuned after inspecting them.
 
-- **Source**: NASA POWER API (Renewable Energy community).
-- **Coverage**:
-  - **20 SSA cities** (Full list returned by `GET /api/v1/model-info`).
-  - **Period**: 2 years of daily GHI data per site.
+## Reproduce and identify the exact artifact
 
-- **Preprocessing**:
-  - Filter to `data_quality == "good"`.
-  - Aggregate to **monthly mean GHI** per city.
-  - Derive:
-    - `abs_latitude`
-    - `is_dry_season`
-  - Target:
-    - `target_avg_generation_kwh = avg_ghi_kwh_m2 * 10 * 0.2`.
+From the repository root after installing pinned requirements:
 
-- **Model**: XGBoost Booster loaded via native JSON format (XGBoost ≥ 2.0). Inference uses `xgb.DMatrix` and `Booster.predict()`, not the sklearn-compatible `XGBRegressor` API.
-
----
-
-### 5. Performance
-
-- **Metric**: Mean Absolute Percentage Error (MAPE).
-- **Validation scheme**: **Location-based split** (entire cities held out).
-- **Reported performance**:
-  - Overall validation MAPE: **7.46%**.
-  - Target requirement: **≤ 15%** (met).
-
-Per-location MAPE is visualised in `outputs/per_location_validation.png`.
-
----
-
-### 6. Assumptions and Limitations
-
-- **Assumptions**:
-  - 10 m² panel area, 20% efficiency.
-  - Typical daily generation is proportional to monthly mean GHI.
-  - Annual degradation rate: 0.7%/year (for lifetime projections).
-  - Dry-season months: {12, 1, 2, 6, 7, 8}.
-
-- **Limitations**:
-  - Coordinates **outside** \[-26, 6] lat and \[-18, 44] lon are not supported.
-  - Predictions near edges of the region (lat < -20 or > 2) have higher uncertainty.
-  - Does not account for:
-    - Shading, tilt, orientation, or local obstructions.
-    - System losses (inverters, wiring, soiling) beyond the fixed efficiency assumption.
-
----
-
-### 7. Artifacts and Loading
-
-- **Artifact paths (relative to `models/solar_generation`)**:
-  - Model directory (`MODEL_DIR` env var, default: `models/`)
-    - `xgboost_climatological_model_v2.json` – trained XGBoost model (native JSON)
-    - `feature_columns_v2.pkl` – ordered feature list used at training/inference
-    - `xgboost_climatological_metadata_v2.json` – metadata (type, MAPE, locations, features)
-- **Runtime loader**: `solar_climatology_service.load_model_artifacts()`
-  - Validates that all three artifacts exist.
-  - Used by both the Flask API and the climatological notebook.
-  - Loads model via `Booster.load_model()`.
-
----
-
-### 8. API Usage Examples
-
-- **Core endpoint**: `POST /api/v1/predict-generation`
-
-Example request:
-
-```json
-{
-  "latitude": -1.2921,
-  "longitude": 36.8219,
-  "month": 6,
-  "include_lifetime": true
-}
+```sh
+python scripts/evaluate_solar.py
+python -m pytest tests/test_solar_evaluation.py -q
 ```
 
-*Note: `include_lifetime` defaults to `false`. The example above passes it explicitly as `true`. Omitting it will return a response without `lifetime_prediction`.*
+Outputs:
 
-Example response (truncated):
+- `models/solar_generation/models/flagship_solar_xgb.json`: **training-only evaluated model**, used by the personal scenario endpoint.
+- `flagship_solar_metadata.json`: dataset/model SHA256 checksums, features, parameters, dependency versions, split identities, baseline monthly values, coordinate/target ranges and all metrics.
+- `evidence/solar_monthly_split.csv`: aggregated rows with train/test membership.
+- `evidence/solar_holdout_predictions.csv`: targets and both predictions for independent recomputation.
+- `evidence/solar_evaluation.json`: full evaluation record.
 
-```json
-{
-  "status": "success",
-  "location": {"latitude": -1.2921, "longitude": 36.8219},
-  "monthly_generation": [
-    {"month": "June", "month_index": 6, "daily_kwh": 5.9, "is_dry_season": true}
-  ],
-  "annual_summary": {
-    "year_1_generation_kwh": 2150.0,
-    "average_daily_kwh": 5.9
-  },
-  "lifetime_prediction": {
-    "total_kwh": 49000.0,
-    "average_annual_kwh": 1960.0,
-    "lifetime_years": 25,
-    "yearly_breakdown": [...]
-  },
-  "assumptions": {...},
-  "confidence": {...}
-}
-```
+Three evaluation tests independently recompute saved-model predictions and the baseline, verify split/data identities, and retrain in a temporary directory to check deterministic model hashes without overwriting the serving model. Percentage error is not a confidence interval or model accuracy probability.
 
----
+## Historical records and limitations
 
-### 9. Confidence Intervals
+Inherited `xgboost_climatological_model_v2.json`, metadata, notebook and training export remain historical team artifacts for older component routes. The old card's **7.46%**, inherited metadata's **11.41%**, and this release's **11.2056%** refer to different records; the first two are not current flagship metrics. The legacy export hard-codes a local Windows path and contains an all-city final refit; use the script above for this release.
 
-- Confidence intervals are **heuristic**, based on the difficulty of long-horizon solar yield prediction rather than strict statistical bounds.
-- For year-level projections:
-  - Years 1–5: ±10%
-  - Years 6–15: ±15%
-  - Years 16–25: ±20%
-- These are implemented as multiplicative bands around each year's expected generation (`confidence_low_kwh`, `confidence_high_kwh`) in the `yearly_breakdown`.
-
-
-
-
+Only the personal scenario path uses the new artifact. Historical lifetime bands do not establish empirical uncertainty or installation validation. A small inherited city sample cannot establish broad geographic reliability, real customer demand, measured savings, tariff accuracy or financial suitability.

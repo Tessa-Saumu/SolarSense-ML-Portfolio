@@ -78,6 +78,8 @@ def create_app() -> Flask:
     """
     app = Flask(__name__)
     CORS(app)
+    from solar_scenario.api import blueprint as scenario_blueprint
+    app.register_blueprint(scenario_blueprint)
 
     shared_api_key = os.getenv("API_KEY")
 

@@ -1,0 +1,4 @@
+# Evaluated model and exported evidence need stable bytes on Windows/Linux.
+models/solar_generation/models/flagship*.json -text
+evidence/solar_* -text
+web-demo/data/scenario-evidence.json -text

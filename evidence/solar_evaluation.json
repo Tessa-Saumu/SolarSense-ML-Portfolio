@@ -1,0 +1,183 @@
+{
+  "model_type": "XGBoost fixed-city holdout regression",
+  "feature_columns": [
+    "latitude",
+    "longitude",
+    "abs_latitude",
+    "month",
+    "is_dry_season"
+  ],
+  "reference_panel_area_m2": 10.0,
+  "reference_efficiency": 0.2,
+  "target": "Monthly mean GHI * 10 m\u00b2 * 0.20; theoretical kWh/day, not observed PV output",
+  "model_sha256": "78f2724743520e63498266df24315c81f608dabc6e0e1d87f8318dc4b7772f1d",
+  "dataset_sha256": "832f08dac4592b768bef50d8b91ca2e5a800f7d3d17ed42f56e1a4902995a0f9",
+  "dataset_hash_scope": "SHA-256 with CSV CRLF normalized to LF; content unchanged across Git checkouts",
+  "dataset_path": "models/solar_generation/models/solar_data_20cities_4yr.csv",
+  "raw_rows": 29200,
+  "usable_rows": 29100,
+  "missing_ghi_rows": 100,
+  "monthly_rows": 240,
+  "date_start": "2022-02-22",
+  "date_end": "2026-02-20",
+  "training_locations": [
+    "Abuja_Nigeria",
+    "Accra_Ghana",
+    "Addis_Ababa_Ethiopia",
+    "Bamako_Mali",
+    "Dakar_Senegal",
+    "Dar_es_Salaam_Tanzania",
+    "Garissa_Kenya",
+    "Harare_Zimbabwe",
+    "Kampala_Uganda",
+    "Kigali_Rwanda",
+    "Kinshasa_DRC",
+    "Kumasi_Ghana",
+    "Lagos_Nigeria",
+    "Maputo_Mozambique",
+    "Mombasa_Kenya"
+  ],
+  "held_out_locations": [
+    "Abidjan_Ivory_Coast",
+    "Cape_Town_SA",
+    "Johannesburg_SA",
+    "Lusaka_Zambia",
+    "Nairobi_Kenya"
+  ],
+  "training_rows": 180,
+  "test_rows": 60,
+  "parameters": {
+    "n_estimators": 400,
+    "max_depth": 4,
+    "learning_rate": 0.05,
+    "subsample": 0.9,
+    "colsample_bytree": 0.9,
+    "objective": "reg:squarederror",
+    "random_state": 42,
+    "n_jobs": 1,
+    "tree_method": "hist"
+  },
+  "versions": {
+    "xgboost": "3.1.3",
+    "sklearn": "1.8.0",
+    "pandas": "2.2.2",
+    "numpy": "2.4.1"
+  },
+  "validation_mape": 0.1120557816741968,
+  "evaluation": {
+    "model": {
+      "mae_kwh_day": 1.244177589034234,
+      "rmse_kwh_day": 1.7606527156415346,
+      "mape_percent": 11.20557816741968,
+      "r2": 0.47999246026189557
+    },
+    "baseline": {
+      "mae_kwh_day": 1.6305843927528219,
+      "rmse_kwh_day": 2.1182138550922165,
+      "mape_percent": 16.05443863024097,
+      "r2": 0.24733478088284422
+    }
+  },
+  "per_city": {
+    "Abidjan_Ivory_Coast": {
+      "model": {
+        "mae_kwh_day": 0.5059941072990821,
+        "rmse_kwh_day": 0.628679855444083,
+        "mape_percent": 6.070241168604858,
+        "r2": 0.6097803284721356
+      },
+      "baseline": {
+        "mae_kwh_day": 1.4107745410930228,
+        "rmse_kwh_day": 1.5108155624714412,
+        "mape_percent": 16.20919251435324,
+        "r2": -1.2535799452431595
+      }
+    },
+    "Cape_Town_SA": {
+      "model": {
+        "mae_kwh_day": 2.6314491782604614,
+        "rmse_kwh_day": 3.1483907645239766,
+        "mape_percent": 24.038449810339056,
+        "r2": 0.45600874363100696
+      },
+      "baseline": {
+        "mae_kwh_day": 3.2894321637160977,
+        "rmse_kwh_day": 3.78522373756708,
+        "mape_percent": 34.07776554109747,
+        "r2": 0.2136828107762473
+      }
+    },
+    "Johannesburg_SA": {
+      "model": {
+        "mae_kwh_day": 1.0067524001939878,
+        "rmse_kwh_day": 1.2277861087457271,
+        "mape_percent": 8.8014390793408,
+        "r2": 0.5567985699912983
+      },
+      "baseline": {
+        "mae_kwh_day": 1.3621328131734378,
+        "rmse_kwh_day": 1.474642585148851,
+        "mape_percent": 12.950911084495322,
+        "r2": 0.3606638448088433
+      }
+    },
+    "Lusaka_Zambia": {
+      "model": {
+        "mae_kwh_day": 0.5411634157433026,
+        "rmse_kwh_day": 0.6794967110008461,
+        "mape_percent": 4.590918110242726,
+        "r2": 0.5901177909009833
+      },
+      "baseline": {
+        "mae_kwh_day": 1.038964509736599,
+        "rmse_kwh_day": 1.3846138114926334,
+        "mape_percent": 8.600157378818734,
+        "r2": -0.7019299036159521
+      }
+    },
+    "Nairobi_Kenya": {
+      "model": {
+        "mae_kwh_day": 1.5355288436743368,
+        "rmse_kwh_day": 1.7951915356330501,
+        "mape_percent": 12.526842668570962,
+        "r2": -0.558635373375518
+      },
+      "baseline": {
+        "mae_kwh_day": 1.0516179360449536,
+        "rmse_kwh_day": 1.3160323367475857,
+        "mape_percent": 8.434166632440075,
+        "r2": 0.16236258882554244
+      }
+    }
+  },
+  "baseline_monthly_kwh_day": {
+    "1": 11.108392258064518,
+    "2": 11.430759501557635,
+    "3": 11.421554838709678,
+    "4": 10.707311222222222,
+    "5": 10.390275268817204,
+    "6": 9.641347333333334,
+    "7": 9.185602150537635,
+    "8": 9.437978279569894,
+    "9": 10.360237666666668,
+    "10": 10.919225268817204,
+    "11": 10.82112477777778,
+    "12": 10.835868924731184
+  },
+  "training_coordinate_bounds": {
+    "latitude": [
+      -25.969,
+      14.693
+    ],
+    "longitude": [
+      -17.047,
+      39.668
+    ]
+  },
+  "target_bounds_kwh_day": [
+    5.0457133333333335,
+    17.039374193548387
+  ],
+  "provenance": "Inherited NASA POWER-labelled bundled CSV; original upstream API receipt/raw responses not independently verified. Whitespace normalized; no new data fetched.",
+  "qualification": "No future-year holdout, no observed installation data; five cities were predeclared, no tuning or all-city refit. Nairobi is held out."
+}
