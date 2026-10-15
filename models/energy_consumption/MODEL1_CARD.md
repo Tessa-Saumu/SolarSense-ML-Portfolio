@@ -1,3 +1,13 @@
+# Current personal-fork consumption prototype — 15 October 2026
+
+The minimal-input viability demo now uses a **separate, leakage-free gradient-boosted consumption model**, exported as `models/energy_consumption/models/consumption_observable_v1.json`. It uses observable area, opening hours, refrigeration count and a broad food-sales/service indicator. The correct CBECS 2018 food cohorts are PBA 6 and 15; 309 records were split into 247 training and 62 test buildings. No old artifact was overwritten.
+
+Current US holdout MAPE is **63.05%**, R² **0.668**. The train-only area-intensity baseline performs better (**59.03% MAPE**, R² **0.824**). These are US building results, not African SME validation. Most refrigeration values require training-median imputation. Small-shop extrapolation and broad proxy categories remain major limitations.
+
+The inherited notebook below included a target-derived feature (`ELCNS / SQFT`) and misdescribed PBA codes; its historical high scores must not be used as current or leakage-free accuracy claims. Its legacy API already bypassed the model before portfolio work. See [current methodology](../../docs/assessment_methodology.md), the reproducible training script and `evidence/consumption_evaluation.json` for the new model's complete provenance. The old card below is retained as historical evidence only.
+
+---
+
 > October 2026 personal-fork clarification: this is a historical training card. Its rows/metrics differ from the later changelog and have not been reconciled to a final training run. The current consumption API uses a direct formula rather than `best_model.predict`; the scores below do not evaluate served consumption estimates. Do not use them as current public performance claims.
 
 

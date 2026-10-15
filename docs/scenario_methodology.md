@@ -1,5 +1,7 @@
 # Nairobi scenario extension
 
+> Historical 13 October 2026 scenario interface. The public wizard now uses the minimal-input consumption-model assessment described in [assessment_methodology.md](assessment_methodology.md). This document still describes the retained optional `/api/v1/scenario` endpoint, rather than the current public flow.
+
 This personal, AI-assisted extension is separate from inherited team endpoints. It supports only Nairobi, Kenya, with explicit coordinates (-1.2921, 36.8219). No geographic inference or Africa-wide validity is claimed. Inherited team modules retain their credit and original interfaces.
 
 ## Components and units

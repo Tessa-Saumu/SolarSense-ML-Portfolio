@@ -1,39 +1,40 @@
-# SolarSense: Nairobi Energy Scenario Explorer
+# SolarSense: Business Solar Viability Prototype
 
-I extended a team solar prototype into a Nairobi scenario tool with explicit energy and cost assumptions, reproducible model evaluation and downloadable reports.
+I extended a team prototype that estimates business electricity demand, suggests a solar system and assesses indicative viability from simple business details.
 
 ## The problem
 
-A business considering solar needs to understand its estimated consumption, solar output, tariff and system costs. This project makes that calculation inspectable; it does not establish actual installation yield or customer savings.
+A small business should not need to know its electricity consumption, panel size or installation cost before exploring solar. SolarSense starts with business type, location, premises and equipment, then estimates demand and an indicative solar option. It is a prototype; its estimates need local measurements and a site survey before investment.
 
 ## What I built
 
-The personal extension adds a Nairobi/Kenya scenario API, browser calculator, formula or measured-consumption inputs, baseline/model comparison, tariff sensitivity and JSON/CSV/printable exports. I directed AI-assisted development and verification while preserving original team ownership.
+The personal extension restores the original assessment journey: business details → location → premises → equipment → review → viability results. It runs an actual consumption model, estimates solar size automatically, compares indicative grid/diesel costs and exports JSON, monthly CSV and a printable report. No known consumption, panel area, tariff or installation cost is required; assumptions can be adjusted optionally. I directed AI-assisted development and verification while preserving original team ownership.
 
 ## Architecture
 
 ```mermaid
 flowchart LR
-    D[Bundled irradiance data] --> E[Fixed city holdout and baseline evaluation]
-    E --> M[Evaluated training-only artifact]
-    M --> P[Python API and profile exporter]
-    P --> B[Browser profiles from the same artifact]
-    I[Nairobi inputs and explicit assumptions] --> C[Validated calculation]
-    B --> C
-    P --> C
-    C --> R[Energy, cost comparison and sensitivity]
-    R --> X[JSON, CSV and printable report]
+    U[Business, area, hours and refrigeration] --> C[Consumption model]
+    D[Retained commercial-building data] --> T[Training-only fit and holdout evaluation]
+    T --> C
+    C --> S[Demand and roof-constrained solar sizing]
+    P[Evaluated Nairobi solar profile] --> S
+    S --> V[Indicative costs, payback and conditional verdict]
+    A[Optional explicit assumptions] --> V
+    V --> R[Monthly results and downloadable assessment]
 ```
 
 ## How it works
 
-Choose an illustrative bakery, grocery or butchery profile and edit its load/hours, or enter measured monthly consumption. Set panel area, efficiency, the share used on site, tariff, installation cost and maintenance. Energy offset is capped by demand each month; exported electricity earns no payment.
+Enter a business name/type, select Nairobi and power supply, estimate floor area and weekly opening hours, and list equipment counts/hours. Consumption prediction uses area, weekly hours, refrigeration count and a broad food-sales/service category. Appliance-specific hours also provide a separate wattage cross-check; they are not falsely described as independently learned features.
 
-The browser uses twelve exported Nairobi profiles from the same evaluated artifact and baseline as the Python API, then calculates visitor inputs locally. It does not call live weather or a hosted Python backend. The baseline defaults after its lower Nairobi error was observed; that comparison-driven choice is not a new independent validation result.
+Predicted demand and an explicit roof-availability assumption determine a suggested system size. Nairobi solar profiles determine theoretical generation; monthly usable energy is capped by demand. Demonstration prices give an indicative cost comparison and simple payback. The browser executes the exported consumption trees for your inputs and the same assessment calculations as the Python API. No hosted Python backend, subscription, key or live weather service is needed for the portable browser app.
 
 ## ML / AI methodology
 
-The inherited NASA POWER-labelled CSV contains 29,200 daily records from 20 cities, dated February 2022-February 2026. Original extraction receipts are unavailable. One hundred missing irradiance values marked `good` are dropped; 29,100 usable rows become 240 city/month means.
+**Consumption:** The inherited model used `kwh_per_sqft = ELCNS / SQFT`, which leaks the target and cannot be supplied when consumption is unknown. Its formula fallback predates the portfolio changes. I retained the historical artifacts and added a separately named gradient-boosted model using only observable inputs. The notebook also used the wrong activity codes; the corrected US CBECS food-sales/service cohort contains 309 buildings: 247 training and 62 holdout records. Fixed seed, training-only preprocessing, no holdout tuning. A training-median electricity-per-area baseline is reported alongside the model. US building results do not validate Nairobi shops.
+
+**Solar:** The inherited NASA POWER-labelled CSV contains 29,200 daily records from 20 cities, dated February 2022-February 2026. Original extraction receipts are unavailable. One hundred missing irradiance values marked `good` are dropped; 29,100 usable rows become 240 city/month means.
 
 Target: monthly mean irradiance × 10 m² × 20% efficiency, giving **theoretical kWh/day rather than measured installation output**. Features are coordinates, absolute latitude, month and an inherited broad season flag.
 
@@ -47,24 +48,29 @@ Pinned dependencies, pytest and browser tests support reproduction. Legacy authe
 
 ## Results
 
-MAPE is mean absolute percentage error; lower is better. These errors concern the derived target.
+MAPE means mean absolute percentage error; lower is better.
 
-| Evaluation | XGBoost MAPE | Monthly baseline MAPE |
+| Consumption: 62 held-out US buildings | MAPE |
+|---|---:|
+| Repaired gradient-boosted consumption model | 63.05% |
+| Training-only area-intensity baseline | **59.03%** |
+
+The consumption model is real, but it loses to the area baseline and is not accurate enough for installation decisions. The demo includes that result, rather than repeating the old target-leaking scores.
+
+| Solar derived target | XGBoost MAPE | Monthly baseline MAPE |
 |---|---:|---:|
 | Five held-out cities | 11.21% | 16.05% |
 | Nairobi only | 12.53% | **8.43%** |
 
-Overall mean absolute error is 1.2442 versus 1.6306 kWh/day. The overall model advantage does not establish a Nairobi advantage. Cape Town model error is 24.04%.
+The Nairobi solar baseline remains the default. These are theoretical irradiance-derived labels, not observed PV production.
 
-![Held-out errors on the derived solar target](docs/images/heldout_city_errors.png)
-
-**239 active Python tests pass**, with 50 inherited limiter warnings; **six browser tests pass**. Seven exported Python scenarios match JavaScript. Real HTTP checks cover evidence, both profiles, capped demand and out-of-scope rejection. Isolated retraining reproduced the model fingerprint. Exact results: [evaluation receipt](evidence/solar_evaluation.json), [model card](models/solar_generation/MODEL2_CARD.md).
+**250 active Python tests pass**, with 50 inherited limiter warnings. **12 browser calculation tests pass**, including all seven full assessment parity cases. The exported consumption ensemble matches scikit-learn predictions on all 62 holdout records. Five real local assessment HTTP checks pass. See [consumption evaluation](evidence/consumption_evaluation.json), [consumption model card](models/energy_consumption/MODEL1_CARD.md), [solar evaluation](evidence/solar_evaluation.json) and [assessment methodology](docs/assessment_methodology.md).
 
 ## Demo
 
-[Try the public Nairobi explorer](https://tessa-solarsense.purple-tick-2127.chatgpt.site/). No key required. Change inputs, compare profiles and download JSON, monthly CSV or a printable report. Inputs stay in the browser.
+[Try the public SolarSense assessment](https://tessa-solarsense.purple-tick-2127.chatgpt.site/). Complete the five steps with everyday business inputs, then inspect estimated consumption, suggested solar size, generation, indicative costs and conditional viability. Inputs stay in the browser.
 
-Defaults such as KES 25/kWh and KES 300,000 installation cost are fictional assumptions, not verified prices. The old 2,700 kWh/month team example remains historical execution evidence, not this scenario or an accuracy claim.
+Costs and sizing parameters are explicit demonstration assumptions, not current local quotations. This restores the purpose of the original team MVP while keeping the working personal prototype limited to Nairobi. The original Vercel MVP timed out during the reference walkthrough; its flow was inspected without treating an unavailable assessment as verified output.
 
 ## Run locally
 
@@ -74,10 +80,12 @@ Verified with pinned Python 3.12 on Windows:
 python -m venv .venv
 .\.venv\Scripts\python.exe -m pip install -r requirements.txt -r requirements-dev.txt
 .\.venv\Scripts\python.exe scripts/evaluate_solar.py
+.\.venv\Scripts\python.exe scripts/train_consumption_observable.py
 .\.venv\Scripts\python.exe scripts/export_demo.py
+.\.venv\Scripts\python.exe scripts/export_assessment.py
 .\.venv\Scripts\python.exe scripts/scenario_smoke.py
 .\.venv\Scripts\python.exe -m pytest -q
-node --test web-demo/scenario.test.mjs
+node --test web-demo/scenario.test.mjs web-demo/assessment.test.mjs
 python -m http.server 8001 --directory web-demo
 ```
 
@@ -86,7 +94,8 @@ Open `http://localhost:8001`. Node.js 18+ is needed for browser tests. Evaluatio
 ## Repository structure
 
 - `solar_scenario/`: calculations, artifact loading and API routes.
-- `web-demo/`: calculator, tests and exported evidence.
+- `web-demo/`: assessment wizard, actual model inference, tests and exported evidence.
+- `scripts/train_consumption_observable.py`, `export_assessment.py`: repaired consumption training and browser export.
 - `scripts/evaluate_solar.py`, `export_demo.py`, `scenario_smoke.py`: reproduction.
 - `evidence/solar_*`, `models/solar_generation/models/flagship_*`: current evaluation and training-only artifact.
 - `api/`, other `models/`: inherited team components.
@@ -94,9 +103,9 @@ Open `http://localhost:8001`. Node.js 18+ is needed for browser tests. Evaluatio
 
 ## Limitations
 
-An engineering-led flagship prototype, not a validated energy/finance product. Consumption is arithmetic or user input. Solar targets are derived from irradiance; upstream extraction, measured installations and future periods are unverified. The baseline choice followed the Nairobi comparison.
+Exploratory prototype, not a validated energy or finance product. The consumption model is trained on US food buildings, has substantial held-out error and loses to a simple area baseline. No Nairobi load validation exists. The inherited consumption artifact leaks its target and its historic scores are retired for predictive claims; the legacy endpoint keeps its earlier formula behavior.
 
-Monthly matching is not hourly dispatch. Shading, orientation, inverter losses, storage, degradation, tax, fixed charges, financing and replacement costs are excluded. Simple payback is arithmetic, not measured return. No calibrated confidence is emitted. The legacy consumption model remains bypassed by a formula; its historical scores do not validate served consumption.
+Solar targets are derived from irradiance. Monthly matching omits actual shading, orientation, hourly dispatch, grid outages, storage and export sales. Prices, available roof fraction and operating losses are assumptions; roof structure and suitability are not assessed. Payback excludes finance, tax, degradation and replacements. No measured savings, calibrated confidence, future-weather forecast or production readiness is claimed.
 
 ## What I would improve next
 

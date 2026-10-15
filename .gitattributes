@@ -2,3 +2,6 @@
 models/solar_generation/models/flagship*.json -text
 evidence/solar_* -text
 web-demo/data/scenario-evidence.json -text
+models/energy_consumption/models/consumption_observable_v1.json -text
+evidence/consumption_* -text
+web-demo/data/assessment-evidence.json -text
