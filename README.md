@@ -32,7 +32,7 @@ Predicted demand and an explicit roof-availability assumption determine a sugges
 
 ## ML / AI methodology
 
-**Consumption:** The inherited model used `kwh_per_sqft = ELCNS / SQFT`, which leaks the target and cannot be supplied when consumption is unknown. Its formula fallback predates the portfolio changes. I retained the historical artifacts and added a separately named gradient-boosted model using only observable inputs. The notebook also used the wrong activity codes; the corrected US CBECS food-sales/service cohort contains 309 buildings: 247 training and 62 holdout records. Fixed seed, training-only preprocessing, no holdout tuning. A training-median electricity-per-area baseline is reported alongside the model. US building results do not validate Nairobi shops.
+**Consumption:** The inherited model used `kwh_per_sqft = ELCNS / SQFT`, which leaks the target and cannot be supplied when consumption is unknown. Its formula fallback predates the portfolio changes. I retained the historical artifacts and added a separately named gradient-boosted model using only observable inputs. The notebook also used the wrong activity codes; the corrected US CBECS food-sales/service cohort contains 309 buildings: 247 training and 62 holdout records. Fixed seed, training-only preprocessing, no holdout tuning. A training-median electricity-per-area baseline is reported alongside the model. Refrigeration values are missing in 241 of the 309 source records. US building results do not validate Nairobi shops.
 
 **Solar:** The inherited NASA POWER-labelled CSV contains 29,200 daily records from 20 cities, dated February 2022-February 2026. Original extraction receipts are unavailable. One hundred missing irradiance values marked `good` are dropped; 29,100 usable rows become 240 city/month means.
 
@@ -70,7 +70,7 @@ The Nairobi solar baseline remains the default. These are theoretical irradiance
 
 [Try the public SolarSense assessment](https://tessa-solarsense.purple-tick-2127.chatgpt.site/). Complete the five steps with everyday business inputs, then inspect estimated consumption, suggested solar size, generation, indicative costs and conditional viability. Inputs stay in the browser.
 
-Costs and sizing parameters are explicit demonstration assumptions, not current local quotations. This restores the purpose of the original team MVP while keeping the working personal prototype limited to Nairobi. The original Vercel MVP timed out during the reference walkthrough; its flow was inspected without treating an unavailable assessment as verified output.
+Costs and sizing parameters are explicit demonstration assumptions, not current local quotations. This restores the purpose of the original team MVP while keeping the working personal prototype limited to Nairobi. The original Vercel MVP was rechecked anonymously on 15 October 2026: its five-step flow loaded, but assessment failed with a 120,000 ms timeout. It is not verified functional.
 
 ## Run locally
 

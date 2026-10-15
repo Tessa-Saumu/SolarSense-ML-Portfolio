@@ -1,3 +1,5 @@
+> Historical team gateway documentation, retained for technical setup and provenance. Claims below are historical, not current validation of African SME accuracy, calibrated confidence or deployment readiness. See [the current README](README.md) and [assessment methodology](docs/assessment_methodology.md) for the personal prototype and verified limitations.
+
 # SolarSense AI ML Microservice
 
 A unified Flask API gateway serving three independent machine learning microservices for solar energy analysis: Energy Consumption Prediction, Solar Generation Forecasting, and ROI Calculation.
