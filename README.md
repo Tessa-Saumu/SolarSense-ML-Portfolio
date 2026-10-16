@@ -1,6 +1,6 @@
 # SolarSense: Business Solar Viability Prototype
 
-I extended a team prototype that estimates business electricity demand, suggests a solar system and assesses indicative viability from simple business details.
+SolarSense connects electricity-demand estimates, solar-generation models and financial calculations into a usable solar viability assessment. I built and finalised both ML models and integrated them into the assessment system, taking everyday business inputs through to an inspectable report.
 
 ## The problem
 
@@ -8,9 +8,26 @@ A small business should not need to know its electricity consumption, panel size
 
 ## What I built
 
-The personal extension restores the original assessment journey: business details → location → premises → equipment → review → viability results. It runs an actual consumption model, estimates solar size automatically, compares indicative grid/diesel costs and exports JSON, monthly CSV and a printable report. No known consumption, panel area, tariff or installation cost is required; assumptions can be adjusted optionally. I directed AI-assisted development and verification while preserving original team ownership.
+I built and finalised the consumption and generation models, integrated them into the Flask assessment system, and developed the interactive assessment with AI assistance. The workflow connects business, premises and equipment inputs to estimated demand, solar sizing, generation and indicative financial outputs.
+
+In a timed prototype demonstration, the assessment took about **three minutes**. The original assessment process was reported to take **1–3 weeks**; this is prototype timing against reported process context, not a measured customer rollout.
+
+The current browser assessment follows business details → location → premises → equipment → review → viability results. It runs the exported consumption model, estimates solar size, compares indicative grid/diesel costs and exports JSON, monthly CSV and a printable report. Users can start without knowing consumption, panel area, tariff or installation cost and inspect or adjust the explicit assumptions.
 
 ## Architecture
+
+The original system uses a unified Flask gateway to route requests to independent consumption, generation, ROI and recommendation applications. ROI is a deterministic financial calculation, not a third trained ML model. [Gateway source](api/main.py) and [historical architecture and service contracts](docs/TEAM_README.historical.md) preserve that implementation.
+
+```mermaid
+flowchart LR
+    Inputs[Business assessment inputs] --> Gateway[Unified Flask gateway]
+    Gateway --> Consumption[Consumption ML service]
+    Gateway --> Generation[Generation ML service]
+    Gateway --> ROI[Deterministic ROI service]
+    Gateway --> Recommendation[Recommendation application]
+```
+
+The later portable assessment is a separate execution path: it runs exported consumption trees and assessment calculations in the browser, using an evaluated Nairobi generation profile. It does not call a deployed version of the Flask system. Its calculation flow is:
 
 ```mermaid
 flowchart LR
@@ -48,11 +65,13 @@ Pinned dependencies, pytest and browser tests support reproduction. Legacy authe
 
 ## Results
 
+The delivered assessment turns everyday business inputs into a suggested solar option, monthly energy breakdown, indicative cost comparison and downloadable report. The timed prototype took about three minutes; the model evaluations below define how cautiously its estimates should be used.
+
 MAPE means mean absolute percentage error; lower is better.
 
 | Consumption: 62 held-out US buildings | MAPE |
 |---|---:|
-| Repaired gradient-boosted consumption model | 63.05% |
+| Observable-input gradient-boosted consumption model | 63.05% |
 | Training-only area-intensity baseline | **59.03%** |
 
 The consumption model is real, but it loses to the area baseline and is not accurate enough for installation decisions. The demo includes that result, rather than repeating the old target-leaking scores.
@@ -70,7 +89,7 @@ The Nairobi solar baseline remains the default. These are theoretical irradiance
 
 [Try the public SolarSense assessment](https://tessa-solarsense.purple-tick-2127.chatgpt.site/). Complete the five steps with everyday business inputs, then inspect estimated consumption, suggested solar size, generation, indicative costs and conditional viability. Inputs stay in the browser.
 
-Costs and sizing parameters are explicit demonstration assumptions, not current local quotations. This restores the purpose of the original team MVP while keeping the working personal prototype limited to Nairobi. The original Vercel MVP was rechecked anonymously on 15 October 2026: its five-step flow loaded, but assessment failed with a 120,000 ms timeout. It is not verified functional.
+Costs and sizing parameters are explicit demonstration assumptions, not current local quotations. The current public assessment is limited to Nairobi. The original Vercel MVP was rechecked anonymously on 15 October 2026: its five-step flow loaded, but assessment failed with a 120,000 ms timeout. It is not verified functional.
 
 ## Run locally
 
@@ -95,10 +114,10 @@ Open `http://localhost:8001`. Node.js 18+ is needed for browser tests. Evaluatio
 
 - `solar_scenario/`: calculations, artifact loading and API routes.
 - `web-demo/`: assessment wizard, actual model inference, tests and exported evidence.
-- `scripts/train_consumption_observable.py`, `export_assessment.py`: repaired consumption training and browser export.
+- `scripts/train_consumption_observable.py`, `export_assessment.py`: observable-input consumption training and browser export.
 - `scripts/evaluate_solar.py`, `export_demo.py`, `scenario_smoke.py`: reproduction.
 - `evidence/solar_*`, `models/solar_generation/models/flagship_*`: current evaluation and training-only artifact.
-- `api/`, other `models/`: inherited team components.
+- `api/`, other `models/`: original gateway and service components.
 - `tests/`, `docs/`: checks and methodology.
 
 ## Limitations
@@ -115,4 +134,4 @@ Solar targets are derived from irradiance. Monthly matching omits actual shading
 
 ## My contribution
 
-Original commits `6bb92fb`, `4c3b058`, `35d35d7` and `fc29516` record consumption/integration corrections. Bella remains recommendation-module owner; I contributed updates. The new AI-assisted personal extension adds evaluation, scenarios, demo and checks. It does not turn inherited modules into sole-authored work. Only my personal fork changed; the team repository was not accessed or edited.
+I built and finalised both the consumption and generation models, substantially developing the work after team handoff, and integrated them into the assessment system. Original commits `6bb92fb`, `4c3b058`, `35d35d7` and `fc29516` also record consumption/integration work. Bella remains recommendation-module owner; I contributed updates. The later AI-assisted personal work adds evaluation, scenarios, the browser assessment and checks. Other team contributions and the original architecture remain preserved in this repository; building both ML models does not imply sole authorship of every component. This update changes only my personal portfolio repository.
